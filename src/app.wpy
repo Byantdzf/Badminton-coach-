@@ -104,7 +104,6 @@
             'address',
             'rule',
             'shareVip',
-            'upgrade',
             'protocol',
             'protocolV2',
             'realName',
