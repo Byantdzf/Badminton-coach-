@@ -116,8 +116,11 @@
       let {nickName, avatarUrl, gender} = wx.getStorageSync('userInfo')
       this.avatar = avatarUrl
       this.information[0].value = nickName
-      this.information[1].value = gender
-      this.information[1].pickerIndex = gender == 1 ? '0' : '1'
+      if (gender) {
+        this.information[1].value = gender
+        this.information[1].pickerIndex = gender == 1 ? '0' : '1'
+        this.$apply()
+      }
       this.$apply()
     }
     onShow() {
@@ -177,26 +180,17 @@
         }
         vm.$post({url: `${service.host}/user`, data}, {
           success: ({code, data}) => {
-            wx_login().then((code) => {
-              vm.$post({url: service.login, data: {code: res.code}}, {
-                success: ({code, data}) => {
-                  if (data.token) {
-                    wx.setStorageSync('token', data.token)
-                    let userInfo = {
-                      nickName: data.user.name,
-                      avatarUrl: data.user.avatar,
-                      type: data.user.type
-                    }
-                    wx.setStorageSync('userInfo', userInfo)
-                    wx.setStorageSync('user_id', data.user.id)
-                    vm.$gotoTab('/pages/tabBar/home')
-                  }
-                }
-              })
-
-            }).catch((error) => {
-              console.log(error)
-            })
+            if (data.token) {
+              wx.setStorageSync('token', data.token)
+              let userInfo = {
+                nickName: data.user.name,
+                avatarUrl: data.user.photo,
+                type: data.user.type
+              }
+              wx.setStorageSync('userInfo', userInfo)
+              wx.setStorageSync('user_id', data.user.id)
+              vm.$gotoTab('/pages/tabBar/home')
+            }
           },
           fail: ({code, data}) => {
           },
