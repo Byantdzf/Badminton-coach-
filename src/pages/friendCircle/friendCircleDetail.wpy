@@ -6,15 +6,15 @@
         <image src="{{moment.user.wechat.avatar2}}"
                mode="aspectFill" class="ff active flo_l"  @tap="gotoFriendPage({{moment.user.type}}, {{moment.user.id}})"></image>
         <view class="subnav">
-          <text class="otherName font_32 bold">{{moment.user.name}}</text>
+          <text class="otherName font_32 bold color-666">{{moment.user.name}}</text>
           <image src="http://images.ufutx.com/201902/21/7b3892dcf60fabda05add35abfa9aec3.png" mode="aspectFill"
                  wx:if="{{moment.user.sex == '2'}}" class=""></image>
           <image src="http://images.ufutx.com/201902/21/a309744e67082c4bd46db0df504c32c5.png" mode="aspectFill"
                  wx:else class=""></image>
-          <text class="time font_28 flo_r color-666">{{moment.time}}</text>
+          <text class="time font_26 flo_r color-666">{{moment.time}}</text>
         </view>
         <view class="subnav font_22 color-666">
-          <view class="otherName">{{moment.user.age}} <span wx:if="{{moment.user.city !== '未知'}}">· {{moment.user.city}}</span> · <span class="orange" wx:if="{{moment.user.type == 'single'}}">单身</span><span class="orange" wx:else>介绍人</span>
+          <view class="otherName">{{moment.user.age}} <span wx:if="{{moment.user.city !== '未知'}}">· {{moment.user.city}}</span> · <span class="color-theme" wx:if="{{moment.user.type == 'single'}}">单身</span><span class="color-theme" wx:else>介绍人</span>
           </view>
         </view>
         <view class="clearfloat"></view>
@@ -39,24 +39,24 @@
         </view>
         <view class="setting_box font_26">
           <view class="love-box inline-block" hover-class="btn_active"  @tap="like({{moment.id}})">
-            <image src="http://images.ufutx.com/201903/01/7687e6a6e9579f3a7242bd6e4cd82b23.png" mode="aspectFill" wx:if="{{moment.isLkerMoment}}"></image>
-            <image src="http://images.ufutx.com/201903/01/a234865a9686558b26015a4e8e99d2dd.png" mode="aspectFill" wx:else></image>
+            <image src="http://images.ufutx.com/201906/27/bcb1164e097c61df1e991f7e783ebb13.png" mode="aspectFill" wx:if="{{moment.isLkerMoment}}"></image>
+            <image src="http://images.ufutx.com/201906/27/f0a175c90a1b14211980298c615a36bc.png" mode="aspectFill" wx:else></image>
             <text class="num">{{moment.momentLikerCount}}</text>
           </view>
           <view class="comment-box inline-block">
-            <image src="http://images.ufutx.com/201903/01/61da4a103d63bfdc3199087a891d41f6.png"
+            <image src="http://images.ufutx.com/201906/27/936c4a5f817035d69b1e2380894204cd.png"
                    mode="aspectFill"></image>
             <text class="num">{{moment.momentCommentCount}}</text>
           </view>
           <view class="more-box inline-block flo_r">
             <block wx:if="{{moment.is_self}}">
               <picker @change="bindPickerChange({{moment.id}})" value="{{index}}" range="{{setList}}">
-                <image src="http://images.ufutx.com/201903/01/584c1899c338cd0477fa034a3f0baa58.png" mode="aspectFill"></image>
+                <image src="http://images.ufutx.com/201906/27/431a75f2fe247299486f0a558c8f43ab.png" mode="aspectFill"></image>
               </picker>
             </block>
             <block wx:else>
               <picker @change="bindPickerChange({{item.id}})" value="{{index}}" range="{{setListV2}}">
-                <image src="http://images.ufutx.com/201903/01/584c1899c338cd0477fa034a3f0baa58.png" mode="aspectFill"></image>
+                <image src="http://images.ufutx.com/201906/27/431a75f2fe247299486f0a558c8f43ab.png" mode="aspectFill"></image>
               </picker>
             </block>
           </view>
@@ -99,7 +99,7 @@
     <view class="reply-text ff flo_l">
       <input placeholder="评论" maxlength="-1" class="font_28" @input="typing('comment')" value="{{comment}}"/>
     </view>
-    <view class="reply-btn ff flo_r font_28 text-center" hover-class="btn_active" @tap="saveComment">发送</view>
+    <view class="reply-btn flo_r font_28 text-center btn-theme" hover-class="btn_active" @tap="saveComment">发送</view>
   </view>
 </template>
 
@@ -351,8 +351,8 @@
         .active{
           width: 100rpx;
           height: 100rpx;
-          border-radius: 12rpx;
-          box-shadow: 1rpx 1rpx 12rpx #d0d0d0;
+          border-radius: 50%;
+          /*box-shadow: 1rpx 1rpx 12rpx #d0d0d0;*/
           margin-right: 22rpx;
         }
         .subnav{
@@ -364,6 +364,9 @@
             width: 32rpx;height: 32rpx;
             vertical-align: middle;
             margin-bottom: 4rpx;
+          }
+          .time{
+            color: @gray;
           }
         }
         .contText{
@@ -400,8 +403,8 @@
             margin-right: 42rpx;
           }
           image{
-            width: 32rpx;
-            height: 32rpx;
+            width: 36rpx;
+            height: 36rpx;
           }
         }
       }
@@ -424,7 +427,8 @@
           margin-right: 8rpx;
         }
         image{
-          width: 26rpx;height: 26rpx;
+          width: 36rpx;
+          height: 36rpx;
           vertical-align: middle;
           margin-top: 10rpx;
         }
@@ -441,38 +445,35 @@
     }
     .reply-box{
       width: 100%;
-      height: 90rpx;
-      background: #f6f6f6;
       position: fixed;
       bottom: 0;
       left: 0;
-      border-top: 2rpx solid #d3d3d3;
-      padding: 20rpx 0;
+      border-top: 2rpx solid #f6f6f6;
+      padding: 20rpx 20rpx 20rpx 0;
       .reply-text{
         width: 70%;
         height: 72rpx;
-        margin-left: 22rpx;
         position: relative;
         padding: 0 22rpx;
+        border-bottom: 1rpx solid @gray;
         input{
           width: 92%;
           position: absolute;
+          color: @dark;
           bottom: 12rpx;
-          /*background: pink;*/
         }
       }
       .reply-btn{
-        width: 80rpx;
-        height: 72rpx;
-        line-height: 72rpx;
+        width: 110rpx;
+        height: 70rpx;
+        line-height: 70rpx;
         padding: 0 16rpx;
-        box-shadow: 1rpx 1rpx 12rpx #d3d3d3;
         margin-right: 22rpx;
         border-radius: 12rpx;
       }
     }
     .clickLikeUser{ // 点赞用户
-      background: #f3f3f5;
+      background: #f6f6f6;
       padding: 8rpx 22rpx;
       position: relative;
       border-radius: 6rpx;
@@ -482,13 +483,9 @@
         height: 68rpx;
         vertical-align: middle;
         margin-bottom: 4rpx;
-        border-radius: 8rpx;
+        border-radius: 50%;
         background: white;
-        box-shadow: 1rpx 1rpx 12rpx #d5d5d5;
       }
-      /*&:after{*/
-        /*content: 'hahah';*/
-      /*}*/
       &:before {
         display: block;
         content: '';

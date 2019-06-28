@@ -14,7 +14,7 @@
             </span>
           </view>
           <view class="color-666 font_24">实名认证是平台的基本要求，让Ta对您更放心！</view>
-          <view class="color-666 font_24" wx:if="{{user.type === 'single'}}">实名认证通过后，邀请好友认证<span class="success">可退还认证费！</span></view>
+          <view class="color-666 font_24" wx:if="{{user.type === 'single'}}">实名认证通过后，邀请好友认证<span class="color-theme">可退还认证费！</span></view>
         </view>
         <view class="page-box text-center state">
           <block wx:if="{{user.approve_order === 0 && user.type === 'single' && system !== 'iOS'}}">
@@ -43,16 +43,16 @@
                 <switch bindchange="switch2Change" type="checkbox"/>
                 <span @tap="goto('/pages/users/protocol')">了解并同意服务协议</span>
               </view>
-              <button class="box-btn font_28 ff color-666 inline-block" style="width: 30%;margin-top: 22rpx;border: 1px solid #f6f6f6;"  @tap="hrefing(identification_photos,'身份证照片',{{user.identification_photos}})">人工认证</button>
+              <button class=" font_28 ff color-666 inline-block btn-theme" style="width: 30%;height: 72rpx;line-height: 72rpx"  @tap="hrefing(identification_photos,'身份证照片',{{user.identification_photos}})">人工认证</button>
               <block wx:if="{{user.type === 'single'}}">
-                <button class="box-btn font_28 inline-block" style="width: 30%;margin-top: 22rpx;margin-left: 62rpx;" @tap="approve">自动认证</button>
+                <button class="font_28 inline-block btn-theme" style="width: 30%;height: 72rpx;line-height: 72rpx" @tap="approve">自动认证</button>
               </block>
               <block wx:else>
-                <button class="box-btn font_28 inline-block" style="width: 30%;margin-top: 22rpx;margin-left: 62rpx;" @tap="ensure">免费认证</button>
+                <button class="font_28 inline-block btn-theme" style="width: 30%;height: 72rpx;line-height: 72rpx" @tap="ensure">免费认证</button>
               </block>
             </block>
             <block wx:else>
-              <button class="box-btn font_28 inline-block" style="width: 30%;" hover-class="btn_active" @tap="returnCost">退还认证费</button>
+              <button class="font_28 inline-block btn-theme" style="width: 30%;height: 72rpx;line-height: 72rpx" hover-class="btn_active" @tap="returnCost">退还认证费</button>
             </block>
           </block>
           <view class="clearfloat"></view>
@@ -65,7 +65,7 @@
       <view class=" font_26 state info">
         <view class="font_28 title bold">注意事项</view>
         <view style="margin: 0rpx 22rpx;padding-top: 12rpx;" class="color-666">
-          <view>1、购买成功后，你将有三次提交机会，每次提交会消耗一次机会，若三次均未能通过,请<span class="orange" @tap="hrefing(identification_photos,'身份证照片',{{user.identification_photos}})">上传身份证</span>人工认证；
+          <view>1、购买成功后，你将有三次提交机会，每次提交会消耗一次机会，若三次均未能通过,请<span class="color-theme" @tap="hrefing(identification_photos,'身份证照片',{{user.identification_photos}})">上传身份证</span>人工认证；
           </view>
           <text>2、请输入用您自己的身份证登记的手机号；</text>
           <text>3、如没有自己身份登记的手机号，请按点击红色字体，按要求上传个人证件；</text>

@@ -22,6 +22,7 @@ view{
 .font_24 {font-size: 24rpx}
 .font_26 {font-size: 26rpx}
 .font_28 {font-size: 28rpx}
+.font_30 {font-size: 30rpx}
 .font_32 {font-size: 32rpx}
 .font_36 {font-size: 36rpx}
 .bold{font-weight: bold}
@@ -31,30 +32,19 @@ view{
 .green {color: #5BC55F  }
 .black_6 {color: #666666}
 .text-right{text-align: right}
-.btn-blue {
-  background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#71b3cf), to(#35bbe6));
-  color: white;
+.color-theme {
+  color: #D92553 !important;
 }
-.btn_red_v1{
-  background-image: url('http://images.ufutx.com/201807/14/5a43d5987663e4419ee50fd6b3f66a42.png');
-  background-size: cover;
-  color: white;
-  text-align: center;
-}
-.btn_red_v{
-  background-image: url('http://images.ufutx.com/201807/14/e593bb49b60bdaf9e7bd24195f8466c2.png');
-  background-size: cover;
-  //position: fixed;
+.btn-theme{
+  background: #D92553 !important;
+  height: 90rpx;
   color: white;
   text-align: center;
+  border-radius: 8rpx;
+  line-height: 90rpx;
+  margin: auto;
 }
-.btn_white_v{
-  background-image: url('http://images.ufutx.com/201807/14/4b3d51cf0feb1095876be7c6dc4068b9.png');
-  background-size: cover;
-  //position: fixed;
-  color: #FB6957;
-  text-align: center;
-}
+.hg90{height: 90rpx;}
 .btn_red{
   background-image: url('http://local-pictures.img-cn-shenzhen.aliyuncs.com/201806/11/wx53cf66d72649eb5a.o6zAJs2lf_SH4K2plnWTlsSfhR70.zhcpARYXTpc1ed14c10121e4c5d2b4364a8e5a6c4c74.png');
   background-size: cover; width: 240rpx;height: 136rpx;
@@ -62,14 +52,6 @@ view{
   color: white;
   text-align: center;
   line-height: 136rpx;
-}
-.btn_white{
-  background-image: url('http://local-pictures.img-cn-shenzhen.aliyuncs.com/201806/11/wx53cf66d72649eb5a.o6zAJs2lf_SH4K2plnWTlsSfhR70.IyAGYbSVt76rb0323369c9ddf0eacc75dd04da921fae.png');
-  background-size: cover; width: 230rpx;height: 120rpx;
-  //position: fixed;
-  color: #FB6957;
-  text-align: center;
-  line-height: 120rpx;
 }
 .text-wrapper {
   white-space: pre-wrap;
@@ -107,7 +89,7 @@ view{
   }
 }
 .orange{
-  color: #FB6957 !important;
+  color: @orange !important;
 }
 .primary{
   color: #1AAC19 !important;

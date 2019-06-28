@@ -6,24 +6,24 @@
       <view class="weui-tab">
           <view class="weui-tab__content" >
             <view class="weui-title ff text-center" style="top: 0;">
-              <image src="{{userImage}}" mode="aspectFill" class="ff flo_l active_user" @tap="gotoFriendPage({{userType}},{{userId}})" @longpress="lookID({{userId}})"></image>
-              <view class="inline-block font_32 bold" @tap="showModal" style="margin-top: 18rpx;">
+              <view class="ff flo_l active_user"></view>
+              <view class="inline-block font_30 bold color-666" @tap="showModal" style="margin-top: 18rpx;">
                 {{typeText}}
-                <image src="http://images.ufutx.com/201903/07/eec619550f2abf17e86a3f0b501105b4.png" mode="aspectFill" @tap="goto('/pages/friendCircle/friendCircleEdit')"  class="icon_down"></image>
+                <image src="http://images.ufutx.com/201906/27/16c7dfb515bf50f00bc931d11d7f04a9.png" mode="aspectFit" class="icon_down"></image>
               </view>
-              <image src="http://images.ufutx.com/201903/01/264f8723dcd1b2a06105b136b70b283b.png" mode="aspectFill" @tap="goto('/pages/friendCircle/friendCircleEdit')"  class="friendEdit flo_r"></image>
+              <image src="http://images.ufutx.com/201906/27/1380d8f68a7f81f3a08a92a84cab4c0e.png" mode="aspectFit" @tap="goto('/pages/friendCircle/friendCircleEdit')"  class="friendEdit flo_r"></image>
             </view>
             <view class="wrapper">
               <view class="nav" wx:for="{{list}}" wx:key="{{index}}">
                 <image src="{{item.user.wechat.avatar2}}" @tap.stop="gotoFriendPage({{item.user.type}}, {{item.user.id}})" mode="aspectFill" class="ff active flo_l"></image>
-                <view class="subnav" @tap="goto('/pages/friendCircle/friendCircleDetail?id={{item.id}}')">
-                  <text class="otherName font_32 bold">{{item.user.name}}</text>
+                <view class="subnav color-666" @tap="goto('/pages/friendCircle/friendCircleDetail?id={{item.id}}')">
+                  <text class="otherName font_32 bold ">{{item.user.name}}</text>
                   <image src="http://images.ufutx.com/201902/21/7b3892dcf60fabda05add35abfa9aec3.png" mode="aspectFill"  wx:if="{{item.user.sex == '2'}}" class=""></image>
                   <image src="http://images.ufutx.com/201902/21/a309744e67082c4bd46db0df504c32c5.png" mode="aspectFill"  wx:else class=""></image>
-                  <text class="time font_28 flo_r color-666">{{item.time}}</text>
+                  <text class="time font_26 flo_r">{{item.time}}</text>
                 </view>
                 <view class="subnav font_22 color-666">
-                  <view class="otherName">{{item.user.age}} <span wx:if="{{item.user.city !== '未知'}}">· {{item.user.city}}</span>  · <span class="orange" wx:if="{{item.user.type == 'single'}}">单身</span><span class="orange" wx:else>介绍人</span>
+                  <view class="otherName">{{item.user.age}} <span wx:if="{{item.user.city !== '未知'}}">· {{item.user.city}}</span>  · <span class="color-theme" wx:if="{{item.user.type == 'single'}}">单身</span><span class="color-theme" wx:else>介绍人</span>
                   </view>
                 </view>
                 <view class="clearfloat"></view>
@@ -45,23 +45,23 @@
                 </view>
                 <view class="setting_box font_26">
                   <view class="love-box inline-block" hover-class="btn_active" @tap="like({{item.id}},{{index}})">
-                    <image src="http://images.ufutx.com/201903/01/7687e6a6e9579f3a7242bd6e4cd82b23.png" mode="aspectFill" wx:if="{{item.isLkerMoment}}"></image>
-                    <image src="http://images.ufutx.com/201903/01/a234865a9686558b26015a4e8e99d2dd.png" mode="aspectFill" wx:else></image>
+                    <image src="http://images.ufutx.com/201906/27/bcb1164e097c61df1e991f7e783ebb13.png" mode="aspectFill" wx:if="{{item.isLkerMoment}}"></image>
+                    <image src="http://images.ufutx.com/201906/27/f0a175c90a1b14211980298c615a36bc.png" mode="aspectFill" wx:else></image>
                     <text class="num">{{item.momentLikerCount}}</text>
                   </view>
                   <view class="comment-box inline-block"  @tap="goto('/pages/friendCircle/friendCircleDetail?id={{item.id}}')">
-                    <image src="http://images.ufutx.com/201903/01/61da4a103d63bfdc3199087a891d41f6.png" mode="aspectFill"></image>
+                    <image src="http://images.ufutx.com/201906/27/936c4a5f817035d69b1e2380894204cd.png" mode="aspectFill"></image>
                     <text class="num">{{item.momentCommentCount}}</text>
                   </view>
                   <view class="more-box inline-block flo_r">
                     <block wx:if="{{item.is_self}}">
                       <picker @change="bindPickerChange({{item.id}},{{index}})" value="{{index}}" range="{{setList}}">
-                        <image src="http://images.ufutx.com/201903/01/584c1899c338cd0477fa034a3f0baa58.png" mode="aspectFill"></image>
+                        <image src="http://images.ufutx.com/201906/27/431a75f2fe247299486f0a558c8f43ab.png" mode="aspectFill"></image>
                       </picker>
                     </block>
                     <block wx:else>
                       <picker @change="bindPickerChange({{item.id}},{{index}})" value="{{index}}" range="{{setListV2}}">
-                        <image src="http://images.ufutx.com/201903/01/584c1899c338cd0477fa034a3f0baa58.png" mode="aspectFill"></image>
+                        <image src="http://images.ufutx.com/201906/27/431a75f2fe247299486f0a558c8f43ab.png" mode="aspectFill"></image>
                       </picker>
                     </block>
                   </view>
@@ -86,12 +86,13 @@
     <modalUp>
       <view slot="wrapper">
         <view class="weui-title ff text-center" style="position: initial;border: none;margin-bottom: 22rpx;">
-          <image src="{{userImage}}" mode="aspectFill" class="ff flo_l active_user" @tap="gotoFriendPage({{userType}},{{userId}})"></image>
-          <view class="inline-block font_32 bold" style="margin-top: 18rpx;" @tap="hideModal">
+          <view class="ff flo_l active_user"></view>
+          <!--<image src="{{userImage}}" mode="aspectFill" class="ff flo_l active_user" @tap="gotoFriendPage({{userType}},{{userId}})"></image>-->
+          <view class="inline-block font_30 bold color-666" @tap="hideModal" style="margin-top: 18rpx;">
             {{typeText}}
-            <image src="http://images.ufutx.com/201903/07/eec619550f2abf17e86a3f0b501105b4.png" mode="aspectFill" @tap="goto('/pages/friendCircle/friendCircleEdit')"  class="icon_down" style="transform:rotate(180deg)"></image>
+            <image src="http://images.ufutx.com/201906/27/16c7dfb515bf50f00bc931d11d7f04a9.png" mode="aspectFit"  class="icon_down"></image>
           </view>
-          <image src="http://images.ufutx.com/201903/01/264f8723dcd1b2a06105b136b70b283b.png" mode="aspectFill" @tap="goto('/pages/friendCircle/friendCircleEdit')"  class="friendEdit flo_r"></image>
+          <image src="http://images.ufutx.com/201906/27/1380d8f68a7f81f3a08a92a84cab4c0e.png" mode="aspectFit" @tap="goto('/pages/friendCircle/friendCircleEdit')"  class="friendEdit flo_r"></image>
         </view>
         <view class="text-center font_28 bold">
           <block wx:for="{{filtrate}}" wx:key="{{index}}">
@@ -423,11 +424,10 @@
         border-radius: 12rpx;
         vertical-align: middle;
         margin-left: 32rpx;
-        /*box-shadow: 1rpx 1rpx 12rpx #d0d0d0;*/
       }
       .friendEdit{
-        width: 68rpx;
-        height: 68rpx;
+        width: 50rpx;
+        height: 50rpx;
         margin-right: 32rpx;
         vertical-align: middle;
         margin-top: 10rpx;
@@ -448,8 +448,7 @@
         .active{
           width: 100rpx;
           height: 100rpx;
-          border-radius: 12rpx;
-          box-shadow: 1rpx 1rpx 12rpx #d0d0d0;
+          border-radius: 50%;
           margin-right: 22rpx;
         }
         .subnav{
@@ -462,6 +461,7 @@
             vertical-align: middle;
             margin-bottom: 4rpx;
           }
+          .time{color: @gray}
         }
         .contText{
           padding-top: 18rpx;
@@ -504,8 +504,8 @@
             margin-right: 42rpx;
           }
           image{
-            width: 32rpx;
-            height: 32rpx;
+            width: 36rpx;
+            height: 36rpx;
           }
         }
         .comment{

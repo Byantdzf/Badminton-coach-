@@ -5,16 +5,16 @@
       </view>
     </template>
     <view class="operation ff text-center font_26" wx:if="{{other_userId!=1}}">
-      <view class="inline-block left-operation" @tap="blacklist">
-        <image src="http://images.ufutx.com/201904/16/70db4880f815dcc05c2debe3a5faf32e.png" mode="aspectFit"></image>
+      <view class="inline-block left-operation color-666" @tap="blacklist">
+        <image src="http://images.ufutx.com/201906/28/9765123c10808c1de279ed6d268a7ccc.png" mode="aspectFit"></image>
         {{is_blacklist === 1?'移除黑名单':'加入黑名单'}}
       </view>
-      <view class="inline-block right-operation" @tap="gotoDateil">
-        <image src="http://images.ufutx.com/201904/16/0a5207924f98facf6e2ac90429e0b7bc.png" mode="aspectFit"></image>
+      <view class="inline-block right-operation color-666" @tap="gotoDateil">
+        <image src="http://images.ufutx.com/201906/28/61963aadcf6e719e7e3f15d5130c3efa.png" mode="aspectFit"></image>
         查看Ta的资料
       </view>
     </view>
-    <scroll-view scroll-y="true" style="height:{{scrollHeight}}rpx;background:#eee;"  scroll-into-view="{{toView}}" >
+    <scroll-view scroll-y="true" style="height:{{scrollHeight}}rpx;background: #f6f6f6;"  scroll-into-view="{{toView}}" >
       <view class="text-center font_26 white">
         <view class="weui-loading" style="display: block;margin: auto;" wx-if="{{showload}}"></view>
         <view style="background: #DADADA;display: inline-block;padding: 6rpx 12rpx;border-radius: 6rpx;margin: 18rpx 48rpx 0rpx 48rpx"  @tap="History">请各位会员自觉遵守法律法规，遇到转款切勿相信谨防上当受骗，未实名认证的会员保持警惕；交友期保持必要的界限，保证自身安全，请勿轻易委身于人，请勿和网友发生借贷关系，否则后果自己承担。</view>
@@ -451,6 +451,7 @@
     float: right;
     width: 85rpx;
     height: 85rpx;
+    border-radius: 50%;
   }
 
   .right-Triangle {
@@ -496,6 +497,7 @@
     float: left;
     width: 85rpx;
     height: 85rpx;
+    border-radius: 50%;
   }
 
   .left-Triangle {
@@ -574,8 +576,8 @@
       color: #aaaaaa;
     }
     image{
-      width: 48rpx;
-      height: 48rpx;
+      width: 32rpx;
+      height: 32rpx;
       vertical-align: middle;
       margin-bottom: 8rpx;
     }
