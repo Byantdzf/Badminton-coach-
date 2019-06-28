@@ -76,7 +76,7 @@
                 }
               } else {
                 that.hideBtn = true
-                that.$goto('/pages/users/register')
+                that.$goto('/pages/users/registerV2')
                 that.$apply()
               }
             }

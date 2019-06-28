@@ -169,7 +169,7 @@ export default class httpMixin extends wepy.mixin {
                   }
                   if (!data.token) {
                     // wx.reLaunch({url: '/pages/users/register'})
-                    wx.navigateTo({url: '/pages/tabBar/welcome?from_openid=' + wx.getStorageSync('from_openid')})
+                    wx.navigateTo({url: '/pages/home/welcome?from_openid=' + wx.getStorageSync('from_openid')})
                   } else {
                     if (route.includes('tabBar')) {
                       route = route.split('?')[0]
