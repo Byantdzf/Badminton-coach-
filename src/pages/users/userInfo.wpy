@@ -177,7 +177,26 @@
         }
         vm.$post({url: `${service.host}/user`, data}, {
           success: ({code, data}) => {
-            vm.$gotoTab('/pages/tabBar/home')
+            wx_login().then((code) => {
+              vm.$post({url: service.login, data: {code: res.code}}, {
+                success: ({code, data}) => {
+                  if (data.token) {
+                    wx.setStorageSync('token', data.token)
+                    let userInfo = {
+                      nickName: data.user.name,
+                      avatarUrl: data.user.avatar,
+                      type: data.user.type
+                    }
+                    wx.setStorageSync('userInfo', userInfo)
+                    wx.setStorageSync('user_id', data.user.id)
+                    vm.$gotoTab('/pages/tabBar/home')
+                  }
+                }
+              })
+
+            }).catch((error) => {
+              console.log(error)
+            })
           },
           fail: ({code, data}) => {
           },
