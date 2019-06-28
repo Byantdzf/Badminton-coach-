@@ -2,32 +2,20 @@
   <NavBar bag="#ffffff"></NavBar>
   <Loading :init.sync="init"></Loading>
   <view class="page__bd ">
-    <image mode="aspectFill" style="width: 100%;height:100vh;position: fixed;top: 0;left: 0;" src="http://images.ufutx.com/201807/14/b8b840778df41ea95d0a4fdaefaa4037.png" ></image>
+    <image mode="aspectFill" style="width: 100%;height:100vh;position: fixed;top: 0;left: 0;" src="http://images.ufutx.com/201906/28/93fa46b4fbd06b19f161093c7d69274b.png" ></image>
   </view>
   <view>
     <view class="text-center" style="position: fixed;width: 100%;top: 4%;">
       <image  mode="aspectFill" src="{{avatar}}" class="party_image"></image>
-      <view style="margin-top: 22rpx">我是{{name}},向您推荐福恋平台！</view>
+      <view style="margin-top: 22rpx;">我是{{name}},向您推荐福恋平台！</view>
     </view>
   </view>
   <view>
-    <view class="text-center" style="position: fixed;width: 100%;bottom: 12%;">
+    <view class="text-center">
       <image  mode="aspectFit" src="{{qrcode}}" style="width: 360rpx;height: 360rpx;"></image>
-      <view style="margin-top: 16rpx;width: 91%;padding: 0 32rpx;">
-        <view class="text-center flo_l">
-          <view  class="btn_red_v font_28" style="width: 260rpx;" >
-            <button class="btn text-center font_28 white" style="width: 240rpx;height: 60rpx;line-height: 60rpx;"  open-type="share" >邀请好友</button>
-          </view>
-        </view>
-        <view  class="text-center flo_r">
-          <view  class="btn_red_v font_28" style="width: 260rpx;" >
-            <button class="btn text-center font_28 white" style="width: 240rpx;height: 60rpx;line-height: 60rpx;"  @tap="saveImageV1" >保存海报</button>
-          </view>
-        </view>
-        <view class="clearfloat"></view>
-        <view style="color: #FFFFFF;margin: 36rpx 32rpx;" class="font_24 text-left">
-
-        </view>
+      <view class="bc_btn">
+        <button class="btn text-center font_30 white btn-theme flo_l left_button"  open-type="share" >分享给好友</button>
+        <button class="btn text-center font_30 white btn-theme flo_r right_button"  @tap="saveImageV1" >保存海报</button>
       </view>
     </view>
   </view>
@@ -53,7 +41,6 @@
     }
     config = {
       navigationBarTitleText: '分享给好友',
-      navigationBarBackgroundColor: '#ffebee',
       enablePullDownRefresh: false
     }
     data = {
@@ -215,5 +202,24 @@ page{
     border: 2px solid #fff;
     margin: auto;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  }
+  .bc_btn{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    button {
+      width: 240rpx;
+      height: 80rpx;
+      line-height: 80rpx;
+      border-radius: 8rpx;
+      margin: 68rpx 45rpx ;
+    }
+    .right_button {
+      border: 1rpx solid @theme !important;
+      background: white !important;
+      color: @theme;
+    }
+    .left_button {}
   }
 </style>
