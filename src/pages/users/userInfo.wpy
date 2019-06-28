@@ -1,0 +1,296 @@
+<template>
+  <!--<Loading :init.sync="init"></Loading>-->
+  <!--<NavBar title="修改资料"></NavBar>-->
+  <view class="main-container">
+    <view class="main-box">
+      <image src="http://images.ufutx.com/201906/26/5cc9565a6e805561257212044e393297.png" mode="widthFix" class="bc_image"></image>
+      <view class="bc_photo ff"><image src="{{avatar}}" mode="aspectFill"></image></view>
+      <view class="font_32 _bc_item" wx:for="{{information}}" wx:key="index">
+        <view class="_bc_title flo_l">{{item.title}}</view>
+        <block wx:if="{{item.type === 'input'}}">
+          <input class="_bc_value flo_r text-right" type="text" placeholder="点击填写" value="{{item.value}}"  @change="pickerChange({{index}})"/>
+        </block>
+        <block wx:if="{{item.type === 'picker'}}">
+          <view class="_bc_picker flo_r text-right">
+            <block wx:if="{{item.mode === 'selector'}}">
+              <picker value="{{item.pickerIndex}}" mode="{{item.mode}}" range="{{item.pickerList}}" @change="pickerChange({{index}})">
+                <view class="picker ">{{item.pickerList[item.pickerIndex]}}</view>
+              </picker>
+            </block>
+            <block wx:if="{{item.mode === 'selectCity'}}">
+              <selectCity class="flo_r">
+                <text class="picker" slot="Input">{{item.value.length> 0 ? item.value[1]+'/'+item.value[2] : '请选择'}}</text>
+              </selectCity>
+            </block>
+            <block wx:if="{{item.mode === 'date'}}">
+              <picker mode="{{item.mode}}"  value="{{item.pickerIndex}}"  @change="pickerChange({{index}})">
+                <view class="picker">{{item.value===''?'请选择':item.value}}</view>
+              </picker>
+            </block>
+          </view>
+        </block>
+      </view>
+      <block wx:if="{{mobile !== ''}}">
+        <view class="btn-theme next" @tap="next">下一步</view>
+      </block>
+      <block wx:else>
+        <button class="btn" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
+          <view class="btn-theme next" >下一步</view>
+        </button>
+      </block>
+    </view>
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import { service } from '../../config.js'
+  import http from '../../mixins/http'
+  import base from '../../mixins/base'
+  import user from '../../mixins/user'
+  import ShareMessage from '../../mixins/ShareMessage'
+  import NavBar from '../../components/NavBar'
+  import Loading from '../../components/loading'
+  import selectCity from '../../components/selectCity'
+  import {wx_login} from '../../utils/fn'
+
+  export default class userInfo extends wepy.page {
+    mixins = [base, http, user, ShareMessage]
+    components = {NavBar, Loading, selectCity}
+    config = {
+      navigationBarTitleText: '基本信息',
+      enablePullDownRefresh: false
+    }
+    data = {
+      init: false,
+      avatar: 'http://images.ufutx.com/201902/25/542cc218e40cbc8a8e3a9ce23d7f4789.gif',  // 头像
+      mobile: '',
+      information: [ // 存储信息
+        {
+          title: '真实姓名',
+          name: 'name',
+          value: '',
+          type: 'input',
+          pickerIndex: 0
+        },
+        {
+          title: '性别',
+          name: 'sex',
+          value: '1',
+          type: 'picker',
+          mode: 'selector',
+          pickerList: ['男', '女'],
+          pickerIndex: 0
+        },
+        {
+          title: '出生日期',
+          name: 'birthday',
+          value: '',
+          mode: 'date',
+          type: 'picker',
+          pickerList: [],
+          pickerIndex: 0
+        },
+        {
+          title: '所在地',
+          name: 'region',
+          value: [],
+          type: 'picker',
+          mode: 'selectCity',
+          pickerList: [],
+          pickerIndex: 0
+        },
+        {
+          title: '宗教信仰',
+          name: 'belief',
+          value: '其他',
+          mode: 'selector',
+          type: 'picker',
+          pickerList: ['基督教', '佛教', '伊斯兰教', '其他'],
+          pickerIndex: 3
+        }
+      ]
+    }
+
+    onLoad() {
+      // this.getuser()
+      let {nickName, avatarUrl, gender} = wx.getStorageSync('userInfo')
+      this.avatar = avatarUrl
+      this.information[0].value = nickName
+      this.information[1].value = gender
+      this.information[1].pickerIndex = gender == 1 ? '0' : '1'
+      this.$apply()
+    }
+    onShow() {
+      this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
+    }
+    // getuser() {
+    //   let vm = this
+    //   this.loading = true
+    //   this.$get({url: service.profile}, {
+    //     success: ({code, data}) => {
+    //       let result = data
+    //       vm.avatar = result.avatar
+    //       vm.$apply()
+    //     },
+    //     fail: ({code, data}) => {
+    //     },
+    //     complete: () => {
+    //     }
+    //   })
+    // }
+
+    ensureData() { // 单项保存
+      let data = {
+        name: this.information[0].value,
+        birthday: this.information[2].value,
+        sex: this.information[1].value,
+        country: this.information[3].value[0],
+        province: this.information[3].value[1],
+        city: this.information[3].value[2],
+        belief: this.information[4].value
+      }
+      data = this.$filterParams(data)
+      this.$put({url: service.courtship + '/v2', data}, {
+        success: ({code, data}) => {
+          console.log('参数保存成功！')
+        }
+      })
+    }
+
+    next() { // 下一步
+      let vm = this
+      wx_login().then((code) => {
+        let data = {
+          code: code,
+          name: vm.information[0].value,
+          birthday: vm.information[2].value,
+          sex: vm.information[1].value,
+          country: vm.information[3].value[0] ? vm.information[3].value[0] : '',
+          province: vm.information[3].value[1] ? vm.information[3].value[1] : '',
+          city: vm.information[3].value[2] ? vm.information[3].value[2] : '',
+          belief: vm.information[4].value,
+          mobile: vm.mobile
+        }
+        console.log(data)
+        if (!vm.$judgeParams(data)) {
+          return vm.$showToast('请填写基本资料')
+        }
+        vm.$post({url: `${service.host}/user`, data}, {
+          success: ({code, data}) => {
+            vm.$gotoTab('/pages/tabBar/home')
+          },
+          fail: ({code, data}) => {
+          },
+          complete: () => {
+          }
+        })
+      }).catch((error) => {
+        console.log(error)
+      })
+    }
+    methods = {
+      getPhoneNumber(e) { // 获取手机号
+        let vm = this
+        wx_login().then((code) => {
+          if (e.detail.iv) {
+            let data = {
+              code: code,
+              iv: e.detail.iv,
+              encryptedData: e.detail.encryptedData
+            }
+            vm.$showLoading('注册账号中...')
+            vm.$post({url: service.infor, data}, {
+              success: ({code, data}) => {
+                vm.mobile = data.phoneNumber
+                vm.$apply()
+                vm.next()
+              }
+            })
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+      },
+      pickerChange(index, e) { // picker fn
+        switch (this.information[index].name) {
+          case 'name':case 'birthday':
+            this.information[index].value = e.detail.value
+            break
+          case 'sex':
+            this.information[index].pickerIndex = e.detail.value
+            this.information[index].value = e.detail.value === '0' ? '1' : '2'
+            break
+          case 'belief':
+            this.information[index].value = this.information[index].pickerList[e.detail.value]
+            break
+        }
+        this.$apply()
+        // this.ensureData()
+      }
+    }
+    events = {
+      'selectCity': (value, index) => {
+        for (let item of this.information) {
+          if (item.name === 'region') {
+            item.value = value
+          }
+        }
+        // this.ensureData()
+      }
+    }
+  }
+</script>
+<style lang="less">
+  @import "../../styles/custom/fn.less";
+  page{
+    background: #ffffff;
+    .main-container{
+      .main-box{
+        position: relative;
+        padding-top: 13vh;
+        .bc_image{
+          width: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: -1;
+        }
+        .bc_photo{
+          width: 176rpx;
+          height: 176rpx;
+          border: 10rpx solid #ffffff;
+          border-radius: 50%;
+          overflow: hidden;
+          margin: auto;
+          margin-bottom: 26rpx;
+          position: relative;
+          image{
+            width: 100%;
+            height: 100%;
+          }
+        }
+        ._bc_item{
+          margin-left: 20rpx;
+          padding: 32rpx 20rpx 32rpx 0;
+          border-bottom: 1rpx solid @gray;
+          overflow: hidden;
+          ._bc_title{
+            color: @dark;
+            font-weight: 600;
+          }
+          ._bc_value,.picker{
+            color: @gray;
+          }
+          ._bc_picker{
+            min-width: 50%;
+            height: 100%;
+          }
+        }
+        .next{
+          width: 96%;
+          margin-top: 62rpx;
+        }
+      }
+    }
+  }
+</style>

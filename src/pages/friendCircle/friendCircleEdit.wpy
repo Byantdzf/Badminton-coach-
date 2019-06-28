@@ -2,21 +2,18 @@
   <NavBar rgba="#ffffff" bag="#ffffff" :title.sync="title"></NavBar>
   <Loading :init.sync="init"></Loading>
   <view class="wrapper ff">
-    <view class="weui-title ff">
-      <image src="{{userImage}}" mode="aspectFill" class="ff active_user" @tap="gotoFriendPage({{userType}},{{userId}})"></image>
-      <view class="infromBtn flo_r bold font_32 text-center white" @tap="save" hover-class="btn_active">发表</view>
-    </view>
     <view class="themes">
       <textarea class="textarea font_28 color-666 text-left" maxlength="120"  placeholder="请填写内容" @input="typing('informValue')" @blur="typing('informValue')"  adjust-position="true"  value="{{informValue}}" />
       <view class="font_28 text-right bold">{{informValue.length}}/120</view>
     </view>
     <view class="uploadPic">
-      <image src="http://images.ufutx.com/201902/27/fc2da5fdf813b12f7c8a616eff6dbf03.png" @tap="uploadPic" mode="widthFix" class="image"></image>
+      <image src="http://images.ufutx.com/201906/27/2d68db9307ad3355f5114afa62b216cc.png" @tap="uploadPic" mode="widthFix" class="image"></image>
       <block wx:for="{{informImages}}" wx:key="{{index}}" wx:if="{{informImages}}">
         <image src="{{item}}"   mode="aspectFill" class="upLoadImage" @tap="previewImages({{item}},{{informImages}})" @longpress="deletePic({{index}})"></image>
       </block>
     </view>
-    <view class="font_24 red text-right" style="margin-right: 22rpx;padding-bottom: 32rpx;">*长按可删除照片</view>
+    <view class="font_24 color-theme text-right" style="margin-right: 22rpx;padding-bottom: 32rpx;">*长按可删除照片</view>
+    <view class="btn-theme" style="width: 94%" @tap="save">发表</view>
   </view>
 </template>
 <script>
@@ -192,7 +189,7 @@
   @import "../../styles/weui/base/fn.wxss";
   @import "../../styles/custom/fn.less";
   page{
-    background: #f8f9f9;
+    background: #ffffff;
     .wrapper{
       .weui-title{
         border-bottom: 22rpx solid #f8f8f8;
@@ -216,6 +213,7 @@
       .section,.themes{
         padding: 16rpx 26rpx;
         border-bottom: 1rpx solid #ededed;
+        color: @gray;
       }
       .themes{
         border: none;

@@ -1,0 +1,28 @@
+<template>
+ sakdjhajk
+</template>
+<script>
+  import wepy from 'wepy'
+
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: '裁剪图片',
+      disableScroll: true
+    }
+    data = {
+
+    }
+    components = {
+      // wepyCropper
+    };
+
+    onLoad() {
+    }
+    methods = {
+    }
+
+    events = {
+    };  // 声明组件之间的事件处理函数
+  }
+
+</script>

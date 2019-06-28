@@ -64,8 +64,9 @@
       MultiPickerChange(e) { // 地址确定
         console.log(this.itemIndex)
         this.multiIndex = e.detail.value
-        this.region[0] = this.provinces[this.multiIndex[0]].son[this.multiIndex[1]].name
-        this.region[1] = this.provinces[this.multiIndex[0]].son[this.multiIndex[1]].son[this.multiIndex[2]].name
+        this.region[0] = this.provinces[this.multiIndex[0]].name
+        this.region[1] = this.provinces[this.multiIndex[0]].son[this.multiIndex[1]].name
+        this.region[2] = this.provinces[this.multiIndex[0]].son[this.multiIndex[1]].son[this.multiIndex[2]].name
         this.$apply()
         this.$emit('selectCity', this.region, this.itemIndex)
       },

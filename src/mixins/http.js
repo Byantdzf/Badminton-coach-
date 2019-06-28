@@ -160,7 +160,7 @@ export default class httpMixin extends wepy.mixin {
                     wx.setStorageSync('user_id', data.user.id)
                   }
                   var route = wx.getStorageSync('jump');
-                  if (route == '/pages/users/register') {
+                  if (route == '/pages/tabBar/welcome') {
                     return
                   }
                   if (route.includes('/pages/tabBar/home')) {
@@ -169,7 +169,7 @@ export default class httpMixin extends wepy.mixin {
                   }
                   if (!data.token) {
                     // wx.reLaunch({url: '/pages/users/register'})
-                    wx.navigateTo({url: '/pages/users/register?from_openid=' + wx.getStorageSync('from_openid')})
+                    wx.navigateTo({url: '/pages/tabBar/welcome?from_openid=' + wx.getStorageSync('from_openid')})
                   } else {
                     if (route.includes('tabBar')) {
                       route = route.split('?')[0]

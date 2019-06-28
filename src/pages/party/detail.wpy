@@ -8,8 +8,8 @@
       <view class="font_32 bold _bc-title ellipsis_2 text-left">
         {{detail.theme}}
       </view>
-      <view class="font_36 bold green" wx:if="{{detail.is_deadline == 0}}">￥{{detail.fee}}</view>
-      <view class="green bold font_36 color-bbb" style="text-decoration:line-through" wx:else>￥{{detail.fee}}</view>
+      <view class="font_36 bold orange" wx:if="{{detail.is_deadline == 0}}">￥{{detail.fee}}</view>
+      <view class="orange bold font_36 color-bbb" style="text-decoration:line-through" wx:else>￥{{detail.fee}}</view>
       <view class="font_28 text-left _bc-time">
         <image src="http://images.ufutx.com/201812/17/81bd3dafa34d85578e9943f28c333801.png"   mode="aspectFit"></image>
         <span>{{detail.start_time}}-{{detail.end_time}}</span>
@@ -46,7 +46,7 @@
         <image src="{{item}}" mode="widthFix" style="width: 100%;" @tap="previewImages({{item}},{{detail.detail_pic}})"></image>
       </block>
       <block wx:if="{{detail.detail_path}}" >
-        <view class="text-center green font_28"  @tap="gotoApp({{detail.detail_path}})">查看更多</view>
+        <view class="text-center orange font_28"  @tap="gotoApp({{detail.detail_path}})">查看更多</view>
         <view class="text-center">
           <image src="http://images.ufutx.com/201812/17/33b972b2370a52d38f1a7a6ccb780ac8.png"  mode="aspectFit"></image>
         </view>
@@ -55,12 +55,12 @@
     <view style="height: 120rpx;"></view>
     <view class="_bc-Tab ff">
       <view class="_bc-item text-center flo_l" @tap="gotoTab('/pages/tabBar/home')">
-        <image src="http://images.ufutx.com/201812/17/0f530cc90314ac70e633ff4b4d61c239.png"   mode="aspectFit"></image>
-        <view class="font_26">主页</view>
+        <image src="http://images.ufutx.com/201906/27/392ca7501b4efeff80e05911b71837f5.png"   mode="aspectFit"></image>
+        <view class="font_26 color-666">主页</view>
       </view>
       <button class="btn _bc-item text-center flo_l" open-type="getUserInfo" @getuserinfo="getuserinfo" >
-        <image src="http://images.ufutx.com/201812/17/b79894345cf4ee2e5e53dee2e0ee6ce8.png"   mode="aspectFit"></image>
-        <view class="font_26">分享</view>
+        <image src="http://images.ufutx.com/201906/27/376626941fcd70f6a9f0a65e0156580e.png"   mode="aspectFit"></image>
+        <view class="font_26 color-666">分享</view>
       </button>
       <block wx:if="{{detail}}">
         <block wx:if="{{detail.is_deadline == 1}}">
@@ -70,21 +70,21 @@
         </block>
         <block wx:else>
           <block wx:if="{{detail.fee == 0.00}}">
-            <view class="_bc-btn text-center flo_r white font_32" @tap="pay">
+            <view class="_bc-btn text-center flo_r white font_32 btn-theme" @tap="pay">
               免费报名
             </view>
           </block>
-          <block>
-            <view class="_bc-btn text-center flo_r white font_32" @tap="apply('/pages/party/trade?party_id={{detail.id}}')">
+          <block wx:else>
+            <view class="_bc-btn text-center flo_r white font_32 btn-theme" @tap="apply('/pages/party/trade?party_id={{detail.id}}')">
               立即报名
             </view>
           </block>
         </block>
       </block>
-      <block>
-        <view class="_bc-btn text-center flo_r white font_32">
-          <view class="weui-loading"></view>
-          加载中...
+      <block wx:else>
+        <view class="_bc-btn text-center flo_r color-666 font_32">
+          <span class="weui-loading"></span>
+          <span>加载中...</span>
         </view>
       </block>
       <shareComponent :hide.sync="hide" :shareImage.sync="pic"></shareComponent>
@@ -107,8 +107,6 @@
     mixins = [base, http, user, getFormId]
     config = {
       navigationBarTitleText: '加载详情中...',
-      navigationBarTextStyle: 'black',
-      navigationBarBackgroundColor: '#ffffff',
       enablePullDownRefresh: true
     }
     data = {
@@ -405,16 +403,14 @@
     background: #ffffff;
     ._bc-party{
       ._bc-image{
-        width: 100%;
         text-align: center;
-        /*background: url('http://images.ufutx.com/201812/12/091d200c8b317e2bcfa5d653ccaa014d.png') no-repeat;*/
         background: white;
         background-size: cover;
+        margin: 22rpx;
         image{
-          width:95%;
-          height: 316rpx;
-          margin: auto;
-          box-shadow: 1rpx 1rpx 12rpx #a4a4a4;
+          width: 100%;
+          height: auto;
+          box-shadow: 1rpx 1rpx 12rpx #bfbfbf;
         }
       }
       ._bc-center{
@@ -483,24 +479,22 @@
         ._bc-item{
           margin-left: 10%;
           padding: 12rpx;
+          margin-top: 6rpx;
           image{
-            width: 50rpx;
-            height: 50rpx;
+            width: 46rpx;
+            height: 46rpx;
           }
           view{
             margin-top: -12rpx;
           }
         }
         ._bc-btn{
-          background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
-          /*margin-left: 20%;*/
-          line-height: 120rpx;
-          /*border-radius: 12rpx;*/
           width: 50%;
-          height: 100%;
-          background: #42B44F;
-          /*margin-top: 10rpx;*/
-          /*padding: 0 58rpx;*/
+          margin: 16rpx;
+          height: 90rpx;
+          color: white;
+          border-radius: 8rpx;
+          line-height: 90rpx;
         }
       }
     }
