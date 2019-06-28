@@ -102,7 +102,7 @@
                 }
               } else {
                 that.hideBtn = true
-                that.$goto('/pages/users/registerV2')
+                // that.$goto('/pages/users/registerV2')
                 that.$apply()
               }
             }
