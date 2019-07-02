@@ -94,9 +94,7 @@
   export default class trade extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
-      navigationBarTitleText: '确认订单',
-      navigationBarBackgroundColor: '#42B44F',
-      navigationBarTextStyle: 'white'
+      navigationBarTitleText: '确认订单'
     }
     components = {
       Loading
@@ -313,7 +311,7 @@
       .btn-buy{
         width: 100/2%;
         height: 100%;
-        background: #42B44F;
+        background: @theme;
       }
     }
   }

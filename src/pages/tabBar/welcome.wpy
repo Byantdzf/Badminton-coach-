@@ -2,7 +2,7 @@
   <view class="box {{hide?'hide':''}}">
     <image src="{{startImage}}" mode="aspectFill" style="width: 100vw;height: 100vh"></image>
     <view @tap="goto('/pages/users/registerV2')" class="next" wx:if="{{hideBtn}}"></view>
-    <view class="wrapper" @tap="goto('/pages/users/registerV2')">
+    <view class="wrapper" @tap="jump">
       <view class="font_24 flo_l text-center time">{{time}}s</view>
       <view class="font_24 flo_l">跳过</view>
     </view>
@@ -118,6 +118,13 @@
     }
 
     methods = {
+      jump() {
+        if (this.token) {
+          this.$gotoTab('/pages/tabBar/home')
+        } else {
+          this.$goto('/pages/users/registerV2')
+        }
+      },
       gotoTab(url) {
         if (wx.getStorageSync('token')) {
           return this.$gotoTab(url)
