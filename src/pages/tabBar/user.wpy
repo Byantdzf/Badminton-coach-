@@ -10,7 +10,7 @@
         <view class=" font_26">我的好友</view>
       </view>
       <view style="width: 33%;height: 100%;" class="text-center flo_l"
-            @tap="goto('/pages/users/test?type=attention')">
+            @tap="goto('/pages/users/friendlist?type=attention')">
         <view class="bold font_32 bc_num" >{{user.follow_count}}</view>
         <view class=" font_26">我的关注</view>
       </view>
