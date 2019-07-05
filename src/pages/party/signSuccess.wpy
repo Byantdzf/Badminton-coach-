@@ -30,8 +30,6 @@
     mixins = [base, http, user, ShareMessage]
     config = {
       navigationBarTitleText: '签到',
-      navigationBarBackgroundColor: '#42B44F',
-      navigationBarTextStyle: 'white',
       enablePullDownRefresh: false
     }
     components = {

@@ -50,9 +50,7 @@
     mixins = [base, http, user, ShareMessage]
     config = {
       navigationBarTitleText: '报名表单',
-      enablePullDownRefresh: false,
-      navigationBarBackgroundColor: '#42B44F',
-      navigationBarTextStyle: 'white'
+      enablePullDownRefresh: false
 
     }
     data = {
@@ -315,7 +313,7 @@
         left: 0;
         width: 100%;
         line-height: 120rpx;
-        background: #42B44F;
+        background: @theme;
       }
       .main-input{
         background: #EEEDF3;
@@ -332,7 +330,7 @@
         }
         .mini-btn{
           width: 36%;
-          background: #42B44F;
+          background: @theme;
           margin-bottom: 22rpx;
         }
       }
