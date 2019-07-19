@@ -1,28 +1,132 @@
 <template>
- sakdjhajk
+  <WepyImageCropper id="image-cropper" :limit_move="limit_move" :disable_rotate="disable_rotate" :disable_ratio="disable_ratio" :borderColor="borderColor" :width="width" :height="height" :min_width="width" :min_height="height" :imgSrc.sync="src" @load.user="cropperload" @imageload.user="loadimage" @tapcut.user="clickcut" ref="child"></WepyImageCropper>
 </template>
+
 <script>
   import wepy from 'wepy'
+  import WepyImageCropper from '../../components/wepy-image-cropper/wepy-image-cropper'
+  import {service} from '../../config.js'
 
-  export default class Index extends wepy.page {
+  export default class Test extends wepy.page {
     config = {
-      navigationBarTitleText: '裁剪图片',
-      disableScroll: true
-    }
-    data = {
-
+      navigationBarTitleText: '上传图片'
     }
     components = {
-      // wepyCropper
-    };
-
-    onLoad() {
+      WepyImageCropper
     }
+
+    mixins = []
+
+    data = {
+      src: '',
+      width: 350, // 宽度
+      height: 350, // 高度
+      limit_move: true,
+      disable_ratio: true,
+      disable_rotate: true,
+      borderColor: '#D92553',
+      filePaths: ''
+    }
+    onLoad(options) {
+    }
+    onReady() { // 开始裁剪
+      this.src = 'https://images.ufutx.com/201907/19/c66ed5d4a3900b873815b4856758931e.jpeg'
+      wx.showLoading({
+        title: '加载中'
+      })
+    }
+
+    computed = {
+    }
+    uploadFile() {
+      let vm = this
+      wx.uploadFile({
+        url: service.image_upload,
+        filePath: vm.filePaths,
+        method: 'POST',
+        name: 'fileData',
+        header: {
+          'Authorization': 'Bearer ' + wx.getStorageSync('token'),
+          'content-type': 'multipart/form-data',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        success: (res) => {
+          // this.src = JSON.parse(res.data).data
+          // this.$apply()
+          console.log(JSON.parse(res.data).data)
+          debugger
+        },
+        fail: (res) => {
+        },
+        complete: () => {
+        }
+      })
+    }
+
     methods = {
+      cropperload(e) {
+        console.log("cropper初始化完成:" + e)
+      },
+      loadimage(e) {
+        console.log("图片加载完成", e)
+      },
+      chooseimage() {
+        let vm = this
+        wx.chooseImage({
+          count: 1,
+          // sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+          sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
+          sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+          success: (res) => {
+            vm.filePaths = res.tempFilePaths[0]
+            vm.$apply()
+            vm.uploadFile()
+          }
+        })
+      },
+      save() {
+        // this.$invoke('wepy-image-cropper', '_click')
+        this.$refs.child._click(e)
+      },
+      clickcut(e) {
+        console.log(e) // 点击裁剪框阅览图片
+        wx.previewImage({
+          current: e.url, // 当前显示图片的http链接
+          urls: [e.url] // 需要预览的图片http链接列表
+        })
+        // this.filePaths = e.url
+        // this.$apply()
+        // this.uploadFile()
+      }
     }
 
     events = {
-    };  // 声明组件之间的事件处理函数
+      'tapcut': (e) => {
+        debugger
+      }
+    }
   }
-
 </script>
+
+<style lang="less">
+  /*.main-box{*/
+    /*width: 80vw;*/
+    /*height: 10vh;*/
+    /*position: fixed;*/
+    /*bottom: 0;*/
+    /*left: 0;*/
+    /*z-index: 999999;*/
+    /*padding: 0 10vw;*/
+    /*.main-cancel,.main-save{*/
+      /*background: #d1d1d1;*/
+      /*padding: 8rpx 0;*/
+      /*width: 200rpx;*/
+      /*border-radius: 6rpx;*/
+      /*color: #D92553;*/
+    /*}*/
+    /*.main-save{*/
+      /*color: white;*/
+      /*background: #D92553;*/
+    /*}*/
+  /*}*/
+</style>
