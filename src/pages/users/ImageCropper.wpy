@@ -59,16 +59,22 @@
         success: (res) => {
           console.log(this.jump)
           console.log(res)
+          if (res.statusCode !== 200) {
+            wx.hideLoading()
+            vm.$Toast_error('网络超时！请重试...')
+            return
+          }
           console.log(JSON.parse(res.data).data)
           let path = JSON.parse(res.data).data
-          if (this.jump === 'pages/users/userInfo') {
+          if (this.jump === '/pages/users/userInfo') {
             this.$redirectTo(`${this.jump}?image=${path}`)
           } else {
             vm.upDataAvatar(path)
           }
         },
         fail: (res) => {
-
+          wx.hideLoading()
+          vm.$Toast_error('网络超时...')
         },
         complete: () => {
         }
