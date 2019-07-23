@@ -4,7 +4,7 @@
   <view class="main-container">
     <view class="main-box">
       <image src="http://images.ufutx.com/201906/26/5cc9565a6e805561257212044e393297.png" mode="widthFix" class="bc_image"></image>
-      <view class="bc_photo ff"><image src="{{avatar}}" mode="aspectFill"></image></view>
+      <view class="bc_photo ff"><image src="{{avatar}}" mode="aspectFill" @tap="chooseimage({{avatar}})"></image></view>
       <view class="font_32 _bc_item" wx:for="{{information}}" wx:key="index">
         <view class="_bc_title flo_l">{{item.title}}</view>
         <block wx:if="{{item.type === 'input'}}">
@@ -202,6 +202,9 @@
       })
     }
     methods = {
+      chooseimage(Image) {
+        this.$goto(`/pages/users/ImageCropper?src=${Image}`)
+      },
       getPhoneNumber(e) { // 获取手机号
         let vm = this
         wx_login().then((code) => {

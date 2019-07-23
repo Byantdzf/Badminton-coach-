@@ -270,7 +270,7 @@
        */
       quality: {
         type: Number,
-        default: 1
+        default: 0
       },
       cut_top: {
         type: Number,
@@ -477,8 +477,9 @@
           sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
           sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
           success: (res) => {
-            vm.src = res.tempFilePaths[0]
+            vm.imgSrc = res.tempFilePaths[0]
             vm.$apply()
+            console.log(vm.src)
           }
         })
       },
@@ -494,7 +495,7 @@
             quality: this.quality,
             canvasId: this.el,
             success: (res) => {
-              this.$emit('tapcut', {
+              this.$emit('saveCut', {
                 url: res.tempFilePath,
                 width: this.width * this.export_scale,
                 height: this.height * this.export_scale
