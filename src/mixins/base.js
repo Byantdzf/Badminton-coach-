@@ -110,6 +110,13 @@ export default class baseMixin extends wepy.mixin {
       duration: 1200
     })
   }
+  $Toast_error(title){
+    wx.showToast({
+      title: title,
+      icon: 'error',
+      duration: 1200
+    })
+  }
   $showLoading(title){
     wx.showLoading({
       title: title,
