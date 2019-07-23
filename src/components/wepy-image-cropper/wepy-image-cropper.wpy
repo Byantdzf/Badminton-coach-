@@ -173,15 +173,15 @@
             <image @load="imageLoad" bindtouchstart="_start" bindtouchmove="_move" bindtouchend="_end"
                    style="width:{{img_width ? img_width + 'px' : 'auto'}};height:{{img_height ? img_height + 'px' : 'auto'}};transform:translate3d({{_img_left-img_width/2}}px,{{_img_top-img_height/2}}px,0) scale({{scale}}) rotate({{angle}}deg);transition-duration:{{_cut_animation?.4:0}}s;"
                    class='img' src='{{imgSrc}}'></image>
-          <view class="main-box">
-            <view class="main-cancel flo_l font_30 text-center" @tap.stop="chooseimage">选择图片</view>
-            <view class="main-save flo_r font_30 text-center" @tap.stop="save">确定</view>
-          </view>
         </view>
         <canvas canvas-id='image-cropper' disable-scroll="true"
                 style="width:{{_canvas_width * export_scale}}px;height:{{_canvas_height * export_scale}}px;left:{{canvas_left}}px;top:{{canvas_top}}px"
                 class='image-cropper-canvas'></canvas>
     </view>
+  <view class="main-box">
+    <view class="main-cancel flo_l font_30 text-center" @tap.stop="chooseimage">选择图片</view>
+    <view class="main-save flo_r font_30 text-center" @tap.stop="saveUpdate">确定</view>
+  </view>
 </template>
 <script>
   import wepy from 'wepy'
@@ -444,7 +444,6 @@
       }
     }
     onLoad() {
-      console.log('fucker')
 
       this.info = wx.getSystemInfoSync()
 
@@ -468,6 +467,47 @@
         cropper: this
       })
     }
+    // 渲染
+    _draw(callback) {
+      if (!this.imgSrc) return
+      let draw = () => {
+        // 图片实际大小
+        let img_width = this.img_width * this.scale * this.export_scale
+        let img_height = this.img_height * this.scale * this.export_scale
+        // canvas和图片的相对距离
+        var xpos = this._img_left - this.cut_left
+        var ypos = this._img_top - this.cut_top
+        // 旋转画布
+        this.ctx.translate(xpos * this.export_scale, ypos * this.export_scale)
+        this.ctx.rotate(this.angle * Math.PI / 180)
+        this.ctx.drawImage(this.imgSrc, -img_width / 2, -img_height / 2, img_width, img_height)
+        this.ctx.draw(false, () => {
+          callback && callback()
+          this.$apply()
+        })
+      }
+      if (this.ctx.width != this.width || this.ctx.height != this.height) {
+        // 优化拖动裁剪框，所以必须把宽高设置放在离用户触发渲染最近的地方
+        this._canvas_height = this.height
+        this._canvas_width = this.width
+        draw()
+        this._canvas_height = this.height
+        this._canvas_width = this.width
+        // this.setData({
+        //   _canvas_height: this.height,
+        //   _canvas_width: this.width
+        // }, () => {
+        //   // 延迟20毫秒防止点击过快出现拉伸或裁剪过多
+        //   setTimeout(() => {
+        //     draw()
+        //   }, 20)
+        // })
+      } else {
+        draw()
+      }
+
+      this.$apply()
+    }
     methods = {
       chooseimage() {
         let vm = this
@@ -479,29 +519,30 @@
           success: (res) => {
             vm.imgSrc = res.tempFilePaths[0]
             vm.$apply()
-            console.log(vm.src)
+            console.log(vm.imgSrc)
           }
         })
       },
-      save(event) {
+      saveUpdate(event) {
         // 生成图片并回调
         this._draw(() => {
+          let vm = this
           wx.canvasToTempFilePath({
-            width: this.width * this.export_scale,
-            height: Math.round(this.height * this.export_scale),
-            destWidth: this.width * this.export_scale,
-            destHeight: Math.round(this.height) * this.export_scale,
+            width: vm.width * vm.export_scale,
+            height: Math.round(vm.height * vm.export_scale),
+            destWidth: vm.width * vm.export_scale,
+            destHeight: Math.round(vm.height) * vm.export_scale,
             fileType: 'png',
-            quality: this.quality,
-            canvasId: this.el,
+            quality: vm.quality,
+            canvasId: vm.el,
             success: (res) => {
-              this.$emit('saveCut', {
+              vm.$emit('saveCut', {
                 url: res.tempFilePath,
-                width: this.width * this.export_scale,
-                height: this.height * this.export_scale
+                width: vm.width * vm.export_scale,
+                height: vm.height * vm.export_scale
               })
             }
-          }, this)
+          }, vm)
         })
       },
       _preventTouchMove(event) {
@@ -1165,48 +1206,6 @@
       } else {
         this.MOVE_THROTTLE_FLAG = true
       }
-    }
-
-    // 渲染
-    _draw(callback) {
-      if (!this.imgSrc) return
-      let draw = () => {
-        // 图片实际大小
-        let img_width = this.img_width * this.scale * this.export_scale
-        let img_height = this.img_height * this.scale * this.export_scale
-        // canvas和图片的相对距离
-        var xpos = this._img_left - this.cut_left
-        var ypos = this._img_top - this.cut_top
-        // 旋转画布
-        this.ctx.translate(xpos * this.export_scale, ypos * this.export_scale)
-        this.ctx.rotate(this.angle * Math.PI / 180)
-        this.ctx.drawImage(this.imgSrc, -img_width / 2, -img_height / 2, img_width, img_height)
-        this.ctx.draw(false, () => {
-          callback && callback()
-          this.$apply()
-        })
-      }
-      if (this.ctx.width != this.width || this.ctx.height != this.height) {
-        // 优化拖动裁剪框，所以必须把宽高设置放在离用户触发渲染最近的地方
-        this._canvas_height = this.height
-        this._canvas_width = this.width
-        draw()
-        this._canvas_height = this.height
-        this._canvas_width = this.width
-        // this.setData({
-        //   _canvas_height: this.height,
-        //   _canvas_width: this.width
-        // }, () => {
-        //   // 延迟20毫秒防止点击过快出现拉伸或裁剪过多
-        //   setTimeout(() => {
-        //     draw()
-        //   }, 20)
-        // })
-      } else {
-        draw()
-      }
-
-      this.$apply()
     }
 
     // 停止移动时需要做的操作
