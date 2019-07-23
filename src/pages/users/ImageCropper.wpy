@@ -27,10 +27,12 @@
       disable_ratio: true,
       disable_rotate: true,
       borderColor: '#D92553',
-      filePaths: ''
+      filePaths: '',
+      jump: ''
     }
     onLoad(e) {
       this.src = e.src
+      this.jump = e.jump
       this.$apply()
     }
     onReady() { // 开始裁剪
@@ -55,10 +57,15 @@
           'X-Requested-With': 'XMLHttpRequest'
         },
         success: (res) => {
+          console.log(this.jump)
           console.log(res)
           console.log(JSON.parse(res.data).data)
           let path = JSON.parse(res.data).data
-          vm.upDataAvatar(path)
+          if (this.jump === 'pages/users/userInfo') {
+            this.$redirectTo(`${this.jump}?image=${path}`)
+          } else {
+            vm.upDataAvatar(path)
+          }
         },
         fail: (res) => {
 

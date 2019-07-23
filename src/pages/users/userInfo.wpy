@@ -111,8 +111,14 @@
       ]
     }
 
-    onLoad() {
+    onLoad(e) {
       // this.getuser()
+      console.log(e,'dadadeeeee')
+      if (e && e.image) {
+        this.avatar = e.image
+        this.$apply()
+        console.log(this.avatar, 'this.avatar')
+      }
       let {nickName, avatarUrl, gender} = wx.getStorageSync('userInfo')
       this.avatar = avatarUrl
       this.information[0].value = nickName
@@ -203,7 +209,7 @@
     }
     methods = {
       chooseimage(Image) {
-        this.$goto(`/pages/users/ImageCropper?src=${Image}`)
+        this.$goto(`/pages/users/ImageCropper?src=${Image}&jump=${this.$getCurrentPageUrl()}`)
       },
       getPhoneNumber(e) { // 获取手机号
         let vm = this
