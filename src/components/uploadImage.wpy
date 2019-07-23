@@ -3,6 +3,7 @@
 </template>
 
 <script>
+
   import wepy from 'wepy'
   import {service} from '../config.js'
   import http from '../mixins/http'

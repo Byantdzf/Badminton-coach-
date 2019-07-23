@@ -335,7 +335,8 @@
       },
       chooseimage() {
         this.onPauseMusic()
-        this.$invoke('uploadImage', 'chooseimage')
+        this.$goto(`/pages/users/ImageCropper?src=${this.Image}`)
+        // this.$invoke('uploadImage', 'chooseimage')
       },
       quitMusic() { // 停止音乐
         this.stopMusic = !this.stopMusic

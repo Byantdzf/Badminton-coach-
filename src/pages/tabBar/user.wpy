@@ -95,11 +95,11 @@
   import http from '../../mixins/http'
   import base from '../../mixins/base'
   import user from '../../mixins/user'
+  import {service} from '../../config.js'
   import ShareMessage from '../../mixins/ShareMessage'
   import userTitle from '../../components/userTitle'
   import Loading from '../../components/loading'
   import Tab_NavBar from '../../components/Tab_NavBar'
-  import {service} from '../../config.js'
 
   // const innerAudioContext = wx.createInnerAudioContext()
   export default class User extends wepy.page {

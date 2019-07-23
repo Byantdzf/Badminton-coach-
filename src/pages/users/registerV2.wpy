@@ -189,8 +189,12 @@
                   icon: 'success',
                   duration: 1200,
                   success: (res) => {
+                    let userInfo = {
+                      nickName: data.nickname,
+                      avatarUrl: data.avatar2 ? data.avatar2 : data.avatar
+                    }
                     wx.setStorageSync('type', data.type)
-                    wx.setStorageSync('userInfo', that.userInfo)
+                    wx.setStorageSync('userInfo', userInfo)
                     that.$redirectTo('/pages/users/userInfo')
                   }
                 })
