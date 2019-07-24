@@ -16,6 +16,7 @@
     "wepy": "^1.7.1",
     "wepy-async-function": "^1.4.4",
     "wepy-com-toast": "^1.0.2",
+    "wepy-cropper": "0.0.5",
     "wepy-image-cropper": "^1.0.1",
     "yeast": "^0.1.2"
   },
