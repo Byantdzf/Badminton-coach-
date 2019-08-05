@@ -9,11 +9,12 @@
   import base from '../../mixins/base'
   import http from '../../mixins/http'
 
-  export default class ImageCropper extends wepy.page {
+  export default class ImageCropperV2 extends wepy.page {
     mixins = [base, http]
     config = {
       navigationBarTitleText: '上传图片'
     }
+
     components = {
       WepyImageCropper
     }

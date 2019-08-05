@@ -145,8 +145,8 @@
 </style>
 <template>
     <view class='image-cropper' catchtouchmove='_preventTouchMove'>
-        <view class='main' id="main_bc" bindtouchend="_cutTouchEnd" bindtouchstart="_cutTouchStart" bindtouchmove="_cutTouchMove"
-              bindtap="_click">
+        <view class='main' id="main_bc" @touchend="_cutTouchEnd" @touchstart="_cutTouchStart" @touchmove="_cutTouchMove"
+              @tap="_click">
             <view class='content'>
                 <view class="content_top bg_gray {{_flag_bright? '':'bg_black'}}"
                       style="height:{{cut_top}}px;transition-property:{{_cut_animation?'':'background'}}"></view>
@@ -185,10 +185,10 @@
 </template>
 <script>
   import wepy from 'wepy'
-  import {getElement_WH} from '../../utils/fn'
   export default class WepyImageCropper extends wepy.component {
     config = {
       component: true
+
     }
     props = {
       /**
@@ -383,12 +383,14 @@
       width(newV, oldV) {
         if (newV < this.min_width) {
           this.width = this.min_width
+          this.$apply()
         }
         this._computeCutSize()
       },
       height(newV, oldV) {
         if (newV < this.min_height) {
           this.height = this.min_height
+          this.$apply()
         }
         this._computeCutSize()
       },
@@ -398,6 +400,7 @@
         if (this.limit_move) {
           if (this.angle % 90) {
             this.angle = Math.round(this.angle / 90) * 90
+            this.$apply()
           }
         }
       },
@@ -415,6 +418,7 @@
         if (newV) {
           if (this.angle % 90) {
             this.angle = Math.round(this.angle / 90) * 90
+            this.$apply()
           }
           this._imgMarginDetectionScale()
           !this._canvas_overflow && this._draw()
@@ -444,14 +448,12 @@
       }
     }
     onLoad() {
-
       this.info = wx.getSystemInfoSync()
-
       this.INIT_IMGWIDTH = this.img_width
       this.INIT_IMGHEIGHT = this.img_height
       this._canvas_height = this.height
       this._canvas_width = this.width
-
+      this.$apply()
       this._initCanvas()
       console.log('img Src' + this.imgSrc)
       this.imgSrc && (this.imgSrc = this.imgSrc)
@@ -466,9 +468,11 @@
       this.$emit('load', {
         cropper: this
       })
+      this.$apply()
     }
     // 渲染
     _draw(callback) {
+      console.log(this.imgSrc)
       if (!this.imgSrc) return
       let draw = () => {
         // 图片实际大小
@@ -493,15 +497,6 @@
         draw()
         this._canvas_height = this.height
         this._canvas_width = this.width
-        // this.setData({
-        //   _canvas_height: this.height,
-        //   _canvas_width: this.width
-        // }, () => {
-        //   // 延迟20毫秒防止点击过快出现拉伸或裁剪过多
-        //   setTimeout(() => {
-        //     draw()
-        //   }, 20)
-        // })
       } else {
         draw()
       }
@@ -525,32 +520,60 @@
       },
       saveUpdate(event) {
         // 生成图片并回调
-        this._draw(() => {
-          let vm = this
-          wx.canvasToTempFilePath({
-            width: vm.width * vm.export_scale,
-            height: Math.round(vm.height * vm.export_scale),
-            destWidth: vm.width * vm.export_scale,
-            destHeight: Math.round(vm.height) * vm.export_scale,
-            fileType: 'png',
-            quality: vm.quality,
-            canvasId: vm.el,
-            success: (res) => {
-              vm.$emit('saveCut', {
-                url: res.tempFilePath,
-                width: vm.width * vm.export_scale,
-                height: vm.height * vm.export_scale
-              })
-            }
-          }, vm)
-        })
+        // this._initCanvas()
+
+        let vm = this
+        console.log(this.imgSrc)
+        if (!this.imgSrc) return
+        let draw = () => {
+          // 图片实际大小
+          let img_width = this.img_width * this.scale * this.export_scale
+          let img_height = this.img_height * this.scale * this.export_scale
+          // canvas和图片的相对距离
+          var xpos = this._img_left - this.cut_left
+          var ypos = this._img_top - this.cut_top
+          // 旋转画布
+          this.ctx.translate(xpos * this.export_scale, ypos * this.export_scale)
+          this.ctx.rotate(this.angle * Math.PI / 180)
+          this.ctx.drawImage(this.imgSrc, -img_width / 2, -img_height / 2, img_width, img_height)
+          this.ctx.draw(false, () => {
+            wx.canvasToTempFilePath({
+              width: vm.width * vm.export_scale,
+              height: Math.round(vm.height * vm.export_scale),
+              destWidth: vm.width * vm.export_scale,
+              destHeight: Math.round(vm.height) * vm.export_scale,
+              fileType: 'png',
+              quality: vm.quality,
+              canvasId: vm.el,
+              success: (res) => {
+                vm.$emit('saveCut', {
+                  url: res.tempFilePath,
+                  width: vm.width * vm.export_scale,
+                  height: vm.height * vm.export_scale
+                })
+              }
+            }, vm)
+            this.$apply()
+          })
+        }
+        if (this.ctx.width != this.width || this.ctx.height != this.height) {
+          // 优化拖动裁剪框，所以必须把宽高设置放在离用户触发渲染最近的地方
+          this._canvas_height = this.height
+          this._canvas_width = this.width
+          draw()
+          this._canvas_height = this.height
+          this._canvas_width = this.width
+        } else {
+          draw()
+        }
+        this.$apply()
       },
       _preventTouchMove(event) {
       },
       // 裁剪框处理
       _cutTouchMove(e) {
         if (this._flag_cut_touch && this.MOVE_THROTTLE_FLAG) {
-          if (this.disable_ratio && (this.disable_width || this.disable_height)) return
+          // if (this.disable_ratio && (this.disable_width || this.disable_height)) return
           // 节流
           this.MOVE_THROTTLE_FLAG = false
           this._move_throttle()
@@ -611,14 +634,18 @@
             this.cut_left = cut_left
             this.height = height
             this.cut_top = cut_top
+            this.$apply()
           } else if (!this.disable_width) {
             this.width = width
             this.cut_left = cut_left
+            this.$apply()
           } else if (!this.disable_height) {
             this.height = height
             this.cut_top = cut_top
+            this.$apply()
           }
           this._imgMarginDetectionScale()
+          this.$apply()
         }
       },
       _cutTouchStart(e) {
@@ -654,6 +681,7 @@
             y: currentY,
             corner: 4
           }
+          this.$apply()
         } else if (currentX > cutbox_left3 && currentX < cutbox_right3 && currentY > cutbox_top3 && currentY < cutbox_bottom3) {
           this._moveDuring()
           this._flag_cut_touch = true
@@ -667,6 +695,7 @@
             cut_left: this.cut_left,
             corner: 3
           }
+          this.$apply()
         } else if (currentX > cutbox_left2 && currentX < cutbox_right2 && currentY > cutbox_top2 && currentY < cutbox_bottom2) {
           this._moveDuring()
           this._flag_cut_touch = true
@@ -680,6 +709,7 @@
             y: currentY,
             corner: 2
           }
+          this.$apply()
         } else if (currentX > cutbox_left1 && currentX < cutbox_right1 && currentY > cutbox_top1 && currentY < cutbox_bottom1) {
           this._moveDuring()
           this._flag_cut_touch = true
@@ -693,11 +723,13 @@
             y: currentY,
             corner: 1
           }
+          this.$apply()
         }
       },
       _cutTouchEnd(e) {
         this._moveStop()
         this._flag_cut_touch = false
+        this.$apply()
         // console.log(e,'_cutTouchEnd;;;')
       },
       // 点击中间剪裁框处理
@@ -781,6 +813,7 @@
           this._imgMarginDetectionPosition()
           this._img_left = this._img_left
           this._img_top = this._img_top
+          this.$apply()
         } else {
           // 双指放大
           let width = (Math.abs(event.touches[0].clientX - event.touches[1].clientX)),
@@ -793,6 +826,7 @@
           // 图像边缘检测,防止截取到空白
           this.scale = scale
           this._imgMarginDetectionScale()
+          this.$apply()
           // 双指旋转(如果没禁用旋转)
           let _touch_img_relative = [{
             x: (event.touches[0].clientX - this._img_left),
@@ -820,6 +854,7 @@
 
           this.angle = this.angle + current_deg
           this.scale = this.scale
+          this.$apply()
         }
         !this._canvas_overflow && this._draw()
       },
@@ -827,6 +862,7 @@
       _end(event) {
         this._flag_img_endtouch = true
         this._moveStop()
+        this.$apply()
         // console.log(event)
       }
     }
@@ -886,6 +922,7 @@
       if (!transform) return
       if (!this.disable_rotate) {
         this.angle = transform.angle ? this.angle + transform.angle : this.angle
+        this.$apply()
       }
       var scale = this.scale
       if (transform.scale) {
@@ -898,9 +935,11 @@
       let cutY = this.cut_top
       if (transform.cutX) {
         this.cut_left = cutX + transform.cutX
+        this.$apply()
       }
       if (transform.cutY) {
         this.cut_top = cutY + transform.cutY
+        this.$apply()
       }
       this._img_top = transform.y ? this._img_top + transform.y : this._img_top
       this._img_left = transform.x ? this._img_left + transform.x : this._img_left
@@ -915,6 +954,7 @@
       !this._canvas_overflow && this._draw()
       // 可以居中裁剪框了
       this._moveStop()// 结束操作
+      this.$apply()
     }
     /**
      * 设置剪裁框尺寸
@@ -923,6 +963,7 @@
       this.width = w
       this.height = h
       this._computeCutSize()
+      this.$apply()
     }
     /**
      * 设置剪裁框和图片居中
@@ -935,12 +976,14 @@
       this.cut_top = cut_top
       this._img_left = this._img_left - this.cut_left + cut_left
       this.cut_left = cut_left
+      this.$apply()
     }
     _setCutCenter() {
       let cut_top = (this.info.windowHeight - this.height) * 0.5
       let cut_left = (this.info.windowWidth - this.width) * 0.5
       this.cut_top = cut_top
       this.cut_left = cut_left
+      this.$apply()
     }
     /**
      * 设置剪裁框宽度-即将废弃
@@ -948,6 +991,7 @@
     setWidth(width) {
       this.width = width
       this._computeCutSize()
+      this.$apply()
     }
     /**
      * 设置剪裁框高度-即将废弃
@@ -955,12 +999,14 @@
     setHeight(height) {
       this.height = height
       this._computeCutSize()
+      this.$apply()
     }
     /**
      * 是否锁定旋转
      */
     setDisableRotate(value) {
       this.disable_rotate = value
+      this.$apply()
     }
     /**
      * 是否限制移动
@@ -968,6 +1014,7 @@
     setLimitMove(value) {
       this._cut_animation = true
       this.limit_move = !!value
+      this.$apply()
     }
     /**
      * 初始化图片，包括位置、大小、旋转角度
@@ -977,6 +1024,7 @@
       this.angle = 0
       this._img_top = wx.getSystemInfoSync().windowHeight / 2
       this._img_left = wx.getSystemInfoSync().windowWidth / 2
+      this.$apply()
     }
     /**
      * 加载（更换）图片
@@ -985,6 +1033,7 @@
       console.log('pushing img: ' + src)
       if (src) {
         this.imgSrc = src
+        this.$apply()
         // 发现是手动赋值直接返回，交给watch处理
         return
       }
@@ -993,9 +1042,11 @@
         src: this.imgSrc,
         success: (res) => {
           this.imageObject = res
+          this.$apply()
           // 图片非本地路径需要换成本地路径
           if (this.imgSrc.search(/tmp/) == -1) {
             this.imgSrc = res.path
+            this.$apply()
           }
           // 计算最后图片尺寸
           this._imgComputeSize()
@@ -1007,6 +1058,7 @@
         },
         fail: (err) => {
           this.imgSrc = ''
+          this.$apply()
           console.log(err)
         }
       })
@@ -1020,6 +1072,7 @@
       if (!scale) return
       this.scale = scale
       !this._canvas_overflow && this._draw()
+      this.$apply()
     }
     /**
      * 设置图片旋转角度
@@ -1030,13 +1083,16 @@
       this.angle = angle
       this._imgMarginDetectionScale()
       !this._canvas_overflow && this._draw()
+      this.$apply()
     }
     _initCanvas() {
       // 初始化canvas
-      if (!this.ctx) {
-        this.ctx = wx.createCanvasContext('image-cropper', this)
-      }
+      // if (!this.ctx) {
+      this.ctx = wx.createCanvasContext('image-cropper', this)
+      this.$apply()
+      // }
     }
+
     /**
      * 根据开发者设置的图片目标尺寸计算实际尺寸
      */
@@ -1045,10 +1101,12 @@
       if (this.INIT_IMGWIDTH && typeof this.INIT_IMGWIDTH === 'string' && this.INIT_IMGWIDTH.indexOf('%') != -1) {
         let width = this.INIT_IMGWIDTH.replace('%', '')
         this.INIT_IMGWIDTH = this.img_width = this.info.windowWidth / 100 * width
+        this.$apply()
       }
       if (this.INIT_IMGHEIGHT && typeof this.INIT_IMGHEIGHT === 'string' && this.INIT_IMGHEIGHT.indexOf('%') != -1) {
         let height = this.img_height.replace('%', '')
         this.INIT_IMGHEIGHT = this.img_height = this.info.windowHeight / 100 * height
+        this.$apply()
       }
     }
     /**
@@ -1059,17 +1117,21 @@
         // 检测上边距是否在范围内
           if (this.cut_top < 0) {
             this.cut_top = 0
+            this.$apply()
           }
           if (this.cut_top > this.info.windowHeight - this.height) {
             this.cut_top = this.info.windowHeight - this.height
+            this.$apply()
           }
         }, _cutDetectionPositionLeft = () => {
         // 检测左边距是否在范围内
           if (this.cut_left < 0) {
             this.cut_left = 0
+            this.$apply()
           }
           if (this.cut_left > this.info.windowWidth - this.width) {
             this.cut_left = this.info.windowWidth - this.width
+            this.$apply()
           }
         }
       // 裁剪框坐标处理（如果只写一个参数则另一个默认为0，都不写默认居中）
@@ -1081,9 +1143,11 @@
       } else if (this.cut_top != null && this.cut_left == null) {
         _cutDetectionPositionTop()
         this.cut_left = (this.info.windowWidth - this.width) / 2
+        this.$apply()
       } else if (this.cut_top == null && this.cut_left != null) {
         _cutDetectionPositionLeft()
         this.cut_top = (this.info.windowHeight - this.height) / 2
+        this.$apply()
       }
     }
     /**
@@ -1095,20 +1159,27 @@
         this._canvas_overflow = false
         this.canvas_top = -5000
         this.canvas_left = -5000
+        this.$apply()
       } else if (this.canvas_top != null && this.canvas_left != null) {
         if (this.canvas_top < -this.height || this.canvas_top > this.info.windowHeight) {
           this._canvas_overflow = true
+          this.$apply()
         } else {
           this._canvas_overflow = false
+          this.$apply()
         }
       } else if (this.canvas_top != null && this.canvas_left == null) {
         this.canvas_left = 0
+        this.$apply()
       } else if (this.canvas_top == null && this.canvas_left != null) {
         this.canvas_top = 0
+        this.$apply()
         if (this.canvas_left < -this.width || this.canvas_left > this.info.windowWidth) {
           this._canvas_overflow = true
+          this.$apply()
         } else {
           this._canvas_overflow = false
+          this.$apply()
         }
       }
     }
@@ -1133,6 +1204,7 @@
       this._img_left = left
       this._img_top = top
       this.scale = scale
+      this.$apply()
     }
     /**
      * 图片边缘检测-缩放
@@ -1178,18 +1250,23 @@
       }
       this.img_width = img_width
       this.img_height = img_height
+      this.$apply()
     }
     // 改变截取框大小
     _computeCutSize() {
       if (this.width > this.info.windowWidth) {
         this.width = his.info.windowWidth
+        this.$apply()
       } else if (this.width + this.cut_left > this.info.windowWidth) {
         this.cut_left = this.info.windowWidth - this.cut_left
+        this.$apply()
       }
       if (this.height > this.info.windowHeight) {
         this.height = this.info.windowHeight
+        this.$apply()
       } else if (this.height + this.cut_top > this.info.windowHeight) {
         this.cut_top = this.info.windowHeight - this.cut_top
+        this.$apply()
       }
       !this._canvas_overflow && this._draw()
     }
@@ -1205,6 +1282,7 @@
         return this.MOVE_THROTTLE_FLAG
       } else {
         this.MOVE_THROTTLE_FLAG = true
+        this.$apply()
       }
     }
 
@@ -1216,6 +1294,7 @@
         // 动画启动
         if (!this._cut_animation) {
           this._cut_animation = true
+          this.$apply()
         }
         this.setCutCenter()
         this.$apply()
@@ -1238,6 +1317,7 @@
       // 高亮背景
       if (!this._flag_bright) {
         this._flag_bright = true
+        this.$apply()
       }
     }
 }
