@@ -198,11 +198,14 @@
           self.list.forEach((item) => {
             return item.showanimation = false
           })
-          console.log(self.list)
+          let {score} = data
           self.other_user = data.user
-          self.remain_amount = data.score.remain_amount
-          self.score = data.score.remain_amount.split('.')[0]
           self.$apply()
+          setTimeout(() => {
+            self.remain_amount = score.remain_amount
+            self.score = score.remain_amount.split('.')[0]
+            self.$apply()
+          })
         },
         fail: ({code, data}) => {},
         complete: () => { this.loaded = false }

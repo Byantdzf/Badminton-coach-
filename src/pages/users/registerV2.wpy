@@ -144,12 +144,14 @@
 
     getPhoneNumber(e) { // 获取手机号
       let vm = this
+      let scene = wx.getStorageSync('scene') ? wx.getStorageSync('scene') : ''
       wx_login().then((code) => {
         if (e.detail.iv) {
           let data = {
             code: code,
             iv: e.detail.iv,
-            encryptedData: e.detail.encryptedData
+            encryptedData: e.detail.encryptedData,
+            scene: scene
           }
           vm.$showLoading('注册账号中...')
           vm.$post({url: service.infor, data}, {

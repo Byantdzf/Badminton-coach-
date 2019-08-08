@@ -172,7 +172,7 @@
                   that.updataMap()
                   wx.setStorageSync('userInfo', userInfo)
                 } else {
-                  wx.navigateTo({url: '/pages/users/register?from_openid=' + wx.getStorageSync('from_openid')})
+                  wx.navigateTo({url: '/pages/users/registerV2?from_openid=' + wx.getStorageSync('from_openid')})
                 }
               }
             })
@@ -396,10 +396,12 @@
           index = e.markerId
         for (let idx in that.markers) {
           if (index !== idx) {
-            that.markers[idx].height = that.markers[idx].width = 30
+            that.markers[idx].height = 30
+            that.markers[idx].width = 30
           }
         }
-        that.markers[index].height = that.markers[index].width = 48
+        that.markers[index].height = 48
+        that.markers[index].width = 48
         that.markerIndex = index
         that.friends = that.nearFriends[index]
         that.showfriend = true

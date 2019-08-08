@@ -121,10 +121,10 @@
       // },
       clickcut(e) {
         console.log(e) // 点击裁剪框阅览图片
-        wx.previewImage({
-          current: e.url, // 当前显示图片的http链接
-          urls: [e.url] // 需要预览的图片http链接列表
-        })
+        // wx.previewImage({
+        //   current: e.url, // 当前显示图片的http链接
+        //   urls: [e.url] // 需要预览的图片http链接列表
+        // })
       },
       saveCut(e) {
         console.log(e.url) // 点击上传图片

@@ -9,7 +9,7 @@
         <view class="weui-cell__ft weui-cell__ft_in-access"></view>
       </view>
       <view class='list_item_box'>
-        <view class='list_item' wx:for='{{love_languages}}' wx:key='this'  >
+        <view class='list_item' wx:for='{{love_languages}}' wx:key='{{index}}'  >
           <view class='list_item_name_box' @tap="showModalV({{item.title}}, {{item.content}})" style="background: white">
             <text class='list_item_name'>{{item.title}}</text>
             <view class="weui-cell__ft weui-cell__ft_in-access">{{item.num}}</view>

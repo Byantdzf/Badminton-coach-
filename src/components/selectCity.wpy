@@ -13,9 +13,9 @@
   export default class selectCity extends wepy.component {
     mixins = [base, http]
     data = {
-      region: ['广东省', '深圳市'],
+      region: [],
       objectArray: [[], [], []],
-      multiIndex: [0, 0, 0],
+      multiIndex: [0, 18, 2],
       provinces: [],
       nationId: 0,
       provinceId: 0,
@@ -26,6 +26,10 @@
         type: Number,
         default: 0,
         twoWay: true
+      },
+      AddressValue: {
+        type: Array,
+        default: []
       }
     }
 
@@ -43,7 +47,7 @@
           for (let item of this.provinces[this.provinceId].son) {
             this.objectArray[1].push(item.name)
           }
-          for (let item of this.provinces[this.cityId].son[0].son) {
+          for (let item of this.provinces[this.cityId].son[18].son) {
             this.objectArray[2].push(item.name)
           }
           this.$apply()
@@ -64,6 +68,7 @@
       MultiPickerChange(e) { // 地址确定
         console.log(this.itemIndex)
         this.multiIndex = e.detail.value
+        console.log(this.multiIndex)
         this.region[0] = this.provinces[this.multiIndex[0]].name
         this.region[1] = this.provinces[this.multiIndex[0]].son[this.multiIndex[1]].name
         this.region[2] = this.provinces[this.multiIndex[0]].son[this.multiIndex[1]].son[this.multiIndex[2]].name

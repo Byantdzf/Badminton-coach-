@@ -34,22 +34,23 @@
         </view>
       </view>
     </block>
-    <view class="_bc-wx" @tap="gotoApp({{detail.detail_path}})" wx:if="{{detail.detail_path}}">
-      <view class="_wx-title font_28" style="border: none;">
-        活动详情
-        <image src="http://images.ufutx.com/201812/17/38f1fee1f088f1c9c047d654c157b0dc.png"  mode="aspectFit" class="flo_r"></image>
-      </view>
-    </view>
+    <!--<view class="_bc-wx" @tap="gotoApp({{detail.detail_path}})" wx:if="{{detail.detail_path}}">-->
+      <!--<view class="_wx-title font_28 color-theme" style="border: none;">-->
+        <!--活动详情-->
+        <!--<image src="http://images.ufutx.com/201812/17/38f1fee1f088f1c9c047d654c157b0dc.png"  mode="aspectFit" class="flo_r"></image>-->
+      <!--</view>-->
+    <!--</view>-->
+    <view class="_wx-info font_28 bold color-666" style="padding-bottom: 0;margin-bottom: -12rpx;">活动详情</view>
     <view class="_bc-wx _wx-info text-wrapper font_28" wx:if="{{detail.detail}}">{{detail.detail}}</view>
     <view class=" _wx-more text-center">
       <block wx:for="{{detail.detail_pic}}" wx:key="index" wx:if="{{detail.detail_pic.length>0}}">
         <image src="{{item}}" mode="widthFix" style="width: 100%;" @tap="previewImages({{item}},{{detail.detail_pic}})"></image>
       </block>
       <block wx:if="{{detail.detail_path}}" >
-        <view class="text-center orange font_28"  @tap="gotoApp({{detail.detail_path}})">查看更多</view>
-        <view class="text-center">
-          <image src="http://images.ufutx.com/201812/17/33b972b2370a52d38f1a7a6ccb780ac8.png"  mode="aspectFit"></image>
-        </view>
+        <view class="text-center orange font_28"  @tap="gotoApp({{detail.detail_path}})">更多详情...</view>
+        <!--<view class="text-center">-->
+          <!--<image src="http://images.ufutx.com/201812/17/33b972b2370a52d38f1a7a6ccb780ac8.png"  mode="aspectFit"></image>-->
+        <!--</view>-->
       </block>
     </view>
     <view style="height: 120rpx;"></view>

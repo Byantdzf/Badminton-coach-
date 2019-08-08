@@ -148,7 +148,7 @@
                     if (data.is_register == 1) {
                       wx.switchTab({url: '/pages/tabBar/home/index'})
                     } else {
-                      wx.redirectTo({url: '/pages/users/register'})
+                      wx.redirectTo({url: '/pages/users/registerV2'})
                     }
                   } else if (res.cancel) {
                     console.log('用户点击取消')
@@ -167,7 +167,7 @@
                   }, 1000)
                 } else {
                   setTimeout(() => {
-                    wx.redirectTo({url: '/pages/users/register'})
+                    wx.redirectTo({url: '/pages/users/registerV2'})
                   }, 1000)
                 }
               } else {

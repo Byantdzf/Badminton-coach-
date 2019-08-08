@@ -368,8 +368,14 @@
           }
           console.log(self.list[0])
           let test = [{title: '该会员还没有测试哦！', id: '0', value: ''}]
-          self.list[0].item = data.love_languages.length ? data.love_languages : test
-          self.list[1].item = data.love_characters.length ? data.love_characters : test
+          self.list[0].item = test
+          self.list[1].item = test
+          if (data.love_languages && data.love_languages.length > 0) {
+            self.list[0].item = data.love_languages
+          }
+          if (data.love_characters && data.love_characters.length > 0) {
+            self.list[1].item = data.love_characters
+          }
           if (data.profile_courtship) {
             self.profile_courtship = data.profile_courtship
             self.profile_courtship.industry = data.industry

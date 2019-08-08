@@ -391,7 +391,8 @@
             wx.setStorageSync('myLong', res.longitude)
             wx.setStorageSync('myLat', res.latitude)
             setTimeout(() => {
-              return that.upDate()
+              that.upDate()
+              return
             }, 500)
           }
           wx.setStorageSync('myLong', res.longitude)

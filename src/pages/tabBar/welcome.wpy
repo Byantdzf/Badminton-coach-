@@ -1,6 +1,7 @@
 <template>
   <view class="box {{hide?'hide':''}}">
-    <image src="{{startImage}}" mode="aspectFill" style="width: 100vw;height: 100vh"></image>
+    <image src="https://images.ufutx.com/201908/06/28c03d3961c2e936cc6234f52d82e965.jpeg" mode="aspectFill" class="image"></image>
+    <image src="https://images.ufutx.com/201908/06/519fa044ccc321dc18a710a3f254dc74.jpeg" mode="aspectFill" class="image-btn"></image>
     <view @tap="goto('/pages/users/registerV2')" class="next" wx:if="{{hideBtn}}"></view>
     <view class="wrapper" @tap="jump">
       <view class="font_24 flo_l text-center time">{{time}}s</view>
@@ -67,7 +68,7 @@
       let myDate = new Date()
       console.log(myDate.getDate())
       console.log(myDate.getSeconds())
-      this.startImage = 'https://images.ufutx.com/201906/26/f62f016efecd7e165182f885e85a30f1.jpeg'
+      this.startImage = 'https://images.ufutx.com/201908/06/28c03d3961c2e936cc6234f52d82e965.jpeg'
       this.$apply()
     }
 
@@ -173,10 +174,19 @@
         }
       }
 
-      image {
+      .image {
+        width: 100vw;
+        height: 88vh;
         position: absolute;
         left: 0;
         top: 0;
+      }
+      .image-btn {
+        width: 100vw;
+        height: 12vh;
+        position: absolute;
+        left: 0;
+        bottom: 0;
       }
 
       .next {

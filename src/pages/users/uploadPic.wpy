@@ -51,7 +51,7 @@
 
     onShow() {
       this.initPageData()
-      this.$parent.ge000tTracker(this.$root.$name, '上传生活照')
+      this.$parent.getTracker(this.$root.$name, '上传生活照')
     }
 // 初始化页面数据
     initPageData() {

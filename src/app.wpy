@@ -203,7 +203,7 @@
     }
 
     onLaunch(options) {
-      if (options.referrerInfo.appId) {
+      if (options.referrerInfo && options.referrerInfo.appId) {
         wx.setStorageSync('from_platform', options.referrerInfo.appId)
       }
       let vm = this
@@ -216,6 +216,11 @@
     }
 
     onShow(options) {
+      console.log(options)
+      if (options.scene && arguments.length !== 0) {
+        wx.setStorageSync('scene', options.scene)
+      }
+      console.log(options.scene)
       this.startWebSocket()
       UpdateManager
       if (options.scene == 1037 && arguments.length !== 0) {

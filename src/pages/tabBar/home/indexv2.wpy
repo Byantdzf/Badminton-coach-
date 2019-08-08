@@ -1,7 +1,7 @@
 <template>
   <view class="box {{hide?'hide':''}}">
     <image src="{{startImage}}" mode="aspectFill" style="width: 100vw;height: 100vh"></image>
-    <view @tap="goto('/pages/users/register')" class="next" wx:if="{{hideBtn}}"></view>
+    <view @tap="goto('/pages/users/registerV2')" class="next" wx:if="{{hideBtn}}"></view>
     <view class="wrapper">
       <view class="font_24 flo_l text-center time">{{time}}s</view>
       <view class="font_24 flo_l">跳过</view>
@@ -63,7 +63,7 @@
                 }, 800)
               } else {
                 that.hideBtn = true
-                that.$goto('/pages/users/register')
+                that.$goto('/pages/users/registerV2')
                 that.$apply()
               }
             }

@@ -18,12 +18,12 @@
               </picker>
             </block>
             <block wx:if="{{item.mode === 'selectCity'}}">
-              <selectCity class="flo_r">
+              <selectCity class="flo_r" AddressValue="['中国', '广东省', '深圳市']">
                 <text class="picker" slot="Input">{{item.value.length> 0 ? item.value[1]+'/'+item.value[2] : '请选择'}}</text>
               </selectCity>
             </block>
             <block wx:if="{{item.mode === 'date'}}">
-              <picker mode="{{item.mode}}"  value="{{item.pickerIndex}}"  @change="pickerChange({{index}})">
+              <picker mode="{{item.mode}}"  value="{{item.value}}"  @change="pickerChange({{index}})">
                 <view class="picker">{{item.value===''?'请选择':item.value}}</view>
               </picker>
             </block>
@@ -84,7 +84,7 @@
         {
           title: '出生日期',
           name: 'birthday',
-          value: '',
+          value: '1990-01-01',
           mode: 'date',
           type: 'picker',
           pickerList: [],
@@ -93,7 +93,7 @@
         {
           title: '所在地',
           name: 'region',
-          value: [],
+          value: ['中国', '广东省', '深圳市'],
           type: 'picker',
           mode: 'selectCity',
           pickerList: [],
@@ -167,6 +167,7 @@
 
     next() { // 下一步
       let vm = this
+      let scene = wx.getStorageSync('scene') ? wx.getStorageSync('scene') : ''
       wx_login().then((code) => {
         let data = {
           code: code,
@@ -177,7 +178,8 @@
           province: vm.information[3].value[1] ? vm.information[3].value[1] : '',
           city: vm.information[3].value[2] ? vm.information[3].value[2] : '',
           belief: vm.information[4].value,
-          mobile: vm.mobile
+          mobile: vm.mobile,
+          scene: scene
         }
         console.log(data)
         if (!vm.$judgeParams(data)) {
