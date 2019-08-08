@@ -2,7 +2,7 @@
 /* ========================================================
                         小程序配置文件
 ======================================================== */
-// 域名\
+// 域名
 var host = 'https://love.ufutx.com/api',
 // var host = 'http://love.hankin.ufutx.cn/api',
     book = 'https://christ.data.ufutx.com/api',
