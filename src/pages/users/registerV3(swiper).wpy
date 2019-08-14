@@ -1,74 +1,55 @@
 <template>
   <view class="main-register" >
-    <view class="main-bc text-center">
+    <view class="main-swiper">
+      <swiper indicator-dots="{{indicatorDots}}"
+              autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" current="{{swiperIndex}}" circular @change="getCurrent">
+        <block wx:for="{{imgUrls}}" wx:key="index">
+          <swiper-item>
+            <image src="{{item}}" class="slide-image" mode="aspectFill"/>
+          </swiper-item>
+        </block>
+      </swiper>
+      <view class="main-dost-box">
+        <view class="main-dost inline-block {{swiperIndex == index?'main-dost-active':''}}" wx:for="{{imgUrls}}" wx:key="index"></view>
+      </view>
+    </view>
+    <view class="ff main-box">
       <block wx:if="{{marriage}}">
-        <image mode="aspectFill" src="{{from_avatar}}" class="photo"></image>
-        <view class="main-referrer">
-          <view class="font_28 colorb0"><span class="color-666">{{marriage}}</span>邀请你加入<span class="color-theme">福恋</span></view>
-          <view class="color-666 font_28"><span class="color-theme">福恋·</span>用科技让交友变简单</view>
+        <view class="reset-cell-block">
+          <view class="text-center image flo_l">
+            <image mode="aspectFill" src="{{from_avatar}}"  mode="aspectFill"></image>
+          </view>
+          <view class="font_28 referrer-name color-666 flo_l">
+            <view>{{marriage}}</view>
+            <view>邀请你加入福恋平台</view>
+          </view>
         </view>
       </block>
       <block wx:else>
-        <image mode="aspectFill" src="http://images.ufutx.com/201903/05/cbc22feb2fcbd4b43173f763c6a46107.png" class="photo"></image>
-        <view class="main-referrer">
-          <view class="font_28 colorb0"><span class="color-666">福恋</span>邀请你加入<span class="color-theme">福恋</span></view>
-          <view class="color-666 font_28"><span class="color-theme">福恋·</span>用科技让交友变简单</view>
+        <view class="reset-cell-block">
+          <view class="text-center image flo_l">
+            <image mode="aspectFill" src="http://images.ufutx.com/201903/05/cbc22feb2fcbd4b43173f763c6a46107.png"></image>
+          </view>
+          <view class="font_28 referrer-name color-666">
+            <view>福恋</view>
+            <view>邀请你加入福恋平台</view>
+          </view>
         </view>
       </block>
-      <view class="main-selectBox text-center ">
-        <view class="inline-block item-selectBox {{item.active == 'true'?'active':''}}" wx:for="{{list}}" wx:key="index" @tap="selectFn({{index}})">
-          <view class="font_28 title {{item.active == 'true'?'active':''}}">{{item.title}}</view>
-          <view class="font_22">{{item.sub_title}}</view>
-          <image mode="aspectFill" src="{{item.iconA}}" class="icon" wx:if="{{item.active == 'true'}}"></image>
-          <image mode="aspectFill" src="{{item.icon}}" class="icon" wx:else></image>
-        </view>
-      </view>
-      <view class="main-btn text-center">
+      <view class="main-btn">
         <form bindsubmit="formSubmit" report-submit>
-          <button class="btn text-center font_30 btn-box white" formType="submit" open-type="getUserInfo"
-                  @getuserinfo="getuserinfo">绑定微信手机号继续
+          <button class="btn text-center font_28 singleBtn flo_l white" formType="submit" open-type="getUserInfo"
+                  @getuserinfo="getuserinfo('single')">我是单身
           </button>
         </form>
-        <view class="main-issue font_26 color-theme" @tap="showIssue">为什么要绑定微信手机号?</view>
+        <form bindsubmit="formSubmit" report-submit>
+          <button formType="submit" class="btn text-center font_28 marriageBtn flo_r ff" open-type="getUserInfo"
+                  @getuserinfo="getuserinfo('marriage')">
+            我是已婚
+          </button>
+        </form>
       </view>
     </view>
-    <!--<view class="ff main-box">-->
-      <!--<block wx:if="{{marriage}}">-->
-        <!--<view class="reset-cell-block">-->
-          <!--<view class="text-center image flo_l">-->
-            <!--<image mode="aspectFill" src="{{from_avatar}}"  mode="aspectFill"></image>-->
-          <!--</view>-->
-          <!--<view class="font_28 referrer-name color-666 flo_l">-->
-            <!--<view>{{marriage}}</view>-->
-            <!--<view>邀请你加入福恋平台</view>-->
-          <!--</view>-->
-        <!--</view>-->
-      <!--</block>-->
-      <!--<block wx:else>-->
-        <!--<view class="reset-cell-block">-->
-          <!--<view class="text-center image flo_l">-->
-            <!--<image mode="aspectFill" src="http://images.ufutx.com/201903/05/cbc22feb2fcbd4b43173f763c6a46107.png"></image>-->
-          <!--</view>-->
-          <!--<view class="font_28 referrer-name color-666">-->
-            <!--<view>福恋</view>-->
-            <!--<view>邀请你加入福恋平台</view>-->
-          <!--</view>-->
-        <!--</view>-->
-      <!--</block>-->
-      <!--<view class="main-btn">-->
-        <!--<form bindsubmit="formSubmit" report-submit>-->
-          <!--<button class="btn text-center font_28 singleBtn flo_l white" formType="submit" open-type="getUserInfo"-->
-                  <!--@getuserinfo="getuserinfo('single')">我是单身-->
-          <!--</button>-->
-        <!--</form>-->
-        <!--<form bindsubmit="formSubmit" report-submit>-->
-          <!--<button formType="submit" class="btn text-center font_28 marriageBtn flo_r ff" open-type="getUserInfo"-->
-                  <!--@getuserinfo="getuserinfo('marriage')">-->
-            <!--我是已婚-->
-          <!--</button>-->
-        <!--</form>-->
-      <!--</view>-->
-    <!--</view>-->
   </view>
 </template>
 
@@ -83,7 +64,7 @@
   export default class Register extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
-      navigationBarTitleText: '注册',
+      navigationBarTitleText: '福恋',
       enablePullDownRefresh: false
     }
     data = {
@@ -92,24 +73,6 @@
         'https://images.ufutx.com/201906/26/17e780e95023955898f98858ddf1e4e3.png',
         'http://images.ufutx.com/201906/26/698594755148ac5a377a3ab59eda8048.png',
         'https://images.ufutx.com/201906/26/3df548f299dda9f390b8f2eeb57ba684.png'
-      ],
-      list: [
-        {
-          title: '我是单身',
-          sub_title: '想找个合适的对象',
-          icon: 'https://images.ufutx.com/201908/13/657e1bd4e7c1ecc4dd2cc7f5d9bd74aa.png',
-          iconA: 'https://images.ufutx.com/201908/13/3301a473d882739a00475e70c67b2c0f.png',
-          active: 'true',
-          type: 'single'
-        },
-        {
-          title: '我是介绍人',
-          sub_title: '为身边单身牵线',
-          icon: 'https://images.ufutx.com/201908/13/657e1bd4e7c1ecc4dd2cc7f5d9bd74aa.png',
-          iconA: 'https://images.ufutx.com/201908/13/3301a473d882739a00475e70c67b2c0f.png',
-          active: 'false',
-          type: 'marriage'
-        }
       ],
       indicatorDots: false,
       autoplay: false,
@@ -142,7 +105,7 @@
     }
 
     onShow() {
-      this.initPageData()
+      // this.initPageData()
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
 
@@ -228,18 +191,16 @@
                   icon: 'success',
                   duration: 1200,
                   success: (res) => {
-                    setTimeout(() => {
-                      let userInfo = {
-                        nickName: data.nickname,
-                        avatarUrl: data.avatar2 ? data.avatar2 : data.avatar
-                      }
-                      wx.setStorageSync('type', data.type)
-                      wx.setStorageSync('userInfo', userInfo)
-                      that.$redirectTo('/pages/users/userInfo')
-                    }, 200)
+                    let userInfo = {
+                      nickName: data.nickname,
+                      avatarUrl: data.avatar2 ? data.avatar2 : data.avatar
+                    }
+                    wx.setStorageSync('type', data.type)
+                    wx.setStorageSync('userInfo', userInfo)
+                    that.$redirectTo('/pages/users/userInfo')
                   }
                 })
-              }, 500)
+              }, 1000)
             },
             fail: ({code, data}) => {
             },
@@ -253,39 +214,12 @@
         }
       })
     }
-
     methods = {
-      showIssue() {
-        this.$alert('绑定微信手机号，是微信提供的快捷功能，方便用户下次使用福恋小程序时，免登录且识别你，即安全又便捷。')
-      },
-      save() {
-        let type = ''
-        for (let item of this.list) {
-          if (item.active == 'true'){
-            type = item.type
-          }
-        }
-        console.log(type)
-      },
-      selectFn(index) { // 选择
-        for (let item of this.list) {
-          item.active = 'false'
-        }
-        this.list[index].active = 'true'
-        this.$apply()
-        console.log(this.list)
-      },
       getCurrent(e) { // 获取轮播下标
         this.swiperIndex = e.detail.current
         this.$apply()
       },
-      getuserinfo(e) {
-        let type = ''
-        for (let item of this.list) {
-          if (item.active == 'true') {
-            type = item.type
-          }
-        }
+      getuserinfo(type, e) {
         if (e.detail.userInfo) {
           this.encryptedData = e.detail.encryptedData
           this.iv = e.detail.iv
@@ -338,62 +272,31 @@
 <style lang="less">
   @import "../../styles/custom/fn.less";
   .main-register {
-    .main-bc{
+    .main-swiper{
       width: 100%;
-      height: 100vh;
+      height: 78vh;
       background: white;
-      background-image: url("https://images.ufutx.com/201908/13/18ade0603c2111a5e628a9a31cf22c8d.png");
-      background-repeat: no-repeat;
-      background-size: contain;
-      padding-top: 28vw;
-      .photo{
-        width: 168rpx;
-        height: 168rpx;
-        border-radius: 50%;
-        border: 6rpx solid #fff;
-      }
-      .main-referrer{
-        letter-spacing: 4rpx;
-      }
-      .main-selectBox{
-        margin-top: 80rpx;
-        .item-selectBox{
-          &:nth-child(1){
-            margin-right: 100rpx;
-          }
-          width: 210rpx;
-          height: 210rpx;
-          border-radius: 50%;
-          border: 1rpx solid #b0b0b0;
-          color: #b0b0b0;
-          .title{
-            margin-top: 6vw;
-            letter-spacing: 4rpx;
-            color: #666666;
-          }
-          .icon{
-            width: 48rpx;
-            height: 48rpx;
-            margin-top: 12rpx;
-          }
+      position: relative;
+      .main-dost-box{
+        position: absolute;
+        left: 40%;
+        bottom: 22rpx;
+        .main-dost{
+          width: 30rpx;
+          height: 4rpx;
+          background: @gray;
+          margin-right: 6rpx;
+        }
+        .main-dost-active{
+          background: @theme;
         }
       }
-    }
-    .active{
-      color: #D92553 !important;
-      border-color: #D92553 !important;
-    }
-    .main-btn{
-      margin-top: 140rpx;
-      .btn-box{
-        width: 400rpx;
-        background: #D92553;
-        border-radius: 6rpx;
-        padding: 10rpx;
-        margin: 12rpx auto;
+      swiper{
+        height: 78vh;
       }
-      .main-issue{
-        text-decoration: underline;
+      .slide-image{
+        width: 100%;
+        height: 78vh;
       }
     }
     .main-box{
