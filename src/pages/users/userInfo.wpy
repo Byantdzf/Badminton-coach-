@@ -4,7 +4,7 @@
   <view class="main-container">
     <view class="main-box">
       <view class="main-selectBox text-center " wx:if="{{infoIndex == 1}}">
-        <view class="inline-block item-selectBox {{item.active == 'true'?'active':''}}" wx:for="{{list}}" wx:key="index" @tap="selectFn({{index}})">
+        <view class="inline-block item-selectBox {{item.active == 'true'?'active':''}} {{index == 0?'marginR':''}}" wx:for="{{list}}" wx:key="index" @tap="selectFn({{index}},'list','sex')">
           <view class="dost"></view>
           <image mode="aspectFill" src="{{item.sexIconA}}" class="icon" wx:if="{{item.active == 'true'}}"></image>
           <image mode="aspectFill" src="{{item.sexIcon}}" class="icon" wx:else></image>
@@ -15,15 +15,76 @@
       </view>
       <view class="main-selectBox text-center " wx:if="{{infoIndex == 2}}">
         <view class="color-666 font_28">你住在哪里？</view>
-        <view class="color-666 font_28 main-input">
-          <input type="text" value="深圳"/>
+        <view class="color-666 font_28 main-input"  @tap="addressFn('address')">
+          <selectCity  AddressValue="['中国', '广东省', '深圳市']">
+            <text class="Input" slot="Input">{{addressType != '' ? address.province+' - '+ address.city: '深圳'}}</text>
+          </selectCity>
         </view>
         <view class="font_22 main-issue color-theme">使用GPS定位获取</view>
+      </view>
+      <view class="main-selectBox text-center " wx:if="{{infoIndex == 3}}" style="margin-top: 30rpx;">
+        <view class="color-666 font_28" style="margin: 22rpx;">我的单身状态</view>
+        <view class="inline-block item-selectBox {{item.active == 'true'?'active':''}}" style="{{(index === 0||index === 1)?'margin-right: 20rpx;':''}}"
+              wx:for="{{stateList}}" wx:key="index" @tap="selectFn({{index}},'stateList','state')">
+          <view class="dost"></view>
+          <view class="font_28 title {{item.active == 'true'?'active':''}}" style="margin-top: 52rpx;">{{item.title}}</view>
+          <image mode="aspectFill" src="{{item.iconA}}" class="icon" wx:if="{{item.active == 'true'}}"></image>
+          <image mode="aspectFill" src="{{item.icon}}" class="icon" wx:else></image>
+        </view>
+      </view>
+      <view class="main-selectBox text-center " wx:if="{{infoIndex == 4}}">
+        <view class="color-666 font_28">我在哪个城市长大的？</view>
+        <view class="color-666 font_28 main-input" @tap="addressFn('resident')">
+          <selectCity  AddressValue="['中国', '广东省', '深圳市']">
+            <text class="Input" slot="Input">{{addressType != '' ? resident.province+' - '+ resident.city: '深圳'}}</text>
+          </selectCity>
+        </view>
+        <view class="font_22 main-issue color-theme">使用GPS定位获取</view>
+      </view>
+      <view class="main-selectBox text-center " wx:if="{{infoIndex == 5}}" style="margin-top: 30rpx;">
+        <view class="color-666 font_28" style="margin: 22rpx;">我的信仰是什么？</view>
+        <view class="inline-block item-selectBox beliefStyle {{item.active == 'true'?'active':''}}" wx:for="{{beliefList}}" wx:key="index" @tap="selectFn({{index}},'beliefList','belief')">
+          <view class="dost"></view>
+          <view class="font_28 title {{item.active == 'true'?'active':''}}" style="margin-top: 52rpx;">{{item.title}}</view>
+          <image mode="aspectFill" src="{{item.iconA}}" class="icon" wx:if="{{item.active == 'true'}}"></image>
+          <image mode="aspectFill" src="{{item.icon}}" class="icon" wx:else></image>
+        </view>
+      </view>
+      <view class="main-selectBox text-center " wx:if="{{infoIndex == 6}}">
+        <view class="color-666 font_28">你期待另一半的年龄区间是多大？</view>
+        <view class="color-666 font_28 main-input">
+          <image mode="aspectFit" src="https://images.ufutx.com/201908/15/e1cc6dae37377654a3fe93e163f3b1d9.png" class="down_icon flo_l" ></image>
+          <view class="flo_r" style="width: 90%">
+            <picker mode="selector" range="{{AgeList}}"  value="{{minIndex}}"  @change="ageFn('minAge')" class="inline-block">
+              <span style="margin: 0 42rpx;">{{minAge}}</span>
+            </picker>
+            <span style="margin: 0 22rpx" class="inline-block">到</span>
+            <picker mode="selector" range="{{AgeList}}"  value="{{maxIndex}}"  @change="ageFn('maxAge')" class="inline-block">
+              <span style="margin: 0 42rpx;">{{maxAge}}</span>
+            </picker>
+          </view>
+          <view class="clearfloat"></view>
+        </view>
+      </view>
+      <view class="main-selectBox text-center " wx:if="{{infoIndex == 7}}">
+        <view class="color-666 font_28">我的生日是什么时候？</view>
+        <view class="color-666 font_28 main-input">
+          <image mode="aspectFit" src="https://images.ufutx.com/201908/15/e1cc6dae37377654a3fe93e163f3b1d9.png" class="down_icon flo_l" ></image>
+          <picker mode="date"  value="{{birthday}}"  @change="pickerChangeDate">
+            <view class="flo_r" style="width: 90%">
+              <span style="margin: 0 12rpx;">{{birthday[0]}}      年</span>
+              <span style="margin: 0 12rpx">{{birthday[1]}}     月</span>
+              <span style="margin: 0 12rpx;">{{birthday[2]}}      日</span>
+            </view>
+          </picker>
+          <view class="clearfloat"></view>
+        </view>
       </view>
       <view class="main-btn text-center">
         <block wx:if="{{infoIndex > 1}}">
           <view class="item-last inline-block text-center white flo_l" @tap="lastFn" >上一步</view>
-          <view class="item-next inline-block text-center white flo_r" @tap="nextFn">下一步</view>
+          <view class="item-next inline-block text-center white flo_r" wx:if="{{infoIndex == 7}}" @tap="saveFn">完成</view>
+          <view class="item-next inline-block text-center white flo_r" wx:else @tap="nextFn">下一步</view>
         </block>
         <block wx:else>
           <view class="item-next inline-block text-center white " @tap="nextFn">下一步</view>
@@ -91,9 +152,16 @@
       avatar: 'http://images.ufutx.com/201902/25/542cc218e40cbc8a8e3a9ce23d7f4789.gif',  // 头像
       mobile: '',
       infoIndex: 1,
+      addressType: '',
+      AgeList: [],
+      minAge: 22,
+      maxAge: 60,
+      minIndex: 3,
+      maxIndex: 41,
       list: [
         {
           title: '我是男生',
+          value: 1,
           icon: 'https://images.ufutx.com/201908/13/657e1bd4e7c1ecc4dd2cc7f5d9bd74aa.png',
           iconA: 'https://images.ufutx.com/201908/13/3301a473d882739a00475e70c67b2c0f.png',
           sexIcon: 'https://images.ufutx.com/201908/14/feecc342cd75b595cf0db6bd7d47ed4a.png',
@@ -103,6 +171,7 @@
         },
         {
           title: '我是女生',
+          value: 2,
           icon: 'https://images.ufutx.com/201908/13/657e1bd4e7c1ecc4dd2cc7f5d9bd74aa.png',
           iconA: 'https://images.ufutx.com/201908/13/3301a473d882739a00475e70c67b2c0f.png',
           sexIcon: 'https://images.ufutx.com/201908/14/a8a24d0d00a993dd6d5676ecb3486d2a.png',
@@ -111,69 +180,99 @@
           type: 'marriage'
         }
       ],
-      information: [ // 存储信息
+      stateList: [
         {
-          title: '真实姓名',
-          name: 'name',
-          value: '',
-          type: 'input',
-          pickerIndex: 0
+          title: '从未结婚',
+          value: '从未结婚',
+          icon: 'https://images.ufutx.com/201908/13/657e1bd4e7c1ecc4dd2cc7f5d9bd74aa.png',
+          iconA: 'https://images.ufutx.com/201908/13/3301a473d882739a00475e70c67b2c0f.png',
+          active: 'true'
         },
         {
-          title: '性别',
-          name: 'sex',
-          value: '1',
-          type: 'picker',
-          mode: 'selector',
-          pickerList: ['男', '女'],
-          pickerIndex: 0
+          title: '离异',
+          value: '离异',
+          icon: 'https://images.ufutx.com/201908/13/657e1bd4e7c1ecc4dd2cc7f5d9bd74aa.png',
+          iconA: 'https://images.ufutx.com/201908/13/3301a473d882739a00475e70c67b2c0f.png',
+          active: 'false'
         },
         {
-          title: '出生日期',
-          name: 'birthday',
-          value: '1990-01-01',
-          mode: 'date',
-          type: 'picker',
-          pickerList: [],
-          pickerIndex: 0
-        },
-        {
-          title: '所在地',
-          name: 'region',
-          value: ['中国', '广东省', '深圳市'],
-          type: 'picker',
-          mode: 'selectCity',
-          pickerList: [],
-          pickerIndex: 0
-        },
-        {
-          title: '宗教信仰',
-          name: 'belief',
-          value: '其他',
-          mode: 'selector',
-          type: 'picker',
-          pickerList: ['基督教', '佛教', '伊斯兰教', '其他'],
-          pickerIndex: 3
+          title: '丧偶',
+          value: '丧偶',
+          icon: 'https://images.ufutx.com/201908/13/657e1bd4e7c1ecc4dd2cc7f5d9bd74aa.png',
+          iconA: 'https://images.ufutx.com/201908/13/3301a473d882739a00475e70c67b2c0f.png',
+          active: 'false'
         }
-      ]
+      ],
+      beliefList: [
+        {
+          title: '基督教',
+          value: '基督教',
+          icon: 'https://images.ufutx.com/201908/13/657e1bd4e7c1ecc4dd2cc7f5d9bd74aa.png',
+          iconA: 'https://images.ufutx.com/201908/13/3301a473d882739a00475e70c67b2c0f.png',
+          active: 'true'
+        },
+        {
+          title: '伊斯兰教',
+          value: '伊斯兰教',
+          icon: 'https://images.ufutx.com/201908/13/657e1bd4e7c1ecc4dd2cc7f5d9bd74aa.png',
+          iconA: 'https://images.ufutx.com/201908/13/3301a473d882739a00475e70c67b2c0f.png',
+          active: 'false'
+        },
+        {
+          title: '佛教',
+          value: '佛教',
+          icon: 'https://images.ufutx.com/201908/13/657e1bd4e7c1ecc4dd2cc7f5d9bd74aa.png',
+          iconA: 'https://images.ufutx.com/201908/13/3301a473d882739a00475e70c67b2c0f.png',
+          active: 'false'
+        },
+        {
+          title: '其他',
+          value: '其他',
+          icon: 'https://images.ufutx.com/201908/13/657e1bd4e7c1ecc4dd2cc7f5d9bd74aa.png',
+          iconA: 'https://images.ufutx.com/201908/13/3301a473d882739a00475e70c67b2c0f.png',
+          active: 'false'
+        }
+      ],
+      address: { // 居住地
+        country: '中国', province: '广东省', city: '深圳市'
+      },
+      resident: { // 成长地
+        country: '中国', province: '广东省', city: '深圳市'
+      },
+      birthday: [1990, 1, 1], // 生日
+      belief: '', // 信仰
+      information: { // 存储信息
+        sex: '1',
+        state: '从未结婚',
+        country: '',
+        province: '',
+        city: '',
+        resident_province: '',
+        resident_city: '',
+        belief: '基督教',
+        min_age: '',
+        max_age: '',
+        birthday: ''
+      }
     }
 
     onLoad(e) {
-      // this.getuser()
-      if (e && e.image) {
-        this.avatar = e.image
-        this.$apply()
-        console.log(this.avatar, 'this.avatar')
+      let age = [...Array(100).keys()]
+      for (let item of age) {
+        if (18 < item && item < 70) {
+          this.AgeList.push(item)
+        }
       }
-      let {nickName, avatarUrl, gender} = wx.getStorageSync('userInfo')
-      this.avatar = avatarUrl
-      this.information[0].value = nickName
-      if (gender) {
-        this.information[1].value = gender
-        this.information[1].pickerIndex = gender == 1 ? '0' : '1'
-        this.$apply()
-      }
-      this.$apply()
+      console.log(this.AgeList)
+      // let {nickName, avatarUrl, gender} = wx.getStorageSync('userInfo')
+      // this.avatar = avatarUrl
+      // // this.information[0].value = nickName
+      // if (gender) {
+      //   this.information[1].value = gender
+      //   this.information[1].pickerIndex = gender == 1 ? '0' : '1'
+      //   this.$apply()
+      // }
+      // this.$apply()
     }
     onShow() {
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
@@ -240,25 +339,90 @@
       })
     }
     methods = {
+      ageFn(key, e) {
+        this[key] = this.AgeList[e.detail.value]
+        this.$apply()
+        console.log(this[key])
+        console.log(e.detail.value)
+      },
+      addressFn(value) {
+        this.addressType = value
+        this.$apply()
+        console.log(this.addressType )
+      },
       lastFn() {
         this.infoIndex --
         this.$apply()
       },
       nextFn() {
-        if (this.infoIndex == 2) {
-          this.$gotoTab('/pages/tabBar/home')
-          return
-        }
         this.infoIndex++
         this.$apply()
+        console.log(this.information)
       },
-      selectFn(index) { // 选择
-        for (let item of this.list) {
+      saveFn() {
+        let vm = this
+        // if (this.infoIndex == 7) {
+        //   this.$gotoTab('/pages/tabBar/home')
+        //   return
+        // }
+        vm.information.country = vm.address.country
+        vm.information.province = vm.address.province
+        vm.information.city = vm.address.city
+        vm.information.resident_province = vm.resident.province
+        vm.information.resident_city = vm.resident.city
+        vm.information.birthday = vm.birthday.join("-")
+        vm.information.min_age = vm.minAge
+        vm.information.max_age = vm.maxAge
+        console.log(vm.information)
+        let data = vm.information
+        // vm.$post({url: `${service.host}/user`, data}, {
+        //   success: ({code, data}) => {
+        //     if (data.token) {
+        //       wx.setStorageSync('token', data.token)
+        //       let userInfo = {
+        //         nickName: data.user.name,
+        //         avatarUrl: data.user.photo,
+        //         type: data.user.type
+        //       }
+        //       wx.setStorageSync('userInfo', userInfo)
+        //       wx.setStorageSync('user_id', data.user.id)
+        //       vm.$gotoTab('/pages/tabBar/home')
+        //     }
+        //   },
+        //   fail: ({code, data}) => {
+        //   },
+        //   complete: () => {
+        //   }
+        // })
+        // address: { // 居住地
+        //   country: '中国', province: '广东省', city: '深圳市'
+        // },
+        // resident: { // 成长地
+        //   country: '中国', province: '广东省', city: '深圳市'
+        // },
+        // birthday: [1990, 1, 1], // 生日
+        //   belief: '', // 信仰
+        //   information: { // 存储信息
+        //   sex: '',
+        //     state: '',
+        //     country: '',
+        //     province: '',
+        //     city: '',
+        //     resident_province: '',
+        //     resident_city: '',
+        //     belief: '',
+        //     min_age: '', max_age: '',
+        //     birthday: ''
+        // }
+      },
+      selectFn(index, list, key) { // 选择
+        for (let item of this[list]) {
           item.active = 'false'
         }
-        this.list[index].active = 'true'
+        this[list][index].active = 'true'
+        console.log(this[list][index].value)
+        this.information[key] = this[list][index].value
         this.$apply()
-        console.log(this.list)
       },
       chooseimage(Image) {
         this.$previewImage(Image)
@@ -285,6 +449,11 @@
           console.log(error)
         })
       },
+      pickerChangeDate(e) {
+        console.log(e.detail.value.split('-'))
+        this.birthday = e.detail.value.split('-')
+        this.$apply()
+      },
       pickerChange(index, e) { // picker fn
         switch (this.information[index].name) {
           case 'name':case 'birthday':
@@ -305,11 +474,12 @@
     }
     events = {
       'selectCity': (value, index) => {
-        for (let item of this.information) {
-          if (item.name === 'region') {
-            item.value = value
-          }
+        console.log(value)
+        this[this.addressType] = { // 居住地
+          country: value[0], province: value[1], city: value[2]
         }
+        console.log(this.addressType)
+        console.log(this[this.addressType])
         // this.ensureData()
       }
     }
@@ -329,10 +499,14 @@
         padding-top: 40vw;
         .main-selectBox{
           margin-top: 80rpx;
+          .marginR{
+            margin-right: 100rpx;
+          }
+          .beliefStyle{ // 信仰
+            margin: 10rpx 62rpx;
+            overflow: hidden;
+          }
           .item-selectBox{
-            &:nth-child(1){
-              margin-right: 100rpx;
-            }
             width: 210rpx;
             height: 210rpx;
             border-radius: 50%;
@@ -361,7 +535,13 @@
             border-bottom: 1rpx solid #d3d3d3;
             padding: 6rpx;
             text-align: left;
-            input{
+            .down_icon{
+              width: 26rpx;
+              height: 26rpx;
+              vertical-align: middle;
+              margin-top: 16rpx;
+            }
+            .input{
               width: 100%;
               height: 100%;
             }
@@ -374,7 +554,7 @@
         .main-btn{
           width: 84%;
           margin: auto;
-          margin-top: 200rpx;
+          margin-top: 220rpx;
           .item-next, .item-last{
             width: 198rpx;
             height: 62rpx;
