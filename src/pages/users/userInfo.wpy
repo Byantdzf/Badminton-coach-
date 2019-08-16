@@ -319,7 +319,6 @@
       })
     }
 
-
     getAddress(lat, lng) {
       let vm = this
       let data = {

@@ -1,7 +1,7 @@
 <template>
   <view class="box {{hide?'hide':''}}">
-    <image src="https://images.ufutx.com/201908/06/28c03d3961c2e936cc6234f52d82e965.jpeg" mode="aspectFill" class="image"></image>
-    <image src="https://images.ufutx.com/201908/06/519fa044ccc321dc18a710a3f254dc74.jpeg" mode="aspectFill" class="image-btn"></image>
+    <image src="https://images.ufutx.com/201908/16/7d151aa8067ab044838add608e7395fd.jpeg" mode="aspectFill" class="image"></image>
+    <!--<image src="https://images.ufutx.com/201908/06/519fa044ccc321dc18a710a3f254dc74.jpeg" mode="aspectFill" class="image-btn"></image>-->
     <view @tap="goto('/pages/users/registerV2')" class="next" wx:if="{{hideBtn}}"></view>
     <view class="wrapper" @tap="jump">
       <view class="font_24 flo_l text-center time">{{time}}s</view>
@@ -176,7 +176,7 @@
 
       .image {
         width: 100vw;
-        height: 88vh;
+        height: 100vh;
         position: absolute;
         left: 0;
         top: 0;

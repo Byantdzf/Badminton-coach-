@@ -13,7 +13,9 @@
           </span>
           <view class="userinfo-info">
             <view class="userinfo-nickname font_32 bold">
-              {{ user.name }} <span class="font_26 state">{{StateText}}</span>
+              {{ user.name}}
+              <!--<open-data type="userNickName"></open-data>-->
+              <span class="font_26 state">{{StateText}}</span>
               <view style="margin-top: 28rpx;margin-left: -12rpx;">
                 <block wx:if="{{user.type == 'marriage'}}">
                   <view class="orange font_26 text-center flo_l menber" style="padding: 8rpx 16rpx;">

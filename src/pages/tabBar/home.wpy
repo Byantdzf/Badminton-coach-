@@ -27,8 +27,8 @@
         </view>
         <view class="center flo_l">
           <span class="display_inlin">附近的人</span>
-          <block wx:if="{{person.circle_avatar}}" >
-            <image src="{{item.circle_avatar}}" mode="widthFix" wx:for="{{person.circle_avatar}}" wx:key="{{index}}"  class="image display_inlin" ></image>
+          <block wx:if="{{person.length>0}}">
+            <image src="{{item.circle_avatar}}" mode="widthFix" wx:for="{{person}}" wx:key="{{index}}"  class="image display_inlin" ></image>
           </block>
           <block wx:else>
             <image src="{{item}}" mode="widthFix" wx:for="{{images}}" wx:key="{{index}}" class="image display_inlin" ></image>
@@ -74,7 +74,7 @@
           <view class="text-center main-hint">
             <image src="https://images.ufutx.com/201908/16/6f2f00d1bab1d96b8a1971e88c0e3575.png" mode="widthFix"
                    style="width: 240rpx;height: auto;"></image>
-            <view class="font_26 color-666"><span class="bold">kobe</span>你好，小恋为你服务！</view>
+            <view class="font_26 color-666"><span class="bold"></span>你好，小恋为你服务！</view>
             <view class="font_26 color-666" style="margin-top: 12rpx">完善好资料，让小恋了解你想要的</view>
             <view class="item-btn white font_28" @tap="goto('/pages/users/userInfo')">这就去</view>
           </view>
@@ -124,7 +124,7 @@
           <span class="font_22" style="margin-left: 22rpx;">邀请身边的单身进入福恋</span>
         </view>
         <view class="shareIcon">
-          <block wx:for="{{shareUser}}">
+          <block wx:for="{{shareUser}}" wx:key="index">
             <image src="{{item.circle_avatar}}" mode="widthFix" @tap="gotofriends({{item}},{{item.id}})"></image>
           </block>
           <button class="btn white inline-block" hover-class="btn_active"  open-type="share" style="margin-bottom: -18rpx;">
@@ -213,7 +213,7 @@
       myLat: '',
       hide: true,
       address: {},
-      person: {},
+      person: [],
       recommends: [],
       animationData: {},
       userType: wx.getStorageSync('type'),
@@ -329,7 +329,7 @@
     onShow() {
       let that = this
       that.upDate()
-      if (that.type == 'single') {
+      if (that.userType == 'single') {
         that.getLikers()
       }
       if (that.watchLocation) {
@@ -476,16 +476,6 @@
         show = top > 380 ? true : false,
         vm = this
       vm.$broadcast('showBackTopBtn', show)
-      // vm.list.forEach((item, index) => {
-      //   let group = item.photoList
-      //   group.forEach((rec, idx) => {
-      //     wx.createSelectorQuery().select('.Sheet-' + index + idx).boundingClientRect((rect) => {
-      //       if (rect.top <= vm.windowHeight) { // 判断是否在显示范围内
-      //         group[idx].show = true // 根据下标改变状态
-      //       }
-      //     }).exec()
-      //   })
-      // })
     }
 
     upDate() {
@@ -511,18 +501,10 @@
           }
           _this.shareUser = data.users
           _this.person = data.users
-          // if (!this.recommends.length) {
-          //   for (var i = 0; i < data.recommends.length; i += 4) {
-          //     this.recommends.push(data.recommends.slice(i, i + 4))
-          //   }
-          // }
           _this.announcements = data.announcements
-          console.log(_this.announcements)
-          // let {chat_path, push_path, use_path} = data.path_arr
-          // _this.pathArr[0].path = chat_path
-          // _this.pathArr[1].path = push_path
-          // _this.pathArr[2].path = use_path
+          console.log(_this.person)
           _this.noMore = false
+          _this.$apply()
         },
         fail: ({code, data}) => {
         },
