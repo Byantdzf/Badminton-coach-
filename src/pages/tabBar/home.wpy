@@ -150,6 +150,17 @@
   </view>
   </button>
   </form>
+  <view class="getVip text-center" wx:if="{{showVip}}">
+    <view class="showPicVip">
+      <image src="https://images.ufutx.com/201908/16/66f4cfe4e83b08393978b144ec94151e.png" mode="widthFix"
+             style="width: 60vw;height: auto;margin-top: 24vw;"></image>
+    </view>
+    <view @tap="cancle">
+      <image src="https://images.ufutx.com/201908/16/9a2234dcb203aebfad1a8674d6b4aa3e.png" mode="widthFix"
+             style="width: 60rpx;height: auto;margin-top: 6vw;"></image>
+    </view>
+    <view class="main-btn" @tap="getTempVip"></view>
+  </view>
   <view class="commodity_screen" bindtap="cancel" wx:if="{{!hide}}"></view>
   <!--弹出框  -->
   <view animation="{{animationData}}" class="commodity_attr_box" wx:if="{{!hide}}">
@@ -206,6 +217,7 @@
       serverActive: 'meet',
       type: 'mate',
       init: false,
+      showVip: false,
       loading: false,
       noMore: false,
       current: 0,
@@ -502,7 +514,8 @@
           _this.shareUser = data.users
           _this.person = data.users
           _this.announcements = data.announcements
-          console.log(_this.person)
+          // _this.showVip =
+          _this.showVip = data.can_get_temp_member == 0 ? false : true
           _this.noMore = false
           _this.$apply()
         },
@@ -522,6 +535,35 @@
     }
 
     methods = {
+      cancle() {
+        this.showVip = false
+        this.$apply()
+      },
+      getTempVip() { // 领取临时会员
+        let vm = this
+        vm.$post({url: `${service.host}/get/temp/member`}, {
+          success: ({code, data}) => {
+            wx.showModal({
+              title: '提示',
+              content: '领取成功',
+              showCancel: false,
+              success(res) {
+                if (res.confirm) {
+                  console.log('用户点击确定')
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
+                }
+              }
+            })
+          },
+          fail: ({code, data}) => {
+          },
+          complete: () => {
+          }
+        })
+        this.showVip = false
+        this.$apply()
+      },
       getcurrent(e) {
         this.current = e.detail.current
         this.$apply()
@@ -660,6 +702,36 @@
   @import "../../styles/custom/fn.less";
   page{
     background: #ffffff;
+    .getVip{
+      position: relative;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10000;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      .showPicVip {
+        transform: scale(0);
+        animation: myMove2 1000ms 300ms;
+        animation-fill-mode: forwards;
+      }
+      @keyframes myMove2 {
+        from {
+          transform: scale(0);
+        }
+        to {
+          transform: scale(1);
+        }
+      }
+      .main-btn{
+        width: 40vw;
+        height: 80rpx;
+        position: absolute;
+        left: 28vw;
+        top: 86vw;
+      }
+    }
     ._bc-tab{
       width: 100%;
       padding: 35rpx 0 20rpx 0;

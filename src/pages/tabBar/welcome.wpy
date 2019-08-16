@@ -89,6 +89,7 @@
                 that.$apply()
                 wx.setStorageSync('token', data.token)
                 wx.setStorageSync('openid', data.openid)
+                wx.setStorageSync('temp_member', data.user.temp_member)
                 let userInfo = {
                   nickName: data.user.name,
                   avatarUrl: data.user.avatar,
