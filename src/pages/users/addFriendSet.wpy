@@ -41,8 +41,7 @@
     mixins = [base, http, user, ShareMessage]
     config = {
       navigationBarTitleText: '加好友设置',
-      enablePullDownRefresh: true,
-      navigationBarBackgroundColor: '#EEEFF1'
+      enablePullDownRefresh: true
     }
     components = {userTitle, NavBar, Loading}
     data = {

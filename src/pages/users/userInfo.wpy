@@ -20,7 +20,7 @@
             <text class="Input" slot="Input">{{addressType != '' ? address.province+' - '+ address.city: '深圳'}}</text>
           </selectCity>
         </view>
-        <view class="font_22 main-issue color-theme">使用GPS定位获取</view>
+        <view class="font_22 main-issue color-theme"  @tap="getCenterLocation('address')">使用GPS定位获取</view>
       </view>
       <view class="main-selectBox text-center " wx:if="{{infoIndex == 3}}" style="margin-top: 30rpx;">
         <view class="color-666 font_28" style="margin: 22rpx;">我的单身状态</view>
@@ -39,7 +39,7 @@
             <text class="Input" slot="Input">{{addressType != '' ? resident.province+' - '+ resident.city: '深圳'}}</text>
           </selectCity>
         </view>
-        <view class="font_22 main-issue color-theme">使用GPS定位获取</view>
+        <view class="font_22 main-issue color-theme" @tap="getCenterLocation('resident')">使用GPS定位获取</view>
       </view>
       <view class="main-selectBox text-center " wx:if="{{infoIndex == 5}}" style="margin-top: 30rpx;">
         <view class="color-666 font_28" style="margin: 22rpx;">我的信仰是什么？</view>
@@ -83,13 +83,33 @@
       <view class="main-btn text-center">
         <block wx:if="{{infoIndex > 1}}">
           <view class="item-last inline-block text-center white flo_l" @tap="lastFn" >上一步</view>
-          <view class="item-next inline-block text-center white flo_r" wx:if="{{infoIndex == 7}}" @tap="saveFn">完成</view>
-          <view class="item-next inline-block text-center white flo_r" wx:else @tap="nextFn">下一步</view>
+          <block  wx:if="{{infoIndex == 7}}">
+            <button  class="btn item-next inline-block text-center white flo_r" open-type="getUserInfo" @getuserinfo="getuserinfo">
+              完成
+            </button>
+          </block>
+          <block wx:else>
+            <view class="item-next inline-block text-center white flo_r" @tap="nextFn">下一步</view>
+          </block>
         </block>
         <block wx:else>
           <view class="item-next inline-block text-center white " @tap="nextFn">下一步</view>
         </block>
       </view>
+      <modal>
+        <view slot="wrapper" class="wrapper">
+          <view class=" font_26 state info" style="margin:22rpx 32rpx;">
+            <view style="margin: 0rpx 22rpx;">
+              <view>福恋部分功能需要获取您的位置,不授权将无法获取相关数据！</view>
+            </view>
+          </view>
+          <view style="width: 100%;" class="text-center">
+            <button class="btn bold text-center" style="width: 100%;height: 100rpx;color: #d92553;margin: auto;line-height: 100rpx;border-top: 2rpx solid #e3e3e3" open-type="openSetting" @opensetting="openSetting_address">
+              去授权
+            </button>
+          </view>
+        </view>
+      </modal>
       <!--<image src="https://images.ufutx.com/201908/13/18ade0603c2111a5e628a9a31cf22c8d.png" mode="widthFix" class="bc_image"></image>-->
       <!--<view class="bc_photo ff"><image src="{{avatar}}" mode="aspectFill" @tap="chooseimage({{avatar}})"></image></view>-->
       <!--<view class="font_32 _bc_item" wx:for="{{information}}" wx:key="index">-->
@@ -138,13 +158,14 @@
   import NavBar from '../../components/NavBar'
   import Loading from '../../components/loading'
   import selectCity from '../../components/selectCity'
+  import modal from '../../components/modal'
   import {wx_login} from '../../utils/fn'
 
   export default class userInfo extends wepy.page {
     mixins = [base, http, user, ShareMessage]
-    components = {NavBar, Loading, selectCity}
+    components = {NavBar, Loading, selectCity, modal}
     config = {
-      navigationBarTitleText: '基本信息',
+      navigationBarTitleText: '基本资料',
       enablePullDownRefresh: false
     }
     data = {
@@ -241,7 +262,10 @@
       },
       birthday: [1990, 1, 1], // 生日
       belief: '', // 信仰
+      hide: true,
       information: { // 存储信息
+        name: '',
+        photo: '',
         sex: '1',
         state: '从未结婚',
         country: '',
@@ -259,7 +283,7 @@
     onLoad(e) {
       let age = [...Array(100).keys()]
       for (let item of age) {
-        if (18 < item && item < 70) {
+        if (17 < item && item < 70) {
           this.AgeList.push(item)
         }
       }
@@ -295,50 +319,110 @@
       })
     }
 
-    next() { // 下一步
+
+    getAddress(lat, lng) {
       let vm = this
-      let scene = wx.getStorageSync('scene') ? wx.getStorageSync('scene') : ''
-      wx_login().then((code) => {
-        let data = {
-          code: code,
-          name: vm.information[0].value,
-          birthday: vm.information[2].value,
-          sex: vm.information[1].value,
-          country: vm.information[3].value[0] ? vm.information[3].value[0] : '',
-          province: vm.information[3].value[1] ? vm.information[3].value[1] : '',
-          city: vm.information[3].value[2] ? vm.information[3].value[2] : '',
-          belief: vm.information[4].value,
-          mobile: vm.mobile,
-          scene: scene
-        }
-        console.log(data)
-        if (!vm.$judgeParams(data)) {
-          return vm.$showToast('请填写基本资料')
-        }
-        vm.$post({url: `${service.host}/user`, data}, {
-          success: ({code, data}) => {
-            if (data.token) {
-              wx.setStorageSync('token', data.token)
-              let userInfo = {
-                nickName: data.user.name,
-                avatarUrl: data.user.photo,
-                type: data.user.type
-              }
-              wx.setStorageSync('userInfo', userInfo)
-              wx.setStorageSync('user_id', data.user.id)
-              vm.$gotoTab('/pages/tabBar/home')
-            }
-          },
-          fail: ({code, data}) => {
-          },
-          complete: () => {
+      let data = {
+        local_latitude: lat,
+        local_longitude: lng
+      }
+      vm.$get({url: `${service.host}/location/to/address`, data}, {
+        success: ({code, data}) => {
+          console.log(data)
+          vm[vm.addressType] = {
+            country: data.nation,
+            province: data.province,
+            city: data.city
           }
-        })
-      }).catch((error) => {
-        console.log(error)
+          vm.$apply()
+        }
       })
     }
+    saveFn() {
+      let vm = this
+      vm.information.country = vm.address.country
+      vm.information.province = vm.address.province
+      vm.information.city = vm.address.city
+      vm.information.resident_province = vm.resident.province
+      vm.information.resident_city = vm.resident.city
+      vm.information.birthday = vm.birthday.join('-')
+      vm.information.min_age = vm.minAge
+      vm.information.max_age = vm.maxAge
+      vm.$apply()
+      console.log(vm.information)
+      let data = vm.information
+      vm.$put({url: `${service.host}/courtship/v2`, data}, {
+        success: ({code, data}) => {
+          vm.$gotoTab('/pages/tabBar/home')
+        },
+        fail: ({code, data}) => {
+        },
+        complete: () => {
+        }
+      })
+    }
+
     methods = {
+      getuserinfo(e) { // 获取用户头像、...
+        if (e.detail.userInfo) {
+          console.log(e.detail.userInfo)
+          let {avatarUrl, nickName} = e.detail.userInfo
+          this.information.photo =  avatarUrl
+          this.information.name =  nickName
+          this.$apply()
+          this.$showLoading('智能匹配中...')
+          this.saveFn(e.detail.userInfo)
+          console.log('用户按了允许授权按钮')
+        } else {
+          console.log('用户按了拒绝按钮')
+        }
+      },
+      getCenterLocation(type) {
+        let vm = this
+        if (!vm.hide) {
+          vm.$invoke('modal', 'showModal')
+        }
+        vm.addressType = type
+        vm.$apply()
+        wx.getLocation({
+          type: 'gcj02',
+          success: function (res) {
+            console.log(res)
+            vm.getAddress(res.latitude, res.longitude)
+            wx.setStorageSync('myLong', res.longitude)
+            wx.setStorageSync('myLat', res.latitude)
+          },
+          fail: function () {
+            vm.hide = false
+            vm.$apply()
+          }
+        })
+      },
+      openSetting_address(e) {
+        let vm = this
+        if (e.detail.authSetting['scope.userLocation']) {
+          // 如果打开了地理位置，就会为true
+          wepy.getLocation({
+            altitude: true,
+            type: 'gcj02',
+            success: function (res) {
+              vm.hide = true
+              vm.$Toast_success('授权成功!')
+              vm.$invoke('modal', 'hideModal')
+              vm.myLat = res.latitude
+              vm.myLong = res.longitude
+              vm.getAddress(res.latitude, res.longitude)
+              wx.setStorageSync('myLong', res.longitude)
+              wx.setStorageSync('myLat', res.latitude)
+              vm.$apply()
+            },
+            fail: function () {
+            },
+            complete: function () {
+            }
+          })
+        }
+      },
       ageFn(key, e) {
         this[key] = this.AgeList[e.detail.value]
         this.$apply()
@@ -358,62 +442,6 @@
         this.infoIndex++
         this.$apply()
         console.log(this.information)
-      },
-      saveFn() {
-        let vm = this
-        // if (this.infoIndex == 7) {
-        //   this.$gotoTab('/pages/tabBar/home')
-        //   return
-        // }
-        vm.information.country = vm.address.country
-        vm.information.province = vm.address.province
-        vm.information.city = vm.address.city
-        vm.information.resident_province = vm.resident.province
-        vm.information.resident_city = vm.resident.city
-        vm.information.birthday = vm.birthday.join("-")
-        vm.information.min_age = vm.minAge
-        vm.information.max_age = vm.maxAge
-        console.log(vm.information)
-        let data = vm.information
-        // vm.$post({url: `${service.host}/user`, data}, {
-        //   success: ({code, data}) => {
-        //     if (data.token) {
-        //       wx.setStorageSync('token', data.token)
-        //       let userInfo = {
-        //         nickName: data.user.name,
-        //         avatarUrl: data.user.photo,
-        //         type: data.user.type
-        //       }
-        //       wx.setStorageSync('userInfo', userInfo)
-        //       wx.setStorageSync('user_id', data.user.id)
-        //       vm.$gotoTab('/pages/tabBar/home')
-        //     }
-        //   },
-        //   fail: ({code, data}) => {
-        //   },
-        //   complete: () => {
-        //   }
-        // })
-        // address: { // 居住地
-        //   country: '中国', province: '广东省', city: '深圳市'
-        // },
-        // resident: { // 成长地
-        //   country: '中国', province: '广东省', city: '深圳市'
-        // },
-        // birthday: [1990, 1, 1], // 生日
-        //   belief: '', // 信仰
-        //   information: { // 存储信息
-        //   sex: '',
-        //     state: '',
-        //     country: '',
-        //     province: '',
-        //     city: '',
-        //     resident_province: '',
-        //     resident_city: '',
-        //     belief: '',
-        //     min_age: '', max_age: '',
-        //     birthday: ''
-        // }
       },
       selectFn(index, list, key) { // 选择
         for (let item of this[list]) {
@@ -437,7 +465,7 @@
               encryptedData: e.detail.encryptedData
             }
             vm.$showLoading('注册账号中...')
-            vm.$post({url: service.infor, data}, {
+            vm.$post({url: `${service.host}/courtship/v2`, data}, {
               success: ({code, data}) => {
                 vm.mobile = data.phoneNumber
                 vm.$apply()
@@ -564,6 +592,12 @@
           }
         }
       }
+    }
+    .state{
+      background: #f7f7f7;
+      padding: 12rpx 16rpx;
+      border: 1rpx solid #d3d3d3;
+      border-radius: 10rpx;
     }
   }
 </style>

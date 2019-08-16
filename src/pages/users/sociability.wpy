@@ -42,7 +42,6 @@
     mixins = [base, http, user, ShareMessage]
     config = {
       navigationBarTitleText: '了解交往基因',
-      navigationBarBackgroundColor: '#EEEFF1',
       enablePullDownRefresh: false
     }
     data = {

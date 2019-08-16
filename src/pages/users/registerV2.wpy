@@ -25,8 +25,8 @@
       </view>
       <view class="main-btn text-center">
         <form bindsubmit="formSubmit" report-submit>
-          <button class="btn text-center font_30 btn-box white" formType="submit" open-type="getUserInfo"
-                  @getuserinfo="getuserinfo">绑定微信手机号继续
+          <button class="btn text-center font_30 btn-box white" formType="submit" open-type="getPhoneNumber"
+                  bindgetphonenumber="getPhoneNumber">绑定微信手机号继续
           </button>
         </form>
         <view class="main-issue font_26 color-theme" @tap="showIssue">为什么要绑定微信手机号?</view>
@@ -181,26 +181,50 @@
 
     getPhoneNumber(e) { // 获取手机号
       let vm = this
-      let scene = wx.getStorageSync('scene') ? wx.getStorageSync('scene') : ''
-      wx_login().then((code) => {
-        if (e.detail.iv) {
-          let data = {
-            code: code,
-            iv: e.detail.iv,
-            encryptedData: e.detail.encryptedData,
-            scene: scene
-          }
-          vm.$showLoading('注册账号中...')
-          vm.$post({url: service.infor, data}, {
-            success: ({code, data}) => {
-              vm.mobile = data.phoneNumber
-              vm.$apply()
-              vm.next()
-            }
-          })
+      let type = ''
+      for (let item of this.list) {
+        if (item.active == 'true'){
+          type = item.type
         }
-      }).catch((error) => {
-        console.log(error)
+      }
+      wepy.login({
+        success: (res) => {
+          if (e.detail.iv) {
+            let data = {
+              code: res.code,
+              iv: e.detail.iv,
+              from_openid: wx.getStorageSync('from_openid'),
+              type: type,
+              encryptedData: e.detail.encryptedData
+            }
+            vm.$showLoading('注册账号中...')
+            vm.$post({url: `${service.host}/user/and/wechat`, data}, {
+              success: ({code, data}) => {
+                wx.setStorageSync('type', type)
+                wx.setStorageSync('token', data.token)
+                wx.showToast({
+                  title: '欢迎加入福恋!',
+                  icon: 'success',
+                  duration: 1200,
+                  success: (res) => {
+                    setTimeout(() => {
+                      let userInfo = {
+                        nickName: data.user.name,
+                        avatarUrl: data.avatar2 ? data.photo : data.circle_avatar
+                      }
+                      wx.setStorageSync('userInfo', userInfo)
+                      vm.$gotoTab('/pages/tabBar/home')
+                    }, 200)
+                  }
+                })
+                vm.$apply()
+              }
+            })
+          }
+        },
+        fail: (res) => {
+          console.log('wepy.login.fail:', res)
+        }
       })
     }
 
@@ -218,7 +242,7 @@
           }
           // 绑定手机号
           that.loading = true
-          that.$post({url: `${service.host}/wechat`, data}, {
+          that.$post({url: `${service.host}/user/and/wechat`, data}, {
             success: ({code, data}) => {
               wx.setStorageSync('token', data.token)
               setTimeout(() => {
@@ -235,7 +259,7 @@
                       }
                       wx.setStorageSync('type', data.type)
                       wx.setStorageSync('userInfo', userInfo)
-                      that.$redirectTo('/pages/users/userInfo')
+                      that.$gotoTab('/pages/tabBar/home')
                     }, 200)
                   }
                 })

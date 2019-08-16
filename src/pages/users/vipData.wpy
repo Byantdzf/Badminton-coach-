@@ -95,7 +95,6 @@
     mixins = [base, http, user, ShareMessage]
     config = {
       navigationBarTitleText: 'VIP资料',
-      navigationBarBackgroundColor: '#EEEFF1',
       enablePullDownRefresh: true
     }
     components = {NavBar, Loading, userTitle}

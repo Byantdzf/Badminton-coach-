@@ -73,8 +73,7 @@
   export default class vipImage extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
-      navigationBarTitleText: '上传照片',
-      navigationBarBackgroundColor: '#EEEFF1'
+      navigationBarTitleText: '上传照片'
     }
     data = {
       user: {
