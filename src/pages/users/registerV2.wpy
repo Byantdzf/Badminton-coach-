@@ -26,10 +26,10 @@
       <view class="main-btn text-center">
         <form bindsubmit="formSubmit" report-submit>
           <button class="btn text-center font_30 btn-box white" formType="submit" open-type="getPhoneNumber"
-                  bindgetphonenumber="getPhoneNumber">绑定微信手机号继续
+                  bindgetphonenumber="getPhoneNumber">继续
           </button>
         </form>
-        <view class="main-issue font_26 color-theme" @tap="showIssue">为什么要绑定微信手机号?</view>
+        <!--view class="main-issue font_26 color-theme" @tap="showIssue">为什么要绑定微信手机号?</view-->
       </view>
     </view>
     <!--<view class="ff main-box">-->

@@ -66,7 +66,7 @@
       <bolck  wx:if="{{list.length < 1}}">
         <view class="main-title">
           <view>
-            <span class="font_32 bold color-666">小恋推荐</span>
+            <span class="font_32 bold color-666">智能推荐</span>
             <span class="font_28 color-666" style="margin-left: 32rpx;">根据你的资料，为你推荐</span>
             <image src="https://images.ufutx.com/201908/16/eb58574466d54d7ce3223725c6a92387.png" mode="widthFix"
                    class="edit flo_r" @tap="goto('/pages/users/userInfo')"></image>
@@ -74,16 +74,16 @@
           <view class="text-center main-hint">
             <image src="https://images.ufutx.com/201908/16/6f2f00d1bab1d96b8a1971e88c0e3575.png" mode="widthFix"
                    style="width: 240rpx;height: auto;"></image>
-            <view class="font_26 color-666"><span class="bold"></span>你好，小恋为你服务！</view>
-            <view class="font_26 color-666" style="margin-top: 12rpx">完善好资料，让小恋了解你想要的</view>
-            <view class="item-btn white font_28" @tap="goto('/pages/users/userInfo')">这就去</view>
+            <!--view class="font_26 color-666"><span class="bold"></span>你好，小恋为你服务！</view-->
+            <view class="font_26 color-666" style="margin-top: 12rpx">完善个人资料，领取爱心红包，最高10元！</view>
+            <view class="item-btn white font_28" @tap="goto('/pages/users/userInfo')">去领取</view>
           </view>
         </view>
       </bolck>
       <block wx:else>
         <view class="_bc-list">
           <view style="padding: 12rpx 22rpx;">
-            <span class="font_32 bold color-666">小恋推荐</span>
+            <span class="font_32 bold color-666">智能推荐</span>
             <span class="font_28 color-666" style="margin-left: 32rpx;">根据你的资料，为你推荐</span>
             <image src="https://images.ufutx.com/201908/16/eb58574466d54d7ce3223725c6a92387.png" mode="widthFix"
                    class="edit flo_r" @tap="goto('/pages/users/userInfo')"></image>
@@ -134,7 +134,7 @@
       </view>
       <view class="main-title">
         <view>
-          <span class="font_32 bold color-666">小恋推荐</span>
+          <span class="font_32 bold color-666">智能推荐</span>
           <span class="font_28 color-666" style="margin-left: 32rpx;">为单身推荐TA</span>
         </view>
         <view class="text-center main-hint">

@@ -13,16 +13,16 @@
           <image mode="aspectFill" src="{{item.icon}}" class="icon" wx:else></image>
         </view>
       </view>
-      <view class="main-selectBox text-center " wx:if="{{infoIndex == 2}}">
-        <view class="color-666 font_28">你住在哪里？</view>
+      <view class="main-selectBox text-center " wx:if="{{infoIndex == 3}}">
+        <view class="color-666 font_28">我住在哪里？</view>
         <view class="color-666 font_28 main-input"  @tap="addressFn('address')">
           <selectCity  AddressValue="['中国', '广东省', '深圳市']">
             <text class="Input" slot="Input">{{addressType != '' ? address.province+' - '+ address.city: '深圳'}}</text>
           </selectCity>
         </view>
-        <view class="font_22 main-issue color-theme"  @tap="getCenterLocation('address')">使用GPS定位获取</view>
+        <view class="font_22 main-issue color-theme"  @tap="getCenterLocation('address')">使用定位获取</view>
       </view>
-      <view class="main-selectBox text-center " wx:if="{{infoIndex == 3}}" style="margin-top: 30rpx;">
+      <view class="main-selectBox text-center " wx:if="{{infoIndex == 4}}" style="margin-top: 30rpx;">
         <view class="color-666 font_28" style="margin: 22rpx;">我的单身状态</view>
         <view class="inline-block item-selectBox {{item.active == 'true'?'active':''}}" style="{{(index === 0||index === 1)?'margin-right: 20rpx;':''}}"
               wx:for="{{stateList}}" wx:key="index" @tap="selectFn({{index}},'stateList','state')">
@@ -32,7 +32,7 @@
           <image mode="aspectFill" src="{{item.icon}}" class="icon" wx:else></image>
         </view>
       </view>
-      <view class="main-selectBox text-center " wx:if="{{infoIndex == 4}}">
+      <!--view class="main-selectBox text-center " wx:if="{{infoIndex == 4}}">
         <view class="color-666 font_28">我在哪个城市长大的？</view>
         <view class="color-666 font_28 main-input" @tap="addressFn('resident')">
           <selectCity  AddressValue="['中国', '广东省', '深圳市']">
@@ -40,7 +40,7 @@
           </selectCity>
         </view>
         <view class="font_22 main-issue color-theme" @tap="getCenterLocation('resident')">使用GPS定位获取</view>
-      </view>
+      </view-->
       <view class="main-selectBox text-center " wx:if="{{infoIndex == 5}}" style="margin-top: 30rpx;">
         <view class="color-666 font_28" style="margin: 22rpx;">我的信仰是什么？</view>
         <view class="inline-block item-selectBox beliefStyle {{item.active == 'true'?'active':''}}" wx:for="{{beliefList}}" wx:key="index" @tap="selectFn({{index}},'beliefList','belief')">
@@ -51,7 +51,7 @@
         </view>
       </view>
       <view class="main-selectBox text-center " wx:if="{{infoIndex == 6}}">
-        <view class="color-666 font_28">你期待另一半的年龄区间是多大？</view>
+        <view class="color-666 font_28">我想找多大年龄的？</view>
         <view class="color-666 font_28 main-input">
           <image mode="aspectFit" src="https://images.ufutx.com/201908/15/e1cc6dae37377654a3fe93e163f3b1d9.png" class="down_icon flo_l" ></image>
           <view class="flo_r" style="width: 90%">
@@ -66,8 +66,8 @@
           <view class="clearfloat"></view>
         </view>
       </view>
-      <view class="main-selectBox text-center " wx:if="{{infoIndex == 7}}">
-        <view class="color-666 font_28">我的生日是什么时候？</view>
+      <view class="main-selectBox text-center " wx:if="{{infoIndex == 2}}">
+        <view class="color-666 font_28">我的生日?</view>
         <view class="color-666 font_28 main-input">
           <image mode="aspectFit" src="https://images.ufutx.com/201908/15/e1cc6dae37377654a3fe93e163f3b1d9.png" class="down_icon flo_l" ></image>
           <picker mode="date"  value="{{birthday}}"  @change="pickerChangeDate">
@@ -83,7 +83,7 @@
       <view class="main-btn text-center">
         <block wx:if="{{infoIndex > 1}}">
           <view class="item-last inline-block text-center white flo_l" @tap="lastFn" >上一步</view>
-          <block  wx:if="{{infoIndex == 7}}">
+          <block  wx:if="{{infoIndex == 6}}">
             <button  class="btn item-next inline-block text-center white flo_r" open-type="getUserInfo" @getuserinfo="getuserinfo">
               完成
             </button>
