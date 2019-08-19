@@ -169,7 +169,7 @@
           text: '活动'
         }, {
           pagePath: 'pages/tabBar/friendCircleList',
-          selectedIconPath: './images/tabbar/circle.png',
+          selectedIconPath: './images/tabbar/circleA.png',
           iconPath: './images/tabbar/circle.png',
           text: '动态'
         }, {

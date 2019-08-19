@@ -65,13 +65,8 @@
       <!--</view>-->
       <bolck  wx:if="{{list.length < 1}}">
         <view class="main-title">
-<<<<<<< HEAD
-          <view>
-            <span class="font_32 bold color-666">智能推荐</span>
-=======
           <view style="padding: 12rpx 32rpx;">
-            <span class="font_32 bold color-666">小恋推荐</span>
->>>>>>> refs/remotes/origin/master
+            <span class="font_32 bold color-666">智能推荐</span>
             <span class="font_28 color-666" style="margin-left: 32rpx;">根据你的资料，为你推荐</span>
             <image src="https://images.ufutx.com/201908/16/eb58574466d54d7ce3223725c6a92387.png" mode="widthFix"
                    class="edit flo_r" @tap="goto('/pages/users/userInfo')"></image>
@@ -80,7 +75,7 @@
             <image src="https://images.ufutx.com/201908/16/6f2f00d1bab1d96b8a1971e88c0e3575.png" mode="widthFix"
                    style="width: 240rpx;height: auto;"></image>
             <!--view class="font_26 color-666"><span class="bold"></span>你好，小恋为你服务！</view-->
-            <view class="font_26 color-666" style="margin-top: 12rpx">完善个人资料，领取爱心红包，最高10元！</view>
+            <view class="font_26 color-666" style="margin-top: 12rpx">完善个人资料，领取尊享VIP！</view>
             <view class="item-btn white font_28" @tap="goto('/pages/users/userInfo')">去领取</view>
           </view>
         </view>
@@ -157,13 +152,8 @@
         <image src="http://images.ufutx.com/201905/29/2eeab012d13d91f16f5a21ad6c578678.png" mode="widthFix" class="moreImage flo_r"></image>
       </view>
       <view class="main-title">
-<<<<<<< HEAD
-        <view>
+        <view  style="padding: 12rpx 32rpx;">
           <span class="font_32 bold color-666">智能推荐</span>
-=======
-        <view style="padding: 12rpx 32rpx;">
-          <span class="font_32 bold color-666">小恋推荐</span>
->>>>>>> refs/remotes/origin/master
           <span class="font_28 color-666" style="margin-left: 32rpx;">为单身推荐TA</span>
         </view>
         <view class="text-center main-hint">
@@ -343,11 +333,8 @@
     async onLoad(e) {
       this.userType = wx.getStorageSync('type')
       this.page = 1
-      this.$applt()
+      this.$apply()
       this.getCenterLocation()
-      if (wx.getStorageSync('token')) {
-        // this.getNewCount()
-      }
       this.getNewCount()
     }
 
@@ -539,9 +526,9 @@
         url: url, data
       }, {
         success: ({code, data}) => {
-          if (JSON.stringify(_this.address) == '{}') {
-            _this.locationSubmit()
-          }
+          // if (JSON.stringify(_this.address) == '{}') {
+          //   _this.locationSubmit()
+          // }
           _this.shareUser = data.users
           _this.person = data.users
           _this.announcements = data.announcements
@@ -570,7 +557,7 @@
         this.showVip = false
         this.$apply()
       },
-      getTempVip() { // 领取临时会员
+      getTempVip() { // 领取尊享会员
         let vm = this
         vm.$post({url: `${service.host}/get/temp/member`}, {
           success: ({code, data}) => {
@@ -851,7 +838,7 @@
         line-height: 60rpx;
         background: #D92553;
         border-radius: 8rpx;
-        margin: 60rpx auto;
+        margin: 40rpx auto;
       }
     }
     .edit{

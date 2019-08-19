@@ -49,7 +49,7 @@
 
     onPullDownRefresh() {
     }
-    // 领取临时会员
+    // 领取尊享会员
     getTempType() {
       this.$get({url: service.tempMember}, {
         success: ({code, data}) => {

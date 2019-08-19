@@ -42,7 +42,7 @@
                       <view class="orange font_26 text-center flo_l menber" style="min-width: 76rpx">
                         <image src="http://images.ufutx.com/201902/21/fea657836c8c203e75c0bb1316a4a827.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;"
                                class="flo_l"></image>
-                        <view style="font-size: 20rpx;margin-top: 8rpx;margin-left: 4rpx;" class="flo_l">临时VIP</view>
+                        <view style="font-size: 20rpx;margin-top: 8rpx;margin-left: 4rpx;" class="flo_l">尊享VIP</view>
                       </view>
                     </span>
                     </block>

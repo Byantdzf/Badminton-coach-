@@ -123,9 +123,9 @@ export const service = {
     myMessgae: `${host}/message/linkmen`,
     // 更新微信头像
     updateAvatar: `${host}/wechat/avatar`,
-    // 判断临时会员
+    // 判断尊享会员
     tempMember: `${host}/can/get/temp/member`,
-    // 领取临时会员
+    // 领取尊享会员
     getTempMember: `${host}/get/temp/member`,
     // 良人佳偶购买服务
     appointments: `${host}/appointments`,

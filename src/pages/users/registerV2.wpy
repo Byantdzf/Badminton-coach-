@@ -187,11 +187,11 @@
           type = item.type
         }
       }
-      wepy.login({
-        success: (res) => {
+      wx.checkSession({
+        success () {
+          //session_key 未过期，并且在本生命周期一直有效
           if (e.detail.iv) {
             let data = {
-              code: res.code,
               iv: e.detail.iv,
               from_openid: wx.getStorageSync('from_openid'),
               type: type,
@@ -221,8 +221,43 @@
             })
           }
         },
-        fail: (res) => {
-          console.log('wepy.login.fail:', res)
+        fail () {
+          // session_key 已经失效，需要重新执行登录流程
+          wx_login().then((code) => {
+            if (e.detail.iv) {
+              let data = {
+                code: code,
+                iv: e.detail.iv,
+                from_openid: wx.getStorageSync('from_openid'),
+                type: type,
+                encryptedData: e.detail.encryptedData
+              }
+              vm.$showLoading('注册账号中...')
+              vm.$post({url: `${service.host}/user/and/wechat`, data}, {
+                success: ({code, data}) => {
+                  wx.setStorageSync('token', data.token)
+                  wx.showToast({
+                    title: '欢迎加入福恋!',
+                    icon: 'success',
+                    duration: 1200,
+                    success: (res) => {
+                      setTimeout(() => {
+                        let userInfo = {
+                          nickName: data.user.name,
+                          avatarUrl: data.avatar2 ? data.photo : data.circle_avatar
+                        }
+                        wx.setStorageSync('userInfo', userInfo)
+                        vm.$gotoTab('/pages/tabBar/home')
+                      }, 200)
+                    }
+                  })
+                  vm.$apply()
+                }
+              })
+            }
+          }).catch((error) => {
+            console.log(error)
+          })
         }
       })
     }

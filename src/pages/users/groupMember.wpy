@@ -121,7 +121,7 @@
     }
 
     methods = {
-      // 领取临时会员
+      // 领取尊享会员
       redirectTo(url) {
         wx.redirectTo({url: url})
       },
