@@ -21,6 +21,7 @@
         'pages/tabBar/home/indexv2',
         'pages/tabBar/news',
         'pages/tabBar/attention',
+        'pages/tabBar/friendCircleList',
         'pages/tabBar/party/index',
         'pages/tabBar/books/index',
         'pages/tabBar/loveMate',
@@ -166,6 +167,11 @@
           selectedIconPath: './images/tabbar/attentionActive.png',
           iconPath: './images/tabbar/attention.png',
           text: '活动'
+        }, {
+          pagePath: 'pages/tabBar/friendCircleList',
+          selectedIconPath: './images/tabbar/circle.png',
+          iconPath: './images/tabbar/circle.png',
+          text: '动态'
         }, {
           pagePath: 'pages/tabBar/news',
           selectedIconPath: './images/tabbar/messageActive.png',
@@ -383,12 +389,12 @@
         let {new_message_count} = data
         if (new_message_count > 0) {
           wx.setTabBarBadge({
-            index: 2,
+            index: 3,
             text: `${new_message_count}`
           })
         } else {
           wx.removeTabBarBadge({
-            index: 2
+            index: 3
           })
         }
       }

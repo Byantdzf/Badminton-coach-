@@ -65,7 +65,7 @@
       <!--</view>-->
       <bolck  wx:if="{{list.length < 1}}">
         <view class="main-title">
-          <view>
+          <view style="padding: 12rpx 32rpx;">
             <span class="font_32 bold color-666">小恋推荐</span>
             <span class="font_28 color-666" style="margin-left: 32rpx;">根据你的资料，为你推荐</span>
             <image src="https://images.ufutx.com/201908/16/eb58574466d54d7ce3223725c6a92387.png" mode="widthFix"
@@ -132,8 +132,27 @@
           </button>
         </view>
       </view>
+      <view class="recommend font_26"  @tap="goto('/pages/map/index')">
+        <view class="address flo_l" @tap.stop="goto('/pages/map/index')">
+          <view class="ellipsis_1">
+            <image src="http://images.ufutx.com/201905/29/116e3887dd6dcbcaad6a464f96bdcdcb.png" mode="widthFix" class="addressIcon"></image>
+            <!--{{address.city}}-->
+            相遇地图
+          </view>
+        </view>
+        <view class="center flo_l">
+          <span class="display_inlin">附近的人</span>
+          <block wx:if="{{person.length>0}}">
+            <image src="{{item.circle_avatar}}" mode="widthFix" wx:for="{{person}}" wx:key="{{index}}"  class="image display_inlin" ></image>
+          </block>
+          <block wx:else>
+            <image src="{{item}}" mode="widthFix" wx:for="{{images}}" wx:key="{{index}}" class="image display_inlin" ></image>
+          </block>
+        </view>
+        <image src="http://images.ufutx.com/201905/29/2eeab012d13d91f16f5a21ad6c578678.png" mode="widthFix" class="moreImage flo_r"></image>
+      </view>
       <view class="main-title">
-        <view>
+        <view style="padding: 12rpx 32rpx;">
           <span class="font_32 bold color-666">小恋推荐</span>
           <span class="font_28 color-666" style="margin-left: 32rpx;">为单身推荐TA</span>
         </view>
@@ -228,7 +247,7 @@
       person: [],
       recommends: [],
       animationData: {},
-      userType: wx.getStorageSync('type'),
+      userType: '',
       announcements: [], // 通知
       tab: [
         {
@@ -312,7 +331,9 @@
     }
 
     async onLoad(e) {
+      this.userType = wx.getStorageSync('type')
       this.page = 1
+      this.$applt()
       this.getCenterLocation()
       if (wx.getStorageSync('token')) {
         // this.getNewCount()
@@ -326,12 +347,12 @@
           let {new_count} = data
           if (new_count > 0) {
             wx.setTabBarBadge({
-              index: 2,
+              index: 3,
               text: `${new_count}`
             })
           } else {
             wx.removeTabBarBadge({
-              index: 2
+              index: 3
             })
           }
         }
@@ -811,7 +832,6 @@
       }
     }
     .main-title{
-      padding: 12rpx 32rpx;
       .main-hint{
         margin-top: 62rpx;
       }
