@@ -96,12 +96,12 @@
           let {new_count} = data
           if (new_count > 0) {
             wx.setTabBarBadge({
-              index: 2,
+              index: 3,
               text: `${new_count}`
             })
           } else {
             wx.removeTabBarBadge({
-              index: 2
+              index: 3
             })
           }
         }

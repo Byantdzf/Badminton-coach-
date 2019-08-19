@@ -200,7 +200,6 @@
             vm.$showLoading('注册账号中...')
             vm.$post({url: `${service.host}/user/and/wechat`, data}, {
               success: ({code, data}) => {
-                wx.setStorageSync('type', type)
                 wx.setStorageSync('token', data.token)
                 wx.showToast({
                   title: '欢迎加入福恋!',
@@ -257,7 +256,6 @@
                         nickName: data.nickname,
                         avatarUrl: data.avatar2 ? data.avatar2 : data.avatar
                       }
-                      wx.setStorageSync('type', data.type)
                       wx.setStorageSync('userInfo', userInfo)
                       that.$gotoTab('/pages/tabBar/home')
                     }, 200)
@@ -292,11 +290,14 @@
         console.log(type)
       },
       selectFn(index) { // 选择
+        let type = ''
         for (let item of this.list) {
           item.active = 'false'
         }
         this.list[index].active = 'true'
+        type = this.list[index].type
         this.$apply()
+        wx.setStorageSync('type', type)
         console.log(this.list)
       },
       getCurrent(e) { // 获取轮播下标
