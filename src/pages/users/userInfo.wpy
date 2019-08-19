@@ -288,16 +288,6 @@
           this.AgeList.push(item)
         }
       }
-      console.log(this.AgeList)
-      // let {nickName, avatarUrl, gender} = wx.getStorageSync('userInfo')
-      // this.avatar = avatarUrl
-      // // this.information[0].value = nickName
-      // if (gender) {
-      //   this.information[1].value = gender
-      //   this.information[1].pickerIndex = gender == 1 ? '0' : '1'
-      //   this.$apply()
-      // }
-      // this.$apply()
     }
     onShow() {
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
@@ -351,7 +341,7 @@
       vm.$apply()
       console.log(vm.information)
       let data = vm.information
-      vm.$put({url: `${service.host}/courtship/v2`, data}, {
+      vm.$put({url: `${service.host}/recommend/profile`, data}, {
         success: ({code, data}) => {
           vm.$gotoTab('/pages/tabBar/home')
         },

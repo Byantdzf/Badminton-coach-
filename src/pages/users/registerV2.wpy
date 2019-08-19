@@ -41,43 +41,6 @@
         <!--view class="main-issue font_26 color-theme" @tap="showIssue">为什么要绑定微信手机号?</view-->
       </view>
     </view>
-    <!--<view class="ff main-box">-->
-      <!--<block wx:if="{{marriage}}">-->
-        <!--<view class="reset-cell-block">-->
-          <!--<view class="text-center image flo_l">-->
-            <!--<image mode="aspectFill" src="{{from_avatar}}"  mode="aspectFill"></image>-->
-          <!--</view>-->
-          <!--<view class="font_28 referrer-name color-666 flo_l">-->
-            <!--<view>{{marriage}}</view>-->
-            <!--<view>邀请你加入福恋平台</view>-->
-          <!--</view>-->
-        <!--</view>-->
-      <!--</block>-->
-      <!--<block wx:else>-->
-        <!--<view class="reset-cell-block">-->
-          <!--<view class="text-center image flo_l">-->
-            <!--<image mode="aspectFill" src="http://images.ufutx.com/201903/05/cbc22feb2fcbd4b43173f763c6a46107.png"></image>-->
-          <!--</view>-->
-          <!--<view class="font_28 referrer-name color-666">-->
-            <!--<view>福恋</view>-->
-            <!--<view>邀请你加入福恋平台</view>-->
-          <!--</view>-->
-        <!--</view>-->
-      <!--</block>-->
-      <!--<view class="main-btn">-->
-        <!--<form bindsubmit="formSubmit" report-submit>-->
-          <!--<button class="btn text-center font_28 singleBtn flo_l white" formType="submit" open-type="getUserInfo"-->
-                  <!--@getuserinfo="getuserinfo('single')">我是单身-->
-          <!--</button>-->
-        <!--</form>-->
-        <!--<form bindsubmit="formSubmit" report-submit>-->
-          <!--<button formType="submit" class="btn text-center font_28 marriageBtn flo_r ff" open-type="getUserInfo"-->
-                  <!--@getuserinfo="getuserinfo('marriage')">-->
-            <!--我是已婚-->
-          <!--</button>-->
-        <!--</form>-->
-      <!--</view>-->
-    <!--</view>-->
   </view>
 </template>
 

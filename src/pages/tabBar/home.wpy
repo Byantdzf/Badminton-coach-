@@ -76,7 +76,7 @@
                    style="width: 240rpx;height: auto;"></image>
             <!--view class="font_26 color-666"><span class="bold"></span>你好，小恋为你服务！</view-->
             <view class="font_26 color-666" style="margin-top: 12rpx">完善个人资料，领取尊享VIP！</view>
-            <view class="item-btn white font_28" @tap="goto('/pages/users/userInfo')">去领取</view>
+            <view class="item-btn white font_28" @tap="goto('/pages/users/userInfo')">去完善</view>
           </view>
         </view>
       </bolck>
@@ -174,11 +174,22 @@
       <image src="https://images.ufutx.com/201908/16/66f4cfe4e83b08393978b144ec94151e.png" mode="widthFix"
              style="width: 60vw;height: auto;margin-top: 24vw;"></image>
     </view>
-    <view @tap="cancle">
+    <view @tap="cancle('showVip')">
       <image src="https://images.ufutx.com/201908/16/9a2234dcb203aebfad1a8674d6b4aa3e.png" mode="widthFix"
              style="width: 60rpx;height: auto;margin-top: 6vw;"></image>
     </view>
     <view class="main-btn" @tap="getTempVip"></view>
+  </view>
+  <view class="getVip text-center" wx:if="{{showMoney}}">
+    <view class="showPicVip">
+      <image src="https://images.ufutx.com/201908/19/4d170506f0bf6ae1ced70bfa01823f72.png" mode="widthFix"
+             style="width: 60vw;height: auto;margin-top: 24vw;"></image>
+    </view>
+    <view @tap="cancle('showMoney')">
+      <image src="https://images.ufutx.com/201908/16/9a2234dcb203aebfad1a8674d6b4aa3e.png" mode="widthFix"
+             style="width: 60rpx;height: auto;margin-top: 6vw;"></image>
+    </view>
+    <view class="main-btn" @tap="getMoney" style="top: 76vw;left: 30vw;"></view>
   </view>
   <view class="commodity_screen" bindtap="cancel" wx:if="{{!hide}}"></view>
   <!--弹出框  -->
@@ -237,6 +248,7 @@
       type: 'mate',
       init: false,
       showVip: false,
+      showMoney: false,
       loading: false,
       noMore: false,
       current: 0,
@@ -331,6 +343,10 @@
     }
 
     async onLoad(e) {
+      if (wx.getStorageSync('token') == '') {
+        wx.navigateTo({url: '/pages/users/registerV2?from_openid=' + wx.getStorageSync('from_openid')})
+        return
+      }
       this.userType = wx.getStorageSync('type')
       this.page = 1
       this.$apply()
@@ -357,6 +373,10 @@
     }
 
     onShow() {
+      if (wx.getStorageSync('token') == '') {
+        wx.navigateTo({url: '/pages/users/registerV2?from_openid=' + wx.getStorageSync('from_openid')})
+        return
+      }
       let that = this
       that.upDate()
       if (that.userType == 'single') {
@@ -553,6 +573,7 @@
       }, {
         success: ({code, data}) => {
           _this.showVip = data.can_get_temp_member == 0 ? false : true
+          _this.showMoney = data.can_get_red_packet == 0 ? false : true
           _this.$apply()
         },
         fail: ({code, data}) => {
@@ -568,8 +589,33 @@
     }
 
     methods = {
-      cancle() {
-        this.showVip = false
+      cancle(key) {
+        this[key] = false
+        this.$apply()
+      },
+      getMoney() { // 领取红包
+        let vm = this
+        vm.$post({url: `${service.host}/get/red/packet`}, {
+          success: ({code, data}) => {
+            wx.showModal({
+              title: '提示',
+              content: '领取成功',
+              showCancel: false,
+              success(res) {
+                if (res.confirm) {
+                  console.log('用户点击确定')
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
+                }
+              }
+            })
+          },
+          fail: ({code, data}) => {
+          },
+          complete: () => {
+          }
+        })
+        this.showMoney = false
         this.$apply()
       },
       getTempVip() { // 领取尊享会员
