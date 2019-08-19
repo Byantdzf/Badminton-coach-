@@ -362,6 +362,7 @@
       if (that.userType == 'single') {
         that.getLikers()
       }
+      that.getTempMember()
       if (that.watchLocation) {
         wx.getSetting({
           success(res) {
@@ -532,8 +533,6 @@
           _this.shareUser = data.users
           _this.person = data.users
           _this.announcements = data.announcements
-          // _this.showVip =
-          _this.showVip = data.can_get_temp_member == 0 ? false : true
           _this.noMore = false
           _this.$apply()
         },
@@ -543,6 +542,22 @@
           _this.loading = false
           _this.init = true
           wx.hideLoading()
+        }
+      })
+    }
+    getTempMember() {
+      let _this = this
+      let url = `${service.host}/can/get/temp/member`
+      _this.$get({
+        url: url
+      }, {
+        success: ({code, data}) => {
+          _this.showVip = data.can_get_temp_member == 0 ? false : true
+          _this.$apply()
+        },
+        fail: ({code, data}) => {
+        },
+        complete: () => {
         }
       })
     }

@@ -84,9 +84,10 @@
         <block wx:if="{{infoIndex > 1}}">
           <view class="item-last inline-block text-center white flo_l" @tap="lastFn" >上一步</view>
           <block  wx:if="{{infoIndex == 6}}">
-            <button  class="btn item-next inline-block text-center white flo_r" open-type="getUserInfo" @getuserinfo="getuserinfo">
-              完成
-            </button>
+            <!--<button  class="btn item-next inline-block text-center white flo_r" open-type="getUserInfo" @getuserinfo="getuserinfo">-->
+              <!--完成-->
+            <!--</button>-->
+            <view class="item-next inline-block text-center white flo_r" @tap="saveFn">完成</view>
           </block>
           <block wx:else>
             <view class="item-next inline-block text-center white flo_r" @tap="nextFn">下一步</view>
@@ -264,8 +265,8 @@
       belief: '', // 信仰
       hide: true,
       information: { // 存储信息
-        name: '',
-        photo: '',
+        // name: '',
+        // photo: '',
         sex: '1',
         state: '从未结婚',
         country: '',
