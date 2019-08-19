@@ -16,18 +16,27 @@
         </view>
       </block>
       <view class="main-selectBox text-center ">
-        <view class="inline-block item-selectBox {{item.active == 'true'?'active':''}}" wx:for="{{list}}" wx:key="index" @tap="selectFn({{index}})">
-          <view class="font_28 title {{item.active == 'true'?'active':''}}">{{item.title}}</view>
-          <view class="font_22">{{item.sub_title}}</view>
-          <image mode="aspectFill" src="{{item.iconA}}" class="icon" wx:if="{{item.active == 'true'}}"></image>
-          <image mode="aspectFill" src="{{item.icon}}" class="icon" wx:else></image>
-        </view>
+        <button  class="btn text-center" open-type="getUserInfo" @getuserinfo="getuserinfo">
+          <view class="inline-block item-selectBox {{item.active == 'true'?'active':''}}" wx:for="{{list}}" wx:key="index" @tap="selectFn({{index}})">
+            <view class="font_28 title {{item.active == 'true'?'active':''}}">{{item.title}}</view>
+            <view class="font_22">{{item.sub_title}}</view>
+            <image mode="aspectFill" src="{{item.iconA}}" class="icon" wx:if="{{item.active == 'true'}}"></image>
+            <image mode="aspectFill" src="{{item.icon}}" class="icon" wx:else></image>
+          </view>
+        </button>
       </view>
       <view class="main-btn text-center">
         <form bindsubmit="formSubmit" report-submit>
-          <button class="btn text-center font_30 btn-box white" formType="submit" open-type="getPhoneNumber"
-                  bindgetphonenumber="getPhoneNumber">继续
-          </button>
+          <block wx:if="{{type == ''}}">
+            <button class="btn text-center font_30 btn-box white" formType="submit"
+                    @tap="showToast">继续
+            </button>
+          </block>
+          <block wx:else>
+            <button class="btn text-center font_30 btn-box white" formType="submit"  open-type="getPhoneNumber"
+                    bindgetphonenumber="getPhoneNumber">继续
+            </button>
+          </block>
         </form>
         <!--view class="main-issue font_26 color-theme" @tap="showIssue">为什么要绑定微信手机号?</view-->
       </view>
@@ -100,7 +109,7 @@
           sub_title: '想找个合适的对象',
           icon: 'https://images.ufutx.com/201908/13/657e1bd4e7c1ecc4dd2cc7f5d9bd74aa.png',
           iconA: 'https://images.ufutx.com/201908/13/3301a473d882739a00475e70c67b2c0f.png',
-          active: 'true',
+          active: 'false',
           type: 'single'
         },
         {
@@ -120,6 +129,7 @@
       name: '',
       mobile: '',
       code: '',
+      type: '',
       wechat_code: '',
       loading: false,
       openid: '',
@@ -184,13 +194,7 @@
 
     getPhoneNumber(e) { // 获取手机号
       let vm = this
-      let type = ''
-      for (let item of this.list) {
-        if (item.active == 'true'){
-          type = item.type
-        }
-      }
-      wx.setStorageSync('type', type)
+      wx.setStorageSync('type', vm.type)
       wx.checkSession({
         success () {
           //session_key 未过期，并且在本生命周期一直有效
@@ -199,7 +203,8 @@
               openid: vm.openid,
               iv: e.detail.iv,
               from_openid: wx.getStorageSync('from_openid'),
-              type: type,
+              type: vm.type,
+              userInfo: vm.userInfo,
               encryptedData: e.detail.encryptedData
             }
             vm.$showLoading('注册账号中...')
@@ -317,17 +322,11 @@
     }
 
     methods = {
+      showToast(){
+        this.$showToast('请选择类型')
+      },
       showIssue() {
         this.$alert('绑定微信手机号，是微信提供的快捷功能，方便用户下次使用福恋小程序时，免登录且识别你，即安全又便捷。')
-      },
-      save() {
-        let type = ''
-        for (let item of this.list) {
-          if (item.active == 'true'){
-            type = item.type
-          }
-        }
-        console.log(type)
       },
       selectFn(index) { // 选择
         let type = ''
@@ -336,6 +335,7 @@
         }
         this.list[index].active = 'true'
         type = this.list[index].type
+        this.type = type
         this.$apply()
         wx.setStorageSync('type', type)
         console.log(this.list)
@@ -345,19 +345,11 @@
         this.$apply()
       },
       getuserinfo(e) {
-        let type = ''
-        for (let item of this.list) {
-          if (item.active == 'true') {
-            type = item.type
-          }
-        }
         if (e.detail.userInfo) {
           this.encryptedData = e.detail.encryptedData
           this.iv = e.detail.iv
           this.userInfo = e.detail.userInfo
           this.$apply()
-          this.$showLoading('账号注册中...')
-          this.doRegister(type)
           console.log('用户按了允许授权按钮')
         } else {
           console.log('用户按了拒绝按钮')

@@ -421,7 +421,7 @@
             url = '/pages/users/intro'
           }
         } else {
-          url = '/pages/users/vipSetting'
+          url = '/pages/users/vipData'
         }
         wx.navigateTo({url: url})
       },

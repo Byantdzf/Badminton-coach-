@@ -11,7 +11,7 @@
     </block>
     <block wx:if="{{userType == 'single'}}">
       <view class="_bc-tab text-left ff ">
-        <view class="_bc-tab-item text-center flo_l item{{index}}" wx:for="{{tab}}" wx:key="{{index}}" @tap="gotoV({{item.path+'?title='+item.title+'&type='+item.type}}, {{item.type}})">
+        <view class="_bc-tab-item text-center flo_l item{{index}}" wx:for="{{tab}}" wx:key="{{index}}" @tap="gotoV({{item.path}}, {{item.type}})">
           <image src="{{item.icon}}" class=" {{index===0?'heart':''}}" mode="widthFix" wx:if="{{item.icon}}"></image>
           <view  class="_item-text font_24 _text{{index}}">{{item.title}}</view>
         </view>
@@ -259,13 +259,13 @@
         {
           icon: 'https://images.ufutx.com/201908/16/cae28e0e9afed98be1dce0e6e337fe9e.png',
           title: '福恋之星',
-          path: '/pages/home/loveMate',
-          type: 'applyFor'
+          path: 'https://mp.weixin.qq.com/mp/homepage?__biz=MzI2NTkzNzI2MA==&hid=3&sn=f745c9fa2bbb2f9ad2f9f53713f46171',
+          type: 'community'
         },
         {
           icon: 'https://images.ufutx.com/201908/16/32877e07b4e6b3fd71a1c4020544ada5.png',
           title: '小测试',
-          path: '/pages/users/sociability',
+          path: '/pages/users/vipSetting',
           type: 'maker'
         },
         {
@@ -671,38 +671,38 @@
       },
       gotoV(url, type) {
         let vm = this
-        if (type == 'applyFor') {
-          return wx.showModal({
-            title: '福恋小助手',
-            content: '你将申请成为首页推荐？',
-            success(res) {
-              if (res.confirm) {
-                vm.$post({url: `${service.host}/apply/home/recommends`}, {
-                  success: ({code, data}) => {
-                    wx.showModal({
-                      title: '提示',
-                      content: '申请成功，等待管理员审核',
-                      showCancel: false,
-                      success(res) {
-                        if (res.confirm) {
-                          console.log('用户点击确定')
-                        } else if (res.cancel) {
-                          console.log('用户点击取消')
-                        }
-                      }
-                    })
-                  },
-                  fail: ({code, data}) => {
-                  },
-                  complete: () => {
-                  }
-                })
-              } else if (res.cancel) {
-                console.log('用户点击取消')
-              }
-            }
-          })
-        }
+        // if (type == 'applyFor') {
+        //   return wx.showModal({
+        //     title: '福恋小助手',
+        //     content: '你将申请成为首页推荐？',
+        //     success(res) {
+        //       if (res.confirm) {
+        //         vm.$post({url: `${service.host}/apply/home/recommends`}, {
+        //           success: ({code, data}) => {
+        //             wx.showModal({
+        //               title: '提示',
+        //               content: '申请成功，等待管理员审核',
+        //               showCancel: false,
+        //               success(res) {
+        //                 if (res.confirm) {
+        //                   console.log('用户点击确定')
+        //                 } else if (res.cancel) {
+        //                   console.log('用户点击取消')
+        //                 }
+        //               }
+        //             })
+        //           },
+        //           fail: ({code, data}) => {
+        //           },
+        //           complete: () => {
+        //           }
+        //         })
+        //       } else if (res.cancel) {
+        //         console.log('用户点击取消')
+        //       }
+        //     }
+        //   })
+        // }
         if (type == 'community') {
           this.gotoApp(url)
         }
