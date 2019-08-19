@@ -79,6 +79,7 @@
   import base from '../../mixins/base'
   import user from '../../mixins/user'
   import ShareMessage from '../../mixins/ShareMessage'
+  import {wx_login } from '../../utils/fn'
 
   export default class Register extends wepy.page {
     mixins = [base, http, user, ShareMessage]
@@ -121,6 +122,7 @@
       code: '',
       wechat_code: '',
       loading: false,
+      openid: '',
       timer: null,
       time: 0,
       encryptedData: '',
@@ -161,6 +163,7 @@
               this.from_avatar = data.from_avatar
               this.avatar = data.user ? data.user.avatar : ''
               this.marriage = data.marriage
+              this.openid = data.openid
               if (!this.avatar) {
                 this.showAvatar = false
                 this.$apply()
@@ -192,6 +195,7 @@
           //session_key 未过期，并且在本生命周期一直有效
           if (e.detail.iv) {
             let data = {
+              openid: this.openid,
               iv: e.detail.iv,
               from_openid: wx.getStorageSync('from_openid'),
               type: type,
