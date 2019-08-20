@@ -158,6 +158,7 @@ export default class httpMixin extends wepy.mixin {
                     }
                     wx.setStorageSync('userInfo', userInfo)
                     wx.setStorageSync('user_id', data.user.id)
+                    wx.setStorageSync('type', data.user.type)
                   }
                   var route = wx.getStorageSync('jump')
                   if (route == '/pages/tabBar/welcome') {

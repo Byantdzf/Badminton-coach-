@@ -63,24 +63,6 @@
       <!--</block>-->
       <!--</view>-->
       <!--</view>-->
-      <bolck  wx:if="{{list.length < 1}}">
-        <view class="main-title">
-          <view style="padding: 12rpx 32rpx;">
-            <span class="font_32 bold color-666">智能推荐</span>
-            <span class="font_28 color-666" style="margin-left: 32rpx;">根据你的资料，为你推荐</span>
-            <image src="https://images.ufutx.com/201908/16/eb58574466d54d7ce3223725c6a92387.png" mode="widthFix"
-                   class="edit flo_r" @tap="goto('/pages/users/userInfo')"></image>
-          </view>
-          <view class="text-center main-hint">
-            <image src="https://images.ufutx.com/201908/16/6f2f00d1bab1d96b8a1971e88c0e3575.png" mode="widthFix"
-                   style="width: 240rpx;height: auto;"></image>
-            <!--view class="font_26 color-666"><span class="bold"></span>你好，小恋为你服务！</view-->
-            <view class="font_26 color-666" style="margin-top: 12rpx">完善个人资料，领取尊享VIP！</view>
-            <view class="item-btn white font_28" @tap="goto('/pages/users/userInfo')">去完善</view>
-          </view>
-        </view>
-      </bolck>
-      <block wx:else>
         <view class="_bc-list">
           <view style="padding: 12rpx 22rpx;">
             <span class="font_32 bold color-666">智能推荐</span>
@@ -88,21 +70,32 @@
             <image src="https://images.ufutx.com/201908/16/eb58574466d54d7ce3223725c6a92387.png" mode="widthFix"
                    class="edit flo_r" @tap="goto('/pages/users/userInfo')"></image>
           </view>
-          <view class="item-avatar" wx:for="{{list}}" wx:key="{{index}}" @tap="gotofriends({{item}},{{item.id}})">
-            <image src="{{item.avatar}}" mode="widthFix" class="image"></image>
-            <view class="font_28 _bc-center color-666">
-              <view class="font_28">
-                <view class="color-666 ellipsis_1 bold flo_l" style="max-width: 80%">{{item.name}}</view>
-                <image src="http://images.ufutx.com/201811/09/df3aa8846ea6f02341f9077198555c39.png" wx:if="{{item.sex=='2'}}" mode="aspectFill" class="flo_l" style="width: 32rpx;height: 32rpx;margin: 6rpx 0 0 6rpx"></image>
-                <image src="http://images.ufutx.com/201811/09/fc3a6545c016643bfe5ab2989658900b.png" mode="aspectFill" wx:else class="flo_l" style="width: 32rpx;height: 32rpx;margin: 6rpx 0 0 6rpx"></image>
-                <view class="clearfloat"></view>
-              </view>
-              <view>
-                <text class="font_22 bold">{{item.age? item.age + '岁' : ''}} {{item.stature? '· ' +item.stature +'cm': ''}} {{item.city? '· '+item.city: ''}}</text>
-                <view class="font_22 ellipsis_1">{{item.introduction? item.introduction : ''}}</view>
+          <bolck  wx:if="{{list.length < 1}}">
+            <view class="text-center main-hint">
+              <image src="https://images.ufutx.com/201908/16/6f2f00d1bab1d96b8a1971e88c0e3575.png" mode="widthFix"
+                     style="width: 240rpx;height: auto;"></image>
+              <!--view class="font_26 color-666"><span class="bold"></span>你好，小恋为你服务！</view-->
+              <view class="font_26 color-666" style="margin-top: 12rpx">完善个人资料，领取尊享VIP！</view>
+              <view class="item-btn white font_28" @tap="goto('/pages/users/userInfo')">去完善</view>
+            </view>
+          </bolck>
+          <bolck  wx:else>
+            <view class="item-avatar" wx:for="{{list}}" wx:key="{{index}}" @tap="gotofriends({{item}},{{item.id}})">
+              <image src="{{item.avatar}}" mode="widthFix" class="image"></image>
+              <view class="font_28 _bc-center color-666">
+                <view class="font_28">
+                  <view class="color-666 ellipsis_1 bold flo_l" style="max-width: 80%">{{item.name}}</view>
+                  <image src="http://images.ufutx.com/201811/09/df3aa8846ea6f02341f9077198555c39.png" wx:if="{{item.sex=='2'}}" mode="aspectFill" class="flo_l" style="width: 32rpx;height: 32rpx;margin: 6rpx 0 0 6rpx"></image>
+                  <image src="http://images.ufutx.com/201811/09/fc3a6545c016643bfe5ab2989658900b.png" mode="aspectFill" wx:else class="flo_l" style="width: 32rpx;height: 32rpx;margin: 6rpx 0 0 6rpx"></image>
+                  <view class="clearfloat"></view>
+                </view>
+                <view>
+                  <text class="font_22 bold">{{item.age? item.age + '岁' : ''}} {{item.stature? '· ' +item.stature +'cm': ''}} {{item.city? '· '+item.city: ''}}</text>
+                  <view class="font_22 ellipsis_1">{{item.introduction? item.introduction : ''}}</view>
+                </view>
               </view>
             </view>
-          </view>
+          </bolck>
           <block wx:if="{{loading}}">
             <view class="weui-loadmore">
               <view class="weui-loading"></view>
@@ -156,14 +149,33 @@
           <span class="font_32 bold color-666">智能推荐</span>
           <span class="font_28 color-666" style="margin-left: 32rpx;">为单身推荐TA</span>
         </view>
-        <view class="text-center main-hint">
-          <image src="https://images.ufutx.com/201908/16/b1ce90ed0a31f6f543361e55d841d199.png" mode="widthFix"
-                 style="width: 240rpx;height: auto;"></image>
-          <view class="font_26 color-666" style="margin-top: 12rpx">邀请身边的单身们加入，为单身推荐TA</view>
-          <button class="btn white inline-block item-btn white font_28 text-center" hover-class="btn_active"  open-type="share" style="margin-bottom: -18rpx;">
-            邀请
-          </button>
-        </view>
+        <bolck  wx:if="{{list.length < 1}}">
+          <view class="text-center main-hint">
+            <image src="https://images.ufutx.com/201908/16/b1ce90ed0a31f6f543361e55d841d199.png" mode="widthFix"
+                   style="width: 240rpx;height: auto;"></image>
+            <view class="font_26 color-666" style="margin-top: 12rpx">邀请身边的单身们加入，为单身推荐TA</view>
+            <button class="btn white inline-block item-btn white font_28 text-center" hover-class="btn_active"  open-type="share" style="margin-bottom: -18rpx;">
+              邀请
+            </button>
+          </view>
+        </bolck>
+        <bolck  wx:else>
+          <view class="item-avatar" wx:for="{{list}}" wx:key="{{index}}" @tap="gotofriends({{item}},{{item.id}})">
+            <image src="{{item.avatar}}" mode="widthFix" class="image"></image>
+            <view class="font_28 _bc-center color-666">
+              <view class="font_28">
+                <view class="color-666 ellipsis_1 bold flo_l" style="max-width: 80%">{{item.name}}</view>
+                <image src="http://images.ufutx.com/201811/09/df3aa8846ea6f02341f9077198555c39.png" wx:if="{{item.sex=='2'}}" mode="aspectFill" class="flo_l" style="width: 32rpx;height: 32rpx;margin: 6rpx 0 0 6rpx"></image>
+                <image src="http://images.ufutx.com/201811/09/fc3a6545c016643bfe5ab2989658900b.png" mode="aspectFill" wx:else class="flo_l" style="width: 32rpx;height: 32rpx;margin: 6rpx 0 0 6rpx"></image>
+                <view class="clearfloat"></view>
+              </view>
+              <view>
+                <text class="font_22 bold">{{item.age? item.age + '岁' : ''}} {{item.stature? '· ' +item.stature +'cm': ''}} {{item.city? '· '+item.city: ''}}</text>
+                <view class="font_22 ellipsis_1">{{item.introduction? item.introduction : ''}}</view>
+              </view>
+            </view>
+          </view>
+        </bolck>
       </view>
     </block>
   </view>
