@@ -36,25 +36,25 @@
         <!--<image src="http://images.ufutx.com/201812/29/31c646a02f34492847c9644a99acc405.png" mode="aspectFit" wx:if="{{mylibs.is_approved == 0}}" class="vip-image" @tap="hint('该用户未实名认证！')"></image>-->
         <!--<image src="http://images.ufutx.com/201812/29/d26f9a4c175ddbceea2d5e9354ad8a0f.png" mode="aspectFit" wx:else class="vip-image" @tap="hint('该用户已实名认证！')"></image>-->
         <view class="bold font_32 text-left ellipsis_1 name flo_l">
-          <span class="flo_l ellipsis_1 color-666" style="max-width: 300rpx;">{{mylibs.name}}</span>
+          <span class="flo_l ellipsis_1 color-666" style="max-width: 300rpx;margin-top: -2rpx;">{{mylibs.name}}</span>
           <image src="https://images.ufutx.com/201908/20/77fed53ebfab0b10a8e751111b20f787.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;" class="flo_l" wx:if="{{mylibs.profile_courtship.sex == '2'}}"></image>
           <image src="https://images.ufutx.com/201908/20/8307194a17256fcc3ff4df3fa6bb8c0e.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;" class="flo_l" wx:else class="flo_l"></image>
           <block wx:if="{{mylibs.rank_id == '0'}}">
             <block wx:if="{{mylibs.temp_member == '0'}}">
-              <view class="main-bc flo_l font_22">普通VIP</view>
+              <view class="main-bc flo_l">普通VIP</view>
             </block>
             <block wx:else>
-              <view class="main-bc_vip flo_l font_22" @tap="goto('/pages/users/upgradeVIP')">尊享VIP</view>
+              <view class="main-bc_vip flo_l" @tap="goto('/pages/users/upgradeVIP')">尊享VIP</view>
             </block>
           </block>
           <block wx:else>
-            <view class="main-bc_vip flo_l font_22">{{mylibs.rank.name}}VIP</view>
+            <view class="main-bc_vip flo_l">{{mylibs.rank.name}}VIP</view>
           </block>
         </view>
         <view class="font_26 text-left _bc-age flo_l color-666">
-          <span>{{mylibs.age}} · {{mylibs.profile_courtship.city?mylibs.profile_courtship.city:'未知城市'}}</span>
+          <span>{{mylibs.age}} · {{profile_courtship.stature + 'cm'}} · {{mylibs.profile_courtship.city?mylibs.profile_courtship.city:'未知城市'}}</span>
         </view>
-        <view class="font_26 text-left flo_l _bc-age color-666" wx:if="{{mylibs.marriage.name}}">
+        <view class="font_26 text-left flo_l _bc-age color-666" wx:if="{{!mylibs.marriage.name}}">
           <span>推荐人：<span @tap="gotoType({{mylibs.marriage}})">{{mylibs.marriage.name}}</span></span>
         </view>
         <view class="font_26 text-left flo_l white box-recommend">
@@ -69,15 +69,37 @@
         </view>
         <view class="clearfloat"></view>
       </view>
-      <view style="position: relative;">
-        <view class="weui-navbar">
-          <view wx:for="{{tabs}}" wx:key="{{index}}" id="{{index}}" class="weui-navbar__item {{activeIndex == index? 'orange' : ''}}" @tap="tabClick">
-            <view class="weui-navbar__title font_28" >{{item.name}}</view>
+      <!--<view style="position: relative;">-->
+        <!--<view class="weui-navbar">-->
+          <!--<view wx:for="{{tabs}}" wx:key="{{index}}" id="{{index}}" class="weui-navbar__item {{activeIndex == index? 'orange' : ''}}" @tap="tabClick">-->
+            <!--<view class="weui-navbar__title font_28" >{{item.name}}</view>-->
+          <!--</view>-->
+          <!--<view class="weui-navbar__slider" style="width:{{sliderWidth}}px; left:{{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>-->
+        <!--</view>-->
+      <!--</view>-->
+      <!--<view style="height: 100rpx"></view>-->
+      <view class="main-tab-box">
+        <block wx:for="{{tabs}}" wx:key="index">
+          <view class="main-tabs text-center inline-block">
+            <image src="{{item.icon}}" mode="aspectFit"></image>
+            <view class="font_22 color-666">{{item.name}}</view>
           </view>
-          <view class="weui-navbar__slider" style="width:{{sliderWidth}}px; left:{{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
+        </block>
+      </view>
+      <view class="main-approved-box">
+        <image  class="image" src="https://images.ufutx.com/201908/20/86ba88eebe8b6a61933e226734a39598.png" mode="widthFix"></image>
+        <view class="main-card text-right flo_r">
+          <view class="font_26 color-theme">刘晓霞</view>
+          <view class="font_22 color-666">4414241991299129****</view>
+          <view class="font_22 color-666">认证通过时间：2019年09月09日</view>
         </view>
       </view>
-      <view style="height: 100rpx"></view>
+      <view class="main-approved-box">
+        <view class="color-666 flo_l">自我介绍</view>
+        <view class="main-card flo_r font_26 colorb0">
+          {{profile_courtship.introduction}}
+        </view>
+      </view>
       <block wx:if="{{activeIndex == 0}}">
         <view class="infoList">
           <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.stature}}">{{'身高：' +profile_courtship.stature+'cm'}}</view>
@@ -92,7 +114,7 @@
           <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.industry}}">{{'行业：' +profile_courtship.industry+'/'+profile_courtship.industry_sub}}</view>
           <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.post}}">{{'职位：' +profile_courtship.post}}</view>
           <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.belief}}">{{'信仰：' + profile_courtship.belief}}</view>
-          <view class="_bc-info-text flo_l font_28 text-left" wx:if="{{profile_courtship.introduction}}"><span class="orange">个人介绍：</span>{{profile_courtship.introduction}}</view>
+          <!--<view class="_bc-info-text flo_l font_28 text-left" wx:if="{{profile_courtship.introduction}}"><span class="orange">个人介绍：</span>{{profile_courtship.introduction}}</view>-->
           <view class="_bc-info-text flo_l font_28 text-left" wx:if="{{profile_courtship.ideal_mate}}"><span class="orange">理想对象：</span>{{profile_courtship.ideal_mate}}</view>
           <view class="clearfloat"></view>
         </view>
@@ -249,10 +271,10 @@
       user: [],
       title: '',
       tabs: [
-        {name: '基本信息'},
-        {name: '查看位置'},
-        {name: 'VIP资料'},
-        {name: '爱情语言'}
+        {name: '共同好友', icon: 'https://images.ufutx.com/201908/20/630ad7fa79e3d3200c637a1a3d52f3c9.png'},
+        {name: '为TA推荐', icon: 'https://images.ufutx.com/201908/20/423e04a17ae43b9fcb5b236ea7d82af9.png'},
+        {name: '相遇地图', icon: 'https://images.ufutx.com/201908/20/f8efc0b62700a161551ef47e8445e859.png'},
+        {name: '帮我约TA', icon: 'https://images.ufutx.com/201908/20/620d7ba2d5ebba95b80a0e906f5d1b56.png'}
       ],
       list: [
         {
@@ -704,17 +726,17 @@
         position: relative;
       }
       .main-bc, .main-bc_vip{
-        width: 90rpx;
-        height: 38rpx;
+        width: 80rpx;
+        height: 36rpx;
         background-image: url('https://images.ufutx.com/201908/20/05581b6bf766d8dd8a33a4b29a723a51.png');
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
-        margin-top: 4rpx;
-        line-height: 46rpx;
-        margin-left: 4rpx;
-        padding-left: 40rpx;
+        margin-top: 8rpx;
+        line-height: 40rpx;
+        padding-left: 34rpx;
         color: #666666;
+        font-size: 20rpx;
       }
       .main-bc_vip{
         background-image: url('https://images.ufutx.com/201908/20/9b3e5f0422db4c43b5e1a897cf0b187a.png');
@@ -785,6 +807,7 @@
     }
     .infoList{
       padding: 0 32rpx 22rpx 32rpx;
+      border-top: 14rpx solid #f6f6f6;
       ._bc-info-item{
         margin-top: 22rpx;
         padding: 2rpx 22rpx;
@@ -951,6 +974,38 @@
     30%{transform: rotate(5deg);}
     40%{transform: rotate(-5deg);}
     50%,100%{transform: rotate(0deg);}
+  }
+  .main-tab-box{
+    width: 100%;
+    border-bottom: 1rpx solid #b0b0b0;
+    padding: 0 32rpx;
+    padding-bottom: 12rpx;
+    margin-top: 10rpx;
+    .main-tabs{
+      margin-right: 92rpx;
+      image{
+        width: 100rpx;
+        height: 100rpx;
+        margin-bottom: -6rpx;
+      }
+      &:nth-child(4){
+        margin: 0;
+      }
+    }
+  }
+  .main-approved-box{
+    padding: 32rpx;
+    padding-bottom: 22rpx;
+    border-bottom: 1rpx solid #b0b0b0;
+    overflow: hidden;
+    .image{
+      width: 130rpx;
+      height: auto;
+    }
+    .main-card{
+      width: 75%;
+      margin-top: -18rpx;
+    }
   }
   .box-recommend{
     position: absolute;
