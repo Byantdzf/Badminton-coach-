@@ -3,7 +3,7 @@
                         小程序配置文件
 ======================================================== */
 // 域名
-    var host = 'https://love.ufutx.com/api',
+var host = 'https://love.ufutx.com/api',
 // var host = 'http://love.hankin.ufutx.cn/api',
     book = 'https://christ.data.ufutx.com/api',
     party = 'https://party.ufutx.com/api'
@@ -123,9 +123,9 @@ export const service = {
     myMessgae: `${host}/message/linkmen`,
     // 更新微信头像
     updateAvatar: `${host}/wechat/avatar`,
-    // 判断尊享会员
+    // 判断临时会员
     tempMember: `${host}/can/get/temp/member`,
-    // 领取尊享会员
+    // 领取临时会员
     getTempMember: `${host}/get/temp/member`,
     // 良人佳偶购买服务
     appointments: `${host}/appointments`,
