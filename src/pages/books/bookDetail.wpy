@@ -43,9 +43,8 @@
     onShareAppMessage(res) {
       let that = this
       let url = '/pages/books/bookDetail?url=' + encodeURIComponent(that.url) + '&from_openid=' + that.from_openid
-      console.log(url)
       return {
-        title: '基督徒资讯阅读',
+        title: '福恋',
         path: url,
         imageUrl: '',
         success: function(res) {
