@@ -97,6 +97,7 @@
                 }
                 wx.setStorageSync('userInfo', userInfo)
                 wx.setStorageSync('user_id', data.user.id)
+                wx.setStorageSync('type', data.user.type)
                 if (this.time == 0) {
                   setTimeout(() => {
                     this.$gotoTab('/pages/tabBar/home')
