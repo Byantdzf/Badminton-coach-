@@ -710,7 +710,7 @@
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
-        margin-top: -4rpx;
+        margin-top: 4rpx;
         line-height: 46rpx;
         margin-left: 4rpx;
         padding-left: 40rpx;
