@@ -352,9 +352,11 @@
       this.getCenterLocation()
       this.getNewCount()
     }
+
     onShareAppMessage(res) {
       let that = this
-      let url = `/pages/tabBar/home?from_openid=${that.from_openid}&share_user_id=${that.id}`
+      let from_openid = wx.getStorageSync('from_openid')
+      let url = `/pages/tabBar/home?from_openid=${from_openid}&share_user_id=${that.id}`
       console.log(url)
       return {
         title: this.config.navigationBarTitleText,

@@ -25,7 +25,7 @@
           <view class="font_32 white flo_r atten_btn">
             <picker @change="bindPickerChange({{mylibs.id}})" value="{{index}}" range="{{setList}}">
               <view class="text-center">
-                <image src="http://images.ufutx.com/201902/19/7687f0cdcfbf482a3b4406b246277174.png" mode="aspectFix" style="width: 32rpx;height: 32rpx;vertical-align: middle;"></image>
+                <image src="https://images.ufutx.com/201908/20/2ab42f9a9cd89ad98c53aff30f6d88b9.png" mode="aspectFit" style="width: 32rpx;height: 32rpx;vertical-align: middle;margin-top: 6rpx;"></image>
               </view>
             </picker>
           </view>
