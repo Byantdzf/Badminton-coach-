@@ -341,10 +341,10 @@
     }
 
     async onLoad(e) {
-      if (wx.getStorageSync('token') == '') {
-        wx.navigateTo({url: '/pages/users/registerV2?from_openid=' + wx.getStorageSync('from_openid')})
-        return
-      }
+      // if (wx.getStorageSync('token') == '') {
+      //   wx.navigateTo({url: '/pages/users/registerV2?from_openid=' + wx.getStorageSync('from_openid')})
+      //   return
+      // }
       this.id = wx.getStorageSync('user_id')
       this.userType = wx.getStorageSync('type')
       this.page = 1

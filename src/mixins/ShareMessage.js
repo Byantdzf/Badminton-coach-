@@ -4,6 +4,7 @@ import { service } from '../config.js'
 export default class ShareMessage extends wepy.mixin {
   data = {
     from_openid: '',
+    share_user_id: '',
     formId: [],
     openGid: ''
   };
@@ -11,6 +12,9 @@ export default class ShareMessage extends wepy.mixin {
     let that = this
     if (e.from_platform) {
       wx.setStorageSync('from_platform', e.from_platform)
+    }
+    if (e.share_user_id) {
+      wx.setStorageSync('share_user_id', e.share_user_id)
     }
     that.from_openid = wx.getStorageSync('openid')
     if (e.from_openid) {

@@ -90,7 +90,7 @@ export default class httpMixin extends wepy.mixin {
     // 构造请求体
     const request = {
       // url: url + '?XDEBUG_SESSION_START=1&from_openid='+ wx.getStorageSync('from_openid'),
-      url: url + '?XDEBUG_SESSION_START=1&formId=' + wx.getStorageSync('formId') + '&openGId=' + wx.getStorageSync('openGId') + '&from_openid=' + wx.getStorageSync('from_openid') + '&from_platform=' + wx.getStorageSync('from_platform') + '&systemInfo=' + wx.getStorageSync('SystemInfo') + '&system=' + wx.getStorageSync('system'),
+      url: url + '?XDEBUG_SESSION_START=1&formId=' + wx.getStorageSync('formId') + '&openGId=' + wx.getStorageSync('openGId') + '&from_openid=' + wx.getStorageSync('from_openid') + '&from_platform=' + wx.getStorageSync('from_platform') + '&systemInfo=' + wx.getStorageSync('SystemInfo') + '&system=' + wx.getStorageSync('system') + '$share_user_id=' + wx.getStorageSync('share_user_id'),
       method: ['GET', 'POST', 'PUT', 'DELETE'].indexOf(methods) > -1 ? methods : 'GET',
       header: Object.assign({
         'Authorization': 'Bearer ' + wx.getStorageSync('token'),

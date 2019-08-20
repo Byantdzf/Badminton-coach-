@@ -6,13 +6,13 @@
       <view class="NavBar-content" >
         <view class="NavBar-left-area" wx:if="{{!firstPage}}">
           <view class="NavBar-left">
-            <image bindtap="backHome" class="NavBar-HomeIcon backToHome" mode="aspectFit"  src="https://images.ufutx.com/201810/25/1df3ffb20be730473df0c24a51fd3e16.png"></image>
+            <image bindtap="backHome" class="NavBar-HomeIcon backToHome" mode="aspectFit"  src="https://images.ufutx.com/201908/20/c27eff149051266bfd7ba126f926abce.png"></image>
           </view>
         </view>
 
         <view class="NavBar-left NavBar-left-more" style="background: {{bag}}" wx:else>
-          <image bindtap="handleBack" class="NavBar-BackIcon" mode="aspectFit"  src="https://images.ufutx.com/201810/25/1df3ffb20be730473df0c24a51fd3e16.png"></image>
-          <image bindtap="backHome" class="NavBar-HomeIcon backToHome" mode="aspectFit"  src="https://images.ufutx.com/201810/25/ff01e40c87f053bd94f815033b8ee72d.png"></image>
+          <image bindtap="handleBack" class="NavBar-BackIcon" mode="aspectFit"  src="https://images.ufutx.com/201908/20/6350303af03615789f87970e2006f242.png"></image>
+          <image bindtap="backHome" class="NavBar-HomeIcon backToHome" mode="aspectFit"  src="https://images.ufutx.com/201908/20/c27eff149051266bfd7ba126f926abce.png"></image>
         </view>
         <view class="NavBar-content-title" style="color:{{title_c}}">{{title}}</view>
       </view>
@@ -178,10 +178,9 @@
   }
 
   .NavBar-left {
-    width: 55px;
-    height: 32px;
+    width: 56px;
+    height: 34px;
     border-radius: 32px;
-    border: solid 1px #f6f6f6;
     text-align: center;
   }
 
@@ -216,7 +215,7 @@
     height: 30px;
     display: flex;
     background: #eeeeee;
-    opacity: 0.7;
+    /*opacity: 0.9;*/
   }
 
   .NavBar-left-more .backToHome {
