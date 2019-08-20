@@ -345,6 +345,10 @@
       //   wx.navigateTo({url: '/pages/users/registerV2?from_openid=' + wx.getStorageSync('from_openid')})
       //   return
       // }
+      if (e.share_user_id) {
+        wx.setStorageSync('share_user_id', e.share_user_id)
+      }
+      console.log(e)
       this.id = wx.getStorageSync('user_id')
       this.userType = wx.getStorageSync('type')
       this.page = 1
@@ -398,10 +402,10 @@
     }
 
     onShow() {
-      if (wx.getStorageSync('token') == '') {
-        wx.navigateTo({url: '/pages/users/registerV2?from_openid=' + wx.getStorageSync('from_openid')})
-        return
-      }
+      // if (wx.getStorageSync('token') == '') {
+      //   wx.navigateTo({url: '/pages/users/registerV2?from_openid=' + wx.getStorageSync('from_openid')})
+      //   return
+      // }
       let that = this
       that.page = 1
       that.$apply()

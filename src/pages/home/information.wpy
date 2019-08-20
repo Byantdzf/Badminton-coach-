@@ -59,7 +59,7 @@
             <!--</block>-->
           </block>
           <block wx:else>
-            <view class="main-bc flo_l"></view>
+            <view class="main-bc flo_l font_22 color-666">{{mylibs.rank.name}}VIP</view>
                   <!--<span>-->
                     <!--<view class="orange font_26 text-center flo_l menber">-->
                       <!--<image src="http://images.ufutx.com/201902/21/fea657836c8c203e75c0bb1316a4a827.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;" class="flo_l"></image>-->
@@ -721,15 +721,16 @@
         position: relative;
       }
       .main-bc{
-        width: 130rpx;
+        width: 100rpx;
         height: 52rpx;
-        background-image: url('https://images.ufutx.com/201908/20/05581b6bf766d8dd8a33a4b29a723a51.png');
+        background-image: url('https://images.ufutx.com/201908/20/9b3e5f0422db4c43b5e1a897cf0b187a.png');
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
         margin-top: -4rpx;
+        line-height: 52rpx;
         margin-left: 4rpx;
-        padding-left: 22rpx;
+        padding-left: 52rpx;
       }
       ._bc-property{
         padding: 22rpx 0;
