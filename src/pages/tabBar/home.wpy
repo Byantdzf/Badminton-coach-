@@ -160,18 +160,20 @@
           </view>
         </bolck>
         <bolck  wx:else>
-          <view class="item-avatar" wx:for="{{list}}" wx:key="{{index}}" @tap="gotofriends({{item}},{{item.id}})">
-            <image src="{{item.avatar}}" mode="widthFix" class="image"></image>
-            <view class="font_28 _bc-center color-666">
-              <view class="font_28">
-                <view class="color-666 ellipsis_1 bold flo_l" style="max-width: 80%">{{item.name}}</view>
-                <image src="http://images.ufutx.com/201811/09/df3aa8846ea6f02341f9077198555c39.png" wx:if="{{item.sex=='2'}}" mode="aspectFill" class="flo_l" style="width: 32rpx;height: 32rpx;margin: 6rpx 0 0 6rpx"></image>
-                <image src="http://images.ufutx.com/201811/09/fc3a6545c016643bfe5ab2989658900b.png" mode="aspectFill" wx:else class="flo_l" style="width: 32rpx;height: 32rpx;margin: 6rpx 0 0 6rpx"></image>
-                <view class="clearfloat"></view>
-              </view>
-              <view>
-                <text class="font_22 bold">{{item.age? item.age + '岁' : ''}} {{item.stature? '· ' +item.stature +'cm': ''}} {{item.city? '· '+item.city: ''}}</text>
-                <view class="font_22 ellipsis_1">{{item.introduction? item.introduction : ''}}</view>
+          <view class="_bc-list">
+            <view class="item-avatar" wx:for="{{list}}" wx:key="{{index}}" @tap="gotofriends({{item}},{{item.id}})">
+              <image src="{{item.avatar}}" mode="widthFix" class="image"></image>
+              <view class="font_28 _bc-center color-666">
+                <view class="font_28">
+                  <view class="color-666 ellipsis_1 bold flo_l" style="max-width: 80%">{{item.name}}</view>
+                  <image src="http://images.ufutx.com/201811/09/df3aa8846ea6f02341f9077198555c39.png" wx:if="{{item.sex=='2'}}" mode="aspectFill" class="flo_l" style="width: 32rpx;height: 32rpx;margin: 6rpx 0 0 6rpx"></image>
+                  <image src="http://images.ufutx.com/201811/09/fc3a6545c016643bfe5ab2989658900b.png" mode="aspectFill" wx:else class="flo_l" style="width: 32rpx;height: 32rpx;margin: 6rpx 0 0 6rpx"></image>
+                  <view class="clearfloat"></view>
+                </view>
+                <view>
+                  <text class="font_22 bold">{{item.age? item.age + '岁' : ''}} {{item.stature? '· ' +item.stature +'cm': ''}} {{item.city? '· '+item.city: ''}}</text>
+                  <view class="font_22 ellipsis_1">{{item.introduction? item.introduction : ''}}</view>
+                </view>
               </view>
             </view>
           </view>

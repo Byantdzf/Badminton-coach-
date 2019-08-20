@@ -43,7 +43,7 @@
                 <switch bindchange="switch2Change" type="checkbox"/>
                 <span @tap="goto('/pages/users/protocol')">了解并同意服务协议</span>
               </view>
-              <button class=" font_28 ff color-666 inline-block btn-theme" style="width: 30%;height: 72rpx;line-height: 72rpx"  @tap="hrefing(identification_photos,'身份证照片',{{user.identification_photos}})">人工认证</button>
+              <button class=" font_28 ff color-666 inline-block btn-theme" style="width: 30%;height: 72rpx;line-height: 72rpx;margin-right: 22rpx;"  @tap="hrefing(identification_photos,'身份证照片',{{user.identification_photos}})">人工认证</button>
               <block wx:if="{{user.type === 'single'}}">
                 <button class="font_28 inline-block btn-theme" style="width: 30%;height: 72rpx;line-height: 72rpx" @tap="approve">自动认证</button>
               </block>
