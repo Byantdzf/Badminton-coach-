@@ -410,9 +410,9 @@
       that.page = 1
       that.$apply()
       that.upDate()
-      if (that.userType == 'single') {
-        that.getLikers()
-      }
+      // if (that.userType == 'single') {
+      that.getLikers()
+      // }
       that.getTempMember()
       if (that.watchLocation) {
         wx.getSetting({

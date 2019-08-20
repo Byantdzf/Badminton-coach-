@@ -36,36 +36,19 @@
         <!--<image src="http://images.ufutx.com/201812/29/31c646a02f34492847c9644a99acc405.png" mode="aspectFit" wx:if="{{mylibs.is_approved == 0}}" class="vip-image" @tap="hint('该用户未实名认证！')"></image>-->
         <!--<image src="http://images.ufutx.com/201812/29/d26f9a4c175ddbceea2d5e9354ad8a0f.png" mode="aspectFit" wx:else class="vip-image" @tap="hint('该用户已实名认证！')"></image>-->
         <view class="bold font_32 text-left ellipsis_1 name flo_l">
-          <span class="flo_l ellipsis_1" style="max-width: 300rpx;">{{mylibs.name}}</span>
+          <span class="flo_l ellipsis_1 color-666" style="max-width: 300rpx;">{{mylibs.name}}</span>
           <image src="https://images.ufutx.com/201908/20/77fed53ebfab0b10a8e751111b20f787.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;" class="flo_l" wx:if="{{mylibs.profile_courtship.sex == '2'}}"></image>
           <image src="https://images.ufutx.com/201908/20/8307194a17256fcc3ff4df3fa6bb8c0e.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;" class="flo_l" wx:else class="flo_l"></image>
           <block wx:if="{{mylibs.rank_id == '0'}}">
-            <view class="main-bc"></view>
-            <!--<block wx:if="{{mylibs.temp_member == '0'}}">-->
-                  <!--<span>-->
-                    <!--<view class="orange font_26 text-center flo_l menber" style="max-width: 116rpx" >-->
-                      <!--<image src="http://images.ufutx.com/201902/21/20416feb7d39e92b8fd56b27468f21f3.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;" class="flo_l"></image>-->
-                      <!--<view style="font-size: 20rpx;margin-top: 8rpx;" class="flo_r">普通VIP</view>-->
-                    <!--</view>-->
-                  <!--</span>-->
-            <!--</block>-->
-            <!--<block wx:else>-->
-                  <!--<span @tap="goto('/pages/users/upgradeVIP')">-->
-                    <!--<view class="orange font_26 text-center flo_l menber">-->
-                      <!--<image src="http://images.ufutx.com/201902/21/fea657836c8c203e75c0bb1316a4a827.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;" class="flo_l"></image>-->
-                      <!--<view style="font-size: 20rpx;margin-top: 8rpx;margin-left: 4rpx;" class="flo_l">尊享VIP</view>-->
-                    <!--</view>-->
-                  <!--</span>-->
-            <!--</block>-->
+            <block wx:if="{{mylibs.temp_member == '0'}}">
+              <view class="main-bc flo_l font_22">普通VIP</view>
+            </block>
+            <block wx:else>
+              <view class="main-bc_vip flo_l font_22" @tap="goto('/pages/users/upgradeVIP')">尊享VIP</view>
+            </block>
           </block>
           <block wx:else>
-            <view class="main-bc flo_l font_22 color-666">{{mylibs.rank.name}}VIP</view>
-                  <!--<span>-->
-                    <!--<view class="orange font_26 text-center flo_l menber">-->
-                      <!--<image src="http://images.ufutx.com/201902/21/fea657836c8c203e75c0bb1316a4a827.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;" class="flo_l"></image>-->
-                      <!--<view style="font-size: 20rpx;margin-top: 8rpx;margin-left: 4rpx;" class="flo_l">{{mylibs.rank.name}}VIP</view>-->
-                    <!--</view>-->
-                  <!--</span>-->
+            <view class="main-bc_vip flo_l font_22">{{mylibs.rank.name}}VIP</view>
           </block>
         </view>
         <view class="font_26 text-left _bc-age flo_l color-666">
@@ -81,7 +64,7 @@
           <span class="">{{mylibs.fans_count}}</span>
         </view>
         <view class="font_24 text-right _bc-distance flo_l color-666">
-          <view class="orange font_24  bold">{{mylibs.distance}}<span class="font_28  bold">km</span></view>
+          <view class="color-theme font_24  bold">{{mylibs.distance}}<span class="font_28  bold">km</span></view>
           <text style="margin-top: -18rpx;">{{login_time}}</text>
         </view>
         <view class="clearfloat"></view>
@@ -720,17 +703,22 @@
         background: #f3f4f9;
         position: relative;
       }
-      .main-bc{
-        width: 100rpx;
-        height: 52rpx;
-        background-image: url('https://images.ufutx.com/201908/20/9b3e5f0422db4c43b5e1a897cf0b187a.png');
+      .main-bc, .main-bc_vip{
+        width: 90rpx;
+        height: 38rpx;
+        background-image: url('https://images.ufutx.com/201908/20/05581b6bf766d8dd8a33a4b29a723a51.png');
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
         margin-top: -4rpx;
-        line-height: 52rpx;
+        line-height: 46rpx;
         margin-left: 4rpx;
-        padding-left: 52rpx;
+        padding-left: 40rpx;
+        color: #666666;
+      }
+      .main-bc_vip{
+        background-image: url('https://images.ufutx.com/201908/20/9b3e5f0422db4c43b5e1a897cf0b187a.png');
+        color: #e39c06;
       }
       ._bc-property{
         padding: 22rpx 0;
