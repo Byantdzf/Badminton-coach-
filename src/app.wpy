@@ -40,6 +40,8 @@
             'chitchat',
             'sharePay',
             'sharing',
+            'jointlyFriendlist',
+            'recommendFriendlist',
             'information',
             'introducer',
             'loveMate',
