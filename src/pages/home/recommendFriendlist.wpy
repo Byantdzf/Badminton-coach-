@@ -5,7 +5,7 @@
     <search></search>
     <view class="page__bd "  wx:for="{{list}}" wx:key="*this" >
       <view class="borrowlist" @tap="gotoFriendPage({{item}})">
-        <image src="{{item.wechat.avatar}}" mode="aspectFill"  class="flo_l image"></image>
+        <image src="{{item.photo}}" mode="aspectFill"  class="flo_l image"></image>
         <view style="width: 58%" class="flo_l">
           <view  class="font_30 ellipsis_1 color-666 name">
             {{item.name}}
@@ -23,10 +23,10 @@
       <view class="main-toast">
         <view class="title color-666">推荐给</view>
         <view class="title">
-          <image src="{{other_user.wechat.avatar}}" mode="aspectFill"  class="image"></image>
+          <image src="{{other_user.photo}}" mode="aspectFill"  class="image"></image>
         </view>
         <view class="card font_28">
-          [福恋名片]  {{other_user.name}}
+          [福恋名片]  {{name}}
         </view>
         <view class="main-btn">
           <view class="item-btn flo_l" @tap="cancleFn">取消</view>
@@ -85,6 +85,8 @@
       inputShowed: false,
       inputVal: '',
       type: '',
+      id: '',
+      name: '',
       showModal: false,
       other_user: {}
     }
@@ -97,7 +99,8 @@
 
     async onLoad(e) {
       let vm = this
-      vm.type = 'friend'
+      vm.id = e.id
+      vm.name = e.name
       vm.list = []
       vm.page = 1
       vm.getLibraries()
@@ -125,7 +128,7 @@
     getLibraries(keyword) {
       let _this = this
       _this.loading = true
-      let url = service.friends
+      let url = `${service.host}/users/${_this.id}/single/friends`
       this.$get({
         url: url,
         data: {
@@ -178,8 +181,14 @@
         this.$apply()
       },
       sendFn() {
-        this.showModal = false
-        this.$apply()
+        let vm = this
+        vm.$post({url: `${service.host}/send/single/card/to/users/${vm.other_user.id}?single_user_id=${vm.id}`}, {
+          success: ({code, data}) => {
+            vm.$showToast(`已成功推荐给  ${vm.other_user.name}`)
+            vm.showModal = false
+            vm.$apply()
+          }
+        })
       },
       selectUser(item) {
         this.other_user = item

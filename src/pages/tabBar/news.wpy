@@ -13,7 +13,10 @@
       </view>
       <span class="font_22 flo_r _time">{{item.message.created_at}}</span>
       <view  class="_item-user ellipsis_1 flo_r font_26">
-        <span wx:if="{{item.message.content}}">{{item.message.content}}</span>
+        <span wx:if="{{item.message.content}}">
+          <span wx:if="{{item.message.content_type === 'CARD'}}" class="color-theme">有一条推荐信息...</span>
+          <span wx:else>{{item.message.content}}</span>
+        </span>
         <span wx:else>暂无新消息</span>
       </view>
       <view class="clearfloat"></view>
@@ -125,9 +128,11 @@
                 break
             }
           })
+          this.list = [...this.typeList]
+          this.$apply()
           if (!linkmen.data.length) {
             this.noMore = true
-            this.list = [...this.typeList]
+            this.list = [...this.list]
             this.$apply()
             return
           }
@@ -148,14 +153,15 @@
             return
           }
           if (this.list.length === 0 || this.page === 1) {
-            this.list = []
-            this.list = [...this.typeList]
+            // this.list = []
+            // this.list = [...this.typeList]
             if (data.length > 0) {
               for (let item of data) {
                 this.list.push({
                   icon: item.other_user.wechat.avatar2,
                   title: item.other_user.name,
                   message: {
+                    content_type: item.last_message ? item.last_message.content_type : '',
                     content: item.last_message ? item.last_message.content : '',
                     created_at: item.last_message ? item.last_message.created_at : '',
                     id: item.other_user.id,
@@ -175,6 +181,7 @@
                 icon: item.other_user.wechat.avatar2,
                 title: item.other_user.name,
                 message: {
+                  content_type: item.last_message ? item.last_message.content_type : '',
                   content: item.last_message ? item.last_message.content : '',
                   created_at: item.last_message ? item.last_message.created_at : '',
                   id: item.other_user.id,
@@ -198,7 +205,6 @@
 
     methods = {
       goto(index, item) {
-        console.log(item.path)
         wx.navigateTo({url: item.path})
       }
     }

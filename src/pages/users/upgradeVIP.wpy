@@ -9,7 +9,7 @@
   <view class="-tab" style="width: 100%;position: relative;left: 0%;top: 74%;margin-bottom: 12rpx;">
     <view class="weui-tab__content  white"  >
       <view class="weui-navbar" style="position: inherit;">
-        <view wx:for="{{tabs}}" wx:key="*this" id="{{item.id}}" class="weui-navbar__item {{activeIndex == item.id ? 'weui-bar__item_on' : ''}}" @tap="tabClick({{item.type}})">
+        <view wx:for="{{tabs}}" wx:key="index" id="{{item.id}}" class="weui-navbar__item {{activeIndex == item.id ? 'weui-bar__item_on' : ''}}" @tap="tabClick({{item.type}})">
           <view class="weui-navbar__title font_28 color-666  {{activeIndex == item.id ? 'orange bold' : ''}}" >{{item.name}}</view>
         </view>
         <view class="weui-navbar__slider" style="transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
@@ -21,7 +21,7 @@
   <view style="height: 46vh"></view>
   <view class="_btn-buy">
     <!--<block wx:if="{{user.rank_deadline || showPay}}">-->
-      <block wx:for="{{sub_ranks}}" wx:key="{{index}}">
+      <block wx:for="{{sub_ranks}}" wx:key="index">
         <view class="text-center item-price flo_l {{index== PriceIndex?'active':''}}" @tap="SelectPrice({{index}})">
           <view class="font_22">{{item.name}}</view>
           <view class="bold">￥{{item.discount_price}}</view>
@@ -73,7 +73,7 @@
     </view>
     <view style="padding: 22rpx 32rpx;color: #979797;" class="font_28">
       <text style="margin-bottom: 12rpx;">说明：</text>
-      <view wx:for="{{rankData.explain}}" wx:key="{{index}}">· {{item}}</view>
+      <view wx:for="{{rankData.explain}}" wx:key="index">· {{item}}</view>
     </view>
   </template>
   <modalUp>
@@ -108,8 +108,13 @@
       </block>
       <view class="btn-item">
         <button size="mini"  type="default" @tap="listenerCancel1">取消支付</button>
-        <button size="mini" class="flo_r bc_primary white"  wx:if="{{!show && system == 'iOS'}}" @tap="goto('/pages/users/shareVip')">分享支付</button>
-        <button size="mini" class="flo_r bc_primary white"  wx:else @tap="conversion({{rank}})">确认支付</button>
+        <block wx:if="{{date == 0}}">
+          <button size="mini" class="flo_r bc_primary white"  wx:if="{{!show && system == 'iOS'}}" @tap="goto('/pages/users/shareVip')">分享支付</button>
+          <button size="mini" class="flo_r bc_primary white"  wx:else @tap="conversion({{rank}})">确认支付</button>
+        </block>
+        <block wx:else>
+          <button size="mini" class="flo_r bc_primary white"  @tap="conversion({{rank}})">确认支付</button>
+        </block>
       </view>
     </view>
   </modalUp>
@@ -195,6 +200,7 @@
       user: {},
       is_vip: false,
       init: false,
+      date: 0,
       tabs: [
         {name: '市级VIP', id: 0, type: '市级'},
         {name: '黄金VIP', id: 1, type: '黄金'},
@@ -256,7 +262,21 @@
     onLoad() {
       this.tabIndex()
       this.system = wx.getStorageSync('system')
+      let date = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + (new Date().getDate())
+      this.compare(date, '2019-8-28')
       this.$apply()
+    }
+
+    compare(date1, date2) {
+      let oDate1 = new Date(date1)
+      let oDate2 = new Date(date2)
+      if (oDate1.getTime() > oDate2.getTime()) { // 转换成毫秒进行比较
+        this.date = 1
+        this.$apply()
+        console.log(this.date)
+      } else {
+        console.log('bi')
+      }
     }
     tabIndex() {
       let _this = this

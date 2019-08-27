@@ -4,7 +4,7 @@
   <view class="main-container">
     <view class="main-box">
       <view class="main-selectBox text-center " wx:if="{{infoIndex == 1}}">
-        <view class="inline-block item-selectBox {{item.active == 'true'?'active':''}} {{index == 0?'marginR':''}}" wx:for="{{list}}" wx:key="index" @tap="selectFn({{index}},'list','sex')">
+        <view class="inline-block item-selectBox {{item.active == 'true'?'active':''}} {{index == 0?'marginR':''}}" wx:for="{{sexList}}" wx:key="index" @tap="selectFn({{index}},'sexList','sex')">
           <view class="dost"></view>
           <image mode="aspectFill" src="{{item.sexIconA}}" class="icon" wx:if="{{item.active == 'true'}}"></image>
           <image mode="aspectFill" src="{{item.sexIcon}}" class="icon" wx:else></image>
@@ -16,7 +16,7 @@
       <view class="main-selectBox text-center " wx:if="{{infoIndex == 3}}">
         <view class="color-666 font_28">我住在哪里？</view>
         <view class="color-666 font_28 main-input"  @tap="addressFn('address')">
-          <selectCity  AddressValue="['中国', '广东省', '深圳市']">
+          <selectCity  :AddressValue.sync="AddressValue">
             <text class="Input" slot="Input">{{addressType != '' ? address.province+' - '+ address.city: '深圳'}}</text>
           </selectCity>
         </view>
@@ -111,41 +111,6 @@
           </view>
         </view>
       </modal>
-      <!--<image src="https://images.ufutx.com/201908/13/18ade0603c2111a5e628a9a31cf22c8d.png" mode="widthFix" class="bc_image"></image>-->
-      <!--<view class="bc_photo ff"><image src="{{avatar}}" mode="aspectFill" @tap="chooseimage({{avatar}})"></image></view>-->
-      <!--<view class="font_32 _bc_item" wx:for="{{information}}" wx:key="index">-->
-        <!--<view class="_bc_title flo_l">{{item.title}}</view>-->
-        <!--<block wx:if="{{item.type === 'input'}}">-->
-          <!--<input class="_bc_value flo_r text-right" type="text" placeholder="点击填写" value="{{item.value}}"  @change="pickerChange({{index}})"/>-->
-        <!--</block>-->
-        <!--<block wx:if="{{item.type === 'picker'}}">-->
-          <!--<view class="_bc_picker flo_r text-right">-->
-            <!--<block wx:if="{{item.mode === 'selector'}}">-->
-              <!--<picker value="{{item.pickerIndex}}" mode="{{item.mode}}" range="{{item.pickerList}}" @change="pickerChange({{index}})">-->
-                <!--<view class="picker ">{{item.pickerList[item.pickerIndex]}}</view>-->
-              <!--</picker>-->
-            <!--</block>-->
-            <!--<block wx:if="{{item.mode === 'selectCity'}}">-->
-              <!--<selectCity class="flo_r" AddressValue="['中国', '广东省', '深圳市']">-->
-                <!--<text class="picker" slot="Input">{{item.value.length> 0 ? item.value[1]+'/'+item.value[2] : '请选择'}}</text>-->
-              <!--</selectCity>-->
-            <!--</block>-->
-            <!--<block wx:if="{{item.mode === 'date'}}">-->
-              <!--<picker mode="{{item.mode}}"  value="{{item.value}}"  @change="pickerChange({{index}})">-->
-                <!--<view class="picker">{{item.value===''?'请选择':item.value}}</view>-->
-              <!--</picker>-->
-            <!--</block>-->
-          <!--</view>-->
-        <!--</block>-->
-      <!--</view>-->
-      <!--<block wx:if="{{mobile !== ''}}">-->
-        <!--<view class="btn-theme next" @tap="next">下一步</view>-->
-      <!--</block>-->
-      <!--<block wx:else>-->
-        <!--<button class="btn" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">-->
-          <!--<view class="btn-theme next" >下一步</view>-->
-        <!--</button>-->
-      <!--</block>-->
     </view>
   </view>
 </template>
@@ -177,10 +142,10 @@
       addressType: '',
       AgeList: [],
       minAge: 22,
-      maxAge: 60,
-      minIndex: 3,
-      maxIndex: 41,
-      list: [
+      maxAge: 30,
+      minIndex: 4,
+      maxIndex: 12,
+      sexList: [
         {
           title: '我是男生',
           value: 1,
@@ -261,6 +226,7 @@
       resident: { // 成长地
         country: '中国', province: '广东省', city: '深圳市'
       },
+      AddressValue: ['中国', '广东省', '深圳市'],
       birthday: [1990, 1, 1], // 生日
       belief: '', // 信仰
       hide: true,
@@ -288,26 +254,63 @@
           this.AgeList.push(item)
         }
       }
+      if (wx.getStorageSync('match_profile')) {
+        this.getUserInfo()
+      }
     }
+
     onShow() {
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
-    ensureData() { // 单项保存
-      let data = {
-        name: this.information[0].value,
-        birthday: this.information[2].value,
-        sex: this.information[1].value,
-        country: this.information[3].value[0],
-        province: this.information[3].value[1],
-        city: this.information[3].value[2],
-        belief: this.information[4].value
-      }
-      data = this.$filterParams(data)
-      this.$put({url: service.courtship + '/v2', data}, {
-        success: ({code, data}) => {
-          console.log('参数保存成功！')
+    getUserInfo() {
+      let vm = this
+      let match_profile = wx.getStorageSync('match_profile')
+      console.log(match_profile)
+      let {sex, birthday, country, province, city, state, belief, min_age, max_age} = match_profile
+      console.log(min_age, max_age)
+      for (let item of this.sexList) {
+        item.active = 'false'
+        if (item.value == sex) {
+          vm.information.sex = sex
+          item.active = 'true'
         }
+        vm.$apply()
+      }
+      let bDay = birthday.split('-')
+      vm.birthday = [bDay[0], bDay[1], bDay[2]]
+      vm.addressType = 'address'
+      vm.address.country = country
+      vm.address.province = province
+      vm.address.city = city
+      vm.AddressValue = [country, province, city]
+      vm.minAge = min_age
+      vm.maxAge = max_age
+      vm.AgeList.forEach((item, index) => {
+        if (item == min_age) {
+          vm.minIndex = index
+        }
+        if (item == max_age) {
+          vm.maxIndex = index
+        }
+        vm.$apply()
       })
+      vm.$apply()
+      for (let item of this.stateList) {
+        item.active = 'false'
+        if (item.value == state) {
+          vm.information.state = state
+          item.active = 'true'
+        }
+        vm.$apply()
+      }
+      for (let item of this.beliefList) {
+        item.active = 'false'
+        if (item.value == belief) {
+          vm.information.belief = belief
+          item.active = 'true'
+        }
+        vm.$apply()
+      }
     }
 
     getAddress(lat, lng) {
@@ -357,8 +360,8 @@
         if (e.detail.userInfo) {
           console.log(e.detail.userInfo)
           let {avatarUrl, nickName} = e.detail.userInfo
-          this.information.photo =  avatarUrl
-          this.information.name =  nickName
+          this.information.photo = avatarUrl
+          this.information.name = nickName
           this.$apply()
           this.$showLoading('智能匹配中...')
           this.saveFn(e.detail.userInfo)
@@ -422,16 +425,33 @@
       addressFn(value) {
         this.addressType = value
         this.$apply()
-        console.log(this.addressType )
+        console.log(this.addressType)
       },
       lastFn() {
-        this.infoIndex --
+        this.infoIndex--
         this.$apply()
       },
       nextFn() {
-        this.infoIndex++
-        this.$apply()
-        console.log(this.information)
+        let vm = this
+        vm.infoIndex++
+        vm.$apply()
+        console.log(vm.information)
+        if (vm.infoIndex > 2) {
+          let today = new Date()
+          let nowYear = today.getFullYear()
+          let year = nowYear - vm.birthday[0]
+          vm.minAge = year - 4
+          vm.maxAge = year + 4
+          vm.AgeList.forEach((item, index) => {
+            if (item == vm.minAge) {
+              vm.minIndex = index
+            }
+            if (item == vm.maxAge) {
+              vm.maxIndex = index
+            }
+            vm.$apply()
+          })
+        }
       },
       selectFn(index, list, key) { // 选择
         for (let item of this[list]) {
@@ -487,7 +507,6 @@
             break
         }
         this.$apply()
-        // this.ensureData()
       }
     }
     events = {
@@ -498,7 +517,6 @@
         }
         console.log(this.addressType)
         console.log(this[this.addressType])
-        // this.ensureData()
       }
     }
   }

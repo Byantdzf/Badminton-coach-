@@ -1,7 +1,24 @@
 <template>
     <template name="msgItem">
-      <view wx:for="{{contents}}" style="display:inline-block;white-space:pre-line" wx:key="*this">
-        <text wx:if="item.type=='text'" style="padding:8rpx;margin:0;width:auto;" selectable>{{item.text}}</text>
+      <view wx:for="{{contents}}" class="main-content-box" wx:key="*this">
+        <block wx:if="{{item.type=='text'}}">
+          <text  class="main-content-text" selectable>{{item.text}}</text>
+        </block>
+        <block wx:else>
+          <!--<text class="main-content-text" selectable>{{item.text}}asas</text>-->
+          <view class="main-card" @tap="gotoDateilV2('single', {{item.text.user_id}})">
+            <view class="title {{me ? 'title-f':''}}">觉得你们很合适，所以推荐TA给你</view>
+            <view class="main-other-user">
+              <image src="{{item.text.circle_avatar}}" mode="aspectFit" class="flo_l"></image>
+              <span class="font_28 flo_l bold">{{item.text.name}}</span>
+              <text class="flo_r {{me ? 'text-f':''}}">{{item.text.age+'岁'}}·{{item.text.stature+'cm'}}·{{item.text.city}}</text>
+              <view class="flo_r {{me ? 'text-f-v2':''}}">学历：{{item.text.degree}}</view>
+              <view class="flo_r {{me ? 'text-f-v2':''}}">信仰：{{item.text.belief}}</view>
+              <view class="flo_r {{me ? 'text-f-v2':''}}">婚姻状态：{{item.text.state}}</view>
+            </view>
+            <view class="main-btn text-center {{me ? 'main-btn-f':''}}">感兴趣，和TA聊聊</view>
+          </view>
+        </block>
       </view>
     </template>
     <view class="operation ff text-center font_26" wx:if="{{other_userId!=1}}">
@@ -163,6 +180,24 @@
         })
       }, 1500)
     }
+    getContents(content, content_type) {
+      console.log(content_type)
+      let contents = []
+      if (content_type !== 'CARD') {
+        contents.push({
+          type: 'text',
+          text: content
+        })
+        return contents
+      } else {
+        console.log(JSON.parse(content))
+        contents.push({
+          type: 'CARD',
+          text: JSON.parse(content)
+        })
+        return contents
+      }
+    }
 
     getData () {
       let that = this
@@ -183,7 +218,8 @@
           data.forEach((item, index, arr) => {
             message = {
               id: arr[index].id,
-              contents: util.getContents(arr[index].content),
+              // contents: util.getContents(arr[index].content),
+              contents: that.getContents(arr[index].content, arr[index].content_type),
               me: arr[index].is_mine == 1 ? true : false,
               avatar: arr[index].avatar,
               user_id: arr[index].user_id,
@@ -195,6 +231,7 @@
             that.messages.unshift(message)
           })
           that.showload = false
+          console.log(that.messages)
         },
         fail: ({code}) => {
           clearInterval(that.Loadingtime)
@@ -293,7 +330,7 @@
           data.forEach((item, index, arr) => {
             message = {
               id: 'id_' + Date.parse(new Date()) / 1000,
-              contents: util.getContents(arr[index].content),
+              contents: that.getContents(arr[index].content, arr[index].content_type),
               user_id: arr[index].user_id,
               userType: arr[index].type,
               me: arr[index].is_mine == 1 ? true : false,
@@ -365,6 +402,10 @@
       gotoDateil() {
         this.$gotoFriendPage(this.other_userType, this.other_userId)
       },
+      gotoDateilV2(type, id) {
+        // this.$gotoFriendPage(type, id)
+        wx.redirectTo({url: '/pages/home/information?id=' + id})
+      },
       History () {
         this.showload = true
         let that = this
@@ -381,7 +422,7 @@
             data.forEach((item, index, arr) => {
               message = {
                 id: arr[index].id,
-                contents: util.getContents(arr[index].content),
+                contents: that.getContents(arr[index].content, arr[index].content_type),
                 me: arr[index].is_mine == 1 ? true : false,
                 avatar: arr[index].avatar,
                 user_id: arr[index].user_id,
@@ -418,7 +459,7 @@
             data.forEach((item, index, arr) => {
               message = {
                 id: 'id_' + Date.parse(new Date()) / 1000,
-                contents: util.getContents(arr[index].content),
+                contents: that.getContents(arr[index].content, arr[index].content_type),
                 me: arr[index].is_mine == 1 ? true : false,
                 avatar: arr[index].avatar,
                 user_id: arr[index].user_id,
@@ -469,6 +510,7 @@
   }
 
   .right-message {
+    max-width: 72%;
     float: right;
     margin-top: 10rpx;
     line-height: 56rpx;
@@ -518,6 +560,7 @@
   }
 
   .left-message {
+    max-width: 72%;
     float: left;
     margin-top: 10rpx;
     line-height: 56rpx;
@@ -610,6 +653,72 @@
     .text{
       line-height: 1.6;
       margin-top: 16rpx;
+    }
+  }
+
+  .main-content-box {
+    display: inline-block;
+    white-space:pre-line;
+    .main-content-text {
+      padding: 8rpx;
+      margin: 0;
+      width: auto;
+    }
+  }
+  .main-card{
+    width: 60vw;
+    padding: 22rpx;
+    .title{
+      padding-bottom: 12rpx;
+      border-bottom: 1rpx solid #b0b0b0;
+      font-size: 28rpx;
+      color: #666666;
+    }
+    .title-f{
+      color: #ffffff;
+      border-bottom: 1rpx solid #ffffff;
+    }
+    .main-btn{
+      width: 100%;
+      padding: 12rpx 0;
+      border: 1rpx solid #666666;
+      font-size: 26rpx;
+      color: #666666;
+    }
+    .main-btn-f{
+      color: white;
+      border: 1rpx solid #fff;
+    }
+    .main-other-user{
+      padding: 22rpx 2rpx;
+      overflow: hidden;
+      image{
+        width: 120rpx;
+        height: 120rpx;
+        border-radius: 50%;
+        background: #ffffff;
+        margin-right: 12rpx;
+        border: 1rpx solid #d3d3d3;
+      }
+      .text-f{
+        color: white;
+      }
+      .text-f-v2{
+        color: whitesmoke;
+      }
+      text{
+        line-height: 24rpx;
+        font-size: 22rpx;
+        color: #666666;
+        width: 69%;
+        margin: 12rpx 0;
+      }
+      view{
+        line-height: 30rpx;
+        font-size: 22rpx;
+        color: #b0b0b0;
+        width: 69%;
+      }
     }
   }
 </style>
