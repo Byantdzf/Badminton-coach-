@@ -436,7 +436,7 @@
         vm.infoIndex++
         vm.$apply()
         console.log(vm.information)
-        if (vm.infoIndex > 2) {
+        if (vm.infoIndex > 2 && !wx.getStorageSync('match_profile')) {
           let today = new Date()
           let nowYear = today.getFullYear()
           let year = nowYear - vm.birthday[0]
