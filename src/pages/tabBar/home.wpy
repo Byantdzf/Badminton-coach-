@@ -595,6 +595,8 @@
           // if (JSON.stringify(_this.address) == '{}') {
           //   _this.locationSubmit()
           // }
+          let {match_profile} = data
+          wx.setStorageSync('match_profile', match_profile)
           _this.shareUser = data.sideSingles
           _this.person = data.users
           _this.announcements = data.announcements

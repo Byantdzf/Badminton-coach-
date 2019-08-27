@@ -68,7 +68,7 @@
   export default class loveMate extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
-      navigationBarTitleText: '红娘'
+      navigationBarTitleText: '红娘服务'
     }
     components = {
       Loading, navBarTop, modal

@@ -1,26 +1,27 @@
 <template>
   <Loading :init.sync="init"></Loading>
-  <NavBar title=""></NavBar>
-
-  <view class="navbar borrow"  style="margin-top: -{{totalTopHeight}}px">
+  <NavBar :title.sync="title" rgba="#D92553" bag="#b81f46" title_c="#ffffff"></NavBar>
+  <view class="navbar borrow"  >
     <view class="page__bd">
       <view class="weui-tab">
         <view class="weui-tab__content">
           <view>
             <image src="http://images.ufutx.com/201901/18/9be50085825eb82133539e9fd3b36928.jpeg" mode="widthFix" style="width: 100%;" class=""></image>
           </view>
+          <view class="hint white font_28">
+            关注公众号,查看更多用户推荐~
+            <view class="hintBtn inline-block font_28" @tap="goto('/pages/users/guidePage')">关注</view>
+          </view>
           <view class="page__bd " style="position: absolute;top: 64%;left: 4%;width: 92%;height: 204rpx">
             <view class="flo_l weui-cell__hd">
               <image src="{{mylibs.avatar}}" @tap="previewImageV2({{mylibs.avatar}})" @longpress="lookID({{id}})" mode="aspectFill"
                      style="width: 120rpx;height: 120rpx;border-radius: 50%;border:4rpx solid #ffffff;box-shadow: 1rpx 1rpx 12rpx #f4f4f4;" class="flo_l"></image>
-              <image src="http://images.ufutx.com/201812/29/31c646a02f34492847c9644a99acc405.png" mode="aspectFit" wx:if="{{mylibs.is_approved == 0}}" class="vip-image" @tap="hint('该用户未实名认证！')"></image>
-              <image src="http://images.ufutx.com/201812/29/d26f9a4c175ddbceea2d5e9354ad8a0f.png" mode="aspectFit" wx:else class="vip-image" @tap="hint('该用户已实名认证！')"></image>
             </view>
             <view class="flo_l" style="margin-top: 16rpx;width: 60%;">
               <view class=" flo_l white ellipsis_1 " style="margin-left: 22rpx;">
                 <span class="font_28 bold">{{mylibs.name}}</span>
               </view>
-              <view class="orange font_26 text-center flo_l menber" style="width: 68rpx;margin-top: 12rpx;">
+              <view class="orange font_26 text-center flo_l menber" style="min-width: 68rpx;margin-top: 8rpx;">
                 <image src="http://images.ufutx.com/201902/21/7b3892dcf60fabda05add35abfa9aec3.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;" wx:if="{{mylibs.sex == '2'}}"
                        class="flo_l"></image>
                 <image src="http://images.ufutx.com/201902/21/a309744e67082c4bd46db0df504c32c5.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;" wx:else
@@ -59,8 +60,16 @@
       </view>
     </view>
   </view>
+  <view class="main-approved-box" wx:if="{{mylibs.is_approved !== 0}}" >
+    <image  class="image" src="https://images.ufutx.com/201908/20/86ba88eebe8b6a61933e226734a39598.png" mode="widthFix"></image>
+    <view class="main-card text-right flo_r">
+      <view class="font_26 color-theme">{{mylibs.name}}</view>
+      <view class="font_22 colorb0">{{mylibs.card_num}}</view>
+      <view class="font_22 colorb0">认证通过时间：{{mylibs.approve_time}}</view>
+    </view>
+  </view>
   <view class="font_32">
-    <view class="orange bold flo_l" style="border-left: 8rpx solid red;padding-left: 22rpx;">基本资料</view>
+    <view class="color-666 bold flo_l" style="border-left: 8rpx solid #D92553;padding-left: 22rpx;">基本资料</view>
     <span class="font_26" wx:if="{{mylibs.marriage.name}}"> · 推荐人：<span class="green"  @tap="gotoType({{mylibs.marriage}})">{{mylibs.marriage.name}}</span></span>
     <view class="font_32 white flo_r atten_btn" wx:if="{{mylibs.self != 1}}">
       <picker @change="bindPickerChange({{mylibs.id}})" value="{{index}}" range="{{setList}}">
@@ -88,44 +97,65 @@
       <span>公司名称</span>
       <span class="flo_r">{{profile_marriage.company}}</span>
     </view>
-    <view style="margin: 0 44rpx;width: 18%" class="wx_Title">
+    <view style="margin: 0 44rpx;width: 18%" class="wx_Title" wx:if="{{profile_marriage.slogan  != null}}">
       <span class="orange">服务格言</span>
     </view>
-    <view style="margin: 0 44rpx;" class="wx_Title">
+    <view style="margin: 0 44rpx;" class="wx_Title" wx:if="{{profile_marriage.slogan  != null}}">
       <span>{{profile_marriage.slogan}}</span>
     </view>
   </view>
   <block>
     <view class="text-left font_32" style="padding: 26rpx 0;border-bottom: 8rpx solid #f8f8f8;" @tap="goto('/pages/friendCircle/otherFriendCircle?id={{id}}')">
-      <view class="flo_l" style="padding-left: 22rpx;border-left: 8rpx solid red;">Ta的动态
-        <span class="bold orange">{{mylibs.momentCount}}</span>
+      <view class="flo_l" style="padding-left: 22rpx;border-left: 8rpx solid #D92553;">Ta的动态
       </view>
       <view class="flo_r">
-        <span class="font_28 color-bbb">查看全部</span>
+        <span class="font_28 color-bbb">{{mylibs.momentCount}}条</span>
         <view class="weui-cell__ft_in-access flo_r" style="vertical-align: middle;margin-top: 26rpx;margin-right: 26rpx;"></view>
       </view>
       <view class="clearfloat"></view>
     </view>
   </block>
-  <block wx:if="{{mylibs.self != 1}}">
-    <view class="fixed_bot font_32 text-center" style="width: 100%;background: white;margin-top: 12rpx;">
-      <block wx:if="{{mylibs.is_friend === 1}}">
-        <view class="btn_red inline-block" style="margin-top: -8rpx;" @tap="goto('/pages/home/swopWeChat?id={{mylibs.id}}')" wx:if="{{userType !== 'marriage'}}">交换微信</view>
-        <view class="btn_white inline-block"    @tap="goto('/pages/home/chitchat?id={{mylibs.id}}&name={{mylibs.name}}&type={{mylibs.type}}')">
-          <image src="http://images.ufutx.com/201902/19/b4b09523f088e5fb231110d63e29d5fe.png" mode="aspectFit" style="width: 48rpx;height: 60rpx;vertical-align: middle;margin-bottom: 8rpx;"></image>
-          聊天</view>
-        <view class="btn_red inline-block" style="margin-top: -8rpx;" @tap="goto('/pages/home/giveGift?id={{mylibs.id}}')">送礼物
+  <block wx:if="{{mylibs.self !== 1}}">
+    <form bindsubmit="formSubmit" report-submit>
+      <button formType="submit" class="btn" data-type="click">
+        <view class="fixed_bot font_32 text-center main-btns"
+              style="{{mylibs.is_friend == 0? 'padding: 4vw 10vw;width: 80vw;':''}}">
+          <block wx:if="{{mylibs.is_friend == 0}}">
+            <view class="item-btn inline-block color-theme flo_l" @tap="goto('/pages/home/giveGift?id={{mylibs.id}}')">送礼物
+            </view>
+            <view class="item-btn inline-block item-btnA flo_r"  @tap="goto('/pages/home/addFriend?id={{mylibs.id}}')">加好友
+            </view>
+          </block>
+          <block wx:else>
+            <view class="item-btn inline-block color-theme flo_l" @tap="goto('/pages/home/chitchat?id={{mylibs.id}}&name={{mylibs.name}}&type={{mylibs.type}}')">
+              聊天</view>
+            <view class="item-btn inline-block item-btnA" @tap="goto('/pages/home/swopWeChat?id={{mylibs.id}}')" wx:if="{{userType !== 'marriage'}}">交换微信</view>
+            <view class="item-btn  inline-block color-theme flo_r" @tap="goto('/pages/home/giveGift?id={{mylibs.id}}')">送礼物</view>
+          </block>
+          <view class="clearfloat"></view>
         </view>
-      </block>
-      <block wx:else>
-        <view class="btn_white inline-block" @tap="goto('/pages/home/addFriend?id={{mylibs.id}}')">加好友
-        </view>
-        <view class="btn_red inline-block" style="margin-top: -8rpx;" @tap="goto('/pages/home/giveGift?id={{mylibs.id}}')">送礼物
-        </view>
-      </block>
-      <view class="clearfloat"></view>
-    </view>
+      </button>
+    </form>
   </block>
+  <!--<block wx:if="{{mylibs.self != 1}}">-->
+    <!--<view class="fixed_bot font_32 text-center" style="width: 100%;background: white;margin-top: 12rpx;">-->
+      <!--<block wx:if="{{mylibs.is_friend === 1}}">-->
+        <!--<view class="btn_red inline-block" style="margin-top: -8rpx;" @tap="goto('/pages/home/swopWeChat?id={{mylibs.id}}')" wx:if="{{userType !== 'marriage'}}">交换微信</view>-->
+        <!--<view class="btn_white inline-block"    @tap="goto('/pages/home/chitchat?id={{mylibs.id}}&name={{mylibs.name}}&type={{mylibs.type}}')">-->
+          <!--<image src="http://images.ufutx.com/201902/19/b4b09523f088e5fb231110d63e29d5fe.png" mode="aspectFit" style="width: 48rpx;height: 60rpx;vertical-align: middle;margin-bottom: 8rpx;"></image>-->
+          <!--聊天</view>-->
+        <!--<view class="btn_red inline-block" style="margin-top: -8rpx;" @tap="goto('/pages/home/giveGift?id={{mylibs.id}}')">送礼物-->
+        <!--</view>-->
+      <!--</block>-->
+      <!--<block wx:else>-->
+        <!--<view class="btn_white inline-block" @tap="goto('/pages/home/addFriend?id={{mylibs.id}}')">加好友-->
+        <!--</view>-->
+        <!--<view class="btn_red inline-block" style="margin-top: -8rpx;" @tap="goto('/pages/home/giveGift?id={{mylibs.id}}')">送礼物-->
+        <!--</view>-->
+      <!--</block>-->
+      <!--<view class="clearfloat"></view>-->
+    <!--</view>-->
+  <!--</block>-->
   <block wx:if="{{loading}}">
     <view class="weui-loadmore">
       <view class="weui-loadmore__tips">正在加载</view>
@@ -180,6 +210,7 @@
       inputVal: '',
       text: '关注',
       id: '',
+      title: '',
       profile_courtship: [],
       profile_marriage: [],
       paramet_v: false,
@@ -217,6 +248,7 @@
         success: ({code, data}) => {
           this.init = true
           this.mylibs = data
+          self.title = data.name
           self.userType = data.my_user_type
           if (data.is_followed == true) {
             self.is_love = true
@@ -527,6 +559,7 @@
     background: rgba(0,0,0,0.5);
     margin-left: 16rpx;
     border-radius: 8rpx;
+    margin-top: 12rpx;
   }
   .vip-image{
     width: 52rpx;
@@ -541,5 +574,60 @@
     30%{transform: rotate(5deg);}
     40%{transform: rotate(-5deg);}
     50%,100%{transform: rotate(0deg);}
+  }
+  .main-btns{
+    width: 92vw;
+    background-size: contain;
+    background-image: url('http://images.ufutx.com/201901/18/6799ec458e6426db4c55a7fb4d3b352f.png');
+    padding: 4vw;
+    overflow: hidden;
+    .item-btn{
+      border: 1rpx solid @theme;
+      width: 194rpx;
+      height: 60rpx;
+      line-height: 60rpx;
+      border-radius: 6rpx;
+      background: white;
+    }
+    .item-btnA{
+      color: white;
+      background: #D92553;
+    }
+  }
+  .hint{
+    width: 92%;
+    background: rgba(0,0,0,0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 12rpx 4%;
+    text-align: center;
+    .image{
+      width: 36rpx;
+      height: 36rpx;
+      vertical-align: middle;
+    }
+    .hintBtn{
+      padding: 0rpx 16rpx;
+      margin-left: 42rpx;
+      /*box-shadow: 1rpx 1rpx 12rpx #ffffff;*/
+      border-radius: 8rpx;
+      background-image: linear-gradient(to right, #eb6266 0%,  #D92553 100%);
+    }
+  }
+  .main-approved-box{
+    padding: 32rpx;
+    padding-bottom: 22rpx;
+    border-bottom: 14rpx solid #f6f6f6;
+    overflow: hidden;
+    margin-bottom: 12rpx;
+    .image{
+      width: 130rpx;
+      height: auto;
+    }
+    .main-card{
+      width: 75%;
+      margin-top: -18rpx;
+    }
   }
 </style>

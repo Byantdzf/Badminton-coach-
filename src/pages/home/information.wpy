@@ -112,7 +112,7 @@
         <view class="clearfloat"></view>
         <view class="color-666 flo_l font_28" style="margin-top: 32rpx;">理想对象</view>
         <view class="main-card flo_r font_26 colorb0" style="padding: 50rpx 0; ">
-          {{profile_courtship.ideal_mate}}撒娇大立科技奥斯卡来得及昂克赛拉大家看了撒娇打开链接萨迪克拉萨考虑到就达萨罗空间大垃圾袋打死了空间的垃圾加拉三季度垃圾袋
+          {{profile_courtship.ideal_mate}}
         </view>
       </view>
       <view class="clearfloat"></view>
@@ -219,7 +219,7 @@
         {
           name: '帮我约TA',
           icon: 'https://images.ufutx.com/201908/20/620d7ba2d5ebba95b80a0e906f5d1b56.png',
-          path: '/pages/home/jointlyFriendlist'
+          path: '/pages/home/loveMate'
         }
       ],
       list: [
@@ -525,13 +525,12 @@
             list = this.data.list
           list[Index].show = !list[Index].show || false
           // 变换其打开、关闭的状态
-//        if (list[Index].show){// 如果点击后是展开状态，则让其他已经展开的列表变为收起状态
+//        if (list[Index].show){ // 如果点击后是展开状态，则让其他已经展开的列表变为收起状态
 //          this.packUp(list,Index);
 //        }
           this.setData({
             list
           })
-//          debugger
         }
       },
       // 点击里面的子列表展开收起
@@ -609,8 +608,6 @@
         wx.openLocation({        // 这里要直接输入该地方的经纬度，由于每个地图得到的经纬度不一样，所以精确度会有差别，我亲测了百度地图和腾讯地图的经纬度，发现使用腾讯地图的经纬度的精确度很高，至于为什么，毕竟都是腾讯应用嘛，大家懂的！后面给大家写了一个获取腾讯地图经纬度的文章：http://www.cnblogs.com/silent007/p/9023799.html
           latitude: Number(latitude),
           longitude: Number(longitude),
-//          name: "南宁市西乡塘区秀厢大道东祥云商务酒店",
-//          address:"南宁市西乡塘区秀厢大道东祥云商务酒店",
           scale: 18
         })
       },
@@ -630,7 +627,29 @@
         this.$gotoTab(url)
       },
       click_tab(item) {
-        this.$goto(item.path + `?id=${this.mylibs.id}`)
+        let vm = this
+        if (item.name == '帮我约TA' && this.mylibs.appointment_service > 0) {
+          wx.showModal({
+            title: '温馨提示',
+            content: '是否确定约见TA',
+            cancelText: '取消',
+            confirmText: '确定',
+            confirmColor: '#D92553',
+            success(res) {
+              if (res.confirm) {
+                vm.$post({url: `${service.host}/appoint/plan/with/users/${vm.id}`}, {
+                  success: ({code, data}) => {
+                    vm.$alert('温馨提示', '你已经提交申请，稍后会有客服人员联系您！')
+                  }
+                })
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
+        } else {
+          this.$goto(item.path + `?id=${this.mylibs.id}&name=${this.mylibs.name}`)
+        }
       }
     }
     events = {
