@@ -450,9 +450,9 @@
     }
 
     onReachBottom() {
-      if (JSON.stringify(this.address) == '{}') {
-        return
-      }
+      // if (JSON.stringify(this.address) == '{}') {
+      //   return
+      // }
       this.getLikers()
     }
 
@@ -733,8 +733,8 @@
       },
       // 授权地理位置
       openSetting_address(e) {
+        console.log(e)
         let that = this
-        this.$apply()
         if (e.detail.authSetting['scope.userLocation']) {
           // 如果打开了地理位置，就会为true
           wepy.getLocation({
