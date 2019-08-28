@@ -1,33 +1,28 @@
 <template>
-  <NavBar bag="#ffffff"></NavBar>
+  <!--<NavBar bag="#ffffff">分享</NavBar>-->
   <Loading :init.sync="init"></Loading>
   <view class="page__bd ">
-    <image mode="aspectFill" style="width: 100%;height:100vh;position: fixed;top: 0;left: 0;" src="http://images.ufutx.com/201807/14/b8b840778df41ea95d0a4fdaefaa4037.png" ></image>
+    <image mode="aspectFill" style="width: 100%;height:100vh;position: fixed;top: 0;left: 0;" src="https://images.ufutx.com/201908/28/e5e5894cbe9df9b02e330c38eb81b9cc.png" ></image>
   </view>
   <view>
     <view class="text-center" style="position: fixed;width: 100%;top: 4%;">
       <image  mode="aspectFill" src="{{avatar}}" class="party_image"></image>
-      <view style="margin-top: 22rpx">我是{{name}}，向您推荐福恋！</view>
+      <view style="margin-top: 12rpx">Hi，我是{{name}}</view>
+      <view style="margin-top: 2rpx" class="font_36 bold color-theme">我在福恋，找对象！</view>
+      <view style="margin-top: 2rpx" class="font_22 color-666">用科技让交友变简单</view>
     </view>
   </view>
   <view>
-    <view class="text-center" style="position: fixed;width: 100%;bottom: 12%;">
-      <image  mode="aspectFit" src="{{qrcode}}" style="width: 360rpx;height: 360rpx;"></image>
-      <view style="margin-top: 16rpx;width: 91%;padding: 0 32rpx;">
+    <view class="text-center" style="position: fixed;width: 100%;bottom: 17vw;">
+      <image  mode="aspectFit" src="{{qrcode}}" style="width: 300rpx;height: 300rpx;"></image>
+      <view style="margin:auto; margin-top: 48rpx;width: 82%;padding: 0 6vw;">
         <view class="text-center flo_l">
-          <view  class="btn_red_v font_28" style="width: 260rpx;" >
-            <button class="btn text-center font_28 white" style="width: 240rpx;height: 60rpx;line-height: 60rpx;"  open-type="share" >邀请好友</button>
-          </view>
+          <button class="btn main-btn font_28 " open-type="share" >邀请好友</button>
         </view>
         <view  class="text-center flo_r">
-          <view  class="btn_red_v font_28" style="width: 260rpx;" >
-            <button class="btn text-center font_28 white" style="width: 240rpx;height: 60rpx;line-height: 60rpx;"  @tap="saveImageV1" >保存海报</button>
-          </view>
+          <button class="btn main-btn font_28 main-btn-a"   @tap="saveImageV1" >保存海报</button>
         </view>
         <view class="clearfloat"></view>
-        <view style="color: #FFFFFF;margin: 36rpx 32rpx;" class="font_24 text-left">
-
-        </view>
       </view>
     </view>
   </view>
@@ -42,7 +37,7 @@
   //  import ShareMessage from '../../mixins/ShareMessage'
   import { service } from '../../config.js'
   import sharePic from '../../components/sharePic'
-  import NavBar from '../../components/NavBar'
+  import NavBar from '../../components/NavBarV2'
   import Loading from '../../components/loading'
   export default class myShare extends wepy.page {
     mixins = [base, http, user]
@@ -53,8 +48,9 @@
     }
     config = {
       navigationBarTitleText: '分享给好友',
-      navigationBarBackgroundColor: '#ffebee',
+      // navigationBarBackgroundColor: '#ffebee',
       enablePullDownRefresh: false
+      // navigationStyle: 'custom'
     }
     data = {
       list: [],
@@ -151,6 +147,16 @@
   page{
     background: #ffebee;
   }
+  .main-btn {
+    padding: 8rpx 32rpx;
+    color: #D92553;
+    border-radius: 4rpx;
+    border: 1rpx solid #D92553;
+  }
+  .main-btn-a{
+    color: white;
+    background: #D92553;
+  }
   .page-user{
     background: white;
     padding: 22rpx 50rpx;
@@ -214,6 +220,6 @@
     border-radius: 50%;
     border: 2px solid #fff;
     margin: auto;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+    /*box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);*/
   }
 </style>

@@ -11,7 +11,7 @@
                 </view>
                 <view class="flo_l _bc-list">
                   <image src="http://images.ufutx.com/201812/06/1222126e6c582af0af0dccf557510e8b.png" mode="aspectFit" class="flo_l" @tap="goto('/pages/map/index')"></image>
-                  <view class="flo_r _bc-message" @tap="goto('/pages/users/myMessage')">
+                  <view class="flo_r _bc-message" @tap="gotoTab('/pages/tabBar/news')">
                     <image src="http://images.ufutx.com/201812/06/85f92d47c50d8c84a26a4f08c4454b63.png" mode="aspectFit"></image>
                     <view class="dost white" wx:if="{{message_count !== 0}}">{{message_count}}</view>
                   </view>
@@ -211,6 +211,9 @@
       this.$broadcast('showBackTopBtn', show)
     }
     methods = {
+      gotoTab(url) {
+        this.$gotoTab(url)
+      },
       // 约见
       appointment(id) {
         this.$post({
