@@ -21,12 +21,12 @@
     </view>
     <view class="main-toast-box" wx:if="{{showModal}}">
       <view class="main-toast">
-        <view class="title color-666">推荐给</view>
+        <view class="title color-666">把 <span class="color-theme bold">{{other_user.name}}</span> 推荐给TA</view>
         <view class="title">
           <image src="{{other_user.photo}}" mode="aspectFill"  class="image"></image>
         </view>
         <view class="card font_28">
-          [福恋名片]  {{name}}
+          [福恋名片]  {{other_user.name}}
         </view>
         <view class="main-btn">
           <view class="item-btn flo_l" @tap="cancleFn">取消</view>
@@ -128,7 +128,7 @@
     getLibraries(keyword) {
       let _this = this
       _this.loading = true
-      let url = `${service.host}/users/${_this.id}/single/friends`
+      let url = `${service.host}/users/${_this.id}/single/likers`
       this.$get({
         url: url,
         data: {
@@ -182,9 +182,9 @@
       },
       sendFn() {
         let vm = this
-        vm.$post({url: `${service.host}/send/single/card/to/users/${vm.other_user.id}?single_user_id=${vm.id}`}, {
+        vm.$post({url: `${service.host}/send/single/card/to/users/${vm.id}?single_user_id=${vm.other_user.id}`}, {
           success: ({code, data}) => {
-            vm.$showToast(`已成功推荐给  ${vm.other_user.name}`)
+            vm.$showToast(`已成功推荐给TA`)
             vm.showModal = false
             vm.$apply()
           }

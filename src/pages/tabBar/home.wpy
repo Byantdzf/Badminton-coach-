@@ -118,7 +118,7 @@
         </view>
         <view class="shareIcon">
           <block wx:for="{{shareUser}}" wx:key="index">
-            <image src="{{item.circle_avatar}}" mode="widthFix" @tap="gotofriends({{item}},{{item.id}})"></image>
+            <image src="{{item.circle_avatar}}" mode="widthFix" @tap="gotofriends({{item}},{{item.id}})"  @longpress="longPress({{index}}, {{item.id}})"></image>
           </block>
           <button class="btn white inline-block" hover-class="btn_active"  open-type="share" style="margin-bottom: -18rpx;">
             <image src="https://images.ufutx.com/201908/16/c9e298c58e88e16588b555040f43e71d.png" mode="widthFix"></image>
@@ -379,7 +379,7 @@
       return {
         title: '我在福恋为你找对象',
         path: url,
-        imageUrl: '',
+        imageUrl: 'https://images.ufutx.com/201908/28/494a44b3d04fb9f4278a684dd83d1fe3.jpeg',
         success: function(res) {
           wx.showToast({
             title: '转发成功',
@@ -756,6 +756,28 @@
             }
           })
         }
+      },
+      longPress(index, id) {
+        let vm = this
+        wx.showModal({ // 使用模态框提示用户进行操作
+          title: '提示',
+          content: '是否取消TA 为身边单身',
+          success: function (res) {
+            if (res.confirm) { // 判断用户是否点击了确定
+              vm.$delete({url: `${service.host}/side/singles/${id}`}, {
+                success: ({code, data}) => {
+                  vm.$showToast('删除成功...')
+                  vm.shareUser.splice(index, 1)
+                  vm.$apply()
+                },
+                fail: ({code, data}) => {
+                },
+                complete: () => {
+                }
+              })
+            }
+          }
+        })
       },
       gotofriends(item, id) {
         let url = '',
