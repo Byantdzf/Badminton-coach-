@@ -5,7 +5,7 @@
     <search></search>
     <view class="page__bd "  wx:for="{{list}}" wx:key="*this" >
       <view class="borrowlist" @tap="gotoFriendPage({{item}})">
-        <image src="{{item.photo}}" mode="aspectFill"  class="flo_l image"></image>
+        <image src="{{item.circle_avatar}}" mode="aspectFill"  class="flo_l image"></image>
         <view style="width: 70%" class="flo_l">
           <view  class="font_30 ellipsis_1 color-666 name">
             {{item.name}}

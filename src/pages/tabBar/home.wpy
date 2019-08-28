@@ -377,7 +377,7 @@
       let url = `/pages/tabBar/home?from_openid=${from_openid}&share_user_id=${that.id}`
       console.log(url)
       return {
-        title: this.config.navigationBarTitleText,
+        title: '我在福恋为你找对象',
         path: url,
         imageUrl: '',
         success: function(res) {
@@ -765,6 +765,9 @@
           url = '/pages/home/information?id=' + user_id
         } else {
           url = '/pages/home/introducer?id=' + user_id
+        }
+        if (!item.type) {
+          url = '/pages/home/information?id=' + user_id
         }
         wx.navigateTo({url: url})
       },
