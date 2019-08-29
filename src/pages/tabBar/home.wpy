@@ -71,13 +71,15 @@
                    class="edit flo_r" @tap="goto('/pages/users/userInfo')"></image>
           </view>
           <bolck  wx:if="{{list.length < 1}}">
-            <view class="text-center main-hint">
-              <image src="https://images.ufutx.com/201908/16/6f2f00d1bab1d96b8a1971e88c0e3575.png" mode="widthFix"
-                     style="width: 240rpx;height: auto;"></image>
-              <!--view class="font_26 color-666"><span class="bold"></span>你好，小恋为你服务！</view-->
-              <view class="font_26 color-666" style="margin-top: 12rpx">完善个人资料，领取尊享VIP！</view>
-              <view class="item-btn white font_28" @tap="goto('/pages/users/userInfo')">去完善</view>
-            </view>
+            <block wx:if="{{initialize}}">
+              <view class="text-center main-hint">
+                <image src="https://images.ufutx.com/201908/16/6f2f00d1bab1d96b8a1971e88c0e3575.png" mode="widthFix"
+                       style="width: 240rpx;height: auto;"></image>
+                <!--view class="font_26 color-666"><span class="bold"></span>你好，小恋为你服务！</view-->
+                <view class="font_26 color-666" style="margin-top: 12rpx">完善个人资料，领取尊享VIP！</view>
+                <view class="item-btn white font_28" @tap="goto('/pages/users/userInfo')">去完善</view>
+              </view>
+            </block>
           </bolck>
           <bolck  wx:else>
             <view class="item-avatar" wx:for="{{list}}" wx:key="{{index}}" @tap="gotofriends({{item}},{{item.id}})">
@@ -150,14 +152,16 @@
           <span class="font_28 color-666" style="margin-left: 32rpx;">为单身推荐TA</span>
         </view>
         <bolck  wx:if="{{list.length < 1}}">
-          <view class="text-center main-hint">
-            <image src="https://images.ufutx.com/201908/16/b1ce90ed0a31f6f543361e55d841d199.png" mode="widthFix"
-                   style="width: 240rpx;height: auto;"></image>
-            <view class="font_26 color-666" style="margin-top: 12rpx">邀请身边的单身们加入，为单身推荐TA</view>
-            <button class="btn white inline-block item-btn white font_28 text-center" hover-class="btn_active"  open-type="share" style="margin-bottom: -18rpx;">
-              邀请
-            </button>
-          </view>
+          <block wx:if="{{initialize}}">
+            <view class="text-center main-hint">
+              <image src="https://images.ufutx.com/201908/16/b1ce90ed0a31f6f543361e55d841d199.png" mode="widthFix"
+                     style="width: 240rpx;height: auto;"></image>
+              <view class="font_26 color-666" style="margin-top: 12rpx">邀请身边的单身们加入，为单身推荐TA</view>
+              <button class="btn white inline-block item-btn white font_28 text-center" hover-class="btn_active"  open-type="share" style="margin-bottom: -18rpx;">
+                邀请
+              </button>
+            </view>
+          </block>
         </bolck>
         <bolck  wx:else>
           <view class="_bc-list">
@@ -264,6 +268,7 @@
       showVip: false,
       showMoney: false,
       loading: false,
+      initialize: false,
       noMore: false,
       current: 0,
       myLong: '',
@@ -500,6 +505,7 @@
             })
           }
           _this.noMore = true
+          _this.initialize = true
           _this.page += 1
         },
         fail: ({code, data}) => {
