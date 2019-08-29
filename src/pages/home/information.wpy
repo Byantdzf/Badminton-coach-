@@ -85,7 +85,7 @@
           <view class="font_22 colorb0">认证通过时间：{{mylibs.approve_time}}</view>
         </view>
       </view>
-      <view class="main-approved-box">
+      <view class="main-approved-box" style="border: none">
         <view class="color-666 flo_l font_28">自我介绍</view>
         <view class="main-card flo_r font_26 color70">
           {{profile_courtship.introduction}}
