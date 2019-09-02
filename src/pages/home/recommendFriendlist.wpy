@@ -23,7 +23,7 @@
       <view class="main-toast">
         <view class="title color-666">把 <span class="color-theme bold">{{other_user.name}}</span> 推荐给TA</view>
         <view class="title">
-          <image src="{{other_user.photo}}" mode="aspectFill"  class="image"></image>
+          <image src="{{other_user.circle_avatar}}" mode="aspectFill"  class="image"></image>
         </view>
         <view class="card font_28">
           [福恋名片]  {{other_user.name}}

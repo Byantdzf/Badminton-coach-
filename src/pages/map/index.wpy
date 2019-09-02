@@ -35,14 +35,18 @@
           <cover-image src='http://images.ufutx.com/201902/21/7b3892dcf60fabda05add35abfa9aec3.png' wx:else class='_bcIcon flo_l'></cover-image>
           <cover-view class="font_32 orange bold flo_l ellipsis_1 _bcName">{{friends.name}}</cover-view>
           <cover-view class="font_26 black_6 bold flo_l _bcDistance ellipsis_1" style="max-width: 220rpx;">距离{{friends.distance}}千米</cover-view>
-          <cover-view class="font_26 black_6 bold flo_r _bcRecommend">推荐值：
-            <cover-view  class="orange text-right bold font_28 _bcWeight">{{friends.match_weight}}</cover-view>
+          <cover-view class="font_26 black_6 bold flo_r _bcRecommend">
+            <block wx:if="{{friends.match_weight}}">
+              推荐值：
+              <cover-view  class="orange text-right bold font_28 _bcWeight" >{{friends.match_weight}}</cover-view>
+            </block>
           </cover-view>
           <cover-view class="clearfloat"></cover-view>
           <cover-view  class="flo_l _bcPic">
             <cover-view class="font_24 black_6 bold flo_l _bcText">照片墙：</cover-view>
             <block wx:if="{{friends.photos.length != 0}}">
               <cover-view class="font_26 black_6 bold flo_l _bcImage"  wx:for="{{friends.photos}}" wx:key="*this">
+                <!--<cover-view wx:if="{{index < 3}}" mode="aspectFit"   class='flo_l' style="background-image:url( + item.photo )"></cover-view>-->
                 <cover-image src='{{item}}' wx:if="{{index < 3}}" mode="aspectFit"   class='flo_l'></cover-image>
               </cover-view>
             </block>

@@ -38,7 +38,7 @@
                        placeholder="请回答问题"/>
               </view>
             </view>
-            <view class="btn_red font_28 " style="margin: auto" @tap="addfriend">申请加好友</view>
+            <view class="btn-theme font_28 " style="margin: auto" @tap="addfriend">申请加好友</view>
           </view>
         </view>
       </view>

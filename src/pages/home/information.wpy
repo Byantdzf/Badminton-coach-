@@ -85,15 +85,15 @@
           <view class="font_22 colorb0">认证通过时间：{{mylibs.approve_time}}</view>
         </view>
       </view>
-      <view class="main-approved-box">
+      <view class="main-approved-box" style="border: none">
         <view class="color-666 flo_l font_28">自我介绍</view>
-        <view class="main-card flo_r font_26 colorb0">
+        <view class="main-card flo_r font_26 color70">
           {{profile_courtship.introduction}}
         </view>
       </view>
       <view class="main-basic-box">
         <view class="color-666 flo_l font_28">基本资料</view>
-        <view class="main-card flo_r font_26 colorb0">
+        <view class="main-card flo_r font_26 color70">
           <view class="infoList">
             <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.stature}}">{{profile_courtship.stature+'cm'}}</view>
             <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.weight}}">{{profile_courtship.weight+'kg'}}</view>
@@ -111,7 +111,7 @@
         </view>
         <view class="clearfloat"></view>
         <view class="color-666 flo_l font_28" style="margin-top: 32rpx;">理想对象</view>
-        <view class="main-card flo_r font_26 colorb0" style="padding: 50rpx 0; ">
+        <view class="main-card flo_r font_26 color70" style="padding: 50rpx 0; ">
           {{profile_courtship.ideal_mate}}
         </view>
       </view>
@@ -968,7 +968,7 @@
   .main-approved-box{
     padding: 32rpx;
     padding-bottom: 22rpx;
-    border-bottom: 1rpx solid #b0b0b0;
+    border-bottom: 1rpx solid #cccccc;
     overflow: hidden;
     .image{
       width: 130rpx;
