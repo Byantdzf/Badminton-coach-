@@ -2,6 +2,25 @@
   <Loading :init.sync="init"></Loading>
   <Tab_NavBar rgba="#ffffff" title="最新消息"></Tab_NavBar>
   <view class="page-user">
+    <view wx:for="{{listV2}}" wx:key="index" class="list ff" @tap="goto({{index}}, {{item}})">
+      <view class="flo_l relative_bot">
+        <image src="{{item.icon}}" class="_icon" mode="aspectFill" wx:if="{{item.icon}}"></image>
+        <view class="dost white" wx:if="{{item.message.new_count && item.message.new_count != 0}}">{{item.message.new_count}}</view>
+      </view>
+      <view  class="_item-text flo_l">
+        <span class="font_28">{{item.title}}</span>
+        <span class="font_22 message_type_text" wx:if="{{item.message.type == 'marriage'}}">介绍人</span>
+      </view>
+      <span class="font_22 flo_r _time">{{item.message.created_at}}</span>
+      <view  class="_item-user ellipsis_1 flo_r font_26">
+        <span wx:if="{{item.message.content}}">
+          <span wx:if="{{item.message.content_type === 'CARD'}}" class="color-theme">有一条推荐信息...</span>
+          <span wx:else>{{item.message.content}}</span>
+        </span>
+        <span wx:else>暂无新消息</span>
+      </view>
+      <view class="clearfloat"></view>
+    </view>
     <view wx:for="{{list}}" wx:key="index" class="list ff" @tap="goto({{index}}, {{item}})">
       <view class="flo_l relative_bot">
         <image src="{{item.icon}}" class="_icon" mode="aspectFill" wx:if="{{item.icon}}"></image>
@@ -60,6 +79,7 @@
       loading: false,
       noMore: false,
       list: [],
+      listV2: [],
       typeList: [
         {
           icon: 'http://images.ufutx.com/201905/24/2a8b1b56565df18e7ad8e3e4d7554629.png',
@@ -128,7 +148,7 @@
                 break
             }
           })
-          this.list = [...this.typeList]
+          this.listV2 = [...this.typeList]
           this.$apply()
           if (!linkmen.data.length) {
             this.noMore = true
@@ -176,7 +196,7 @@
             this.$apply()
           } else {
             let items = []
-            for (let item of data) {
+            for (let item of linkmen.data) {
               items.push({
                 icon: item.other_user.circle_avatar,
                 title: item.other_user.name,

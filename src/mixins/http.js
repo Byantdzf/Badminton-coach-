@@ -96,8 +96,7 @@ export default class httpMixin extends wepy.mixin {
         'Authorization': 'Bearer ' + wx.getStorageSync('token'),
         'X-Requested-With': 'XMLHttpRequest'
       }, headers),
-      data: Object.assign({
-        // set something global
+      data: Object.assign({ // set something global
       }, data)
     }
     // 控制台调试日志
@@ -138,14 +137,10 @@ export default class httpMixin extends wepy.mixin {
           }
           console.log(`${currentPage.route}?${url}`)
           wx.setStorageSync('jump', `/${currentPage.route}?${url}`)
-          // debugger
           wx.removeStorageSync('token', null)
-
-          // 重新登录
           wepy.login({
             success: (res) => {
-              console.log('wepy.login.success:', res)
-              // 根据业务接口处理:业务登陆:异步
+              console.log('wepy.login.success:', res) // 根据业务接口处理:业务登陆:异步
               this.$post({url: service.login, data: {code: res.code}}, {
                 success: ({code, data}) => {
                   if (data.token) {
@@ -161,15 +156,14 @@ export default class httpMixin extends wepy.mixin {
                     wx.setStorageSync('type', data.user.type)
                   }
                   var route = wx.getStorageSync('jump')
-                  if (route == '/pages/tabBar/welcome') {
-                    return
-                  }
-                  if (route.includes('/pages/tabBar/home')) {
-                    this.getNewCount()
-                    this.upDate()
-                  }
+                  // if (route == '/pages/tabBar/welcome') {
+                  //   return
+                  // }
+                  // if (route.includes('/pages/tabBar/home')) {
+                  //   this.getNewCount()
+                  //   this.upDate()
+                  // }
                   if (!data.token) {
-                    // wx.reLaunch({url: '/pages/users/register'})
                     wx.navigateTo({url: '/pages/users/registerV2?from_openid=' + wx.getStorageSync('from_openid')})
                   } else {
                     if (route.includes('tabBar')) {
@@ -187,7 +181,6 @@ export default class httpMixin extends wepy.mixin {
               console.log('wepy.login.fail:', res)
             }
           })
-
         } else if (code == 3) {
           wx.setStorageSync('jump', url)
           var pages = getCurrentPages()    // 获取加载的页面
@@ -217,7 +210,6 @@ export default class httpMixin extends wepy.mixin {
             }
           })
         } else {
-          // 失败回调：其他情况
           return setTimeout(() => {
             if (this.isFunction(fail)) {
               fail({statusCode, ...data})
@@ -234,10 +226,7 @@ export default class httpMixin extends wepy.mixin {
 
       },
       fail: ({statusCode, data}) => {
-        // console.log(Object)
-        // 控制台调试日志
         console.log('[ERROR]', statusCode, data)
-        // 失败回调
         return setTimeout(() => {
           this.isFunction(error) && error({statusCode, ...data})
           this.$apply()
@@ -264,4 +253,3 @@ export default class httpMixin extends wepy.mixin {
     }))
   }
 }
-

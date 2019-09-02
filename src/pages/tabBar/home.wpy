@@ -70,12 +70,11 @@
             <image src="https://images.ufutx.com/201908/16/eb58574466d54d7ce3223725c6a92387.png" mode="widthFix"
                    class="edit flo_r" @tap="goto('/pages/users/userInfo')"></image>
           </view>
-          <bolck  wx:if="{{list.length < 1}}">
-            <block wx:if="{{initialize}}">
+          <bolck  wx:if="{{list.length == 0}}">
+            <block wx:if="{{initialize && list.length == 0}}">
               <view class="text-center main-hint">
                 <image src="https://images.ufutx.com/201908/16/6f2f00d1bab1d96b8a1971e88c0e3575.png" mode="widthFix"
                        style="width: 240rpx;height: auto;"></image>
-                <!--view class="font_26 color-666"><span class="bold"></span>你好，小恋为你服务！</view-->
                 <view class="font_26 color-666" style="margin-top: 12rpx">完善个人资料，领取尊享VIP！</view>
                 <view class="item-btn white font_28" @tap="goto('/pages/users/userInfo')">去完善</view>
               </view>
@@ -151,8 +150,8 @@
           <span class="font_32 bold color-666">智能推荐</span>
           <span class="font_28 color-666" style="margin-left: 32rpx;">为单身推荐TA</span>
         </view>
-        <bolck  wx:if="{{list.length < 1}}">
-          <block wx:if="{{initialize}}">
+        <bolck  wx:if="{{list.length == 0}}">
+          <block wx:if="{{initialize && list.length == 0}}">
             <view class="text-center main-hint">
               <image src="https://images.ufutx.com/201908/16/b1ce90ed0a31f6f543361e55d841d199.png" mode="widthFix"
                      style="width: 240rpx;height: auto;"></image>
@@ -161,6 +160,7 @@
                 邀请
               </button>
             </view>
+            <view style="height: 12vw;"></view>
           </block>
         </bolck>
         <bolck  wx:else>
@@ -256,8 +256,7 @@
       swiperV, Loading, Tab_NavBar, pageScroll, tabSearch
     }
     watch = {
-      current() {
-        console.log(this.current)
+      list() {
       }
     }
     data = {
@@ -278,7 +277,7 @@
       person: [],
       recommends: [],
       animationData: {},
-      userType: '',
+      userType: wx.getStorageSync('type'),
       announcements: [], // 通知
       tab: [
         {
@@ -360,10 +359,6 @@
     }
 
     async onLoad(e) {
-      // if (wx.getStorageSync('token') == '') {
-      //   wx.navigateTo({url: '/pages/users/registerV2?from_openid=' + wx.getStorageSync('from_openid')})
-      //   return
-      // }
       if (e.share_user_id) {
         wx.setStorageSync('share_user_id', e.share_user_id)
       }
@@ -372,8 +367,69 @@
       this.userType = wx.getStorageSync('type')
       this.page = 1
       this.$apply()
-      this.getCenterLocation()
-      this.getNewCount()
+    }
+    onShow() {
+      let vm = this
+      vm.userType = wx.getStorageSync('type')
+      vm.page = 1
+      vm.$apply()
+      if (wx.getStorageSync('token') == '') {
+        wepy.login({
+          success: (res) => {
+            vm.$post({url: service.login, data: {code: res.code}}, {
+              success: ({code, data}) => {
+                if (data.token) {
+                  wx.setStorageSync('token', data.token)
+                  wx.setStorageSync('openid', data.openid)
+                  let userInfo = {
+                    nickName: data.user.name,
+                    avatarUrl: data.user.avatar,
+                    type: data.user.type
+                  }
+                  wx.setStorageSync('userInfo', userInfo)
+                  wx.setStorageSync('user_id', data.user.id)
+                  wx.setStorageSync('type', data.user.type)
+                }
+                if (!data.token) {
+                  wx.navigateTo({url: '/pages/users/registerV2?from_openid=' + wx.getStorageSync('from_openid')})
+                } else {
+                  vm.getCenterLocation()
+                  vm.getNewCount()
+                  vm.page = 1
+                  vm.$apply()
+                  vm.upDate()
+                  vm.getLikers()
+                  vm.getTempMember()
+                }
+              }
+            })
+          },
+          fail: (res) => {
+            console.log('wepy.login.fail:', res)
+          }
+        })
+      } else {
+        vm.page = 1
+        vm.$apply()
+        vm.getCenterLocation()
+        vm.getNewCount()
+        vm.upDate()
+        vm.getLikers()
+        vm.getTempMember()
+      }
+      if (vm.watchLocation) {
+        wx.getSetting({
+          success(res) {
+            if (!res.authSetting['scope.userLocation']) {
+              if (!wx.getStorageSync('myLong')) {
+                vm.hide = false
+                vm.$apply()
+              }
+            }
+          }
+        })
+      }
+      vm.$parent.getTracker(vm.$root.$name, vm.config.navigationBarTitleText)
     }
 
     onShareAppMessage(res) {
@@ -418,34 +474,6 @@
           }
         }
       })
-    }
-
-    onShow() {
-      // if (wx.getStorageSync('token') == '') {
-      //   wx.navigateTo({url: '/pages/users/registerV2?from_openid=' + wx.getStorageSync('from_openid')})
-      //   return
-      // }
-      let that = this
-      that.page = 1
-      that.$apply()
-      that.upDate()
-      // if (that.userType == 'single') {
-      that.getLikers()
-      // }
-      that.getTempMember()
-      if (that.watchLocation) {
-        wx.getSetting({
-          success(res) {
-            if (!res.authSetting['scope.userLocation']) {
-              if (!wx.getStorageSync('myLong')) {
-                that.hide = false
-                that.$apply()
-              }
-            }
-          }
-        })
-      }
-      this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
 
     onPullDownRefresh() {
@@ -505,14 +533,15 @@
             })
           }
           _this.noMore = true
-          _this.initialize = true
           _this.page += 1
+          _this.$apply()
         },
         fail: ({code, data}) => {
         },
         complete: () => {
           _this.loading = false
           _this.init = true
+          _this.initialize = true
           wx.hideLoading()
         }
       })
