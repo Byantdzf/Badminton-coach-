@@ -9,6 +9,7 @@
     <block wx:if="{{announcements.length>0}}">
       <swiperV :list.sync="announcements" height="242"></swiperV>
     </block>
+    <button class="flex-grow-0 flex-y-center bar-bottom-btn" open-type="contact" send-message-title="我想认识TA" send-message-img="{{pic_url}}" send-message-path="/pages/tabBar/home" bindcontact='handleContact' show-message-card plain>客服</button>
     <block wx:if="{{userType == 'single'}}">
       <view class="_bc-tab text-left ff ">
         <view class="_bc-tab-item text-center flo_l item{{index}}" wx:for="{{tab}}" wx:key="{{index}}" @tap="gotoV({{item.path}}, {{item.type}})">
@@ -274,6 +275,7 @@
       myLat: '',
       hide: true,
       address: {},
+      pic_url: 'https://images.ufutx.com/201903/16/tmp_2181fa76a9bd41e0a8cc906854f5edb8.jpg',
       person: [],
       recommends: [],
       animationData: {},
@@ -671,6 +673,10 @@
     }
 
     methods = {
+      handleContact (e) {
+        console.log(e.detail.path)
+        console.log(e.detail.query)
+      },
       cancle(key) {
         this[key] = false
         this.$apply()
