@@ -108,13 +108,13 @@
       </block>
       <view class="btn-item">
         <button size="mini"  type="default" @tap="listenerCancel1">取消支付</button>
-        <block wx:if="{{date == 0}}">
-          <button size="mini" class="flo_r bc_primary white"  wx:if="{{!show && system == 'iOS'}}" @tap="goto('/pages/users/shareVip')">分享支付</button>
+        <!--<block wx:if="{{date == 0}}">-->
+          <button size="mini" class="flo_r bc_primary white"  wx:if="{{system == 'iOS'}}" @tap="goto('/pages/users/shareVip')">分享支付</button>
           <button size="mini" class="flo_r bc_primary white"  wx:else @tap="conversion({{rank}})">确认支付</button>
-        </block>
-        <block wx:else>
-          <button size="mini" class="flo_r bc_primary white"  @tap="conversion({{rank}})">确认支付</button>
-        </block>
+        <!--</block>-->
+        <!--<block wx:else>-->
+          <!--<button size="mini" class="flo_r bc_primary white"  @tap="conversion({{rank}})">确认支付</button>-->
+        <!--</block>-->
       </view>
     </view>
   </modalUp>

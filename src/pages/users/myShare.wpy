@@ -80,12 +80,11 @@
     }
 
     onShareAppMessage (res) {
-      let url = 'pages/tabBar/home?from_openid=' + this.from_openid
+      let url = 'pages/tabBar/welcome?from_openid=' + this.from_openid
       console.log(url)
       return {
         title: '推荐福恋：婚恋家庭幸福平台!',
-        path: url,
-        // 设置转发image，不设默认当前截图
+        path: url, // 设置转发image，不设默认当前截图
 //        imageUrl: '',
         success: function (res) {
           wx.showToast({

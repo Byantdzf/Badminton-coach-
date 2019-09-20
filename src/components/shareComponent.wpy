@@ -1,18 +1,18 @@
 <template>
 
   <modal class="modal" hidden="{{hide}}"  confirm-text="取消"  no-cancel no-confirm @confirm="listenerCancel1">
-    <view style="width: 50%" class="text-center flo_l" @tap.stop="hideModel">
+    <view style="width: 100%" class="text-center flo_l" @tap.stop="hideModel">
       <button class="btn text-center font_28 color-666" open-type="share" style="line-height: 1.6;padding: 6rpx">
         <image class="share-image" mode="aspectFit" src="http://images.ufutx.com/201808/20/0c33d683fc63ca4aab594d079bda93aa.png"></image>
         <view>分享到群/朋友</view>
       </button>
     </view>
-    <view style="width: 50%" class="text-center flo_r color-666">
-      <button class="btn text-center font_28 color-666"  style="line-height: 1.6;padding: 6rpx" @tap="showPic">
-        <image class="share-image" mode="aspectFit" src="http://images.ufutx.com/201808/20/5caa7a73890718c805c610a44cb34fe2.png"></image>
-        <view>分享到朋友圈</view>
-      </button>
-    </view>
+    <!--<view style="width: 50%" class="text-center flo_r color-666">-->
+      <!--<button class="btn text-center font_28 color-666"  style="line-height: 1.6;padding: 6rpx" @tap="showPic">-->
+        <!--<image class="share-image" mode="aspectFit" src="http://images.ufutx.com/201808/20/5caa7a73890718c805c610a44cb34fe2.png"></image>-->
+        <!--<view>分享到朋友圈</view>-->
+      <!--</button>-->
+    <!--</view>-->
     <view class="clearfloat"></view>
   </modal>
   <modal  hidden="{{showOpenSet}}"

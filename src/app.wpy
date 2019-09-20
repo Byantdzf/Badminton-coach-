@@ -74,7 +74,8 @@
           'root': 'pages/map',
           'pages': [
             'index',
-            'mapList'
+            'mapList',
+            'TXQQMap'
           ]
         },
         {

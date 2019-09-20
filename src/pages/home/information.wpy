@@ -15,7 +15,8 @@
         <view class="hint white font_28">
           关注公众号,查看更多用户推荐~
           <!--<image src="http://images.ufutx.com/201903/07/d9bcd9df3b54eb48c7fdcdcbfe45dd9e.png" mode="aspectFit" class="image"></image>-->
-          <view class="hintBtn inline-block font_28" @tap="goto('/pages/users/guidePage')">关注</view>
+          <!--<view class="hintBtn inline-block font_28" @tap="goto('/pages/users/guidePage')">关注</view>-->
+          <button class="btn hintBtn inline-block font_28" open-type="contact" send-message-title="关注公众号" send-message-img="{{pic_url}}" send-message-path="/pages/tabBar/home" show-message-card plain>关注</button>
         </view>
         <block wx:if="{{mylibs.self != 1}}">
           <view style="border-radius: 50%;margin: -72rpx 78rpx;background: white;z-index: auto;position:relative;width: 100rpx;height: 100rpx;box-shadow: 1rpx 1rpx 12rpx #d0d0d0;" class="flo_r text-center" hover-class="btn_active" @tap="attention">
@@ -196,6 +197,7 @@
       init: false,
       is_love: false,
       mylibs: [],
+      pic_url: 'https://images.ufutx.com/201909/12/857079e093fbf339e35247d065ade6e4.jpeg', // 公众号配图
       setList: ['举报', '拉入黑名单', '取消好友'],
       background_image: 'http://local-pictures.img-cn-shenzhen.aliyuncs.com/201806/15/wx53cf66d72649eb5a.o6zAJs2lf_SH4K2plnWTlsSfhR70.CaShiFjcO2Q7dd44e9547b343f1c8c4f6ae9424ab900.png',
       user: [],
@@ -1050,7 +1052,10 @@
       margin-left: 42rpx;
       /*box-shadow: 1rpx 1rpx 12rpx #ffffff;*/
       border-radius: 8rpx;
+      border: none;
       background-image: linear-gradient(to right, #eb6266 0%,  #D92553 100%);
+      color: white;
+      margin-bottom: -12rpx;
     }
   }
 </style>
