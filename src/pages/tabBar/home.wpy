@@ -392,7 +392,9 @@
                   wx.setStorageSync('type', data.user.type)
                 }
                 if (!data.token) {
-                  wx.navigateTo({url: '/pages/users/registerV2?from_openid=' + wx.getStorageSync('from_openid')})
+                  vm.initialize = true
+                  vm.$apply()
+                  // wx.navigateTo({url: '/pages/users/registerV2?from_openid=' + wx.getStorageSync('from_openid')})
                 } else {
                   vm.getCenterLocation()
                   vm.getNewCount()

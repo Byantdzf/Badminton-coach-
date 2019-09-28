@@ -170,11 +170,11 @@
           selectedIconPath: './images/tabbar/attentionActive.png',
           iconPath: './images/tabbar/attention.png',
           text: '活动'
-        }, {
-          pagePath: 'pages/tabBar/friendCircleList',
-          selectedIconPath: './images/tabbar/circleA.png',
-          iconPath: './images/tabbar/circle.png',
-          text: '动态'
+        // }, {
+        //   pagePath: 'pages/tabBar/friendCircleList',
+        //   selectedIconPath: './images/tabbar/circleA.png',
+        //   iconPath: './images/tabbar/circle.png',
+        //   text: '动态'
         }, {
           pagePath: 'pages/tabBar/news',
           selectedIconPath: './images/tabbar/messageActive.png',

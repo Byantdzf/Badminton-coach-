@@ -107,7 +107,9 @@
 
     onPullDownRefresh() {
       this.page = 1
+      this.list = []
       this.initPageData()
+      this.$apply()
     }
 
     onReachBottom() {

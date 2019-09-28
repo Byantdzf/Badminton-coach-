@@ -1,57 +1,62 @@
 <template>
   <!--<Loading :init.sync="init"></Loading>-->
-  <form bindsubmit="formSubmit" report-submit>
-    <button formType="submit" class="btn" data-type="click">
-      <view class="iconActive ff   ">
-        <image wx:if="{{tabIndex == 0}}" src="http://images.ufutx.com/201905/31/6dbf441f112370befd2abb373edb0486.png" mode="widthFix" style="width: 100%;" class="bc_opcit"></image>
-        <image wx:else src="http://images.ufutx.com/201905/31/f36d431299cd56651ba8ab432727c14c.png" mode="widthFix" style="width: 100%;" class="bc_opcit"></image>
-      </view>
-      <navBarTop :tabs.sync="tabs" @tapClick="tapClick"></navBarTop>
-      <view class="page__bd ff font_28">
-        <view wx:for="{{list}}" wx:key="{{index}}">
-          <view class="bc_box">
-            <view class="flo_l text_title">专属</view>
-            <view class="flo_l" style="width: 50%;line-height: 116rpx;position: relative">
-              <text class="text_price bold">￥{{item.price}}</text>
-              <text class="font_26 text-info">（{{item.name}})</text>
-            </view>
-            <view class="flo_r text_foot bold" @tap="showModal({{item}})">购买</view>
-          </view>
+  <block wx:if="{{system === 'iOS'}}">
+    <view  class="text-center color-bbb" style="margin: 22vw auto;">由于相关规范，iOS功能暂不可用</view>
+  </block>
+  <block wx:else>
+    <form bindsubmit="formSubmit" report-submit>
+      <button formType="submit" class="btn" data-type="click">
+        <view class="iconActive ff   ">
+          <image wx:if="{{tabIndex == 0}}" src="http://images.ufutx.com/201905/31/6dbf441f112370befd2abb373edb0486.png" mode="widthFix" style="width: 100%;" class="bc_opcit"></image>
+          <image wx:else src="http://images.ufutx.com/201905/31/f36d431299cd56651ba8ab432727c14c.png" mode="widthFix" style="width: 100%;" class="bc_opcit"></image>
         </view>
-      </view>
-      <view class="bc_call">
-        <image src="http://images.ufutx.com/201905/31/c41774b536f913f927eb54592ba71905.png" mode="widthFix" class="image" @tap="makePhoneCall"></image>
-        <view class="call_iphone font_26">热线：4000401707</view>
-      </view>
-      <view class=" font_26 state info">
-        <view class="title bold text-left">{{tabIndex==0?messages[0].title:messages[1].title}}</view>
-        <view style="margin: 6rpx 22rpx;" wx:for="{{tabIndex==0?messages[0].texts:messages[1].texts}}" wx:key="index">
-          <view>{{item}}</view>
-        </view>
-      </view>
-      <modal>
-        <view slot="wrapper">
-          <view class="bc_text color-666 font_28">
-            <view class="bold text-right" @tap="hideModal">X</view>
-            <scroll-view scroll-y style="max-height: 72vh;">
-              <view class="text-wrapper">
-                {{deal}}
+        <navBarTop :tabs.sync="tabs" @tapClick="tapClick"></navBarTop>
+        <view class="page__bd ff font_28">
+          <view wx:for="{{list}}" wx:key="{{index}}">
+            <view class="bc_box">
+              <view class="flo_l text_title">专属</view>
+              <view class="flo_l" style="width: 50%;line-height: 116rpx;position: relative">
+                <text class="text_price bold">￥{{item.price}}</text>
+                <text class="font_26 text-info">（{{item.name}})</text>
               </view>
-            </scroll-view>
+              <view class="flo_r text_foot bold" @tap="showModal({{item}})">购买</view>
+            </view>
           </view>
-          <view class="bc_check">
-            <checkbox-group class="radio-group" bindchange="radioChange">
-              <label class="radio">
-                <checkbox value="{{checkedValue}}" color="#D92553"/>同意遵守协议各项内容
-              </label>
-            </checkbox-group>
-          </view>
-          <view wx:if="{{!consent}}" @tap="showToast" class="bc_btn white text-center ">购买</view>
-          <view @tap="btnBuy({{pay_id}})" wx:else class="bc_buybtn white text-center">购买</view>
         </view>
-      </modal>
-    </button>
-  </form>
+        <view class="bc_call">
+          <image src="http://images.ufutx.com/201905/31/c41774b536f913f927eb54592ba71905.png" mode="widthFix" class="image" @tap="makePhoneCall"></image>
+          <view class="call_iphone font_26">热线：4000401707</view>
+        </view>
+        <view class=" font_26 state info">
+          <view class="title bold text-left">{{tabIndex==0?messages[0].title:messages[1].title}}</view>
+          <view style="margin: 6rpx 22rpx;" wx:for="{{tabIndex==0?messages[0].texts:messages[1].texts}}" wx:key="index">
+            <view>{{item}}</view>
+          </view>
+        </view>
+        <modal>
+          <view slot="wrapper">
+            <view class="bc_text color-666 font_28">
+              <view class="bold text-right" @tap="hideModal">X</view>
+              <scroll-view scroll-y style="max-height: 72vh;">
+                <view class="text-wrapper">
+                  {{deal}}
+                </view>
+              </scroll-view>
+            </view>
+            <view class="bc_check">
+              <checkbox-group class="radio-group" bindchange="radioChange">
+                <label class="radio">
+                  <checkbox value="{{checkedValue}}" color="#D92553"/>同意遵守协议各项内容
+                </label>
+              </checkbox-group>
+            </view>
+            <view wx:if="{{!consent}}" @tap="showToast" class="bc_btn white text-center ">购买</view>
+            <view @tap="btnBuy({{pay_id}})" wx:else class="bc_buybtn white text-center">购买</view>
+          </view>
+        </modal>
+      </button>
+    </form>
+  </block>
 </template>
 <script>
   import wepy from 'wepy'
@@ -82,6 +87,7 @@
       loading: false,
       noMore: false,
       meet: [],
+      system: '', // 机型
       list: [],
       tabIndex: 0,
       trade_no: '',
@@ -122,6 +128,7 @@
     }
 
     onLoad() {
+      this.system = wx.getStorageSync('system')
       this.upDatelist()
     }
     upDatelist(type) {

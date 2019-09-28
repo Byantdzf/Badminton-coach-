@@ -14,7 +14,7 @@
             </span>
           </view>
           <view class="color-666 font_24">实名认证是平台的基本要求，让Ta对您更放心！</view>
-          <view class="color-666 font_24" wx:if="{{user.type === 'single'}}">实名认证通过后，邀请好友认证<span class="color-theme">可退还认证费！</span></view>
+          <!--<view class="color-666 font_24" wx:if="{{user.type === 'single'}}">实名认证通过后，邀请好友认证<span class="color-theme">可退还认证费！</span></view>-->
         </view>
         <view class="page-box text-center state">
           <block wx:if="{{user.approve_order === 0 && user.type === 'single' && system !== 'iOS'}}">
@@ -51,9 +51,9 @@
                 <button class="font_28 inline-block btn-theme" style="width: 30%;height: 72rpx;line-height: 72rpx" @tap="ensure">免费认证</button>
               </block>
             </block>
-            <block wx:else>
-              <button class="font_28 inline-block btn-theme" style="width: 30%;height: 72rpx;line-height: 72rpx" hover-class="btn_active" @tap="returnCost">退还认证费</button>
-            </block>
+            <!--<block wx:else>-->
+              <!--<button class="font_28 inline-block btn-theme" style="width: 30%;height: 72rpx;line-height: 72rpx" hover-class="btn_active" @tap="returnCost">退还认证费</button>-->
+            <!--</block>-->
           </block>
           <view class="clearfloat"></view>
         </view>

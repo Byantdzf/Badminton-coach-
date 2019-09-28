@@ -1,26 +1,30 @@
 <template>
   <Loading :init.sync="init"></Loading>
   <NavBar rgba="" bag="" title="VIP升级"></NavBar>
-  <view class="_bc-user">
-    <image class="userinfo-avatar" src="{{user.avatar}}" mode="aspectFill" />
-    <view class="white flo_l font_32 userinfo-name"><span class="bold">{{user.name}} </span> <span class="orange font_28">（{{user.rank_name?user.rank_name+'VIP':'未激活'}}）</span></view>
-    <view class="font_26 white flo_l" style="width: 70%;border-bottom: 1rpx solid white;">到期时间：{{user.rank_deadline?user.rank_deadline:'未激活'}}</view>
-  </view>
-  <view class="-tab" style="width: 100%;position: relative;left: 0%;top: 74%;margin-bottom: 12rpx;">
-    <view class="weui-tab__content  white"  >
-      <view class="weui-navbar" style="position: inherit;">
-        <view wx:for="{{tabs}}" wx:key="index" id="{{item.id}}" class="weui-navbar__item {{activeIndex == item.id ? 'weui-bar__item_on' : ''}}" @tap="tabClick({{item.type}})">
-          <view class="weui-navbar__title font_28 color-666  {{activeIndex == item.id ? 'orange bold' : ''}}" >{{item.name}}</view>
+  <block wx:if="{{system === 'iOS'}}">
+    <view  class="text-center color-bbb" style="margin: 22vw auto;">由于相关规范，iOS功能暂不可用</view>
+  </block>
+  <block wx:else>
+    <view class="_bc-user">
+      <image class="userinfo-avatar" src="{{user.avatar}}" mode="aspectFill" />
+      <view class="white flo_l font_32 userinfo-name"><span class="bold">{{user.name}} </span> <span class="orange font_28">（{{user.rank_name?user.rank_name+'VIP':'未激活'}}）</span></view>
+      <view class="font_26 white flo_l" style="width: 70%;border-bottom: 1rpx solid white;">到期时间：{{user.rank_deadline?user.rank_deadline:'未激活'}}</view>
+    </view>
+    <view class="-tab" style="width: 100%;position: relative;left: 0%;top: 74%;margin-bottom: 12rpx;">
+      <view class="weui-tab__content  white"  >
+        <view class="weui-navbar" style="position: inherit;">
+          <view wx:for="{{tabs}}" wx:key="index" id="{{item.id}}" class="weui-navbar__item {{activeIndex == item.id ? 'weui-bar__item_on' : ''}}" @tap="tabClick({{item.type}})">
+            <view class="weui-navbar__title font_28 color-666  {{activeIndex == item.id ? 'orange bold' : ''}}" >{{item.name}}</view>
+          </view>
+          <view class="weui-navbar__slider" style="transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
         </view>
-        <view class="weui-navbar__slider" style="transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
       </view>
     </view>
-  </view>
-  <view class="clearfloat"></view>
-  <template is="msgItem" data="{{rankData,moreIcon}}" />
-  <view style="height: 46vh"></view>
-  <view class="_btn-buy">
-    <!--<block wx:if="{{user.rank_deadline || showPay}}">-->
+    <view class="clearfloat"></view>
+    <template is="msgItem" data="{{rankData,moreIcon}}" />
+    <view style="height: 46vh"></view>
+    <view class="_btn-buy">
+      <!--<block wx:if="{{user.rank_deadline || showPay}}">-->
       <block wx:for="{{sub_ranks}}" wx:key="index">
         <view class="text-center item-price flo_l {{index== PriceIndex?'active':''}}" @tap="SelectPrice({{index}})">
           <view class="font_22">{{item.name}}</view>
@@ -46,12 +50,14 @@
         <!--</view>-->
         <view class="clearfloat"></view>
       </view>
-      <view class="white text-center _bc-btn" @tap="showModal">确认开通</view>
-    <!--</block>-->
-    <!--<block wx:else>-->
+      <view class="white text-center _bc-btn" wx:if="{{system !== 'iOS'}}" @tap="showModal">确认开通</view>
+      <view class="white text-center _bc-btn" style="background: none;color: #b0b0b0;" wx:else >由于相关规范，iOS功能暂不可用</view>
+      <!--</block>-->
+      <!--<block wx:else>-->
       <!--<view class="white text-center _bc-btn"  @tap="goto('/pages/users/shareVip')">去激活VIP</view>-->
-    <!--</block>-->
-  </view>
+      <!--</block>-->
+    </view>
+  </block>
   <template name="msgItem">
     <view style="border-bottom: 22rpx solid #f7f7f7;border-top: 22rpx solid #f7f7f7;">
       <view wx:if="{{moreIcon}}">
