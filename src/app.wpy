@@ -315,6 +315,11 @@
       if (options.scene == 1044) {
         this.openshareTicket(options)
       }
+      let {scene} = options
+      console.log(scene.toString().length)
+      if (scene.toString().length > 25) {
+        wx.setStorageSync('from_platform', scene)
+      }
     }
 
     openshareTicket(options) {
