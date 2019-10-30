@@ -129,12 +129,12 @@
           type: 'navigateTo',
           path: '/pages/users/realName'
         },
-        // {
-        //   icon: 'http://images.ufutx.com/201906/06/cc9dbd4154643115fc396d2eed34500e.png',
-        //   title: '福分商城',
-        //   type: 'navigateApp',
-        //   path: '/pages/users/realName'
-        // },
+        {
+          icon: 'http://images.ufutx.com/201906/06/cc9dbd4154643115fc396d2eed34500e.png',
+          title: '福分商城',
+          type: 'navigateApp',
+          path: '/pages/users/realName'
+        },
         {
           icon: 'http://images.ufutx.com/201906/06/22468f70905609ffa626922be573f481.png',
           title: '我的订单',
@@ -194,13 +194,13 @@
           subhead: '获得更多的关注',
           path: '/pages/users/uploadPic'
         },
-        // {
-        //   icon: 'http://images.ufutx.com/201906/06/d9c45bb3869b616189ac0723887928ad.png',
-        //   title: '分享给好友',
-        //   type: 'navigateTo',
-        //   subhead: '获得更多的祝福',
-        //   path: '/pages/users/myShare'
-        // },
+        {
+          icon: 'http://images.ufutx.com/201906/06/d9c45bb3869b616189ac0723887928ad.png',
+          title: '分享给好友',
+          type: 'navigateTo',
+          subhead: '获得更多的祝福',
+          path: '/pages/users/myShare'
+        },
         {
           icon: 'http://images.ufutx.com/201906/06/0059f55a19360df71f84b8d90d265f54.png',
           title: '使用反馈',
@@ -282,12 +282,12 @@
           let {new_count} = data
           if (new_count > 0) {
             wx.setTabBarBadge({
-              index: 3,
+              index: 2,
               text: `${new_count}`
             })
           } else {
             wx.removeTabBarBadge({
-              index: 3
+              index: 2
             })
           }
         }
