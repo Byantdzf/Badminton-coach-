@@ -1,6 +1,6 @@
 <template>
   <!--<Loading :init.sync="init"></Loading>-->
-  <block wx:if="{{system === 'iOS'}}">
+  <block wx:if="{{system === 'IOS'}}">
     <view  class="text-center color-bbb" style="margin: 22vw auto;">由于相关规范，iOS功能暂不可用</view>
   </block>
   <block wx:else>

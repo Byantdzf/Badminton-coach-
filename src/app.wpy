@@ -132,6 +132,7 @@
             'sociability',
             'addFriendSet',
             'upgradeVIP',
+            'vipDetail',
             'integralAddress',
             'upgradingVIP',
             'myTest',
@@ -316,8 +317,8 @@
         this.openshareTicket(options)
       }
       let {scene} = options
-      console.log(scene.toString().length)
-      if (scene.toString().length > 25) {
+      // console.log(scene.toString().length)
+      if (scene && scene.toString().length > 25) {
         wx.setStorageSync('from_platform', scene)
       }
     }
