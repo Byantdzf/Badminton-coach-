@@ -25,6 +25,7 @@
         'pages/tabBar/party/index',
         'pages/tabBar/books/index',
         'pages/tabBar/loveMate',
+        'pages/tabBar/questionList',
         'pages/tabBar/user'
       ],
       'permission': {
@@ -76,6 +77,12 @@
             'index',
             'mapList',
             'TXQQMap'
+          ]
+        },
+        {
+          'root': 'pages/question',
+          'pages': [
+            'list'
           ]
         },
         {
@@ -176,6 +183,11 @@
         //   selectedIconPath: './images/tabbar/circleA.png',
         //   iconPath: './images/tabbar/circle.png',
         //   text: '动态'
+        // }, {
+        //   pagePath: 'pages/tabBar/questionList',
+        //   selectedIconPath: './images/tabbar/quizA.png',
+        //   iconPath: './images/tabbar/quiz.png',
+        //   text: '心灵问答'
         }, {
           pagePath: 'pages/tabBar/news',
           selectedIconPath: './images/tabbar/messageActive.png',

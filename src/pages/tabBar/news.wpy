@@ -97,6 +97,8 @@
     }
     onShow() {
       this.page = 1
+      this.list = []
+      this.$apply()
       this.initPageData()
       this.getNewCount()
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)

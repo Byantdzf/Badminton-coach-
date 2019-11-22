@@ -759,6 +759,7 @@
     background: white;
     padding: 22rpx;
     padding-top: 42vw;
+    padding-bottom: 18vw;
     .discountsStyle{
       padding: 4rpx 12rpx;
       background: #D92553;
