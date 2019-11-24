@@ -14,6 +14,7 @@
 
   export default class extends wepy.app {
     config = {
+      'requiredBackgroundModes': ['audio', 'location'],
       pages: [
         'pages/tabBar/welcome',
         'pages/tabBar/home',
@@ -82,7 +83,9 @@
         {
           'root': 'pages/question',
           'pages': [
-            'list'
+            'list',
+            'questionEdit',
+            'questionDetail'
           ]
         },
         {
@@ -183,11 +186,11 @@
         //   selectedIconPath: './images/tabbar/circleA.png',
         //   iconPath: './images/tabbar/circle.png',
         //   text: '动态'
-        // }, {
-        //   pagePath: 'pages/tabBar/questionList',
-        //   selectedIconPath: './images/tabbar/quizA.png',
-        //   iconPath: './images/tabbar/quiz.png',
-        //   text: '心灵问答'
+        }, {
+          pagePath: 'pages/tabBar/questionList',
+          selectedIconPath: './images/tabbar/quizA.png',
+          iconPath: './images/tabbar/quiz.png',
+          text: '问答'
         }, {
           pagePath: 'pages/tabBar/news',
           selectedIconPath: './images/tabbar/messageActive.png',

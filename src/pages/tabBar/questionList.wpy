@@ -2,7 +2,6 @@
   <!--<NavBar rgba="#ffffff" bag="#ffffff" title="动态"></NavBar>-->
   <Loading :init.sync="init"></Loading>
   <view class="navbar borrow">
-    <block wx:if="{{init && list.length > 0}}">
         <tabSearch>
           <navBarTop :tabs.sync="tabs" @tapClick="tapClick"></navBarTop>
         </tabSearch>
@@ -21,11 +20,11 @@
             <image src="{{item.user.wechat.avatar2}}"
                    @tap.stop="gotoFriendPage({{item.user.type}}, {{item.user.id}})" mode="aspectFill"
                    class="ff active flo_l"></image>
-            <view class="subnav color-666" @tap="goto('/pages/friendCircle/friendCircleDetail?id={{item.id}}')">
-              <text class="otherName font_32 bold ">{{item.user.name}}</text>
-              <image src="http://images.ufutx.com/201902/21/7b3892dcf60fabda05add35abfa9aec3.png" mode="aspectFill"
+            <view class="subnav color-666" @tap="goto('/pages/question/questionDetail?id={{item.id}}')">
+              <text class="otherName font_30 bold ">{{item.user.name}}</text>
+              <image src="https://images.ufutx.com/201911/24/4c2533fa03d565cce2134c83b246d0a6.png" mode="aspectFill"
                      wx:if="{{item.user.sex == '2'}}" class=""></image>
-              <image src="http://images.ufutx.com/201902/21/a309744e67082c4bd46db0df504c32c5.png" mode="aspectFill"
+              <image src="https://images.ufutx.com/201911/24/f219e1817698689700a9fe57454baecf.png" mode="aspectFill"
                      wx:else class=""></image>
               <text class="time font_26 flo_r">{{item.time}}</text>
             </view>
@@ -36,41 +35,23 @@
               </view>
             </view>
             <view class="clearfloat"></view>
-            <view class="font_28 contText" @tap="goto('/pages/friendCircle/friendCircleDetail?id={{item.id}}')">
+            <view class="font_28 contText bold ellipsis_1" style="margin-left: -12rpx;" @tap="goto('/pages/question/questionDetail?id={{item.id}}')">
+              <span class="color-theme">【问答】</span>{{item.content}}
+            </view>
+            <view class="font_26 contText ellipsis_3" @tap="goto('/pages/question/questionDetail?id={{item.id}}')">
               {{item.content}}
             </view>
-            <view class="photoList text-left">
-              <block wx:for="{{item.photoList}}" wx:key="{{index}}" wx:for-item="itemImage" wx:for-index="idx">
-                <block wx:if="{{item.photoList.length == 1}}">
-                  <image class="ff oneSheet Sheet-{{index}}{{idx}}"
-                         src="{{itemImage.show ? itemImage.pic : defPic}}" mode="aspectFill"
-                         @tap="previewImages({{itemImage.pic}}, {{item.photos}})" lazy-load="true"></image>
-                </block>
-                <block wx:elif="{{item.photoList.length == 2}}">
-                  <image src="{{itemImage.show ? itemImage.pic : defPic}}" mode="aspectFill"
-                         class="ff twoSheet Sheet-{{index}}{{idx}}"
-                         @tap="previewImages({{itemImage.pic}}, {{item.photos}})" lazy-load="true"></image>
-                </block>
-                <block wx:else>
-                  <image src="{{itemImage.show ? itemImage.pic : defPic}}" mode="aspectFill"
-                         class="ff moveSheet Sheet-{{index}}{{idx}}"
-                         @tap="previewImages({{itemImage.pic}}, {{item.photos}})" lazy-load="true"></image>
-                </block>
-              </block>
-            </view>
             <view class="setting_box font_26">
-              <view class="love-box inline-block" hover-class="btn_active" @tap="like({{item.id}},{{index}})">
-                <image src="http://images.ufutx.com/201906/27/bcb1164e097c61df1e991f7e783ebb13.png"
-                       mode="aspectFill" wx:if="{{item.isLkerMoment}}"></image>
-                <image src="http://images.ufutx.com/201906/27/f0a175c90a1b14211980298c615a36bc.png"
-                       mode="aspectFill" wx:else></image>
-                <text class="num">{{item.momentLikerCount}}</text>
-              </view>
               <view class="comment-box inline-block"
-                    @tap="goto('/pages/friendCircle/friendCircleDetail?id={{item.id}}')">
-                <image src="http://images.ufutx.com/201906/27/936c4a5f817035d69b1e2380894204cd.png"
+                    @tap="goto('/pages/question/questionDetail?id={{item.id}}')">
+                <image src="https://images.ufutx.com/201911/24/e9062818173132df5fa2c1489d6fa850.png"
                        mode="aspectFill"></image>
                 <text class="num">{{item.momentCommentCount}}</text>
+              </view>
+              <view class="love-box inline-block" hover-class="btn_active" >
+                <image src="https://images.ufutx.com/201911/24/fc92dc5fd743c11408dc62e3320c7e1d.png"
+                       mode="aspectFill" ></image>
+                <text class="num">{{item.momentLikerCount}}</text>
               </view>
               <view class="more-box inline-block flo_r">
                 <block wx:if="{{item.is_self}}">
@@ -93,7 +74,7 @@
                 <span>{{itemComments.comment}}</span>
               </view>
               <view class="font_24 orange allComment"
-                    @tap="goto('/pages/friendCircle/friendCircleDetail?id={{item.id}}')">
+                    @tap="goto('/pages/question/questionDetail?id={{item.id}}')">
                 查看全部评论
               </view>
             </view>
@@ -101,25 +82,23 @@
           <block wx:if="{{loading}}">
             <view class="weui-loadmore">
               <view class="weui-loading"></view>
-              <view class="weui-loadmore__tips ff">正在加载</view>
+              <view class="weui-loadmore__tips bf8">正在加载</view>
             </view>
           </block>
           <block wx:if="{{noMore}}">
             <view style="height: 1em;"></view>
             <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
-              <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot ff"></view>
+              <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot bf8"></view>
             </view>
           </block>
         </view>
       </view>
       <view class="clearfloat"></view>
+      <view class="editQuestion" @tap="goto('/pages/question/questionEdit')">
+        <image src="https://images.ufutx.com/201911/24/accb908d1f85309406aeb6cd5c682932.png"
+               mode="aspectFill"></image>
+      </view>
     </view>
-  </block>
-  <block wx:else>
-    <view class="text-center font_28 color-bbb" style="margin-top: 12vw"></view>
-    <view class="text-center color-bbb">哈哈！你还没有 <span class="color-theme" @tap="goto('/pages/users/registerV2')" style="text-decoration: underline;">登录</span> 呢！！！</view>
-  </block>
-  </view>
     <modalUp>
       <view slot="wrapper">
         <view class="weui-title ff text-center" style="position: initial;border: none;margin-bottom: 22rpx;">
@@ -153,13 +132,13 @@
   import Loading from '../../components/loading'
   import pageScroll from '../../components/pageScroll'
   import modalUp from '../../components/modal-up'
-  import tabSearch from '../../components/tabSearch'
+  import tabSearch from '../../components/tabSearchTheme'
   import navBarTop from '../../components/navBarTop'
 
   export default class friendCircleList extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
-      navigationBarTitleText: '动态'
+      navigationBarTitleText: '问答'
       // navigationStyle: 'custom'
     }
 
@@ -251,21 +230,22 @@
     watch = {}
 
     onPageScroll(res) {
-      let top = res.scrollTop,
-        show = top > 380 ? true : false,
-        vm = this
-      vm.$broadcast('showBackTopBtn', show)
-      vm.list.forEach((item, index) => {
-        let group = item.photoList
-        group.forEach((rec, idx) => {
-          wx.createSelectorQuery().select('.Sheet-' + index + idx).boundingClientRect((rect) => {
-            if (rect.top <= vm.windowHeight) { // 判断是否在显示范围内
-              group[idx].show = true // 根据下标改变状态
-            }
-          }).exec()
-        })
-      })
-      vm.$apply()
+      // 懒加载图片
+      // let top = res.scrollTop,
+      //   show = top > 380 ? true : false,
+      //   vm = this
+      // vm.$broadcast('showBackTopBtn', show)
+      // vm.list.forEach((item, index) => {
+      //   let group = item.photoList
+      //   group.forEach((rec, idx) => {
+      //     wx.createSelectorQuery().select('.Sheet-' + index + idx).boundingClientRect((rect) => {
+      //       if (rect.top <= vm.windowHeight) { // 判断是否在显示范围内
+      //         group[idx].show = true // 根据下标改变状态
+      //       }
+      //     }).exec()
+      //   })
+      // })
+      // vm.$apply()
     }
     onReachBottom() {
       this.getLibraries()
@@ -436,7 +416,7 @@
         this.page = 1
         this.inputVal = value
         this.$apply()
-        this.update()
+        // this.update()
       }
     }
   }
@@ -447,7 +427,7 @@
   @import "../../styles/weui/base/fn.wxss";
   @import "../../styles/custom/fn.less";
   page{
-    background: white;
+    background: #f8f8f8;
     .weui-title{
       border-bottom: 22rpx solid #f8f8f8;
       padding: 12rpx 0;
@@ -476,10 +456,15 @@
     }
     .wrapper{
       /*padding: 22rpx 32rpx;*/
-      margin-top: 22vw;
+      /*margin-top: 22vw;*/
+      width: 92vw;
+      margin: auto;
       .nav{
-        border-bottom:22rpx solid #f8f8f8;
+        margin-top: 32rpx;
+        box-shadow: 1rpx 1rpx 12rpx #f0f0f0;
         padding: 22rpx 32rpx;
+        background: white;
+        border-radius: 12rpx;
         .active{
           width: 100rpx;
           height: 100rpx;
@@ -528,13 +513,13 @@
           }
         }
         .setting_box{
-          margin-top: 22rpx;
-          margin-bottom: 22rpx;
+          margin-top: 34rpx;
+          margin-bottom: 0rpx;
           .love-box, .comment-box {
             .num{
-              margin-left: 12rpx;
+              margin-left: 6rpx;
               vertical-align: middle;
-              margin-top: -16rpx;
+              margin-top: -24rpx;
             }
             margin-right: 42rpx;
           }
@@ -550,6 +535,17 @@
             margin-top: 8rpx;
           }
         }
+      }
+    }
+    .editQuestion{
+      position: fixed;
+      bottom: 18vw;
+      right: 8vw;
+      image{
+        width: 100rpx;
+        height: 100rpx;
+        border-radius: 50%;
+        box-shadow: 1rpx 1rpx 12rpx #d92553;
       }
     }
     .filtrate{

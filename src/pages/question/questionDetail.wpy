@@ -1,52 +1,55 @@
 <template>
   <Loading :init.sync="init"></Loading>
   <view class="navbar borrow">
-    <view class="wrapper">
+    <view class="wrapper ff">
       <view class="nav">
         <image src="{{moment.user.wechat.avatar2}}"
                mode="aspectFill" class="ff active flo_l"  @tap="gotoFriendPage({{moment.user.type}}, {{moment.user.id}})"></image>
         <view class="subnav">
-          <text class="otherName font_32 bold color-666">{{moment.user.name}}</text>
-          <image src="http://images.ufutx.com/201902/21/7b3892dcf60fabda05add35abfa9aec3.png" mode="aspectFill"
+          <text class="otherName font_30 bold ">{{moment.user.name}}</text>
+          <image src="https://images.ufutx.com/201911/24/4c2533fa03d565cce2134c83b246d0a6.png" mode="aspectFill"
                  wx:if="{{moment.user.sex == '2'}}" class=""></image>
-          <image src="http://images.ufutx.com/201902/21/a309744e67082c4bd46db0df504c32c5.png" mode="aspectFill"
+          <image src="https://images.ufutx.com/201911/24/f219e1817698689700a9fe57454baecf.png" mode="aspectFill"
                  wx:else class=""></image>
-          <text class="time font_26 flo_r color-666">{{moment.time}}</text>
+          <text class="time font_26 flo_r color-bbb">{{moment.time}}</text>
         </view>
         <view class="subnav font_22 color-666">
           <view class="otherName">{{moment.user.age}} <span wx:if="{{moment.user.city !== '未知'}}">· {{moment.user.city}}</span> · <span class="color-theme" wx:if="{{moment.user.type == 'single'}}">单身</span><span class="color-theme" wx:else>介绍人</span>
           </view>
         </view>
         <view class="clearfloat"></view>
+        <view class="font_28 contText bold" style="margin-left: -12rpx;" @tap="goto('/pages/question/questionDetail?id={{item.id}}')">
+          <span class="color-theme">【问答】</span>今天我很不开心...
+        </view>
         <view class="font_28 contText">
           {{moment.content}}
         </view>
-        <view class="photoList text-left">
-          <block wx:for="{{moment.photos}}" wx:key="{{index}}">
-            <block wx:if="{{moment.photos.length == 1}}">
-              <image src="{{item}}" mode="aspectFill" class="ff oneSheet"
-                     @tap="previewImages({{item}},{{moment.photos}})"></image>
-            </block>
-            <block wx:elif="{{moment.photos.length == 2}}">
-              <image src="{{item}}" mode="aspectFill" class="ff twoSheet"
-                     @tap="previewImages({{item}},{{moment.photos}})"></image>
-            </block>
-            <block wx:else>
-              <image src="{{item}}" mode="aspectFill" class="ff moveSheet"
-                     @tap="previewImages({{item}},{{moment.photos}})"></image>
-            </block>
-          </block>
-        </view>
+<!--        <view class="photoList text-left">-->
+<!--          <block wx:for="{{moment.photos}}" wx:key="{{index}}">-->
+<!--            <block wx:if="{{moment.photos.length == 1}}">-->
+<!--              <image src="{{item}}" mode="aspectFill" class="ff oneSheet"-->
+<!--                     @tap="previewImages({{item}},{{moment.photos}})"></image>-->
+<!--            </block>-->
+<!--            <block wx:elif="{{moment.photos.length == 2}}">-->
+<!--              <image src="{{item}}" mode="aspectFill" class="ff twoSheet"-->
+<!--                     @tap="previewImages({{item}},{{moment.photos}})"></image>-->
+<!--            </block>-->
+<!--            <block wx:else>-->
+<!--              <image src="{{item}}" mode="aspectFill" class="ff moveSheet"-->
+<!--                     @tap="previewImages({{item}},{{moment.photos}})"></image>-->
+<!--            </block>-->
+<!--          </block>-->
+<!--        </view>-->
         <view class="setting_box font_26">
-          <view class="love-box inline-block" hover-class="btn_active"  @tap="like({{moment.id}})">
-            <image src="http://images.ufutx.com/201906/27/bcb1164e097c61df1e991f7e783ebb13.png" mode="aspectFill" wx:if="{{moment.isLkerMoment}}"></image>
-            <image src="http://images.ufutx.com/201906/27/f0a175c90a1b14211980298c615a36bc.png" mode="aspectFill" wx:else></image>
-            <text class="num">{{moment.momentLikerCount}}</text>
-          </view>
           <view class="comment-box inline-block">
-            <image src="http://images.ufutx.com/201906/27/936c4a5f817035d69b1e2380894204cd.png"
+            <image src="https://images.ufutx.com/201911/24/e9062818173132df5fa2c1489d6fa850.png"
                    mode="aspectFill"></image>
             <text class="num">{{moment.momentCommentCount}}</text>
+          </view>
+          <view class="love-box inline-block" hover-class="btn_active" >
+            <image src="https://images.ufutx.com/201911/24/fc92dc5fd743c11408dc62e3320c7e1d.png"
+                   mode="aspectFill" ></image>
+            <text class="num">{{moment.momentLikerCount}}</text>
           </view>
           <view class="more-box inline-block flo_r">
             <block wx:if="{{moment.is_self}}">
@@ -68,15 +71,34 @@
         </view>
       </view>
     </view>
-    <view class="comment" wx:for="{{comments}}" wx:key="{{index}}" @tap="gotoFriendPage({{item.user.type}}, {{item.user.id}})">
+    <view class="comment ff" wx:for="{{comments}}" wx:key="{{index}}" @tap="gotoFriendPage({{item.user.type}}, {{item.user.id}})">
       <image src="{{item.user.wechat.avatar2}}" mode="aspectFill" class="ff comment-active flo_l" ></image>
       <view class="subnav">
         <text class="comment-name font_28 flo_l">{{item.user.name}}</text>
-        <image src="http://images.ufutx.com/201902/21/7b3892dcf60fabda05add35abfa9aec3.png" mode="aspectFill"  wx:if="{{item.user.sex == '2'}}" class="flo_l"></image>
-        <image src="http://images.ufutx.com/201902/21/a309744e67082c4bd46db0df504c32c5.png" mode="aspectFill"  wx:else class="flo_l"></image>
-        <text class="time font_26 flo_r color-666">{{item.created_at}}</text>
+        <image src="https://images.ufutx.com/201911/24/4c2533fa03d565cce2134c83b246d0a6.png" mode="aspectFill"
+               wx:if="{{item.user.sex == '2'}}" class=""></image>
+        <image src="https://images.ufutx.com/201911/24/f219e1817698689700a9fe57454baecf.png" mode="aspectFill"
+               wx:else class=""></image>
+        <text class="time font_24 flo_r color-bbb">{{item.created_at}}</text>
       </view>
-      <view class="contText flo_l font_22 color-666">
+      <view class="subnav">
+        <view class="otherName font_22" style="font-size: 18rpx;margin-top: -6rpx;color: red;margin-bottom: 8rpx;">
+          国家二级心理咨询师
+        </view>
+      </view>
+      <view class="contText flo_l font_22 color-666" wx:if="{{index == 0}}" @tap.stop="autoplayFn({{item.user.name}})">
+        <view class="playBox white">
+          <view class="mainBoxPlay flo_l">
+            <view class="wifi-symbol">
+              <view class="wifi-circle first"></view>
+              <view class="wifi-circle second {{autoplayActive?'playActiveSecond':''}}"></view>
+              <view class="wifi-circle third {{autoplayActive?'playActiveThird':''}}"></view>
+            </view>
+          </view>
+          <span>{{duration}}</span></view>
+<!--        <image src="https://images.ufutx.com/201911/24/49e3052af2aa7ed7e26e8263cf74c861.png" mode="aspectFill" class=""></image>-->
+      </view>
+      <view class="contText flo_l font_22 color-666" wx:else>
         <text class="">{{item.comment}}</text>
       </view>
       <view class="clearfloat"></view>
@@ -85,21 +107,21 @@
   <block wx:if="{{loading}}">
     <view class="weui-loadmore">
       <view class="weui-loading"></view>
-      <view class="weui-loadmore__tips ff">正在加载</view>
+      <view class="weui-loadmore__tips bf8">正在加载</view>
     </view>
   </block>
   <block wx:if="{{noMore}}">
     <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
-      <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot ff"></view>
+      <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot bf8"></view>
     </view>
   </block>
   <view style="width: 100%;height: 160rpx;"></view>
   <pageScroll></pageScroll>
   <view class="reply-box">
     <view class="reply-text ff flo_l">
-      <input placeholder="评论" maxlength="-1" class="font_28" @input="typing('comment')" value="{{comment}}"/>
+      <input placeholder="评论" maxlength="-1" class="font_28" @input="typing('comment')" value="{{comment}}" type="text" confirm-type="评论"/>
     </view>
-    <view class="reply-btn flo_r font_28 text-center btn-theme" hover-class="btn_active" @tap="saveComment">发送</view>
+    <view class="reply-btn flo_r font_28 text-center btn-theme" hover-class="btn_active" @tap="saveComment">评论</view>
   </view>
 </template>
 
@@ -112,10 +134,10 @@
   import ShareMessage from '../../mixins/ShareMessage'
   import Loading from '../../components/loading'
   import pageScroll from '../../components/pageScroll'
-  export default class friendCircleDetail extends wepy.page {
+  export default class questionDetail extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
-      navigationBarTitleText: '动态详情'
+      navigationBarTitleText: '问答详情'
       // navigationStyle: 'custom'
     }
 
@@ -144,6 +166,9 @@
       setList: ['举报', '删除'],
       setListV2: ['举报'],
       momentLikers: [],
+      innerAudioContext: null,
+      autoplayActive: false,
+      duration: '点击播放',
       comment: ''
     }
 
@@ -162,11 +187,15 @@
 
     onShow() {
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
+      this.innerAudioContext = wx.getBackgroundAudioManager();
     }
 
     onPullDownRefresh() {
       this.page = 1
       this.getLibraries()
+    }
+    onUnload() {
+      this.innerAudioContext.destroy();
     }
 
     onPageScroll(res) {
@@ -226,6 +255,50 @@
     }
 
     methods = {
+      autoplayFn(title) {
+        this.autoplayActive = !this.autoplayActive
+        this.$apply()
+        this.innerAudioContext.autoplay = true
+        this.innerAudioContext.title = title
+        this.innerAudioContext.src = 'https://pic.ibaotu.com/00/43/81/73S888piCaXA.mp3'
+        this.innerAudioContext.onPlay(() => {
+          console.log('开始播放')
+          let duration = this.innerAudioContext.duration.toString().split('.')
+          console.log(duration)
+          if (duration.length > 2) {
+            duration = `${duration[0]}'${duration[1]}"${duration[2].slice(0, 2)}`
+          }else {
+            duration = `${duration[0]}"${duration[1].slice(0, 2)}`
+          }
+          console.log(duration)
+          this.duration = duration
+          this.$apply()
+        })
+        if (!this.autoplayActive) {
+          this.innerAudioContext.pause()
+        }
+        this.innerAudioContext.onPause(() => {
+          console.log('劳资暂停')
+        })
+        this.innerAudioContext.onEnded(() => {
+          console.log('结束')
+          this.autoplayActive = false
+          this.duration = '点击播放'
+          this.$apply()
+        })
+        this.innerAudioContext.onTimeUpdate(() => {
+          //   console.log(this.innerAudioContext.duration)   //总时长
+          // console.log(this.innerAudioContext.currentTime)   //当前播放进度
+          // console.log(this.innerAudioContext.duration-this.innerAudioContext.currentTime)   //当前播放进度
+          // this.duration = (this.innerAudioContext.duration - this.innerAudioContext.currentTime).toString().slice('.')
+          // this.duration = this.duration.split('.')[0]
+          // this.$apply()
+        })
+        this.innerAudioContext.onError((res) => {
+          // 音频出现播放错误时候的回调函数
+          this.$showToast('抱歉！音频出了点问题...')
+        })
+      },
       gotoFriendPage(type, id) {
         this.$gotoFriendPage(type, id)
       },
@@ -323,7 +396,7 @@
   @import "../../styles/weui/base/fn.wxss";
   @import "../../styles/custom/fn.less";
   page{
-    background: white;
+    background: #f8f8f8;
     .weui-title{
       border-bottom: 22rpx solid #f8f8f8;
       padding: 12rpx 0;
@@ -370,7 +443,8 @@
           }
         }
         .contText{
-          padding-top: 18rpx;
+          padding-top: 10rpx;
+
         }
         .photoList{
           padding-top: 12rpx;
@@ -396,9 +470,9 @@
           margin-bottom: 12rpx;
           .love-box, .comment-box {
             .num{
-              margin-left: 12rpx;
+              margin-left: 6rpx;
               vertical-align: middle;
-              margin-top: -16rpx;
+              margin-top: -24rpx;
             }
             margin-right: 42rpx;
           }
@@ -416,7 +490,7 @@
       .comment-active{
         width: 80rpx;
         height: 80rpx;
-        border-radius: 10rpx;
+        border-radius: 50%;
         box-shadow: 1rpx 1rpx 12rpx #d0d0d0;
         margin-right: 22rpx;
         margin-bottom: -8rpx;
@@ -427,19 +501,41 @@
           margin-right: 8rpx;
         }
         image{
-          width: 36rpx;
-          height: 36rpx;
+          width: 30rpx;
+          height: 30rpx;
           vertical-align: middle;
-          margin-top: 10rpx;
+          margin-top:-12rpx;
         }
       }
       .contText{
         width: 100%;
         text-indent: 52rpx;
-        padding-bottom: 12rpx;
-        margin-top: -26rpx;
+        /*margin-top: -26rpx;*/
         text{
           width: 91%;
+          padding-bottom: 12rpx;
+        }
+        .playBox{
+          width: 42vw;
+          height: 52rpx;
+          background: red;
+          margin-left: 10vw;
+          border-radius: 50rpx;
+          position: relative;
+          text-align: left;
+          margin-top: 12rpx;
+          line-height: 52rpx;
+          background: -webkit-linear-gradient(left,#fe4557,#fea0b8);
+          &:before {
+            content: "";
+            border-bottom: solid 10px #fe4557;
+            border-left: solid 5px #00800000;
+            border-right: solid 5px #00800000;
+            border-top: solid 0px #00800000;
+            position: absolute;
+            left: 8%;
+            top: -28%;
+          }
         }
       }
     }
@@ -449,11 +545,11 @@
       bottom: 0;
       left: 0;
       border-top: 2rpx solid #f6f6f6;
-      padding: 20rpx 20rpx 20rpx 0;
+      padding: 20rpx 12rpx 20rpx 0;
       background: white;
       .reply-text{
         width: 70%;
-        height: 72rpx;
+        height: 62rpx;
         position: relative;
         padding: 0 22rpx;
         border-bottom: 1rpx solid @gray;
@@ -466,8 +562,8 @@
       }
       .reply-btn{
         width: 110rpx;
-        height: 70rpx;
-        line-height: 70rpx;
+        height: 60rpx;
+        line-height: 60rpx;
         padding: 0 16rpx;
         margin-right: 22rpx;
         border-radius: 8rpx;
@@ -500,5 +596,64 @@
         top: -14px;
       }
     }
+    .mainBoxPlay {
+      width: 40rpx;
+      height: 40rpx;
+      box-sizing: border-box;
+      position: relative;
+      margin-left: 6vw;
+      margin-right: -7vw;
+      transform: scale(.9);
+      .wifi-symbol {
+        width: 50rpx;
+        height: 50rpx;
+        /*box-sizing: border-box;*/
+        overflow: hidden;
+        transform: rotate(135deg);
+      }
+      .wifi-circle {
+        border: 5rpx solid #ffffff;
+        border-radius: 50%;
+        position: absolute;
+      }
+
+      .first {
+        width: 5rpx;
+        height: 5rpx;
+        background: white;
+        top: 45rpx;
+        left: 45rpx;
+      }
+
+      .second {
+        width: 25rpx;
+        height: 25rpx;
+        top: 35rpx;
+        left: 35rpx;
+      }
+      .third {
+        width: 40rpx;
+        height: 40rpx;
+        top: 25rpx;
+        left: 25rpx;
+      }
+
+      @keyframes fadeInOut {
+        0% {
+          opacity: 0; /*初始状态 透明度为0*/
+        }
+        100% {
+          opacity: 1; /*结尾状态 透明度为1*/
+        }
+      }
+
+      .playActiveSecond {
+        animation: fadeInOut 1s infinite 0.2s;
+      }
+      .playActiveThird {
+        animation: fadeInOut 1s infinite 0.4s;
+      }
+    }
+
   }
 </style>
