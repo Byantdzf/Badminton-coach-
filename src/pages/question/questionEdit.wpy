@@ -159,13 +159,12 @@
           },
           vm = this
         console.log(data)
-        return
         for (let item in data) {
           if (!data[item]) {
             return vm.$showToast('请填写信息！')
           }
         }
-        vm.$post({url: `${service.host}/moments`, data}, {
+        vm.$post({url: `${service.host}/submit/soul/questions`, data}, {
           success: ({code, data}) => {
             vm.informValue = ''
             vm.informImages = []

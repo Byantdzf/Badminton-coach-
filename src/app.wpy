@@ -188,8 +188,8 @@
         //   text: '动态'
         }, {
           pagePath: 'pages/tabBar/questionList',
-          selectedIconPath: './images/tabbar/quizA.png',
-          iconPath: './images/tabbar/quiz.png',
+          selectedIconPath: './images/tabbar/questionA.png',
+          iconPath: './images/tabbar/question.png',
           text: '问答'
         }, {
           pagePath: 'pages/tabBar/news',
@@ -210,7 +210,8 @@
       debug: true,
       'navigateToMiniProgramAppIdList': [
         'wxd2920948e02c5c76',
-        'wxa43b4cb4f447e846'
+        'wxa43b4cb4f447e846',
+        'wx2fcdf7fdab3dcca7'
       ]
     }
 
@@ -413,12 +414,12 @@
         let {new_message_count} = data
         if (new_message_count > 0) {
           wx.setTabBarBadge({
-            index: 2,
+            index: 3,
             text: `${new_message_count}`
           })
         } else {
           wx.removeTabBarBadge({
-            index: 2
+            index: 3
           })
         }
       }

@@ -283,9 +283,9 @@
       tab: [
         {
           icon: 'https://images.ufutx.com/201908/16/56c8e0372947a5b2c298ea5ea89d7755.png',
-          title: '福恋社群',
-          path: 'https://love.ufutx.com/mobile/#/',
-          type: 'community'
+          title: '脱单服务',
+          path: '/pages/home/loveMate',
+          type: 'maker'
         },
         {
           icon: 'https://images.ufutx.com/201908/16/cae28e0e9afed98be1dce0e6e337fe9e.png',
@@ -467,12 +467,12 @@
           let {new_count} = data
           if (new_count > 0) {
             wx.setTabBarBadge({
-              index: 2,
+              index: 3,
               text: `${new_count}`
             })
           } else {
             wx.removeTabBarBadge({
-              index: 2
+              index: 3
             })
           }
         }

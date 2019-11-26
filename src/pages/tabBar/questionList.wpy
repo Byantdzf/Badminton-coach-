@@ -17,7 +17,7 @@
         <!--</view>-->
         <view class="wrapper">
           <view class="nav" wx:for="{{list}}" wx:key="{{index}}">
-            <image src="{{item.user.wechat.avatar2}}"
+            <image src="{{item.user.circle_avatar}}"
                    @tap.stop="gotoFriendPage({{item.user.type}}, {{item.user.id}})" mode="aspectFill"
                    class="ff active flo_l"></image>
             <view class="subnav color-666" @tap="goto('/pages/question/questionDetail?id={{item.id}}')">
@@ -26,17 +26,18 @@
                      wx:if="{{item.user.sex == '2'}}" class=""></image>
               <image src="https://images.ufutx.com/201911/24/f219e1817698689700a9fe57454baecf.png" mode="aspectFill"
                      wx:else class=""></image>
-              <text class="time font_26 flo_r">{{item.time}}</text>
+              <text class="time font_26 flo_r">{{item.created_at}}</text>
             </view>
             <view class="subnav font_22 color-666">
-              <view class="otherName">{{item.user.age}} <span wx:if="{{item.user.city !== '未知'}}">· {{item.user.city}}</span>
-                · <span class="color-theme" wx:if="{{item.user.type == 'single'}}">单身</span><span
-                  class="color-theme" wx:else>介绍人</span>
+              <view class="otherName">
+                <!--{{item.user.age}} <span wx:if="{{item.user.city !== '未知'}}">· {{item.user.city}}</span>· -->
+                <span class="color-theme" wx:if="{{item.user.type == 'single'}}">单身</span>
+                <span class="color-theme" wx:else>介绍人</span>
               </view>
             </view>
             <view class="clearfloat"></view>
             <view class="font_28 contText bold ellipsis_1" style="margin-left: -12rpx;" @tap="goto('/pages/question/questionDetail?id={{item.id}}')">
-              <span class="color-theme">【问答】</span>{{item.content}}
+              <span class="color-theme">【问答】</span>{{item.title}}
             </view>
             <view class="font_26 contText ellipsis_3" @tap="goto('/pages/question/questionDetail?id={{item.id}}')">
               {{item.content}}
@@ -46,27 +47,27 @@
                     @tap="goto('/pages/question/questionDetail?id={{item.id}}')">
                 <image src="https://images.ufutx.com/201911/24/e9062818173132df5fa2c1489d6fa850.png"
                        mode="aspectFill"></image>
-                <text class="num">{{item.momentCommentCount}}</text>
+                <text class="num">{{item.is_submit}}</text>
               </view>
               <view class="love-box inline-block" hover-class="btn_active" >
                 <image src="https://images.ufutx.com/201911/24/fc92dc5fd743c11408dc62e3320c7e1d.png"
                        mode="aspectFill" ></image>
-                <text class="num">{{item.momentLikerCount}}</text>
+                <text class="num">{{item.click_num}}</text>
               </view>
-              <view class="more-box inline-block flo_r">
-                <block wx:if="{{item.is_self}}">
-                  <picker @change="bindPickerChange({{item.id}},{{index}})" value="{{index}}" range="{{setList}}">
-                    <image src="http://images.ufutx.com/201906/27/431a75f2fe247299486f0a558c8f43ab.png"
-                           mode="aspectFill"></image>
-                  </picker>
-                </block>
-                <block wx:else>
-                  <picker @change="bindPickerChange({{item.id}},{{index}})" value="{{index}}" range="{{setListV2}}">
-                    <image src="http://images.ufutx.com/201906/27/431a75f2fe247299486f0a558c8f43ab.png"
-                           mode="aspectFill"></image>
-                  </picker>
-                </block>
-              </view>
+              <!--<view class="more-box inline-block flo_r">-->
+                <!--<block wx:if="{{item.is_self}}">-->
+                  <!--<picker @change="bindPickerChange({{item.id}},{{index}})" value="{{index}}" range="{{setList}}">-->
+                    <!--<image src="http://images.ufutx.com/201906/27/431a75f2fe247299486f0a558c8f43ab.png"-->
+                           <!--mode="aspectFill"></image>-->
+                  <!--</picker>-->
+                <!--</block>-->
+                <!--<block wx:else>-->
+                  <!--<picker @change="bindPickerChange({{item.id}},{{index}})" value="{{index}}" range="{{setListV2}}">-->
+                    <!--<image src="http://images.ufutx.com/201906/27/431a75f2fe247299486f0a558c8f43ab.png"-->
+                           <!--mode="aspectFill"></image>-->
+                  <!--</picker>-->
+                <!--</block>-->
+              <!--</view>-->
             </view>
             <view class="comment" wx:if="{{item.momentComments.length > 0}}">
               <view class="font_24" wx:for="{{item.momentComments}}" wx:key="{{index}}" wx:for-item="itemComments">
@@ -95,7 +96,7 @@
       </view>
       <view class="clearfloat"></view>
       <view class="editQuestion" @tap="goto('/pages/question/questionEdit')">
-        <image src="https://images.ufutx.com/201911/24/accb908d1f85309406aeb6cd5c682932.png"
+        <image src="https://images.ufutx.com/201911/26/dba0b81ad5bbe0ccd8f532a750b8a602.png"
                mode="aspectFill"></image>
       </view>
     </view>
@@ -160,7 +161,6 @@
       userImage: 'http://images.ufutx.com/201902/25/542cc218e40cbc8a8e3a9ce23d7f4789.gif',
       defPic: 'http://images.ufutx.com/201902/25/542cc218e40cbc8a8e3a9ce23d7f4789.gif',
       typeText: '全部',
-      type: '',
       totalTopHeight: 88, // navBar的高度
       photoList: [
         'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2865672302,4153895132&fm=200&gp=0.jpg',
@@ -172,6 +172,7 @@
       windowHeight: 0,
       setList: ['举报', '删除'],
       setListV2: ['举报'],
+      type: '0',
       filtrate: [
         {title: '查看全部', type: ''},
         {title: '只看单身男', type: 'single_man'},
@@ -188,7 +189,7 @@
 
     async onLoad(e) {
       let vm = this
-      vm.initPageData()
+      // vm.initPageData()
       wx.getSystemInfo({
         success(res) {
           vm.windowHeight = res.windowHeight
@@ -199,7 +200,7 @@
     // 初始化页面数据
     initPageData() {
       let vm = this
-      vm.$get({url: service.user}, {
+      vm.$get({url: `${service}/api/soul/questions`}, {
         success: ({code, data}) => {
           let userInfo = {
             nickName: data.name,
@@ -258,7 +259,7 @@
       let _this = this
       _this.loading = true
       _this.$showLoading('加载数据中')
-      let url = `${service.host}/moments`
+      let url = this.type == '0' ? `${service.host}/soul/questions` : `${service.host}/user/soul/quesiotns`
       this.$get({
         url: url,
         data: {
@@ -282,27 +283,9 @@
           data = data.data
           if (this.isArray(data) && data.length === 0) {
             _this.noMore = true
+            _this.loading = false
             _this.list = []
             return
-          }
-          if (data.length > 0) {
-            data.forEach((item, index) => {
-              let photoList = []
-              for (let rect of item.photos) {
-                if (index < 3) {
-                  photoList.push({
-                    pic: rect,
-                    show: true
-                  })
-                } else {
-                  photoList.push({
-                    pic: rect,
-                    show: false
-                  })
-                }
-              }
-              item.photoList = photoList
-            })
           }
           if (_this.list.length === 0 || _this.page === 1) {
             _this.list = data
@@ -410,13 +393,14 @@
         this.page = 1
         this.type = value
         this.$apply()
-        // this.update()
+        console.log(this.type);
+        this.getLibraries()
       },
       'search': (value) => { // 搜索返回值
         this.page = 1
         this.inputVal = value
         this.$apply()
-        // this.update()
+        this.getLibraries()
       }
     }
   }
@@ -539,13 +523,13 @@
     }
     .editQuestion{
       position: fixed;
-      bottom: 18vw;
+      bottom: 12vw;
       right: 8vw;
       image{
         width: 100rpx;
         height: 100rpx;
         border-radius: 50%;
-        box-shadow: 1rpx 1rpx 12rpx #d92553;
+        box-shadow: 1rpx 1rpx 12rpx #d0d0d0;
       }
     }
     .filtrate{

@@ -3,26 +3,28 @@
   <view class="navbar borrow">
     <view class="wrapper ff">
       <view class="nav">
-        <image src="{{moment.user.wechat.avatar2}}"
-               mode="aspectFill" class="ff active flo_l"  @tap="gotoFriendPage({{moment.user.type}}, {{moment.user.id}})"></image>
+        <image src="{{soul_question.user.circle_avatar}}"
+               mode="aspectFill" class="ff active flo_l"  @tap="gotoFriendPage({{soul_question.user.type}}, {{soul_question.user.id}})"></image>
         <view class="subnav">
-          <text class="otherName font_30 bold ">{{moment.user.name}}</text>
+          <text class="otherName font_30 bold ">{{soul_question.user.name}}</text>
           <image src="https://images.ufutx.com/201911/24/4c2533fa03d565cce2134c83b246d0a6.png" mode="aspectFill"
-                 wx:if="{{moment.user.sex == '2'}}" class=""></image>
+                 wx:if="{{soul_question.user.sex == '2'}}" class=""></image>
           <image src="https://images.ufutx.com/201911/24/f219e1817698689700a9fe57454baecf.png" mode="aspectFill"
                  wx:else class=""></image>
-          <text class="time font_26 flo_r color-bbb">{{moment.time}}</text>
+          <text class="time font_26 flo_r color-bbb">{{soul_question.updated_at}}</text>
         </view>
         <view class="subnav font_22 color-666">
-          <view class="otherName">{{moment.user.age}} <span wx:if="{{moment.user.city !== '未知'}}">· {{moment.user.city}}</span> · <span class="color-theme" wx:if="{{moment.user.type == 'single'}}">单身</span><span class="color-theme" wx:else>介绍人</span>
-          </view>
+          <!--<view class="otherName">{{moment.user.age}} <span wx:if="{{moment.user.city !== '未知'}}">· {{moment.user.city}}</span> · -->
+            <span class="color-theme" wx:if="{{moment.user.type == 'single'}}">单身</span>
+            <span class="color-theme" wx:else>介绍人</span>
+          <!--</view>-->
         </view>
         <view class="clearfloat"></view>
         <view class="font_28 contText bold" style="margin-left: -12rpx;" @tap="goto('/pages/question/questionDetail?id={{item.id}}')">
-          <span class="color-theme">【问答】</span>今天我很不开心...
+          <span class="color-theme">【问答】</span>{{soul_question.content}}
         </view>
         <view class="font_28 contText">
-          {{moment.content}}
+          {{soul_question.content}}
         </view>
 <!--        <view class="photoList text-left">-->
 <!--          <block wx:for="{{moment.photos}}" wx:key="{{index}}">-->
@@ -44,62 +46,67 @@
           <view class="comment-box inline-block">
             <image src="https://images.ufutx.com/201911/24/e9062818173132df5fa2c1489d6fa850.png"
                    mode="aspectFill"></image>
-            <text class="num">{{moment.momentCommentCount}}</text>
+            <text class="num">{{answers_num}}</text>
           </view>
           <view class="love-box inline-block" hover-class="btn_active" >
             <image src="https://images.ufutx.com/201911/24/fc92dc5fd743c11408dc62e3320c7e1d.png"
                    mode="aspectFill" ></image>
-            <text class="num">{{moment.momentLikerCount}}</text>
+            <text class="num">{{click_num}}</text>
           </view>
-          <view class="more-box inline-block flo_r">
-            <block wx:if="{{moment.is_self}}">
-              <picker @change="bindPickerChange({{moment.id}})" value="{{index}}" range="{{setList}}">
-                <image src="http://images.ufutx.com/201906/27/431a75f2fe247299486f0a558c8f43ab.png" mode="aspectFill"></image>
-              </picker>
-            </block>
-            <block wx:else>
-              <picker @change="bindPickerChange({{item.id}})" value="{{index}}" range="{{setListV2}}">
-                <image src="http://images.ufutx.com/201906/27/431a75f2fe247299486f0a558c8f43ab.png" mode="aspectFill"></image>
-              </picker>
-            </block>
-          </view>
+          <!--<view class="more-box inline-block flo_r">-->
+            <!--<block wx:if="{{moment.is_self}}">-->
+              <!--<picker @change="bindPickerChange({{moment.id}})" value="{{index}}" range="{{setList}}">-->
+                <!--<image src="http://images.ufutx.com/201906/27/431a75f2fe247299486f0a558c8f43ab.png" mode="aspectFill"></image>-->
+              <!--</picker>-->
+            <!--</block>-->
+            <!--<block wx:else>-->
+              <!--<picker @change="bindPickerChange({{item.id}})" value="{{index}}" range="{{setListV2}}">-->
+                <!--<image src="http://images.ufutx.com/201906/27/431a75f2fe247299486f0a558c8f43ab.png" mode="aspectFill"></image>-->
+              <!--</picker>-->
+            <!--</block>-->
+          <!--</view>-->
         </view>
-        <view class="clickLikeUser" wx:if="{{momentLikers.length > 0}}">
-          <block wx:for="{{momentLikers}}" wx:key="{{index}}">
-            <image src="{{item.wechat.avatar2}}" mode="aspectFill" @tap="gotoFriendPage({{item.type}},{{item.id}})"></image>
-          </block>
-        </view>
+        <!--<view class="clickLikeUser" wx:if="{{momentLikers.length > 0}}">-->
+          <!--<block wx:for="{{momentLikers}}" wx:key="{{index}}">-->
+            <!--<image src="{{item.wechat.avatar2}}" mode="aspectFill" @tap="gotoFriendPage({{item.type}},{{item.id}})"></image>-->
+          <!--</block>-->
+        <!--</view>-->
       </view>
     </view>
-    <view class="comment ff" wx:for="{{comments}}" wx:key="{{index}}" @tap="gotoFriendPage({{item.user.type}}, {{item.user.id}})">
-      <image src="{{item.user.wechat.avatar2}}" mode="aspectFill" class="ff comment-active flo_l" ></image>
+    <view class="comment ff" wx:for="{{answers}}" wx:key="*this">
+      <block wx:if="{{item.type == 'TALENT'}}">
+        <navigator target="miniProgram" open-type="navigate" app-id="wx2fcdf7fdab3dcca7" path="/{{item.talent_link}}" version="develop" class="" style="">
+          <image src="{{item.talent_logo?item.talent_logo:item.user.circle_avatar}}" mode="aspectFill" class="ff comment-active flo_l" ></image>
+        </navigator>
+      </block>
+      <block wx:else >
+        <image src="{{item.talent_logo?item.talent_logo:item.user.circle_avatar}}" @tap="gotoFriendPage({{item.user.type}}, {{item.user.id}})" mode="aspectFill" class="ff comment-active flo_l" ></image>
+      </block>
       <view class="subnav">
-        <text class="comment-name font_28 flo_l">{{item.user.name}}</text>
-        <image src="https://images.ufutx.com/201911/24/4c2533fa03d565cce2134c83b246d0a6.png" mode="aspectFill"
-               wx:if="{{item.user.sex == '2'}}" class=""></image>
-        <image src="https://images.ufutx.com/201911/24/f219e1817698689700a9fe57454baecf.png" mode="aspectFill"
-               wx:else class=""></image>
+        <text class="comment-name font_28 flo_l">{{item.talent_name?item.talent_name :item.user.name}}</text>
+        <!--<image src="https://images.ufutx.com/201911/24/4c2533fa03d565cce2134c83b246d0a6.png" mode="aspectFill"-->
+               <!--wx:if="{{item.user.sex == '2'}}" class=""></image>-->
+        <!--<image src="https://images.ufutx.com/201911/24/f219e1817698689700a9fe57454baecf.png" mode="aspectFill"-->
+               <!--wx:else class=""></image>-->
         <text class="time font_24 flo_r color-bbb">{{item.created_at}}</text>
+        <view class="clearfloat"></view>
       </view>
-      <view class="subnav">
-        <view class="otherName font_22" style="font-size: 18rpx;margin-top: -6rpx;color: red;margin-bottom: 8rpx;">
-          国家二级心理咨询师
+      <view class="subnav" style="" wx:if="{{item.talent_title}}">
+        <view class="otherName font_22" style=" width: 100vw;font-size: 18rpx;margin-top: -22rpx;color: red;margin-bottom: 8rpx;">
+          {{item.talent_title?item.talent_title :item.user.name}}
         </view>
       </view>
-      <view class="contText flo_l font_22 color-666" wx:if="{{index == 0}}" @tap.stop="autoplayFn({{item.user.name}})">
+      <view class="contText flo_l font_22 color-666" wx:if="{{!item.answer}}" @tap.stop="autoplayFn({{item.answer_url}})">
         <view class="playBox white">
           <view class="mainBoxPlay flo_l">
-            <view class="wifi-symbol">
-              <view class="wifi-circle first"></view>
-              <view class="wifi-circle second {{autoplayActive?'playActiveSecond':''}}"></view>
-              <view class="wifi-circle third {{autoplayActive?'playActiveThird':''}}"></view>
-            </view>
+            <image src="https://images.ufutx.com/201911/26/a87cc4ff86103edf52724cde5699eb2c.png" wx:if={{!autoplayActive}} model="aspectFit"></image>
+            <image src="https://images.ufutx.com/201911/26/80a04a650ef3d32f28f40b87828a0cb5.gif" model="aspectFit" wx:else></image>
           </view>
-          <span>{{duration}}</span></view>
-<!--        <image src="https://images.ufutx.com/201911/24/49e3052af2aa7ed7e26e8263cf74c861.png" mode="aspectFill" class=""></image>-->
+          <span>点击播放</span>
+        </view>
       </view>
-      <view class="contText flo_l font_22 color-666" wx:else>
-        <text class="">{{item.comment}}</text>
+      <view class="contText flo_l font_22 color-666" style="margin-top: -12rpx;" wx:else>
+        <text class="">{{item.answer}}</text>
       </view>
       <view class="clearfloat"></view>
     </view>
@@ -148,7 +155,7 @@
       title: '',
       moment: {},
       id: '',
-      comments: [],
+      answers: [],
       page: 1,
       noMore: false,
       loading: false,
@@ -165,11 +172,14 @@
       ],
       setList: ['举报', '删除'],
       setListV2: ['举报'],
-      momentLikers: [],
+      soul_question: {},
+      // momentLikers: [],
       innerAudioContext: null,
       autoplayActive: false,
       duration: '点击播放',
-      comment: ''
+      comment: '',
+      click_num: '',
+      answers_num: ''
     }
 
     computed = {}
@@ -209,42 +219,46 @@
       }, 200)
     }
     getLibraries(keyword) {
-      let _this = this
-      _this.loading = true
-      _this.$apply()
-      let url = `${service.host}/moments/${_this.id}`
-      this.$get({
+      let vm = this
+      vm.loading = true
+      vm.$apply()
+      let url = `${service.host}/soul/questions/${vm.id}`
+      vm.$get({
         url: url,
         data: {
-          page: _this.page
+          page: vm.page
         }
       }, {
         success: ({code, data}) => {
-          _this.moment = data.moment
-          _this.momentLikers = data.momentLikers
-          _this.noMore = false
-          _this.loading = false
-          if (data.moment.current_page > data.moment.last_page) {
-            _this.noMore = true
-            _this.loading = false
+          vm.click_num = data.soul_question.click_num
+          vm.answers_num = data.answers.total
+          vm.soul_question = data.soul_question
+          vm.noMore = false
+          vm.loading = false
+          vm.$apply()
+          if (data.answers.current_page > data.answers.last_page) {
+            vm.noMore = true
+            vm.loading = false
             return
           }
-          data = data.comments.data
+          data = data.answers.data
           if (data.length === 0) {
-            _this.noMore = true
-            _this.$apply()
+            vm.noMore = true
+            vm.loading = false
+            vm.$apply()
             return
           }
-          if (_this.comments.length === 0 || _this.page === 1) {
-            _this.comments = data
+          if (vm.answers.length === 0 || vm.page === 1) {
+            vm.answers = data
           } else {
             data.map(function (item, index) {
-              _this.comments.push(item)
+              vm.answers.push(item)
             })
           }
-          _this.noMore = true
-          _this.page += 1
-          _this.$apply()
+          vm.noMore = true
+          vm.page += 1
+          vm.$apply()
+          console.log(vm.answers)
         },
         fail: ({code, data}) => {
         },
@@ -255,12 +269,13 @@
     }
 
     methods = {
-      autoplayFn(title) {
+      autoplayFn(url) {
+        console.log(`${service.host.split('api')[0]}${url}`)
         this.autoplayActive = !this.autoplayActive
         this.$apply()
         this.innerAudioContext.autoplay = true
-        this.innerAudioContext.title = title
-        this.innerAudioContext.src = 'https://pic.ibaotu.com/00/43/81/73S888piCaXA.mp3'
+        this.innerAudioContext.title = url
+        this.innerAudioContext.src = `${service.host.split('api')[0]}${url}`
         this.innerAudioContext.onPlay(() => {
           console.log('开始播放')
           let duration = this.innerAudioContext.duration.toString().split('.')
@@ -297,6 +312,9 @@
         this.innerAudioContext.onError((res) => {
           // 音频出现播放错误时候的回调函数
           this.$showToast('抱歉！音频出了点问题...')
+          this.autoplayActive = false
+          this.duration = '点击播放'
+          this.$apply()
         })
       },
       gotoFriendPage(type, id) {
@@ -334,12 +352,12 @@
       saveComment() { // 评论
         console.log(this.comment)
         let data = {
-          comment: this.comment
+          answer: this.comment
         }
         if (!this.comment) {
           return this.$showToast('请填写评论内容！')
         }
-        this.$post({url: `${service.host}/comment/moments/${this.moment.id}`, data}, {
+        this.$post({url: `${service.host}/reply/soul/quesiotns/${this.id}`, data}, {
           success: ({code, data}) => {
             this.comment = ''
             this.$showToast('评论成功')
@@ -429,7 +447,8 @@
           margin-right: 22rpx;
         }
         .subnav{
-          width: 100%;
+          width: 80%;
+          overflow: hidden;
           .otherName{
             margin-right: 12rpx;
           }
@@ -529,12 +548,12 @@
           &:before {
             content: "";
             border-bottom: solid 10px #fe4557;
-            border-left: solid 5px #00800000;
-            border-right: solid 5px #00800000;
+            border-left: solid 8px #00800000;
+            border-right: solid 8px #00800000;
             border-top: solid 0px #00800000;
             position: absolute;
             left: 8%;
-            top: -28%;
+            top: -22%;
           }
         }
       }
@@ -601,9 +620,12 @@
       height: 40rpx;
       box-sizing: border-box;
       position: relative;
-      margin-left: 6vw;
-      margin-right: -7vw;
+      margin-top: 8rpx;
       transform: scale(.9);
+      image{
+        width: 36rpx;
+        height: 36rpx;
+      }
       .wifi-symbol {
         width: 50rpx;
         height: 50rpx;
