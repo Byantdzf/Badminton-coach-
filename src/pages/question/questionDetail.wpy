@@ -73,7 +73,7 @@
         <!--</view>-->
       </view>
     </view>
-    <view class="comment ff" wx:for="{{answers}}" wx:key="*this">
+    <view class="comment ff" wx:for="{{answers}}" wx:key="{{index}}">
       <block wx:if="{{item.type == 'TALENT'}}">
         <navigator target="miniProgram" open-type="navigate" app-id="wx2fcdf7fdab3dcca7" path="/{{item.talent_link}}" version="develop" class="" style="">
           <image src="{{item.talent_logo?item.talent_logo:item.user.circle_avatar}}" mode="aspectFill" class="ff comment-active flo_l" ></image>
@@ -96,16 +96,16 @@
           {{item.talent_title?item.talent_title :item.user.name}}
         </view>
       </view>
-      <view class="contText flo_l font_22 color-666" wx:if="{{!item.is_text}}" @tap.stop="autoplayFn({{item.answer_url}})">
+      <view class="contText flo_l font_22 color-666" wx:if="{{item.is_text == '0'}}" @tap.stop="autoplayFn({{item.answer_url}})">
         <view class="playBox white">
-          <view class="mainBoxPlay flo_l">                                                                                                                                                                                                                            
+          <view class="mainBoxPlay flo_l">
             <image src="https://images.ufutx.com/201911/26/a87cc4ff86103edf52724cde5699eb2c.png" wx:if={{!autoplayActive}} model="aspectFit"></image>
             <image src="https://images.ufutx.com/201911/26/80a04a650ef3d32f28f40b87828a0cb5.gif" model="aspectFit" wx:else></image>
           </view>
           <span>点击播放</span>
         </view>
       </view>
-      <view class="contText flo_l font_22 color-666" style="margin-top: -12rpx;" wx:else>
+      <view class="contText flo_l font_22 color-666" style="margin-top: -2rpx;" wx:else>
         <text class="">{{item.answer}}</text>
       </view>
       <view class="clearfloat"></view>
@@ -197,7 +197,8 @@
 
     onShow() {
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
-      this.innerAudioContext = wx.getBackgroundAudioManager();
+      this.innerAudioContext = wx.getBackgroundAudioManager()
+      this.$apply()
     }
 
     onPullDownRefresh() {
@@ -270,27 +271,28 @@
 
     methods = {
       autoplayFn(url) {
-        console.log(`${service.host.split('api')[0]}${url}`)
         this.autoplayActive = !this.autoplayActive
         this.$apply()
         this.innerAudioContext.autoplay = true
         this.innerAudioContext.title = url
-        this.innerAudioContext.src = `${service.host.split('api')[0]}${url}`
-        this.innerAudioContext.onPlay(() => {
-          console.log('开始播放')
-          let duration = this.innerAudioContext.duration.toString().split('.')
-          console.log(duration)
-          if (duration.length > 2) {
-            duration = `${duration[0]}'${duration[1]}"${duration[2].slice(0, 2)}`
-          }else {
-            duration = `${duration[0]}"${duration[1].slice(0, 2)}`
-          }
-          console.log(duration)
-          this.duration = duration
-          this.$apply()
-        })
+        this.innerAudioContext.src = `${url}`
+        // this.innerAudioContext.onPlay(() => {
+        //   console.log('开始播放')
+        //   let duration = this.innerAudioContext.duration.toString().split('.')
+        //   console.log(duration)
+        //   if (duration.length > 2) {
+        //     duration = `${duration[0]}'${duration[1]}"${duration[2].slice(0, 2)}`
+        //   }else {
+        //     duration = `${duration[0]}"${duration[1].slice(0, 2)}`
+        //   }
+        //   console.log(duration)
+        //   this.duration = duration
+        //   this.$apply()
+        // })
         if (!this.autoplayActive) {
           this.innerAudioContext.pause()
+        } else {
+          this.innerAudioContext.play()
         }
         this.innerAudioContext.onPause(() => {
           console.log('劳资暂停')
