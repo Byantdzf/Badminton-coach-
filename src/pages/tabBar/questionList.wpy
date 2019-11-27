@@ -47,7 +47,7 @@
                     @tap="goto('/pages/question/questionDetail?id={{item.id}}')">
                 <image src="https://images.ufutx.com/201911/24/e9062818173132df5fa2c1489d6fa850.png"
                        mode="aspectFill"></image>
-                <text class="num">{{item.is_submit}}</text>
+                <text class="num">{{item.answers_count}}</text>
               </view>
               <view class="love-box inline-block" hover-class="btn_active" >
                 <image src="https://images.ufutx.com/201911/24/fc92dc5fd743c11408dc62e3320c7e1d.png"
