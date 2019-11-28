@@ -1,13 +1,13 @@
 <template>
   <Loading :init.sync="init"></Loading>
-  <block wx:if="{{system === 'iOS'}}">
-    <!--iOS-->
-    <template is="msgItemiOS" data="{{rankData,moreIcon,rankList, user, feature}}"/>
-  </block>
-  <block wx:else>
+  <!--<block wx:if="{{system === 'iOS'}}">-->
+    <!--&lt;!&ndash;iOS&ndash;&gt;-->
+    <!--<template is="msgItemiOS" data="{{rankData,moreIcon,rankList, user, feature}}"/>-->
+  <!--</block>-->
+  <!--<block wx:else>-->
     <!--android-->
     <template is="msgItemAndroid" data="{{rankData,moreIcon,rankList, user}}"/>
-  </block>
+  <!--</block>-->
   <template name="msgItemiOS">
     <view style="position: relative;">
       <image src="https://images.ufutx.com/201907/19/06e64f099dab71189ce1298c776c537f.png"  mode="widthFix" style="width: 100vw;position: absolute;z-index: 1"></image>
@@ -76,7 +76,7 @@
     </view>
     <view class="clearfloat"></view>
     <view class="main-box">
-      <view class="main-item"  wx:for="{{rankList}}" wx:key="index" @tap="VIPDetail({{index}},{{item.name}})">
+      <view class="main-item"  wx:for="{{rankList}}" wx:key="index" @tap="VIPDetail({{index}},{{item}})">
         <view class="item-title font_26 bold">
           <image class="item-icon" src="{{item.icon}}" mode="aspectFill"/>
           <span wx:if="{{item.name.length > 5}}">{{item.name}}</span>
@@ -86,7 +86,8 @@
         </view>
         <view class="item-cen">
           <view class="flo_l font_22">
-            <view wx:for="{{item.feature}}" wx:for-item="explain" wx:key="index" wx:if="{{index<3}}">{{explain.text}}
+            <view wx:for="{{item.feature}}" wx:for-item="explain" wx:key="index" wx:if="{{index<3}}">
+              {{explain.text?explain.text:explain}}
             </view>
           </view>
           <view class="flo_r font_22 text-right">
@@ -238,10 +239,15 @@
 
     onShow() {
       // 初始化页面数据
+      this.rankList = []
+      this.$apply()
       if (this.system == 'iOS') {
-        this.initIosData()
+        this.getPageData()
       } else {
-        this.initPageData()
+        this.getPageData()
+        setTimeout(() => {
+          this.initPageData()
+        })
       }
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
@@ -253,11 +259,11 @@
     onLoad() {
       this.tabIndex()
       this.system = wx.getStorageSync('system')
-      if (this.system == 'iOS') {
-        wx.setNavigationBarTitle({
-          title: 'AG线下配对服务'
-        })
-      }
+      // if (this.system == 'iOS') {
+      //   wx.setNavigationBarTitle({
+      //     title: 'AG线下配对服务'
+      //   })
+      // }
       let date = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + (new Date().getDate())
       this.compare(date, '2019-9-1')
       this.$apply()
@@ -294,6 +300,37 @@
         arr[index].money = parseFloat(arr[index].price)
       })
     }
+
+    getPageData() {
+      let vm = this
+      vm.$showLoading('加载中')
+      vm.$get({url: `${service.host}/single/services`}, {
+        success: ({code, data}) => {
+          wx.hideLoading()
+          console.log(data)
+          data.map((item, index) => {
+            vm.rankList.push({
+              id: item.id,
+              name: item.title,
+              icon: 'https://images.ufutx.com/201911/13/7d21924d35bc8d34cc9971b0fa366741.png',
+              max_price: item.price,
+              min_price: item.price,
+              max_discount_price: item.discount_price,
+              min_discount_price: item.discount_price,
+              feature: item.desc
+            })
+          })
+          vm.$apply()
+          console.log(vm.rankList)
+        },
+        fail: ({code, data}) => {
+        },
+        complete: () => {
+          this.loaded = false
+          this.init = true
+        }
+      })
+    }
     // 初始化页面数据
     initPageData() {
       let that = this,
@@ -305,25 +342,19 @@
         success: ({code, data}) => {
           wx.hideLoading()
           that.user = data.user
-          let ranklist = [
-            {
-              name: 'AG智能匹配+(黄金VIP)',
-              icon: 'https://images.ufutx.com/201911/13/7d21924d35bc8d34cc9971b0fa366741.png',
-              max_price: '599.00',
-              min_price: '599.00',
-              max_discount_price: '100.00',
-              min_discount_price: '100.00',
-              feature: [
-                {text: 'AG智能匹配'},
-                {text: '全国会员资料'},
-                {text: '每天添加15位好友'}
-              ]
-            },
-          ]
+          let url = ''
           data.list.map((item, index) => {
-            ranklist.push({
+            if (index == 0) {
+              url = 'https://images.ufutx.com/201911/28/29e1821ba8f9347052eaa1b0bfe9b2f5.png'
+            } else if (index == 1) {
+              url = 'https://images.ufutx.com/201911/28/10e7c0aa562b54c847ebf4a0b0581f39.png'
+            } else {
+              url = 'https://images.ufutx.com/201911/28/012d3a8d93a1ae129f90b878a585b8fd.png'
+            }
+            that.rankList.push({
               name: item.name,
-              icon: 'https://images.ufutx.com/201911/12/7b11b74174b60a8aaaca12e55cfe8fec.png',
+              icon: url,
+              id: item.id,
               max_price: item.max_price,
               min_price: item.min_price,
               max_discount_price: item.max_discount_price,
@@ -331,7 +362,6 @@
               feature: item.feature
             })
           })
-          that.rankList = ranklist
           that.$apply()
         },
         fail: ({code, data}) => {
@@ -383,12 +413,12 @@
       showToast(title) {
         this.$showToast(title)
       },
-      VIPDetail(index, name) {
+      VIPDetail(index, item) {
         // if (index == 0) {
         //   this.$invoke('modalUpQr', 'showModal')
         //   return
         // }
-        this.$goto(`/pages/users/vipDetail?name=${name}`)
+        this.$goto(`/pages/users/vipDetail?name=${item.name}&id=${item.id}`)
       },
       // 打开更多
       openMore(data) {

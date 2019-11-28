@@ -282,7 +282,7 @@
       announcements: [], // 通知
       tab: [
         {
-          icon: 'https://images.ufutx.com/201908/16/56c8e0372947a5b2c298ea5ea89d7755.png',
+          icon: 'https://images.ufutx.com/201911/28/a9791333f6c9e94b9d25e61573c79d88.png',
           title: '脱单服务',
           path: '/pages/home/loveMate',
           type: 'maker'

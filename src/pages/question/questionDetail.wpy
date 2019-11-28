@@ -96,7 +96,8 @@
           {{item.talent_title?item.talent_title :item.user.name}}
         </view>
       </view>
-      <view class="contText flo_l font_22 color-666" wx:if="{{item.is_text == '0'}}" @tap.stop="autoplayFn({{item.answer_url}})">
+      <view class="contText flo_l font_22 color-666" wx:if="{{item.is_text == '0'}}"
+            @tap.stop="autoplayFn({{item.talent_title}},{{item.talent_name}},{{item.answer_url}})">
         <view class="playBox white">
           <view class="mainBoxPlay flo_l">
             <image src="https://images.ufutx.com/201911/26/a87cc4ff86103edf52724cde5699eb2c.png" wx:if={{!autoplayActive}} model="aspectFit"></image>
@@ -206,7 +207,7 @@
       this.getLibraries()
     }
     onUnload() {
-      this.innerAudioContext.destroy();
+      this.innerAudioContext.destroy()
     }
 
     onPageScroll(res) {
@@ -270,11 +271,11 @@
     }
 
     methods = {
-      autoplayFn(url) {
+      autoplayFn(title, url) {
         this.autoplayActive = !this.autoplayActive
         this.$apply()
         this.innerAudioContext.autoplay = true
-        this.innerAudioContext.title = url
+        this.innerAudioContext.title = title
         this.innerAudioContext.src = `${url}`
         // this.innerAudioContext.onPlay(() => {
         //   console.log('开始播放')
