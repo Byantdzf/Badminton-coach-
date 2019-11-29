@@ -101,7 +101,7 @@
         <view wx:for="{{rankData.explain}}"  wx:key="index">· {{item}}</view>
       </block>
       <block wx:else>
-        <view>· {{specialVIP.server_agreement}}</view>
+        <view class="text-wrapper">· {{specialVIP.server_agreement}}</view>
       </block>
     </view>
   </template>

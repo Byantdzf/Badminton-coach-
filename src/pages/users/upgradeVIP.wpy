@@ -6,7 +6,7 @@
   <!--</block>-->
   <!--<block wx:else>-->
     <!--android-->
-    <template is="msgItemAndroid" data="{{rankData,moreIcon,rankList, user}}"/>
+    <template is="msgItemAndroid" data="{{rankData,moreIcon,rankList, user, system}}"/>
   <!--</block>-->
   <template name="msgItemiOS">
     <view style="position: relative;">
@@ -66,16 +66,18 @@
     </view>
   </template>
   <template name="msgItemAndroid">
-    <view class="_bc-user">
-      <image class="userinfo-avatar" src="{{user.circle_avatar}}" mode="aspectFill"/>
-      <view class="white flo_l font_32 userinfo-name"><span class="bold">{{user.name}} </span> <span
-        class="orange font_28">（{{user.rank_name?user.rank_name+'VIP':'未激活'}}）</span></view>
-      <view class="font_24 white flo_l" style="width: 70%;border-bottom: 1rpx solid white;">
-        到期时间：{{user.rank_deadline?user.rank_deadline:'未激活'}}
+    <block  wx:if="{{system != 'iOS'}}">
+      <view class="_bc-user">
+        <image class="userinfo-avatar" src="{{user.circle_avatar}}" mode="aspectFill"/>
+        <view class="white flo_l font_32 userinfo-name"><span class="bold">{{user.name}} </span> <span
+          class="orange font_28">（{{user.rank_name?user.rank_name+'VIP':'未激活'}}）</span></view>
+        <view class="font_24 white flo_l" style="width: 70%;border-bottom: 1rpx solid white;">
+          {{system}}到期时间：{{user.rank_deadline?user.rank_deadline:'未激活'}}
+        </view>
       </view>
-    </view>
-    <view class="clearfloat"></view>
-    <view class="main-box">
+      <view class="clearfloat"></view>
+    </block>
+    <view class="main-box" style="{{system == 'iOS'?'margin-top: 2vw;':''}}">
       <view class="main-item"  wx:for="{{rankList}}" wx:key="index" @tap="VIPDetail({{index}},{{item}})">
         <view class="item-title font_26 bold">
           <image class="item-icon" src="{{item.icon}}" mode="aspectFill"/>
@@ -240,7 +242,9 @@
     onShow() {
       // 初始化页面数据
       this.rankList = []
+      this.system = wx.getStorageSync('system')
       this.$apply()
+      console.log(this.system)
       if (this.system == 'iOS') {
         this.getPageData()
       } else {
