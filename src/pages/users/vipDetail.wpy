@@ -108,7 +108,7 @@
   <modalUpQr>
     <view slot="wrapper" class="mainBox">
       <view class="font_28 color-666"><span class="bold">尊敬的会员！</span>您好：</view>
-      <view class="font_26 color-666" style="text-indent: 2em">感谢你购买《AG人工智能匹配+黄金VIP》套餐，为了更好的服务到您，请您按照如下操作进行：</view>
+      <view class="font_26 color-666" style="text-indent: 2em">感谢你购买《{{type}}VIP》套餐，为了更好的服务到您，请您按照如下操作进行：</view>
       <view class="font_26 color-666" style="text-indent: 2em">1、添加《小恋》微信号,Ta将为你一对一的服务</view>
       <view class="font_26 color-666 bold" style="text-indent: 4em;margin-top: 8rpx;">
         ·  <span class="green" @tap="copyWechat(Ufutx-Eli)">复制</span>
@@ -119,10 +119,10 @@
           <image src="https://images.ufutx.com/201911/14/f3a7475e85b7e3de012aaa08fa485e27.png" mode="widthFix" style="width: 70vw;"></image>
         </view>
       </view>
-      <view class="font_26 color-666" style="text-indent: 2em; margin-top: 8rpx;">2、领取并填写
-        <span class="orange bold" @tap="showToast('添加《小恋》后，为你提供专属服务！')">《AG体检表》</span>
-      </view>
-      <view class="font_26 color-666" style="text-indent: 2em; margin-top: 8rpx;">3、小恋将为你智能匹配出适合你的那个TA！</view>
+      <!--<view class="font_26 color-666" style="text-indent: 2em; margin-top: 8rpx;">2、领取并填写-->
+        <!--<span class="orange bold" @tap="showToast('添加《小恋》后，为你提供专属服务！')">《AG体检表》</span>-->
+      <!--</view>-->
+      <view class="font_26 color-666" style="text-indent: 2em; margin-top: 8rpx;">2、将为你智能匹配出适合你的那个TA！</view>
       <view class="font_26 color-666" style="text-indent: 3.5em;">带你摆脱单身，走向幸福之路！</view>
     </view>
   </modalUpQr>
