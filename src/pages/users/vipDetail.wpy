@@ -71,7 +71,7 @@
           <span><span class="discountsStyle font_24">赠送</span><span class="bold color-theme">《线上会员》：</span></span>
         </view>
         <view style="text-indent: 2em;padding: 8rpx 0;border-bottom: 1rpx solid #f0f0f0;" class="color-666 font_26">
-          赠送价值{{specialVIP.rank.price}}元（原价199元）的{{specialVIP.rank.name}}会员
+          赠送价值{{specialVIP.sub_rank.discount_price}}元（原价{{specialVIP.sub_rank.price}}元）的{{specialVIP.rank.name}}会员
         </view>
         <view>
           <span class="font_26 bold color-666" style="text-indent: 2em;">会员权益：</span>

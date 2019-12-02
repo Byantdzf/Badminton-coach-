@@ -21,7 +21,7 @@
         </view>
         <view class="clearfloat"></view>
         <view class="font_28 contText bold" style="margin-left: -12rpx;" @tap="goto('/pages/question/questionDetail?id={{item.id}}')">
-          <span class="color-theme">【问答】</span>{{soul_question.content}}
+          <span class="color-theme">【问答】</span>{{soul_question.title}}
         </view>
         <view class="font_28 contText">
           {{soul_question.content}}
