@@ -83,11 +83,19 @@
         <image src="{{item.talent_logo?item.talent_logo:item.user.circle_avatar}}" @tap="gotoFriendPage({{item.user.type}}, {{item.user.id}})" mode="aspectFill" class="ff comment-active flo_l" ></image>
       </block>
       <view class="subnav">
-        <text class="comment-name font_28 flo_l">{{item.talent_name?item.talent_name :item.user.name}}</text>
+        <view class="comment-name font_28 flo_l">
+         <span class="flo_l"> {{item.talent_name?item.talent_name :item.user.name}}</span>
+          <navigator wx:if="{{item.type == 'TALENT'}}" target="miniProgram" open-type="navigate" app-id="wx2fcdf7fdab3dcca7" path="/{{item.talent_link}}" version="develop" class="flo_l" style="margin-left: 8rpx;color:  #d92553;">
+            <span class="font_22 ">立即咨询</span>
+          </navigator>
+        </view>
         <!--<image src="https://images.ufutx.com/201911/24/4c2533fa03d565cce2134c83b246d0a6.png" mode="aspectFill"-->
                <!--wx:if="{{item.user.sex == '2'}}" class=""></image>-->
         <!--<image src="https://images.ufutx.com/201911/24/f219e1817698689700a9fe57454baecf.png" mode="aspectFill"-->
                <!--wx:else class=""></image>-->
+        <!--<navigator wx:if="{{item.type == 'TALENT'}}" target="miniProgram" open-type="navigate" app-id="wx2fcdf7fdab3dcca7" path="/{{item.talent_link}}" version="develop" class="flo_l" style="">-->
+          <!--<span class="font_22 " style="margin-top: -22rpx;">立即咨询</span>-->
+        <!--</navigator>-->
         <text class="time font_24 flo_r color-bbb">{{item.created_at}}</text>
         <view class="clearfloat"></view>
       </view>
