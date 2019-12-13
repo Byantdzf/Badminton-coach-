@@ -236,9 +236,9 @@
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
 
-    onShareAppMessage(res) {
-      return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
-    }
+    // onShareAppMessage(res) {
+    //   return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
+    // }
 
     onLoad(e) {
       console.log(e)

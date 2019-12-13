@@ -26,7 +26,14 @@
                      wx:if="{{item.user.sex == '2'}}" class=""></image>
               <image src="https://images.ufutx.com/201911/24/f219e1817698689700a9fe57454baecf.png" mode="aspectFill"
                      wx:else class=""></image>
-              <text class="time font_26 flo_r">{{item.created_at}}</text>
+              <view class="flo_r">
+                <view class="time font_26 ">{{item.created_at}}</view>
+                <block wx:if="{{type == 1}}">
+                  <view class="time font_26  color-theme flo_r" wx:if="{{item.status == 1}}">已审核</view>
+                  <view class="time font_26  color-theme flo_r" wx:if="{{item.status == 0}}">审核中</view>
+                  <view class="time font_26  color-bbb flo_r" wx:if="{{item.status == -1}}">未通过</view>
+                </block>
+              </view>
             </view>
             <view class="subnav font_22 color-666">
               <view class="otherName">

@@ -72,7 +72,7 @@
         <view class="white flo_l font_32 userinfo-name"><span class="bold">{{user.name}} </span> <span
           class="orange font_28">（{{user.rank_name?user.rank_name+'VIP':'未激活'}}）</span></view>
         <view class="font_24 white flo_l" style="width: 70%;border-bottom: 1rpx solid white;">
-          {{system}}到期时间：{{user.rank_deadline?user.rank_deadline:'未激活'}}
+          到期时间：{{user.rank_deadline?user.rank_deadline:'未激活'}}
         </view>
       </view>
       <view class="clearfloat"></view>

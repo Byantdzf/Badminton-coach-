@@ -168,7 +168,7 @@
           success: ({code, data}) => {
             vm.informValue = ''
             vm.informImages = []
-            vm.$showToast('发布成功')
+            vm.$showToast('已提交发布！等待审核...')
             wx.removeStorageSync('informValue')
             wx.removeStorageSync('informImages')
             setTimeout(() => {
