@@ -173,6 +173,12 @@
           path: '/pages/users/visitor'
         },
         {
+          icon: 'https://images.ufutx.com/201912/19/d73be27882089a4962c6a2c824b68189.png',
+          title: '福分提现',
+          type: 'navigateTo',
+          path: '/pages/users/withdrawBlessing'
+        },
+        {
           icon: 'http://images.ufutx.com/201906/06/dc978fa8252e83b835e705905e4cb3fc.png',
           title: 'vip设置',
           type: 'navigateTo',

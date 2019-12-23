@@ -150,7 +150,9 @@
             'myShare',
             'myMessage',
             'tempMember',
-            'optimset'
+            'optimset',
+            'withdrawBlessing',
+            'blessingRecord'
           ]
         }
 

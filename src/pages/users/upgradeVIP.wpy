@@ -178,7 +178,7 @@
   export default class upgradeVIP extends wepy.page {
     mixins = [base, http, ShareMessage]
     config = {
-      navigationBarTitleText: '升级会员',
+      navigationBarTitleText: 'VIP服务',
       enablePullDownRefresh: false
     }
     components = {

@@ -66,9 +66,9 @@
         <view class="_bc-list">
           <view style="padding: 12rpx 22rpx;">
             <span class="font_32 bold color-666">智能推荐</span>
-            <span class="font_28 color-666" style="margin-left: 32rpx;">根据你的资料，为你推荐</span>
-            <image src="https://images.ufutx.com/201908/16/eb58574466d54d7ce3223725c6a92387.png" mode="widthFix"
-                   class="edit flo_r" @tap="goto('/pages/users/userInfo')"></image>
+            <!--<span class="font_28 color-666" style="margin-left: 32rpx;">根据你的资料，为你推荐</span>-->
+            <!--<image src="https://images.ufutx.com/201908/16/eb58574466d54d7ce3223725c6a92387.png" mode="widthFix"-->
+                   <!--class="edit flo_r" @tap="goto('/pages/users/userInfo')"></image>-->
           </view>
           <bolck  wx:if="{{list.length == 0}}">
             <block wx:if="{{initialize && list.length == 0}}">
@@ -82,7 +82,7 @@
           </bolck>
           <bolck  wx:else>
             <view class="item-avatar" wx:for="{{list}}" wx:key="{{index}}" @tap="gotofriends({{item}},{{item.id}})">
-              <image src="{{item.avatar}}" mode="widthFix" class="image"></image>
+              <image src="{{item.photo}}" mode="widthFix" class="image"></image>
               <view class="font_28 _bc-center color-666">
                 <view class="font_28">
                   <view class="color-666 ellipsis_1 bold flo_l" style="max-width: 80%">{{item.name}}</view>
@@ -91,8 +91,8 @@
                   <view class="clearfloat"></view>
                 </view>
                 <view>
-                  <text class="font_22 bold">{{item.age? item.age + '岁' : ''}} {{item.stature? '· ' +item.stature +'cm': ''}} {{item.city? '· '+item.city: ''}}</text>
-                  <view class="font_22 ellipsis_1">{{item.introduction? item.introduction : ''}}</view>
+                  <text class="font_22 bold">{{item.age? item.age + '岁' : ''}} {{item.profile_courtship.stature? '· ' +item.profile_courtship.stature +'cm': ''}} {{item.profile_courtship.city? '· '+item.profile_courtship.city: ''}}</text>
+                  <view class="font_22 ellipsis_1">{{item.profile_courtship.introduction? item.profile_courtship.introduction : ''}}</view>
                 </view>
               </view>
             </view>
@@ -166,7 +166,7 @@
         <bolck  wx:else>
           <view class="_bc-list">
             <view class="item-avatar" wx:for="{{list}}" wx:key="{{index}}" @tap="gotofriends({{item}},{{item.id}})">
-              <image src="{{item.avatar}}" mode="widthFix" class="image"></image>
+              <image src="{{item.photo}}" mode="widthFix" class="image"></image>
               <view class="font_28 _bc-center color-666">
                 <view class="font_28">
                   <view class="color-666 ellipsis_1 bold flo_l" style="max-width: 80%">{{item.name}}</view>
@@ -175,8 +175,8 @@
                   <view class="clearfloat"></view>
                 </view>
                 <view>
-                  <text class="font_22 bold">{{item.age? item.age + '岁' : ''}} {{item.stature? '· ' +item.stature +'cm': ''}} {{item.city? '· '+item.city: ''}}</text>
-                  <view class="font_22 ellipsis_1">{{item.introduction? item.introduction : ''}}</view>
+                  <text class="font_22 bold">{{item.age? item.age + '岁' : ''}} {{item.profile_courtship.stature? '· ' +item.profile_courtship.stature +'cm': ''}} {{item.profile_courtship.city? '· '+item.profile_courtship.city: ''}}</text>
+                  <view class="font_22 ellipsis_1">{{item.profile_courtship.introduction? item.profile_courtship.introduction : ''}}</view>
                 </view>
               </view>
             </view>
@@ -496,7 +496,7 @@
       let _this = this
       _this.loading = true
       _this.noMore = true
-      let url = `${service.host}/home/likers/v2`,
+      let url = `${service.host}/home/likers`,
         data = {
           page: _this.page
         }
@@ -517,7 +517,9 @@
             _this.loading = false
             return
           }
-          data = data.data
+          data = data.data.map(function (item, index) {
+            return item.other_user
+          })
           if (this.isArray(data) && data.length === 0) {
             _this.noMore = true
             _this.loading = false

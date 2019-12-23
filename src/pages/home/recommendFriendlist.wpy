@@ -128,7 +128,7 @@
     getLibraries(keyword) {
       let _this = this
       _this.loading = true
-      let url = `${service.host}/users/${_this.id}/single/likers`
+      let url = `${service.host}/users/${_this.id}/single/likers/v2`
       this.$get({
         url: url,
         data: {
@@ -151,7 +151,9 @@
             _this.loading = false
             return
           }
-          data = data.data
+          data = data.data.map(function (item, index) {
+            return item.other_user
+          })
           if (this.isArray(data) && data.length === 0) {
             _this.noMore = true
             _this.list = []

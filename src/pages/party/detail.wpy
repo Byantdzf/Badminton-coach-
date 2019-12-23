@@ -16,7 +16,7 @@
       </view>
       <view class="font_28 text-left _bc-address" @tap="getlocation">
         <image src="http://images.ufutx.com/201812/17/54de58e17f256adabc16e8c5b82d26b4.png" mode="aspectFit"></image>
-        <span>{{detail.address}}</span>
+        <span>{{detail.address != null? detail.address : '全国'}}</span>
       </view>
     </view>
     <block wx:if="{{members.length > 5}}">

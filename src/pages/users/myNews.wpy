@@ -23,7 +23,7 @@
                   </view>
                   <view class="font_26 flo_l color-theme ellipsis_1" style="margin-left: 16rpx;max-width: 88%;">{{item.content}}</view>
                   <!--<view class="weui-cell__ft weui-cell__ft_in-access">-->
-                  <view class="dist flo_r" wx:if="{{item.status}}"></view>
+                  <view class="dist flo_r" wx:if="{{item.status == 0}}"></view>
                   <!--<view class="bc_right flo_r">-->
                     <!--<image src="http://images.ufutx.com/201906/28/e905d0aa2ca680e6274ef7b4009c7207.png" mode="aspectFit"></image>-->
                   <!--</view>-->
@@ -271,7 +271,7 @@
     background: white;
   }
   .borrowlist{
-    /*width: 86%;*/
+    width: 100%;
     /*box-shadow: 1rpx 1rpx 18rpx #d3d3d3;*/
     /*margin-top: 18rpx;*/
     /*border-radius: 6rpx;*/

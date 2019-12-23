@@ -50,7 +50,7 @@
       },
       BColor: {
         type: String,
-        default: 'white'
+        default: '#d92553'
       }
     }
     data = {
@@ -98,6 +98,7 @@
   .weui-search-bar{border: none;}
   .weui-search-bar__form, .weui-search-bar__label{
     background: #EBEaEA !important;
+    border-radius: 42rpx!important;
     color: @darkgray;
   }
   .weui-search-bar__text{

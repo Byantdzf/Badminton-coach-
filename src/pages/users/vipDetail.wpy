@@ -10,10 +10,11 @@
     <view class="_btn-buy">
       <block wx:for="{{sub_ranks}}" wx:key="index">
         <view class="text-center item-price flo_l {{index== PriceIndex?'active':''}}" @tap="SelectPrice({{index}})">
-          <view class="font_22">{{item.name}}</view>
-          <view class="bold">￥{{item.discount_price}}</view>
-          <view style="text-decoration: line-through;" class="font_22">原价:￥{{item.price}}</view>
-          <view class="font_22">折合 ￥{{item.month_price}}/天</view>
+          <view class="font_24">{{item.name}}</view>
+          <view  style="margin-top: 4rpx;" class="font_24"><span class="bold font_28">￥{{item.month_price}} </span>/天</view>
+
+          <!--<view style="text-decoration: line-through;" class="font_22">原价:￥{{item.price}}</view>-->
+          <!--<view class="font_22">折合 ￥{{item.discount_price}}</view>-->
         </view>
       </block>
       <view class="clearfloat"></view>
@@ -28,7 +29,8 @@
         </view>
         <view class="clearfloat"></view>
       </view>
-      <view class="white text-center _bc-btn" wx:if="{{type.length > 5}}"  @tap="showModal" @tap="conversionV2({{specialVIP}})">确认开通</view>
+      <!--<view class="white text-center _bc-btn" wx:if="{{type.length > 5}}"  @tap="showModal" @tap="conversionV2({{specialVIP}})">确认开通</view>-->
+      <view class="white text-center _bc-btn" wx:if="{{type.length > 5}}"  @tap="showModal" @tap="getsubscription">确认开通</view>
       <view class="white text-center _bc-btn" wx:else   @tap="showModal">确认开通</view>
       <!--<view class="white text-center _bc-btn" style="background: none;color: #b0b0b0;" wx:else >由于相关规范，iOS功能暂不可用</view>-->
     </view>
@@ -140,8 +142,12 @@
         </span>
       </view>
       <view class="font_28 bold list_item">
+        <span class="bold">会员原价：</span>
+        <span class="flo_r"style="text-decoration: line-through;" >{{price}}元</span>
+      </view>
+      <view class="font_28 bold list_item">
         <span class="bold">订单支付：</span>
-        <span class="flo_r">{{price}}元</span>
+        <span class="flo_r">{{discount_price}}元</span>
       </view>
       <view class="font_28 bold list_item">
         <span class="bold">我的福分：</span>
@@ -177,6 +183,7 @@
   import modalUp from '../../components/modal-up'
   import ShareMessage from '../../mixins/ShareMessage'
   import { service } from '../../config.js'
+  import app from "../../app.wpy";
 
   export default class upgradeVIP extends wepy.page {
     mixins = [base, http, ShareMessage]
@@ -209,7 +216,8 @@
       screenWidth: 360,
       rank: [],
       rankData: [],
-      price: 0,
+      price: 0, // 折后价
+      discount_price: 0, // 原价
       monay: 0,
       showPay: false,
       show: true,
@@ -284,7 +292,34 @@
         }
       })
     }
-
+    getsubscription() {
+      let that = this
+      wx.requestSubscribeMessage({
+        tmplIds: ['JnujH8l_qKpvGBX9F36t7jk7l9woF4VcMqzCa9F3ySs'], // 此处可填写多个模板 ID，但低版本微信不兼容只能授权一个
+        success (res) {
+          console.log(res, '456')
+          if (res['JnujH8l_qKpvGBX9F36t7jk7l9woF4VcMqzCa9F3ySs'] === 'accept'){
+            console.log('用户同意授权')
+            wx.showToast({
+              title: '订阅成功',
+              duration: 1000,
+            })
+          } else {
+            wx.showToast({
+              title: '拒绝授权',
+              duration: 1000,
+            })
+          }
+        },
+        fail(err) {
+          //失败
+          console.error(err)
+        },
+        complete(res) {
+          console.log('complete  调用完成')
+        }
+      })
+    }
     // 初始化页面数据
     initPageData() {
       let that = this,
@@ -360,8 +395,9 @@
         let item = this.sub_ranks[this.PriceIndex]
         this.rank = this.sub_ranks[this.PriceIndex]
         this.hide = false
-        this.price = item.discount_price
-        let monay = this.score - this.price
+        this.price = item.price
+        this.discount_price = item.discount_price
+        let monay = this.score - this.discount_price
         if (monay < 0) {
           this.show = false
           this.monay = Math.abs(monay)
@@ -645,7 +681,7 @@
     .item-price{
       width: 25%;
       margin-left: 20rpx;
-      padding: 16rpx;
+      padding: 32rpx 12rpx;
       border: 3rpx solid #dddddd;
       border-radius: 6rpx;
       view{
