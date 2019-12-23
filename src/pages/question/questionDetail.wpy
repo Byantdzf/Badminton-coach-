@@ -15,7 +15,7 @@
         </view>
         <view class="subnav font_22 color-666">
           <!--<view class="otherName">{{moment.user.age}} <span wx:if="{{moment.user.city !== '未知'}}">· {{moment.user.city}}</span> · -->
-            <span class="color-theme" wx:if="{{moment.user.type == 'single'}}">单身</span>
+            <span class="color-theme" wx:if="{{soul_question.user.type == 'single'}}">单身</span>
             <span class="color-theme" wx:else>介绍人</span>
           <!--</view>-->
         </view>
@@ -100,7 +100,7 @@
         <view class="clearfloat"></view>
       </view>
       <view class="subnav" style="" wx:if="{{item.talent_title}}">
-        <view class="otherName font_22" style=" width: 100vw;font-size: 18rpx;margin-top: -22rpx;color: red;margin-bottom: 8rpx;">
+        <view class="otherName font_22" style=" width: 100vw;font-size: 18rpx;margin-top: -24rpx;margin-bottom: 24rpx;color: red;">
           {{item.talent_title?item.talent_title :item.user.name}}
         </view>
       </view>
@@ -114,7 +114,7 @@
           <span>点击播放</span>
         </view>
       </view>
-      <view class="contText flo_l font_22 color-666" style="margin-top: -2rpx;" wx:else>
+      <view class="contText flo_l font_22 color-666" style="margin-top: -20rpx;" wx:else>
         <text class="">{{item.answer}}</text>
       </view>
       <view class="clearfloat"></view>
