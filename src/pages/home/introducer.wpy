@@ -105,15 +105,15 @@
     </view>
   </view>
   <block>
-    <view class="text-left font_32" style="padding: 26rpx 0;border-bottom: 8rpx solid #f8f8f8;" @tap="goto('/pages/friendCircle/otherFriendCircle?id={{id}}')">
-      <view class="flo_l" style="padding-left: 22rpx;border-left: 8rpx solid #D92553;">Ta的动态
-      </view>
-      <view class="flo_r">
-        <span class="font_28 color-bbb">{{mylibs.momentCount}}条</span>
-        <view class="weui-cell__ft_in-access flo_r" style="vertical-align: middle;margin-top: 26rpx;margin-right: 26rpx;"></view>
-      </view>
-      <view class="clearfloat"></view>
-    </view>
+    <!--<view class="text-left font_32" style="padding: 26rpx 0;border-bottom: 8rpx solid #f8f8f8;" @tap="goto('/pages/friendCircle/otherFriendCircle?id={{id}}')">-->
+      <!--<view class="flo_l" style="padding-left: 22rpx;border-left: 8rpx solid #D92553;">Ta的动态-->
+      <!--</view>-->
+      <!--<view class="flo_r">-->
+        <!--<span class="font_28 color-bbb">{{mylibs.momentCount}}条</span>-->
+        <!--<view class="weui-cell__ft_in-access flo_r" style="vertical-align: middle;margin-top: 26rpx;margin-right: 26rpx;"></view>-->
+      <!--</view>-->
+      <!--<view class="clearfloat"></view>-->
+    <!--</view>-->
   </block>
   <block wx:if="{{mylibs.self !== 1}}">
     <form bindsubmit="formSubmit" report-submit>

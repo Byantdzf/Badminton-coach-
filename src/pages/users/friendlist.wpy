@@ -318,6 +318,13 @@
   page{
     background: white;
   }
+  .weui-search-bar{
+    background-color: #d92553!important;
+    border-top: 0!important;
+  }
+  .weui-search-bar__form, .weui-search-bar__label{
+    border-radius: 42rpx!important;
+  }
   .borrow{
     .page__bd{
       height: 100%;

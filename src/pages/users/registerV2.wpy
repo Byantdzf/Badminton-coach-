@@ -37,8 +37,8 @@
                     bindgetphonenumber="getPhoneNumber">继续
             </button>
           </block>
-          <view class="font_26 color-bbb" style="margin-top: 2vw;" @tap="gotoTab">跳过</view>
         </form>
+        <view class="font_28 color-bbb" style="margin-top: 12rpx;" @tap="gotoTab('/pages/tabBar/home')">跳过</view>
         <!--view class="main-issue font_26 color-theme" @tap="showIssue">为什么要绑定微信手机号?</view-->
       </view>
     </view>
@@ -286,8 +286,10 @@
     }
 
     methods = {
-      gotoTab() {
-        this.$gotoTab('/pages/tabBar/home')
+
+
+      gotoTab(url) {
+        this.$gotoTab(url)
       },
       showToast(){
         this.$showToast('请选择类型')

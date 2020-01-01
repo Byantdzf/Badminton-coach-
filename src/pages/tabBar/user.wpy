@@ -56,12 +56,12 @@
           </navigator>
         </block>
       </block>
-      <navigator url="{{'/pages/users/groupList?id=' + user.id}}" class="text-center inline-block" wx:if="{{user.is_admin == 1}}" style="width: 25%;">
-        <view hover-class="btn_active" class="box-icon text-center">
-          <image src='http://images.ufutx.com/201906/06/e6f59ac1e95df7039b79191ad486ad72.png' mode="aspectFit"></image>
-        </view>
-        <view class="font_26">团契VIP</view>
-      </navigator>
+      <!--<navigator url="{{'/pages/users/groupList?id=' + user.id}}" class="text-center inline-block" wx:if="{{user.is_admin == 1}}" style="width: 25%;">-->
+        <!--<view hover-class="btn_active" class="box-icon text-center">-->
+          <!--<image src='http://images.ufutx.com/201906/06/e6f59ac1e95df7039b79191ad486ad72.png' mode="aspectFit"></image>-->
+        <!--</view>-->
+        <!--<view class="font_26">团契VIP</view>-->
+      <!--</navigator>-->
     </view>
     <!--<button @tap="detection">测试人脸识别</button>-->
     <view  class="ff color-666 bc_box">
@@ -171,6 +171,12 @@
           title: '访客记录',
           type: 'navigateTo',
           path: '/pages/users/visitor'
+        },
+        {
+          icon: 'https://images.ufutx.com/201912/19/d73be27882089a4962c6a2c824b68189.png',
+          title: '福分提现',
+          type: 'navigateTo',
+          path: '/pages/users/withdrawBlessing'
         },
         {
           icon: 'http://images.ufutx.com/201906/06/dc978fa8252e83b835e705905e4cb3fc.png',

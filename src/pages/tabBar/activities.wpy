@@ -100,9 +100,9 @@
           if (!data.data.length) {
             return vm.$showToast('我到底了啦...')
           }
-          for (let item of data.data) {
-            item.fee = parseFloat(item.fee)
-          }
+          // for (let item of data.data) {
+          //   item.fee = parseFloat(item.fee)
+          // }
           if (vm.page == 1) {
             vm.list = data.data
             vm.$apply()

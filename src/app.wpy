@@ -14,6 +14,7 @@
 
   export default class extends wepy.app {
     config = {
+      'requiredBackgroundModes': ['audio', 'location'],
       pages: [
         'pages/tabBar/welcome',
         'pages/tabBar/home',
@@ -25,6 +26,7 @@
         'pages/tabBar/party/index',
         'pages/tabBar/books/index',
         'pages/tabBar/loveMate',
+        'pages/tabBar/questionList',
         'pages/tabBar/user'
       ],
       'permission': {
@@ -76,6 +78,14 @@
             'index',
             'mapList',
             'TXQQMap'
+          ]
+        },
+        {
+          'root': 'pages/question',
+          'pages': [
+            'list',
+            'questionEdit',
+            'questionDetail'
           ]
         },
         {
@@ -132,6 +142,7 @@
             'sociability',
             'addFriendSet',
             'upgradeVIP',
+            'vipDetail',
             'integralAddress',
             'upgradingVIP',
             'myTest',
@@ -139,7 +150,9 @@
             'myShare',
             'myMessage',
             'tempMember',
-            'optimset'
+            'optimset',
+            'withdrawBlessing',
+            'blessingRecord'
           ]
         }
 
@@ -170,11 +183,16 @@
           selectedIconPath: './images/tabbar/attentionActive.png',
           iconPath: './images/tabbar/attention.png',
           text: '活动'
+        // }, {
+        //   pagePath: 'pages/tabBar/friendCircleList',
+        //   selectedIconPath: './images/tabbar/circleA.png',
+        //   iconPath: './images/tabbar/circle.png',
+        //   text: '动态'
         }, {
-          pagePath: 'pages/tabBar/friendCircleList',
-          selectedIconPath: './images/tabbar/circleA.png',
-          iconPath: './images/tabbar/circle.png',
-          text: '动态'
+          pagePath: 'pages/tabBar/questionList',
+          selectedIconPath: './images/tabbar/questionA.png',
+          iconPath: './images/tabbar/question.png',
+          text: '问答'
         }, {
           pagePath: 'pages/tabBar/news',
           selectedIconPath: './images/tabbar/messageActive.png',
@@ -194,7 +212,8 @@
       debug: true,
       'navigateToMiniProgramAppIdList': [
         'wxd2920948e02c5c76',
-        'wxa43b4cb4f447e846'
+        'wxa43b4cb4f447e846',
+        'wx2fcdf7fdab3dcca7'
       ]
     }
 
@@ -314,6 +333,11 @@
       }
       if (options.scene == 1044) {
         this.openshareTicket(options)
+      }
+      let {scene} = options
+      // console.log(scene.toString().length)
+      if (scene && scene.toString().length > 25) {
+        wx.setStorageSync('from_platform', scene)
       }
     }
 

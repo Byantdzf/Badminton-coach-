@@ -9,7 +9,7 @@
           <button class="btn font_24 flo_l getinfo" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">从微信获取最新头像</button>
         </block>
         <block wx:else>
-          <open-data type="userAvatarUrl"  mode="aspectFit" class="active_user flo_l" ></open-data>
+          <open-data type="userAvatarUrl"  mode="aspectFit" class="active_user flo_l"></open-data>
         </block>
         <view  class="btn_red font_26 flo_r" @tap="ensure" style="margin-right:12rpx;width: 180rpx;height: 108rpx;line-height: 108rpx;margin-top: 24rpx;">保存</view>
       </view>
@@ -172,7 +172,7 @@
       stateIndex: 0,
       resident_type: ['城市', '乡村'],
       residentIndex: 0,
-      degree: ['大专', '本科', '硕士', '博士', '其他'],
+      degree: ['小学', '初中', '高中', '中专', '大专', '本科', '硕士', '博士', '其他'],
       degreeIndex: 0,
       work_sort: ['事业单位', '公务员', '央企', '国企', '私企', '外企'],
       work_sortIndex: 0,

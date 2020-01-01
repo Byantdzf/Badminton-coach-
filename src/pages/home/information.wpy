@@ -117,12 +117,12 @@
         </view>
       </view>
       <view class="clearfloat"></view>
-      <view class="main-friendCircle" @tap="goto('/pages/friendCircle/otherFriendCircle?id={{id}}')">
-        <view class="font_28 flo_l">TA的动态</view>
-        <image src="https://images.ufutx.com/201908/21/4d47b3a34d7ad4cf2575e693014d116b.png" class="flo_r image"
-               mode="aspectFit"></image>
-        <view class="font_28 color-666 flo_r">{{mylibs.momentCount+'条'}}</view>
-      </view>
+      <!--<view class="main-friendCircle" @tap="goto('/pages/friendCircle/otherFriendCircle?id={{id}}')">-->
+        <!--<view class="font_28 flo_l">TA的动态</view>-->
+        <!--<image src="https://images.ufutx.com/201908/21/4d47b3a34d7ad4cf2575e693014d116b.png" class="flo_r image"-->
+               <!--mode="aspectFit"></image>-->
+        <!--<view class="font_28 color-666 flo_r">{{mylibs.momentCount+'条'}}</view>-->
+      <!--</view>-->
       <block wx:if="{{mylibs.self !== 1 && activeIndex == 0}}">
         <view class="text-left font_32" style="padding-top: 26rpx;border-top: 8rpx solid #f8f8f8;" >
           <view class="hinding">隐身访问</view>
@@ -137,18 +137,18 @@
       <form bindsubmit="formSubmit" report-submit>
         <button formType="submit" class="btn" data-type="click">
           <view class="fixed_bot font_32 text-center main-btns"
-                style="{{mylibs.is_friend == 0? 'padding: 4vw 10vw;width: 80vw;':''}}">
+                style="{{mylibs.is_friend !== 0 ? 'padding: 4vw 10vw;width: 80vw;':''}}">
             <block wx:if="{{mylibs.is_friend == 0}}">
-              <view class="item-btn inline-block color-theme flo_l" @tap="goto('/pages/home/giveGift?id={{mylibs.id}}')">送礼物
-              </view>
-              <view class="item-btn inline-block item-btnA flo_r"  @tap="goto('/pages/home/addFriend?id={{mylibs.id}}')">加好友
+              <!--<view class="item-btn inline-block color-theme flo_l" @tap="goto('/pages/home/giveGift?id={{mylibs.id}}')">送礼物-->
+              <!--</view>-->
+              <view class="item-btn inline-block item-btnA"  @tap="goto('/pages/home/addFriend?id={{mylibs.id}}')">加好友
               </view>
             </block>
             <block wx:else>
               <view class="item-btn inline-block color-theme flo_l" @tap="goto('/pages/home/chitchat?id={{mylibs.id}}&name={{mylibs.name}}&type={{mylibs.type}}')">
                 聊天</view>
-              <view class="item-btn inline-block item-btnA" @tap="goto('/pages/home/swopWeChat?id={{mylibs.id}}')" wx:if="{{userType !== 'marriage'}}">交换微信</view>
-              <view class="item-btn  inline-block color-theme flo_r" @tap="goto('/pages/home/giveGift?id={{mylibs.id}}')">送礼物</view>
+              <view class="item-btn inline-block item-btnA flo_r" @tap="goto('/pages/home/swopWeChat?id={{mylibs.id}}')" wx:if="{{userType !== 'marriage'}}">交换微信</view>
+              <!--<view class="item-btn  inline-block color-theme flo_r" @tap="goto('/pages/home/giveGift?id={{mylibs.id}}')">送礼物</view>-->
             </block>
             <view class="clearfloat"></view>
           </view>

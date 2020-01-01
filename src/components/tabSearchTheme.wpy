@@ -5,7 +5,7 @@
         <view class="weui-search-bar__box">
           <!--<image src="http://images.ufutx.com/201905/28/828547386e36c11a03b10e41fae92374.png" class="weui-icon-search_in-box" mode="widthFix" style="width: 28rpx;"></image>-->
           <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-          <input type="text" class="weui-search-bar__input" placeholder="{{title}}" confirm-type="search" value="{{inputVal}}" focus="{{inputShowed}}" @confirm="inputTyping" />
+          <input type="text" class="weui-search-bar__input searchInput" placeholder="{{title}}" confirm-type="search" value="{{inputVal}}" focus="{{inputShowed}}" @confirm="inputTyping" />
           <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
             <icon type="clear" size="14"></icon>
           </view>
@@ -16,7 +16,7 @@
           <view class="weui-search-bar__text">{{title}}</view>
         </label>
       </view>
-      <view class="weui-search-bar__cancel-btn font_32" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
+      <view class="weui-search-bar__cancel-btn font_32 white" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
     </view>
     <slot></slot>
   </view>
@@ -97,9 +97,9 @@
   @import "../styles/custom/fn.less";
   .weui-search-bar{border: none;}
   .weui-search-bar__form, .weui-search-bar__label{
-    background: #EBEaEA !important;
-    border-radius: 42rpx!important;
+    background: #ffffff !important;
     color: @darkgray;
+    border-radius: 42rpx;
   }
   .weui-search-bar__text{
     color: @gray;

@@ -41,7 +41,7 @@
   export default class feedback extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
-      navigationBarTitleText: '用户反馈'
+      navigationBarTitleText: '使用反馈'
     }
 
     components = {NavBar, Loading, uploadImages}

@@ -13,8 +13,10 @@
           </span>
           <view class="userinfo-info">
             <view class="userinfo-nickname font_32 bold">
-              <span wx:if="{{user.name !== '获取中...'}}">{{ user.name }}</span>
-              <span wx:else style="color: #00b26a" @tap="gotoTab">点击登录</span>
+              {{ user.name}}
+
+              <span wx:if="{{ user.name !== '获取中...'}}">{{ user.name}}</span>
+              <span wx:else class="green"  @tap="goto('/pages/users/registerV2')">登录/注册</span>
               <!--<open-data type="userNickName"></open-data>-->
               <span class="font_26 state">{{StateText}}</span>
               <view style="margin-top: 28rpx;margin-left: -12rpx;">
@@ -328,9 +330,6 @@
     }
 
     methods = {
-      gotoTab() {
-        wx.navigateTo({url: '/pages/users/registerV2?from_openid=' + wx.getStorageSync('from_openid')})
-      },
       previewImage(item, list) {
         this.$previewImage(item, list)
       },
@@ -513,6 +512,12 @@
         wx.navigateTo({url: url})
       },
       goto(url) {
+        let system = wx.getStorageSync('system')
+        console.log(system)
+        // if (url === '/pages/users/upgradeVIP' && system === 'iOS'){
+        //   this.$showToast(`由于相关规范，iOS功能暂不可用！`)
+        //   return
+        // }
         wx.navigateTo({url: url})
       },
       gotoUser(type) {
