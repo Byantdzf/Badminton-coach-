@@ -13,7 +13,8 @@
           </span>
           <view class="userinfo-info">
             <view class="userinfo-nickname font_32 bold">
-              {{ user.name}}
+              <span wx:if="{{user.name !== '获取中...'}}">{{ user.name }}</span>
+              <span wx:else style="color: #00b26a" @tap="gotoTab">点击登录</span>
               <!--<open-data type="userNickName"></open-data>-->
               <span class="font_26 state">{{StateText}}</span>
               <view style="margin-top: 28rpx;margin-left: -12rpx;">
@@ -327,6 +328,9 @@
     }
 
     methods = {
+      gotoTab() {
+        wx.navigateTo({url: '/pages/users/registerV2?from_openid=' + wx.getStorageSync('from_openid')})
+      },
       previewImage(item, list) {
         this.$previewImage(item, list)
       },

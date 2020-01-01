@@ -112,7 +112,11 @@
     }
     data = {
       libraries: {},
-      user: {},
+      user: {
+        friend_count: 0,
+        follow_count: 0,
+        fans_count: 0
+      },
       is_vip: false,
       init: false,
       nickName: '加载中...',
