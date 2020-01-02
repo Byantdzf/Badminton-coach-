@@ -21,7 +21,8 @@
             </view>
           </view>
           <view class="flo_l font_22" style="color: #ababab;margin-top: 12rpx;">
-            <span class="_bc-address flo_r">{{item.city}} {{item.dist}}</span>
+            <span class="_bc-address flo_r" wx:if="{{!item.city && !item.dist}}">全国</span>
+            <span class="_bc-address flo_r" wx:else>{{item.city || ''}} {{item.dist || ''}}</span>
           </view>
           <view class="font_22 flo_r _bc-btn" wx:if="{{item.is_deadline == 0}}">立即报名</view>
           <view class="font_22 flo_r _bc-btn color-bbb" wx:else style="border-color: #bbbbbb">已结束</view>
@@ -70,7 +71,7 @@
     ._bc-party{
       padding: 26rpx 22rpx 10rpx 22rpx ;
       background: white;
-      border-top: 20rpx solid @lightgray;
+      border-bottom: 20rpx solid @lightgray;
       position: relative;
       .user_image{
         width: 100%;

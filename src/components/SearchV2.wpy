@@ -3,8 +3,8 @@
     <view class="page__bd">
       <view class="weui-tab" >
         <view class="weui-tab__content" >
-          <view class="weui-search-bar"  style="background-color: {{BColor}} !important;">
-            <view class="weui-search-bar__form">
+          <view class="weui-search-bar"  style="background-color: {{BColor}} !important;border: none;">
+            <view class="weui-search-bar__form" style="border-radius: 42rpx;">
               <view class="weui-search-bar__box">
                 <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
                 <input type="text" class="weui-search-bar__input" placeholder="{{title}}" confirm-type="search" value="{{inputVal}}" focus="{{inputShowed}}" @confirm="inputTyping" />
@@ -12,12 +12,12 @@
                   <icon type="clear" size="14"></icon>
                 </view>
               </view>
-              <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+              <label class="weui-search-bar__label" style="border-radius: 42rpx;" hidden="{{inputShowed}}" bindtap="showInput">
                 <icon class="weui-icon-search" type="search" size="14"></icon>
                 <view class="weui-search-bar__text" style="color: #868686">{{title}}</view>
               </label>
             </view>
-            <view class="weui-search-bar__cancel-btn font_32" style="color: #949494" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
+            <view class="weui-search-bar__cancel-btn font_32 white" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
           </view>
           <!--<view class="weui-cells__title" style="height: 64rpx;"></view>-->
         </view>

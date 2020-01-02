@@ -3,14 +3,14 @@
   <NavBar title="访客记录" bag="#FFFFFF" rgba="#f4f4f4"></NavBar>
   <view class="list">
     <block wx:if="{{list.length > 0}}">
-      <Search class="search" BColor="#F4F4F4"></Search>
+      <Search class="search" BColor="#d92553" title="搜索访客"></Search>
       <view style="height: 100rpx;"></view>
     </block>
     <view class="kai-content text-left">
       <block wx:if="{{list.length > 0}}">
         <view wx:for="{{list}}" wx:key="index" class="ff vessel" @tap="gotofriends({{item}})">
           <view class="vessel_image flo_l">
-            <image src="{{item.other_user.avatar}}" mode="aspectFit" class="avatar"></image>
+            <image src="{{item.other_user.avatar}}" mode="aspectFill" class="avatar"></image>
           </view>
           <view class="vessel_text flo_l color666">
             <view class="flo_l" style="width: 50%;">

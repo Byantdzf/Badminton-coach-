@@ -147,6 +147,7 @@
   import Loading from '../../components/loading'
   import modal from '../../components/modal'
   import sharePic from '../../components/sharePic'
+  import {getsubscription} from '../../utils/fn'
 
   export default class realName extends wepy.page {
     mixins = [base, http, user]
@@ -161,6 +162,7 @@
       protocol: false,
       shareImage: true,
       invite_pic: '',
+      tempId: [], // 模板id
       system: wx.getStorageSync('system'),
       approve_time: 0
     }
@@ -169,6 +171,7 @@
     computed = {}
 
     onShow() {
+      // this.getTempId()
       this.initPageData()
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
@@ -207,6 +210,25 @@
 
     onPullDownRefresh() {
       this.initPageData()
+    }
+    // 获取模板id
+    getTempId() {
+      let data = {template_key: 'activity_success_notice'}
+      this.$get({url: `${service.host}/subscribe/template/id`, data}, {
+        success: ({code, data}) => {
+          console.log(data)
+          this.tempId.push(data)
+          this.$apply()
+        },
+        fail: ({code, data}) => {
+        },
+        complete: () => {
+        }
+      })
+    }
+    getsubscription() {
+      console.log(this.tempId)
+      getsubscription(this.tempId)
     }
 
 // 初始化页面数据
@@ -265,6 +287,7 @@
       },
       buyApprove() {
         let that = this
+        // that.getsubscription()
         // wx.showModal({
         //   title: '提示',
         //   content: `你尚未购买认证服务，需要支付10元来购买，购买成功后，你拥有3次认证的机会，是否继续支付？`,
@@ -280,6 +303,7 @@
               that.$post({url: service.orderpay + '/' + trade_no}, {
                 success: ({code, data}) => {
                   that.initPageData()
+                  that.getsubscription()
                   wx.showModal({
                     title: '支付成功!',
                     content: `实名认证通过后，邀请好友认证可退还认证费！`,

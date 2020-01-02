@@ -2,7 +2,7 @@
   <!--<NavBar rgba="#ffffff" bag="#ffffff" title="动态"></NavBar>-->
   <Loading :init.sync="init"></Loading>
   <view class="navbar borrow">
-        <tabSearch>
+        <tabSearch  title="搜索问答">
           <navBarTop :tabs.sync="tabs" @tapClick="tapClick"></navBarTop>
         </tabSearch>
         <!--<view class="weui-title ff text-center" style="top: 0;">-->

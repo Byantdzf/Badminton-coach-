@@ -16,7 +16,7 @@
               <span wx:if="{{ user.name !== '获取中...'}}">{{ user.name}}</span>
               <span wx:else class="green"  @tap="goto('/pages/users/registerV2')">登录/注册</span>
               <!--<open-data type="userNickName"></open-data>-->
-              <span class="font_26 state">{{StateText}}</span>
+              <span class="font_26 state">  {{StateText}}</span>
               <view style="margin-top: 28rpx;margin-left: -12rpx;">
                 <block wx:if="{{user.type == 'marriage'}}">
                   <view class="orange font_26 text-center flo_l menber" style="padding: 8rpx 16rpx;">
@@ -166,7 +166,7 @@
     <view style="background: #f8f8f8;height: 22rpx;"></view>
     <view class="_bc-title">
       <span class="font_28">隐身访问</span>
-      <switch checked="{{user.hidden}}" bindchange="hiddenChange" color="#ff7645" class="flo_r" style="margin-right: -22rpx;margin-top: -6rpx;"/>
+      <switch checked="{{user.hidden}}" bindchange="hiddenChange" color="#d92553" class="flo_r" style="margin-right: -22rpx;margin-top: -6rpx;"/>
     </view>
     <view class="_bc-title " hover-class="weui-cell_active"  @tap="goto('/pages/users/blacklist')">
       <span class="font_28">黑名单</span>

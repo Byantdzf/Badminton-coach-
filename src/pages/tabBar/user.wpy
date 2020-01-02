@@ -308,6 +308,12 @@
           this.user = data
           if (data.type == 'marriage') {
             this.list.splice(4)
+            this.list.push({
+              icon: 'https://images.ufutx.com/201912/19/d73be27882089a4962c6a2c824b68189.png',
+              title: '福分提现',
+              type: 'navigateTo',
+              path: '/pages/users/withdrawBlessing'
+            })
             this.listV2 = [
               {
                 icon: 'http://images.ufutx.com/201906/06/d9c45bb3869b616189ac0723887928ad.png',

@@ -20,6 +20,7 @@
   import base from '../../mixins/base'
   import user from '../../mixins/user'
   import shareComponent from '../../components/shareComponent'
+  import {getsubscription} from '../../utils/fn'
 
   export default class paySuccess extends wepy.page {
     mixins = [base, http, user]
@@ -34,6 +35,7 @@
       hide: true,
       id: 0,
       pic: '',
+      tempId: [], // 模板id
       theme: '',
       thumbnail_poster: '',
       is_complete: 1
@@ -49,6 +51,7 @@
     }
 
     onShow () {
+      this.getTempId()
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
 
@@ -76,6 +79,22 @@
       // }
       // urlWithArgs = urlWithArgs.substring(0, urlWithArgs.length - 1)
       return urlWithArgs
+    }
+
+    // 获取模板id
+    getTempId() {
+      let data = {template_key: 'activity_success_notice'}
+      this.$get({url: `${service.host}/subscribe/template/id`, data}, {
+        success: ({code, data}) => {
+          console.log(data)
+          this.tempId.push(data)
+          this.$apply()
+        },
+        fail: ({code, data}) => {
+        },
+        complete: () => {
+        }
+      })
     }
 
     onShareAppMessage(res) {
@@ -116,6 +135,10 @@
     }
 
     methods = {
+      getsubscription() {
+        console.log(this.tempId)
+        getsubscription(this.tempId)
+      },
       share() {
         this.hide = false
         this.$apply()

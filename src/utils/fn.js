@@ -56,4 +56,34 @@ const wx_login = () => { // 微信登录
   })
 }
 
-export {getElement_WH, wxPay, callPhone, wx_login}
+const getsubscription = (ids) => {
+  return new Promise((resolve, reject) => {
+    wx.requestSubscribeMessage({
+      tmplIds: ids, // 此处可填写多个模板 ID，但低版本微信不兼容只能授权一个
+      success(res) {
+        resolve(res)
+        if (res[ids[0]] === 'accept') {
+          console.log('用户同意授权')
+          wx.showToast({
+            title: '订阅成功',
+            duration: 1000,
+          })
+        } else {
+          wx.showToast({
+            title: '拒绝授权',
+            icon: 'none',
+            duration: 1000
+          })
+        }
+      },
+      fail(err) { // 失败
+        console.error(err)
+        reject(err)
+      },
+      complete(res) {
+        console.log('complete  调用完成')
+      }
+    })
+  })
+}
+export {getElement_WH, wxPay, callPhone, wx_login, getsubscription}

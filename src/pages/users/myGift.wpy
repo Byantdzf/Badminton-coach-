@@ -329,10 +329,10 @@
     }
   }
   .weui-navbar__slider {
-    background-color: #FB6957;
+    background-color: #d92553;
   }
   .weui-navbar__item.weui-bar__item_on {
-    color:#FB6957;
+    color:#d92553;
   }
   .weui-panel {
     margin-top: 0px;

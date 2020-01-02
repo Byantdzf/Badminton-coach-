@@ -300,11 +300,13 @@
       },
       apply(url) {
         let that = this
-        if (!wx.setStorageSync('token')) {
+        if (!wx.getStorageSync('token')) {
+          that.$showLoading('登录中...')
           wepy.login({
             success: (res) => {
               this.$post({ url: service.login, data: {code: res.code} }, {
                 success: ({code, data}) => {
+                  wx.hideLoading()
                   if (data.token) {
                     that.$goto(url)
                     wx.setStorageSync('token', data.token)

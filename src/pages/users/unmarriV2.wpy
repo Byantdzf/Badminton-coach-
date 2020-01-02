@@ -38,14 +38,26 @@
           </view>
         </picker>
       </view>
-      <view  class="list {{StatureFocus || !stature ? 'InputFocus' : ''}}">
-        身高 <span class="red">*</span>
-        <input type="number" placeholder="输入您的身高（cm）" class="Inp"  @input="typing('stature')" @blur="typing_v2" value="{{stature}}" focus="{{StatureFocus}}"/>
+      <view  class="section list">
+        <picker  value="{{statureIndex}}" range="{{statureList}}"  bindchange="statureChange" >
+          <view class="picker">
+            身高 <span class="red">*</span>
+            <text class="text">{{statureList[statureIndex]}}</text>
+          </view>
+        </picker>
       </view>
-      <view  class="list {{WeightFocus || !weight ? 'InputFocus' : ''}}">
-        体重 <span class="red">*</span>
-        <input type="number" placeholder="输入您的体重（kg）" class="Inp"   @input="typing('weight')" @blur="typing_v2" value="{{weight}}" focus="{{WeightFocus}}"/>
+      <view  class="section list">
+        <picker  value="{{weightIndex}}" range="{{weightList}}"  bindchange="weightChange" >
+          <view class="picker">
+            体重 <span class="red">*</span>
+            <text class="text">{{weightList[weightIndex]}}</text>
+          </view>
+        </picker>
       </view>
+      <!--<view  class="list {{WeightFocus || !weight ? 'InputFocus' : ''}}">-->
+        <!--体重 <span class="red">*</span>-->
+        <!--<input type="number" placeholder="输入您的体重（kg）" class="Inp"   @input="typing('weight')" @blur="typing_v2" value="{{weight}}" focus="{{WeightFocus}}"/>-->
+      <!--</view>-->
       <!--<view  class="list">-->
         <!--国籍 <span class="red">*</span>-->
         <!--<input type="text" placeholder="输入您的国籍" class="Inp"  @input="typing('country')" @blur="typing_v2" value="{{country}}" focus="{{countryFocus}}"/>-->
@@ -87,11 +99,11 @@
         <input type="text" placeholder="输入您的学校" class="Inp" @input="typing('graduate_school')" @blur="typing_v2"   value="{{graduate_school}}" focus="{{Graduate_schoolFocus}}" cursor-spacing="50"/>
       </view>
       <view  class="list {{companyFocus || !company ? 'InputFocus' : ''}}">
-        <span class="flo_l">工作单位 <span class="red">*</span></span>
+        <span class="flo_l">工作单位</span>
         <input type="text" placeholder="公司名称" class="Inp" @input="typing('company')" @blur="typing_v2"  value="{{company}}" focus="{{companyFocus}}" cursor-spacing="50"/>
       </view>
       <view  class="list {{companyFocus || !company ? 'InputFocus' : ''}}">
-        <span class="flo_l">公司职位 <span class="red">*</span></span>
+        <span class="flo_l">公司职位</span>
         <input type="text" placeholder="公司职位" class="Inp" @input="typing('post')" @blur="typing_v2"  value="{{post}}" cursor-spacing="50"/>
       </view>
       <view  class="list ">
@@ -169,6 +181,10 @@
       sex: ['男', '女'],
       sexIndex: 0,
       state: ['从未结婚', '离异', '丧偶'],
+      statureList: [], // 身高list
+      statureIndex: 20, // 默认160cm
+      weightList: [], // 体重list
+      weightIndex: 20, // 默认160cm
       stateIndex: 0,
       resident_type: ['城市', '乡村'],
       residentIndex: 0,
@@ -239,6 +255,9 @@
       this.objectMultiArray = []
       this.getindustry()
       this.getuser()
+      this.getStatureList() // 身高数据
+      this.getWeightList() // 体重数据
+
     }
     onShow() {
       console.log(this.route)
@@ -246,6 +265,39 @@
 //          let Atanisi = Math.floor(Math.random() * 999999);
 //          console.log(this.color = Atanisi);
     }
+
+    getStatureList() { // 身高
+      let list = []
+      for (let num = 140; num < 202; num++) {
+        if (num == 140) {
+          list.push(`${num}cm以下`)
+        }else if (num == 201) {
+          list.push(`${num}cm以上`)
+        }else{
+          list.push(`${num}cm`)
+        }
+      }
+      this.statureList = list
+      this.$apply()
+      console.log(this.statureList)
+    }
+
+    getWeightList() { // 体重
+      let list = []
+      for (let num = 40; num < 132; num++) {
+        if (num == 40) {
+          list.push(`${num}kg以下`)
+        } else if (num == 131) {
+          list.push(`${num}kg以上`)
+        } else {
+          list.push(`${num}kg`)
+        }
+      }
+      this.weightList = list
+      this.$apply()
+      console.log(this.weightList)
+    }
+
     getindustry() {
       let that = this
       this.loading = true
@@ -532,6 +584,18 @@
       stateChange(e) {
         this.stateIndex = e.detail.value
         this.ensureData()
+      },
+      statureChange(e) { // 身高
+        this.statureIndex = e.detail.value
+        this.stature = this.statureList[this.statureIndex]
+        this.$apply()
+        this.ensureData()
+      },
+      weightChange(e) { // 体重
+        this.weightIndex = e.detail.value
+        this.weight = this.weightList[this.weightIndex]
+        this.ensureData()
+        this.$apply()
       },
       resident_typeChange(e) {
         this.residentIndex = e.detail.value

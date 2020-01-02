@@ -56,7 +56,7 @@
         <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot ff"></view>
       </view>
     </block>
-  <goHome></goHome>
+  <!--<goHome></goHome>-->
   </view>
 </template>
 
@@ -123,6 +123,7 @@
 
     onReachBottom() {
       setTimeout(() => {
+        this.$apply()
 //        if (this.activeIndex == '1') {
         this.getLibraries()
 //        } else {
@@ -271,13 +272,13 @@
     background: white;
   }
   .borrowlist{
-    width: 100%;
+    width: 94%;
     /*box-shadow: 1rpx 1rpx 18rpx #d3d3d3;*/
     /*margin-top: 18rpx;*/
     /*border-radius: 6rpx;*/
     /*margin-left: 4%;*/
     position: relative;
-    padding: 22rpx;
+    padding: 26rpx 22rpx;
     border-bottom: 8rpx solid #f9f9f9;
     .bc_acatar{
       width: 100rpx;

@@ -1,62 +1,63 @@
 <template>
   <Loading :init.sync="init"></Loading>
   <view>
-    <image class="page_bg" src="https://images.ufutx.com/201912/18/9a000f00b0c51273b2f582fa64b7084b.png" alt=""></image>
-    <view>
-      <view class="immediately">
-        <view class="immediately_box">
-          <view class="immediately_btn font_26" @tap.stop="goto('/pages/users/blessingRecord')">提现记录</view>
-          <view class="immediately_icon">
-            <view class="font_24" style="display: inline-block">可提现福分</view>
-            <image @tap.stop="showModal" src="https://images.ufutx.com/201912/16/e4b599350c6b272f452267062f5d22b2.png" alt="" style="width: 26rpx;margin-left: 8rpx" mode="widthFix"></image>
+    <image class="page_bg" src="https://images.ufutx.com/201912/23/47fc523aefa5755392e200554794c5f8.png" alt="" mode="widthFix"></image>
+    <view class="immediately">
+      <view class="immediately_box">
+        <view class="immediately_btn font_26" @tap.stop="goto('/pages/users/blessingRecord')">提现记录</view>
+        <view class="immediately_icon">
+          <view class="font_24" style="display: inline-block">可提现福分</view>
+          <image @tap.stop="showModal" src="https://images.ufutx.com/201912/16/e4b599350c6b272f452267062f5d22b2.png"
+                 alt="" style="width: 26rpx;margin-left: 8rpx" mode="widthFix"></image>
+        </view>
+        <view class="bold" style="font-size: 54rpx;">{{cashScore || 0}}</view>
+        <view class="hint_box font_22">
+          <view class="hint">总福分
+            <text style="color: #f87b1f;font-weight: bold">{{allScore}}</text>
+            分
           </view>
-          <view class="bold" style="font-size: 54rpx;">{{cashScore}}</view>
-          <view class="hint_box font_22">
-            <view class="hint">总福分 <text style="color: #f87b1f;font-weight: bold">{{allScore}}</text>分</view>
-          </view>
-          <view class="record_box font_26">
-            <view class="record_no" wx:if="{{cashScore == 0}}" @tap.stop="noMoney">立即提现</view>
-            <view class="record" wx:else @tap.stop="onMoney">立即提现</view>
-          </view>
+        </view>
+        <view class="record_box font_26">
+          <view class="record_no" wx:if="{{!cashScore}}" @tap.stop="noMoney">立即提现</view>
+          <view class="record" wx:else @tap.stop="onMoney">立即提现</view>
         </view>
       </view>
     </view>
-    <view>
-      <view class="pathway">
-        <view class="pathway_icon">
-          <image src="https://images.ufutx.com/201912/18/0e295ff02d28814d26e15a54a7abbb05.png" alt="" mode="widthFix" style="width: 230rpx;"></image>
+    <view class="pathway">
+      <view class="pathway_icon">
+        <image src="https://images.ufutx.com/201912/25/0ca6e5895589e8fd78e72f0c36c60521.png" alt="" mode="widthFix" style="width: 230rpx;"></image>
+      </view>
+      <view class="pathway_big_box">
+        <view wx:if="{{approach.length == 0}}" class="notData">
+          <image src="https://images.ufutx.com/201908/16/b1ce90ed0a31f6f543361e55d841d199.png" alt="" mode="widthFix" style="width: 200rpx"></image>
+          <view class="font_26 color-666" style="padding-bottom: 20rpx">暂无数据</view>
         </view>
-        <view class="pathway_big_box">
-          <view wx:if="{{approach.length == 0}}" class="notData">
-            <image src="https://images.ufutx.com/201908/16/b1ce90ed0a31f6f543361e55d841d199.png" alt="" mode="widthFix" style="width: 200rpx"></image>
-            <view class="font_26 color-666" style="padding-bottom: 20rpx">暂无数据</view>
-          </view>
-          <view wx:else>
-            <view wx:for="{{approach}}" wx:key="*this">
-              <view class="pathway_box">
-                <view class="flo_l">
-                  <view class="font_26 bold">{{item.message}}</view>
-                  <view class="font_20" style="color: #333333">{{item.created_at}}</view>
-                </view>
-                <view class="flo_r">
-                  <view class="font_26 bold" style="color: #f87b1f;">+{{item.amount}}</view>
-                  <view class="font_20" style="color: #333333">{{item.value}}</view>
-                </view>
+        <view wx:else>
+          <view wx:for="{{approach}}" wx:key="*this">
+            <view class="pathway_box">
+              <view class="flo_l">
+                <view class="font_26 bold">{{item.message}}</view>
+                <view class="font_20 text-right" style="color: #333333">{{item.created_at}}</view>
               </view>
-              <view class="wire"></view>
+              <view class="flo_r">
+                <view class="font_26 bold" style="color: #f87b1f;">{{item.type == 'gained'?'+':'-'}}{{item.amount}}
+                </view>
+                <view class="font_20 text-center" style="color: #333333">{{item.value}}</view>
+              </view>
             </view>
-            <block wx:if="{{loading}}">
-              <view class="weui-loadmore">
-                <view class="weui-loading"></view>
-                <view class="weui-loadmore__tips"  style="background: white">正在加载</view>
-              </view>
-            </block>
-            <block wx:if="{{noMore}}">
-              <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
-                <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot" style="background: white"></view>
-              </view>
-            </block>
+            <view class="wire"></view>
           </view>
+          <block wx:if="{{loading}}">
+            <view class="weui-loadmore">
+              <view class="weui-loading"></view>
+              <view class="weui-loadmore__tips"  style="background: white">正在加载</view>
+            </view>
+          </block>
+          <block wx:if="{{noMore}}">
+            <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+              <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot" style="background: white"></view>
+            </view>
+          </block>
         </view>
       </view>
     </view>
@@ -65,7 +66,7 @@
     <!--弹出框  -->
     <view animation="{{animationData}}" class="commodity" wx:if="{{showShopPopup}}">
       <view class="commodity_attr">
-        <view class="commodity_attr_box font_26" style="color: #333333">这里填写内容</view>
+        <view class="commodity_attr_box font_26" style="color: #666666">福恋是一个共同参与，互助服务的婚恋社交平台， 福分是用于计算会员参与的贡献值， 部分福分可以提现， 最终解释权归福恋所有！</view>
         <view class="cancel_box">
           <view class="cancel_btn font_26 text-center bold" bindtap="hideModal">确定</view>
         </view>
@@ -91,7 +92,8 @@
     mixins = [base, http, user]
     config = {
       navigationBarTitleText: '福分提现',
-      onReachBottomDistance: 10
+      onReachBottomDistance: 10,
+      enablePullDownRefresh: true,
       // navigationStyle: 'custom'
     }
     components = {
@@ -283,17 +285,16 @@
 <style lang="less" scoped>
   @import "../../styles/weui/base/fn.wxss";
   @import "../../styles/custom/fn.less";
+  page{
+    background: #f6f6f6;
+  }
   .page_bg{
     width: 100%;
-    height: 100vh;
-    position: absolute;
-    left: 0;
-    top: 0;
   }
   .immediately{
-    position: absolute;
-    width: 100vw;
-    top: 25%;
+    margin-top: -46vw;
+    padding-bottom: 8vw;
+    background: #f6f6f6;
     .immediately_box{
       position: relative;
       width: 94%;
@@ -308,9 +309,9 @@
         top: 56rpx;
         width: 120rpx;
         padding: 0 10rpx;
-        border: 1rpx solid #f87b1F;
+        border: 2rpx solid #f87b1F;
         border-right: none;
-        border-radius: 12rpx 0 0 12rpx;
+        border-radius: 8rpx 0 0 8rpx;
         letter-spacing: 2rpx;
         height: 52rpx;
         line-height: 52rpx;
@@ -350,7 +351,7 @@
           height: 56rpx;
           color: #fff;
           letter-spacing: 2rpx;
-          border-radius: 12rpx;
+          border-radius: 8rpx;
           line-height: 56rpx;
           text-align: center;
           background-color: #f87b1f;
@@ -363,9 +364,8 @@
   }
   .pathway{
     width: 100vw;
-    position: absolute;
-    top: 56%;
-    margin-bottom: 30rpx;
+    padding-bottom: 30rpx;
+    background: #f6f6f6;
     .pathway_icon{
       display: flex;
       flex-direction: row;
@@ -423,7 +423,8 @@
       border-radius: 12rpx 12rpx 0 0;
       margin: 0 auto;
       .commodity_attr_box{
-        padding: 5rpx 24rpx 5rpx 24rpx;
+        padding: 24rpx;
+        text-indent: 2em;
       }
       .cancel_box{
         width: 100%;

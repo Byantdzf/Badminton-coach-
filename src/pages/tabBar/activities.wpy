@@ -1,6 +1,6 @@
 <template>
   <view class="weui-tab">
-    <tabSearch>
+    <tabSearch title="搜索活动">
       <navBarTop :tabs.sync="tabs" @tapClick="tapClick"></navBarTop>
     </tabSearch>
     <partyList :list.sync="list" :hideMessage.sync="hideMessage"></partyList>

@@ -16,7 +16,7 @@
           <view class="weui-search-bar__text">{{title}}</view>
         </label>
       </view>
-      <view class="weui-search-bar__cancel-btn font_32" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
+      <view class="weui-search-bar__cancel-btn font_32 white" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
     </view>
     <slot></slot>
   </view>
@@ -97,12 +97,13 @@
   @import "../styles/custom/fn.less";
   .weui-search-bar{border: none;}
   .weui-search-bar__form, .weui-search-bar__label{
-    background: #EBEaEA !important;
+    background: #ffffff !important;
     border-radius: 42rpx!important;
     color: @darkgray;
   }
   .weui-search-bar__text{
     color: @gray;
+    margin-top: -2rpx;
   }
   .weui-search-bar__cancel-btn{
     color: @darkgray;

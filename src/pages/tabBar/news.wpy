@@ -27,8 +27,8 @@
         <view class="dost white" wx:if="{{item.message.new_count && item.message.new_count != 0}}">{{item.message.new_count}}</view>
       </view>
       <view  class="_item-text flo_l">
-        <span class="font_28">{{item.title}}</span>
-        <span class="font_22 message_type_text" wx:if="{{item.message.type == 'marriage'}}">介绍人</span>
+        <text class="font_28 flo_l bold ellipsis_1" style="max-width: 180rpx">{{item.title}}</text>
+        <text class="font_22 bold flo_l message_type_text" wx:if="{{item.message.type == 'marriage'}}">介绍人</text>
       </view>
       <span class="font_22 flo_r _time">{{item.message.created_at}}</span>
       <view  class="_item-user ellipsis_1 flo_r font_26">
@@ -272,6 +272,7 @@ page{
     ._item-text{
       margin-left: 30rpx;
       font-weight: 700;
+      overflow: hidden;
     }
     ._item-user{
       padding-right: 4%;
@@ -287,6 +288,7 @@ page{
   .message_type_text {
     margin-left: 8rpx;
     color: @theme;
+    margin-top: 8rpx;
   }
 }
 </style>

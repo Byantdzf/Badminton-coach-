@@ -144,7 +144,10 @@
           _this.meet = data.active_appointments
           _this.Hosting = data.passive_appointments
           _this.list = _this.meet
+          _this.messages[0].texts = _this.meet[0].desc
+          _this.messages[1].texts = _this.Hosting[0].desc
           _this.$apply()
+          console.log(_this.messages)
         },
         fail: ({code, data}) => {
         },

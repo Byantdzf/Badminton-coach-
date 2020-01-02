@@ -29,8 +29,7 @@
         </view>
         <view class="clearfloat"></view>
       </view>
-      <!--<view class="white text-center _bc-btn" wx:if="{{type.length > 5}}"  @tap="showModal" @tap="conversionV2({{specialVIP}})">确认开通</view>-->
-      <view class="white text-center _bc-btn" wx:if="{{type.length > 5}}"  @tap="showModal" @tap="getsubscription">确认开通</view>
+      <view class="white text-center _bc-btn" wx:if="{{type.length > 5}}"  @tap="conversionV2({{specialVIP}})">确认开通</view>
       <view class="white text-center _bc-btn" wx:else   @tap="showModal">确认开通</view>
       <!--<view class="white text-center _bc-btn" style="background: none;color: #b0b0b0;" wx:else >由于相关规范，iOS功能暂不可用</view>-->
     </view>
@@ -183,7 +182,7 @@
   import modalUp from '../../components/modal-up'
   import ShareMessage from '../../mixins/ShareMessage'
   import { service } from '../../config.js'
-  import app from "../../app.wpy";
+  import {getsubscription} from '../../utils/fn'
 
   export default class upgradeVIP extends wepy.page {
     mixins = [base, http, ShareMessage]
@@ -230,7 +229,8 @@
       morePay: false, // 更多pay
       moreIcon: false, // 更多icon
       sub_ranks: [],
-      specialVIP: []
+      specialVIP: [],
+      tempId: [] // 模板id
     }
     computed = {
       residue() {
@@ -240,7 +240,7 @@
 
     onShow() {
       // 初始化页面数据
-      // this.initPageData()
+      this.getTempId()
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
 
@@ -271,6 +271,21 @@
         this.initPageData()
       }
     }
+
+    getTempId() {
+      let data = {template_key: 'order_success_notice'}
+      this.$get({url: `${service.host}/subscribe/template/id`, data}, {
+        success: ({code, data}) => {
+          console.log(data)
+          this.tempId.push(data)
+          this.$apply()
+        },
+        fail: ({code, data}) => {
+        },
+        complete: () => {
+        }
+      })
+    }
     getPageData() {
       let vm = this,
         data = {
@@ -293,31 +308,9 @@
       })
     }
     getsubscription() {
-      let that = this
-      wx.requestSubscribeMessage({
-        tmplIds: ['JnujH8l_qKpvGBX9F36t7jk7l9woF4VcMqzCa9F3ySs'], // 此处可填写多个模板 ID，但低版本微信不兼容只能授权一个
-        success (res) {
-          console.log(res, '456')
-          if (res['JnujH8l_qKpvGBX9F36t7jk7l9woF4VcMqzCa9F3ySs'] === 'accept'){
-            console.log('用户同意授权')
-            wx.showToast({
-              title: '订阅成功',
-              duration: 1000,
-            })
-          } else {
-            wx.showToast({
-              title: '拒绝授权',
-              duration: 1000,
-            })
-          }
-        },
-        fail(err) {
-          //失败
-          console.error(err)
-        },
-        complete(res) {
-          console.log('complete  调用完成')
-        }
+      console.log(this.tempId)
+      getsubscription(this.tempId).then((res)=>{
+        console.log(res)
       })
     }
     // 初始化页面数据
@@ -436,6 +429,7 @@
               vm.$post({url: `${service.orderpay}/${vm.trade_no}/v2`}, {
                 success: ({code, data}) => {
                   vm.$Toast_success('支付成功')
+                  vm.getsubscription()
                   if (vm.type.length > 5) {
                     vm.$invoke('modalUpQr', 'showModal')
                   } else {
@@ -456,6 +450,7 @@
                 return vm.$post({url: `${service.orderpay}/${vm.trade_no}/v2`}, {
                   success: ({code, data}) => {
                     vm.$Toast_success('支付成功')
+                    vm.getsubscription()
                     setTimeout(() => {
                       vm.$gotoTab('/pages/tabBar/user')
                     }, 1200)
@@ -476,6 +471,7 @@
                   vm.$post({url: `${service.orderpay}/${vm.trade_no}/v2`}, {
                     success: ({code, data}) => {
                       vm.$Toast_success('支付成功')
+                      vm.getsubscription()
                       setTimeout(() => {
                         vm.$gotoTab('/pages/tabBar/user')
                       }, 1200)
@@ -523,6 +519,7 @@
               that.$post({url: `${service.orderpay}/${that.trade_no}/v2`}, {
                 success: ({code, data}) => {
                   that.$Toast_success('支付成功')
+                  vm.getsubscription()
                   if (that.type.length > 5) {
                     that.$invoke('modalUpQr', 'showModal')
                   } else {
@@ -543,6 +540,7 @@
                 return that.$post({url: `${service.orderpay}/${that.trade_no}/v2`}, {
                   success: ({code, data}) => {
                     that.$Toast_success('支付成功')
+                    vm.getsubscription()
                     setTimeout(() => {
                       that.$gotoTab('/pages/tabBar/user')
                     }, 1200)
@@ -563,6 +561,7 @@
                   that.$post({url: `${service.orderpay}/${that.trade_no}/v2`}, {
                     success: ({code, data}) => {
                       that.$Toast_success('支付成功')
+                      vm.getsubscription()
                       setTimeout(() => {
                         that.$gotoTab('/pages/tabBar/user')
                       }, 1200)

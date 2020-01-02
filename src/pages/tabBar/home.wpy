@@ -3,11 +3,12 @@
   <form bindsubmit="formSubmit" report-submit>
   <button formType="submit" class="btn" data-type="click" style="border: none;">
   <view class="">
-    <view @tap="goto('/pages/map/mapList')">
-      <tabSearch disabled="true"></tabSearch>
-    </view>
+    <NavBarV2 rgba="#D92553" bag="#b81f46" title_c="#ffffff" title="福恋"></NavBarV2>
+    <!--<view @tap="goto('/pages/map/mapList')">-->
+      <!--<tabSearch disabled="true"></tabSearch>-->
+    <!--</view>-->
     <block wx:if="{{announcements.length>0}}">
-      <swiperV :list.sync="announcements" height="242"></swiperV>
+      <swiperV :list.sync="announcements" height="286"></swiperV>
     </block>
     <block wx:if="{{userType == 'single'}}">
       <view class="_bc-tab text-left ff ">
@@ -238,6 +239,7 @@
   import Tab_NavBar from '../../components/Tab_NavBar'
   import pageScroll from '../../components/pageScroll'
   import tabSearch from '../../components/tabSearch'
+  import NavBarV2 from '../../components/NavBarV2'
 
   // 引入SDK核心类
   var QQMapWX = require('../../libs/qqmap-wx-jssdk.min.js')
@@ -249,11 +251,11 @@
     mixins = [base, http, user]
     config = {
       navigationBarTitleText: '福恋',
-      onReachBottomDistance: 10
-      // navigationStyle: 'custom'
+      onReachBottomDistance: 10,
+      navigationStyle: 'custom'
     }
     components = {
-      swiperV, Loading, Tab_NavBar, pageScroll, tabSearch
+      swiperV, Loading, pageScroll, tabSearch, NavBarV2
     }
     watch = {
       list() {

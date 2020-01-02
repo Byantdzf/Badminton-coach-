@@ -250,7 +250,7 @@
     background: #F7F7F7;
   }
   .weui-navbar__slider {
-    background-color: #47B351;
+    background-color: #d92553;
   }
   .weui-panel{
     margin-bottom: 12rpx;
@@ -259,7 +259,7 @@
     background: #F7F7F7;
   }
   .weui-navbar__item.weui-bar__item_on {
-    color: #47B351;
+    color: #d92553;
   }
   .weui-panel {
     margin-top: 0px;

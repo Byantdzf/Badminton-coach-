@@ -16,16 +16,17 @@
                 </view>
                 <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
                   <icon class="weui-icon-search" type="search" size="14"></icon>
-                  <view class="weui-search-bar__text">搜索</view>
+                  <view class="weui-search-bar__text">搜索Ta</view>
                 </label>
               </view>
-              <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
+              <view class="weui-search-bar__cancel-btn " style="color: white" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
             </view>
+            <view style="height: 12vw;"></view>
             <view class="weui-cells__title"></view>
             <view class="page__bd "  wx:for="{{list}}" wx:key="*this" >
               <view class="flo_l borrowlist" @tap="gotoFriendPage({{item}})">
                 <view class="flo_l weui-cell__hd" >
-                  <image src="{{item.wechat.avatar}}" mode="aspectFill"   style="width: 120rpx;height: 120rpx;border-radius: 12rpx;" class="flo_l"></image>
+                  <image src="{{item.circle_avatar}}" mode="aspectFill"   style="width: 120rpx;height: 120rpx;border-radius: 12rpx;" class="flo_l"></image>
                 </view>
                 <view class="flo_l" style="width: 78%;">
                   <view  class="font_28 flo_l orange ellipsis_1 bold" style="margin-left: 20rpx;">
@@ -321,6 +322,10 @@
   .weui-search-bar{
     background-color: #d92553!important;
     border-top: 0!important;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 99999;
   }
   .weui-search-bar__form, .weui-search-bar__label{
     border-radius: 42rpx!important;
@@ -399,11 +404,12 @@
   }
   .borrowlist{
     width: 86%;
-    box-shadow: 1rpx 1rpx 18rpx #d3d3d3;
-    margin-top: 18rpx;
+    box-shadow: 1rpx 1rpx 18rpx #ececec;
+    margin-bottom: 26rpx;
     border-radius: 6rpx;
     margin-left: 4%;
     padding: 22rpx;
+    border-bottom: 2rpx solid #e8e8e8;
     /*position: relative*/
   }
   .weui-cell__ft {

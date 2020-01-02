@@ -1,6 +1,6 @@
 <template>
   <Loading :init.sync="init"></Loading>
-  <NavBar :title.sync="title" rgba="#D92553" bag="#b81f46" title_c="#ffffff"></NavBar>
+  <!--<NavBar :title.sync="title" rgba="#D92553" bag="#b81f46" title_c="#ffffff"></NavBar>-->
   <view class="navbar borrow" >
     <view class="page__bd">
       <view class="_bc-photo">
@@ -186,7 +186,7 @@
     mixins = [base, http, user, ShareMessage]
     config = {
       navigationBarTitleText: '个人信息',
-      navigationStyle: 'custom'
+      // navigationStyle: 'custom'
     }
     components = {
       Loading, NavBar
@@ -301,6 +301,9 @@
           self.init = true
           self.mylibs = data
           self.title = data.name
+          wx.setNavigationBarTitle({
+            title: self.title
+          })
           self.userType = data.my_user_type
           if (data.is_followed == true) {
             self.is_love = true
