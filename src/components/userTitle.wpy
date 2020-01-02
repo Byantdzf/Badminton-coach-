@@ -13,6 +13,8 @@
           </span>
           <view class="userinfo-info">
             <view class="userinfo-nickname font_32 bold">
+              {{ user.name}}
+
               <span wx:if="{{ user.name !== '获取中...'}}">{{ user.name}}</span>
               <span wx:else class="green"  @tap="goto('/pages/users/registerV2')">登录/注册</span>
               <!--<open-data type="userNickName"></open-data>-->

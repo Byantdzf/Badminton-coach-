@@ -286,6 +286,8 @@
     }
 
     methods = {
+
+
       gotoTab(url) {
         this.$gotoTab(url)
       },
