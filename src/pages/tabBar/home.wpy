@@ -10,8 +10,7 @@
     <block wx:if="{{announcements.length>0}}">
       <swiperV :list.sync="announcements" height="286"></swiperV>
     </block>
-    <button class="flex-grow-0 flex-y-center bar-bottom-btn" open-type="contact" send-message-title="我想认识TA" send-message-img="{{pic_url}}" send-message-path="/pages/tabBar/home" bindcontact='handleContact' show-message-card plain>客服</button>
-
+    <!--<button class="flex-grow-0 flex-y-center bar-bottom-btn" open-type="contact" send-message-title="我想认识TA" send-message-img="{{pic_url}}" send-message-path="/pages/tabBar/home" bindcontact='handleContact' show-message-card plain>客服</button>-->
     <block wx:if="{{userType == 'single'}}">
       <view class="_bc-tab text-left ff ">
         <view class="_bc-tab-item text-center flo_l item{{index}}" wx:for="{{tab}}" wx:key="{{index}}" @tap="gotoV({{item.path}}, {{item.type}})">
@@ -79,7 +78,7 @@
                 <image src="https://images.ufutx.com/201908/16/6f2f00d1bab1d96b8a1971e88c0e3575.png" mode="widthFix"
                        style="width: 240rpx;height: auto;"></image>
                 <view class="font_26 color-666" style="margin-top: 12rpx">完善个人资料，领取尊享VIP！</view>
-                <view class="item-btn white font_28" @tap="goto('/pages/users/userInfo')">去完善</view>
+                <view class="item-btn white btn-theme font_28" @tap="goto('/pages/users/userInfo')">去完善</view>
               </view>
             </block>
           </bolck>
@@ -1021,6 +1020,14 @@
         border-radius: 8rpx;
         margin: 40rpx auto;
       }
+    }
+    .item-btn{
+      width: 200rpx;
+      height: 60rpx;
+      line-height: 60rpx;
+      background: #D92553;
+      border-radius: 8rpx;
+      margin: 40rpx auto;
     }
     .edit{
       width: 42rpx;

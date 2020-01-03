@@ -188,11 +188,11 @@
         //   selectedIconPath: './images/tabbar/circleA.png',
         //   iconPath: './images/tabbar/circle.png',
         //   text: '动态'
-        }, {
-          pagePath: 'pages/tabBar/questionList',
-          selectedIconPath: './images/tabbar/questionA.png',
-          iconPath: './images/tabbar/question.png',
-          text: '问答'
+        // }, {
+        //   pagePath: 'pages/tabBar/questionList',
+        //   selectedIconPath: './images/tabbar/questionA.png',
+        //   iconPath: './images/tabbar/question.png',
+        //   text: '问答'
         }, {
           pagePath: 'pages/tabBar/news',
           selectedIconPath: './images/tabbar/messageActive.png',

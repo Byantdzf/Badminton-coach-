@@ -4,7 +4,7 @@
     <view class="list ff">
       打开资料
       <view class="flo_r switch">
-        <switch  bindchange="openSwitch"/>
+        <switch  bindchange="openSwitch" color="#d92553"/>
       </view>
     </view>
   </view>
@@ -23,7 +23,7 @@
 
     config = {
       navigationBarTitleText: '设置',
-      navigationBarBackgroundColor: '#EDEDED'
+      // navigationBarBackgroundColor: '#EDEDED'
     }
 
     components = {Loading}

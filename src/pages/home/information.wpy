@@ -53,7 +53,7 @@
           </block>
         </view>
         <view class="font_26 text-left _bc-age flo_l color-666">
-          <span>{{mylibs.age}} · {{profile_courtship.stature + 'cm'}} · {{mylibs.profile_courtship.city?mylibs.profile_courtship.city:'未知城市'}}</span>
+          <span>{{mylibs.age}} · {{profile_courtship.stature}} · {{mylibs.profile_courtship.city?mylibs.profile_courtship.city:'未知城市'}}</span>
         </view>
         <view class="font_26 text-left flo_l _bc-age color-666" wx:if="{{mylibs.marriage.name}}">
           <span>推荐人：<span @tap="gotoType({{mylibs.marriage}})">{{mylibs.marriage.name}}</span></span>
@@ -96,8 +96,8 @@
         <view class="color-666 flo_l font_28">基本资料</view>
         <view class="main-card flo_r font_26 color70">
           <view class="infoList">
-            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.stature}}">{{profile_courtship.stature+'cm'}}</view>
-            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.weight}}">{{profile_courtship.weight+'kg'}}</view>
+            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.stature}}">{{profile_courtship.stature}}</view>
+            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.weight}}">{{profile_courtship.weight}}</view>
             <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.birthday}}">{{profile_courtship.birthday}}</view>
             <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.state}}">{{profile_courtship.state}}</view>
             <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.degree}}">{{'学历：' +profile_courtship.degree}}</view>

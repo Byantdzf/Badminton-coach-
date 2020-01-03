@@ -447,7 +447,10 @@
       sendMessage (e) {
         this.msg = e.detail.value
       },
-      send () {
+      send() {
+        if (!this.msg) {
+          return
+        }
         var that = this
         let msg = this.msg
         this.msg = ''

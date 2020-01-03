@@ -27,7 +27,7 @@
       </view>
       <view class="_bc_item ff">
         <view class="_bc_btn_warn font_24 flo_r warn" wx:if="{{item.is_deadline == 1}}">已过期</view>
-        <view class="_bc_btn_success font_24 flo_r primary" wx:else>待参加</view>
+        <view class="_bc_btn_success font_24 flo_r primary" wx:else>已报名</view>
 
         <view class="clearfloat"></view>
       </view>
@@ -67,7 +67,7 @@
   export default class myActivity extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
-      navigationBarTitleText: '活动预约'
+      navigationBarTitleText: '我的活动'
     }
     components = {NavBar, Loading}
 
@@ -76,7 +76,7 @@
       mylibs: [],
       tabs: [
         {name: '全部', id: 0, type: ''},
-        {name: '待参加', id: 1, type: 'joining'},
+        {name: '已报名', id: 1, type: 'joining'},
         {name: '已过期', id: 2, type: 'joined'}
       ],
       type: '',

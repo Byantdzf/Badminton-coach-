@@ -6,13 +6,13 @@
     <view class="container">
       <radio-group class="radio-group"  >
         <view class="radio" wx:for="{{items}}" wx:key="{{index}}" @tap="radioChange({{index}})" hover-class="weui-cell_active">
-          <radio value="{{item.value}}" color="#ff7645" checked="{{item.checked}}" />
+          <radio value="{{item.value}}" color="#d92557" checked="{{item.checked}}" />
           {{item.value}}
         </view>
       </radio-group>
     </view>
     <view class="text-center">
-      <view class="btn_white color-666" style="margin: 22rpx auto" hover-class="btn_active" @tap="logout">
+      <view class="btn btn-theme white text-center closeBtn"  hover-class="btn_active" @tap="logout">
         关闭资料
       </view>
     </view>
@@ -130,6 +130,13 @@
         margin-left: 36rpx;
         border-bottom: 1rpx solid #efefef;
       }
+    }
+    .closeBtn{
+      width: 220rpx;
+      height: 60rpx;
+      line-height: 60rpx;
+      margin: 32rpx auto;
+      border-radius: 6rpx;
     }
   }
 </style>

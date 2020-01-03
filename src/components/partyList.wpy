@@ -27,6 +27,7 @@
           <view class="font_22 flo_r _bc-btn" wx:if="{{item.is_deadline == 0}}">立即报名</view>
           <view class="font_22 flo_r _bc-btn color-bbb" wx:else style="border-color: #bbbbbb">已结束</view>
         </view>
+        <image src="https://images.ufutx.com/202001/03/471c8d80f4d4806c3d6f89358109925d.png" mode="aspectFill" class="successIcon" wx:if="{{item.activity_member_count > 0}}"></image>
       </view>
       <view class="clearfloat"></view>
     </view>
@@ -102,6 +103,13 @@
         border: 1rpx solid #C6335F;
         color: #C6335F;
         margin-top: 12rpx;
+      }
+      .successIcon{
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 100rpx;
+        height: 100rpx;
       }
     }
     .over{

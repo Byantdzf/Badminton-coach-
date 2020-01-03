@@ -13,6 +13,7 @@
           <image mode="aspectFill" src="{{item.icon}}" class="icon" wx:else></image>
         </view>
       </view>
+      <view class="font_26 color-theme text-center" wx:if="{{infoIndex == 1}}" style="margin-top: 62rpx;">小恋提示：性别只能选一次哦！后续不可更改哦</view>
       <view class="main-selectBox text-center " wx:if="{{infoIndex == 3}}">
         <view class="color-666 font_28">我住在哪里？</view>
         <view class="color-666 font_28 main-input"  @tap="addressFn('address')">
@@ -233,7 +234,7 @@
       information: { // 存储信息
         // name: '',
         // photo: '',
-        sex: '1',
+        sex: '0',
         state: '从未结婚',
         country: '',
         province: '',
@@ -433,6 +434,9 @@
       },
       nextFn() {
         let vm = this
+        if (vm.information.sex == 0 && vm.infoIndex) {
+          return vm.$showToast('请选择性别')
+        }
         vm.infoIndex++
         vm.$apply()
         console.log(vm.information)

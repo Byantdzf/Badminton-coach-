@@ -14,14 +14,14 @@
         <view  class="btn_red font_26 flo_r" @tap="ensure" style="margin-right:12rpx;width: 180rpx;height: 108rpx;line-height: 108rpx;margin-top: 24rpx;">保存</view>
       </view>
       <view style="height: 20rpx"></view>
-      <view class="section list">
-        <picker  value="{{sexIndex}}" range="{{sex}}"  @change="sexChange" >
-          <view class="picker">
-            性别 <span class="red">*</span>
-            <text class="text">{{sex[sexIndex]}}</text>
-          </view>
-        </picker>
-      </view>
+      <!--<view class="section list">-->
+        <!--<picker  value="{{sexIndex}}" range="{{sex}}"  @change="sexChange" >-->
+          <!--<view class="picker">-->
+            <!--性别 <span class="red">*</span>-->
+            <!--<text class="text">{{sex[sexIndex]}}</text>-->
+          <!--</view>-->
+        <!--</picker>-->
+      <!--</view>-->
       <view class="section list">
         <picker mode="date"  value="{{birthday}}"  @change="typing('birthday')">
           <view class="picker">
@@ -268,8 +268,8 @@
 
     getStatureList() { // 身高
       let list = []
-      for (let num = 140; num < 202; num++) {
-        if (num == 140) {
+      for (let num = 139; num < 202; num++) {
+        if (num < 140) {
           list.push(`${num}cm以下`)
         }else if (num == 201) {
           list.push(`${num}cm以上`)
@@ -284,8 +284,8 @@
 
     getWeightList() { // 体重
       let list = []
-      for (let num = 40; num < 132; num++) {
-        if (num == 40) {
+      for (let num = 39; num < 132; num++) {
+        if (num < 40) {
           list.push(`${num}kg以下`)
         } else if (num == 131) {
           list.push(`${num}kg以上`)
@@ -340,6 +340,26 @@
           that.ideal_mate = result.ideal_mate
           that.work_text = result.work_sort
           that.DegreeText = result.degree
+          console.log(result.stature)
+          console.log(result.weight)
+
+          that.statureList.map((item, index) => {
+            console.log(item)
+            if (item == result.stature) {
+              that.statureIndex = index
+              that.$apply()
+              console.log(index)
+            }
+          })
+          that.weightList.map((item, index) => {
+            console.log(item)
+            if (item == result.weight) {
+              that.weightIndex = index
+              that.$apply()
+              console.log(index)
+            }
+          })
+          // statureIndex
           if (result.birthday) {
             that.birthday = result.birthday
           }
@@ -404,7 +424,7 @@
       let data = {
         birthday: this.birthday,
         company: this.company,
-        sex: this.sexIndex == 0 ? 1 : 2,
+        // sex: this.sexIndex == 0 ? 1 : 2,
         stature: this.stature,
         weight: this.weight,
         post: this.post,

@@ -13,17 +13,15 @@
           </span>
           <view class="userinfo-info">
             <view class="userinfo-nickname font_32 bold">
-              {{ user.name}}
-
-              <span wx:if="{{ user.name !== '获取中...'}}">{{ user.name}}</span>
-              <span wx:else class="green"  @tap="goto('/pages/users/registerV2')">登录/注册</span>
+              <span wx:if="{{user.name !== '获取中...'}}">{{ user.name }}   </span>
+              <span wx:else style="color: #00b26a" @tap="gotoTab">点击登录</span>
               <!--<open-data type="userNickName"></open-data>-->
-              <span class="font_26 state">  {{StateText}}</span>
+              <span class="font_26 state">{{StateText}}</span>
               <view style="margin-top: 28rpx;margin-left: -12rpx;">
                 <block wx:if="{{user.type == 'marriage'}}">
                   <view class="orange font_26 text-center flo_l menber" style="padding: 8rpx 16rpx;">
                     <!--<image src="http://images.ufutx.com/201902/21/20416feb7d39e92b8fd56b27468f21f3.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;"-->
-                           <!--class="flo_l"></image>-->
+                    <!--class="flo_l"></image>-->
                     <view style="font-size: 20rpx;" class="flo_r">介绍人</view>
                   </view>
                 </block>
@@ -69,13 +67,13 @@
           </view>
 
           <!--<view class="flo_r font_26 white" @tap="gotoUser({{user.type}})">-->
-            <!--<image src="../images/icon/edit_red.png" mode="aspectFill" class="flo_r"-->
-                   <!--style="width: 48rpx;height: 48rpx;margin:0 -6rpx 0 12rpx; "></image>-->
+          <!--<image src="../images/icon/edit_red.png" mode="aspectFill" class="flo_r"-->
+          <!--style="width: 48rpx;height: 48rpx;margin:0 -6rpx 0 12rpx; "></image>-->
           <!--</view>-->
           <!--<view class="message" @tap="goto('/pages/users/myNews')" >-->
-            <!--<image src="http://images.ufutx.com/201901/04/8fa5e8921c0dca549a1302af42c743c2.png" mode="aspectFill" class="flo_r {{user.new_notice_count ? 'doudun' : ''}}"-->
-                   <!--style="width: 56rpx;height: 56rpx;margin:0 -6rpx 0 12rpx; "></image>-->
-            <!--<view class="message_red {{user.new_notice_count ? 'doudun' : ''}}" wx:if="{{user.new_notice_count}}"></view>-->
+          <!--<image src="http://images.ufutx.com/201901/04/8fa5e8921c0dca549a1302af42c743c2.png" mode="aspectFill" class="flo_r {{user.new_notice_count ? 'doudun' : ''}}"-->
+          <!--style="width: 56rpx;height: 56rpx;margin:0 -6rpx 0 12rpx; "></image>-->
+          <!--<view class="message_red {{user.new_notice_count ? 'doudun' : ''}}" wx:if="{{user.new_notice_count}}"></view>-->
           <!--</view>-->
           <view class="message" style="right: 12rpx;" @tap.stop="showModal({{user}})">
             <!--<view class="font_26 bc_edit">编辑资料</view>-->
@@ -140,10 +138,10 @@
         <image src="http://images.ufutx.com/201903/13/6b705dc8ce0087eae7301080e5e2fc90.png" mode="aspectFit"></image>
       </view>
       <!--<view class="text-center">-->
-        <!--<button size="mini"  type="default" @tap="chooseimage">-->
-          <!--<image mode="aspectFit" src="http://images.ufutx.com/201902/22/f564ba546511736c95a4e9dd4bb793da.png" style="width: 18px;height: 18px;vertical-align: middle;margin-bottom: 6rpx;"></image>-->
-          <!--上传-->
-        <!--</button>-->
+      <!--<button size="mini"  type="default" @tap="chooseimage">-->
+      <!--<image mode="aspectFit" src="http://images.ufutx.com/201902/22/f564ba546511736c95a4e9dd4bb793da.png" style="width: 18px;height: 18px;vertical-align: middle;margin-bottom: 6rpx;"></image>-->
+      <!--上传-->
+      <!--</button>-->
       <!--</view>-->
     </view>
   </modalUp>
@@ -168,7 +166,7 @@
     <view style="background: #f8f8f8;height: 22rpx;"></view>
     <view class="_bc-title">
       <span class="font_28">隐身访问</span>
-      <switch checked="{{user.hidden}}" bindchange="hiddenChange" color="#d92553" class="flo_r" style="margin-right: -22rpx;margin-top: -6rpx;"/>
+      <switch checked="{{user.hidden}}" bindchange="hiddenChange" color="#ff7645" class="flo_r" style="margin-right: -22rpx;margin-top: -6rpx;"/>
     </view>
     <view class="_bc-title " hover-class="weui-cell_active"  @tap="goto('/pages/users/blacklist')">
       <span class="font_28">黑名单</span>
@@ -192,9 +190,9 @@
       </view>
     </block>
     <!--<view class="text-center">-->
-      <!--<view class="font_26 text-center orange logout"  @tap="logout">-->
-        <!--注销账号-->
-      <!--</view>-->
+    <!--<view class="font_26 text-center orange logout"  @tap="logout">-->
+    <!--注销账号-->
+    <!--</view>-->
     <!--</view>-->
     <view class="clearfloat"></view>
   </view>
@@ -330,6 +328,9 @@
     }
 
     methods = {
+      gotoTab() {
+        wx.navigateTo({url: '/pages/users/registerV2?from_openid=' + wx.getStorageSync('from_openid')})
+      },
       previewImage(item, list) {
         this.$previewImage(item, list)
       },
@@ -512,12 +513,6 @@
         wx.navigateTo({url: url})
       },
       goto(url) {
-        let system = wx.getStorageSync('system')
-        console.log(system)
-        // if (url === '/pages/users/upgradeVIP' && system === 'iOS'){
-        //   this.$showToast(`由于相关规范，iOS功能暂不可用！`)
-        //   return
-        // }
         wx.navigateTo({url: url})
       },
       gotoUser(type) {
@@ -543,169 +538,169 @@
 </script>
 
 <style type="less" scoped>
-@import "../styles/custom/fn.less";
-.user_back{
-  background: @lightgray;
-  background-image: url("http://images.ufutx.com/201906/06/83732d63ccfe324e0c614319b7ffa0c1.png");
-  background-size: contain;
-  height: 188rpx;
-  position: relative;
-}
-.userinfo-avatar {
-  float: left;
-  width: 130rpx;
-  height: 130rpx;
-  border-radius: 50%;
-  /*margin-left: 12rpx;*/
-  box-shadow: 0 0 20rpx #bdbdbd;
-  border: 4rpx solid #ffffff;
-}
-.userinfo-nickname {
-  margin-top: 12rpx;
-}
-.userinfo{
-  padding: 20rpx 0;
-  padding-top: 32rpx;
-  position: relative;
-  left: 0;
-  bottom: 20rpx;
-  width: 100%;
-}
-.menber{
-  background: white;
-  border-radius: 16rpx;
-  padding: 4rpx 16rpx ;
-  /*width: 94rpx;*/
-  margin-left: 16rpx;
-  position: relative;
-  &:before{
-    width:0;
-    height:0;
-    border: 12rpx solid transparent;
-    border-bottom-color: white;
-    position:absolute;
-    content:'';
-    left: 12rpx;
-    top: -22rpx;
+  @import "../styles/custom/fn.less";
+  .user_back{
+    background: @lightgray;
+    background-image: url("http://images.ufutx.com/201906/06/83732d63ccfe324e0c614319b7ffa0c1.png");
+    background-size: contain;
+    height: 188rpx;
+    position: relative;
   }
-}
-/*.menber:after{*/
+  .userinfo-avatar {
+    float: left;
+    width: 130rpx;
+    height: 130rpx;
+    border-radius: 50%;
+    /*margin-left: 12rpx;*/
+    box-shadow: 0 0 20rpx #bdbdbd;
+    border: 4rpx solid #ffffff;
+  }
+  .userinfo-nickname {
+    margin-top: 12rpx;
+  }
+  .userinfo{
+    padding: 20rpx 0;
+    padding-top: 32rpx;
+    position: relative;
+    left: 0;
+    bottom: 20rpx;
+    width: 100%;
+  }
+  .menber{
+    background: white;
+    border-radius: 16rpx;
+    padding: 4rpx 16rpx ;
+    /*width: 94rpx;*/
+    margin-left: 16rpx;
+    position: relative;
+    &:before{
+      width:0;
+      height:0;
+      border: 12rpx solid transparent;
+      border-bottom-color: white;
+      position:absolute;
+      content:'';
+      left: 12rpx;
+      top: -22rpx;
+    }
+  }
+  /*.menber:after{*/
   /*content: "";*/
   /*border-top: 7px solid transparent;*/
   /*border-bottom: 7px solid transparent;*/
   /*border-right: 7px solid #fff;//箭头背景颜色，覆盖前面的#eee颜色，使其颜色与整体颜色一致/*/
-/*position: absolute;*/
+  /*position: absolute;*/
   /*top: 27px;*/
   /*left: -7px;//这里的top:27px，left:-7px是为了遮盖住.c-main:before生成的箭头，使箭头边框呈现颜色*/
-/*}*/
-.doudun{
-  animation: tada 1800ms ease infinite;
-}
-.vip-image{
-  width: 42rpx;
-  height: 42rpx;
-  position: absolute;
-  left: 92rpx;bottom: 30rpx;
-  animation: zy 2.5s .15s linear infinite;
-}
+  /*}*/
+  .doudun{
+    animation: tada 1800ms ease infinite;
+  }
+  .vip-image{
+    width: 42rpx;
+    height: 42rpx;
+    position: absolute;
+    left: 92rpx;bottom: 30rpx;
+    animation: zy 2.5s .15s linear infinite;
+  }
 
-@keyframes tada {
-  0% {
-    transform: scale(1);
+  @keyframes tada {
+    0% {
+      transform: scale(1);
+    }
+    10%, 20% {
+      transform: scale(0.9) rotate(-12deg)
+    }
+    30%, 50%, 70%, 90% {
+      transform: scale(1.1) rotate(12deg)
+    }
+    40%, 60%, 80% {
+      transform: scale(1.1) rotate(-12deg)
+    }
+    100% {
+      transform: scale(1) rotate(0)
+    }
   }
-  10%, 20% {
-    transform: scale(0.9) rotate(-12deg)
+  @keyframes zy{
+    10%{transform: rotate(15deg);}
+    20%{transform: rotate(-10deg);}
+    30%{transform: rotate(5deg);}
+    40%{transform: rotate(-5deg);}
+    50%,100%{transform: rotate(0deg);}
   }
-  30%, 50%, 70%, 90% {
-    transform: scale(1.1) rotate(12deg)
+  .active{
+    background: #D92553 !important;
+    color: white;
   }
-  40%, 60%, 80% {
-    transform: scale(1.1) rotate(-12deg)
+  .State{
+    padding-right: 8%;
+    span {
+      padding: 6rpx 12rpx;
+      background: #f3f4f9;
+      margin-top: 12rpx;
+      margin-right: 22rpx;
+      border-radius: 4rpx;
+    }
   }
-  100% {
-    transform: scale(1) rotate(0)
+  /*使屏幕变暗  */
+  .commodity_screen {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #000;
+    opacity: 0.2;
+    overflow: hidden;
+    z-index: 1000;
+    color: #fff;
+    filter: blur(38px);
   }
-}
-@keyframes zy{
-  10%{transform: rotate(15deg);}
-  20%{transform: rotate(-10deg);}
-  30%{transform: rotate(5deg);}
-  40%{transform: rotate(-5deg);}
-  50%,100%{transform: rotate(0deg);}
-}
-.active{
-  background: #D92553 !important;
-  color: white;
-}
-.State{
-  padding-right: 8%;
-  span {
-    padding: 6rpx 12rpx;
-    background: #f3f4f9;
-    margin-top: 12rpx;
-    margin-right: 22rpx;
+  /*对话框 */
+  .commodity_attr_box {
+    /*height: 300rpx;*/
+    padding-bottom: 4%;
+    width: 100%;
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 2000;
+    background: #fff;
+    padding-top: 20rpx;
+    border-top-right-radius: 22rpx;
+    border-top-left-radius: 22rpx;
+  }
+  .share-image{
+    width: 76rpx;
+    height: 76rpx;
+  }
+  .message{
+    position: absolute;
+    right: 112rpx;
+    top: 8rpx;
+    color: @theme;
+    // border: 1rpx solid @theme;
+    padding: 4rpx 12rpx;
+    margin-top: 22rpx;
     border-radius: 4rpx;
+    font-weight: 600;
   }
-}
-/*使屏幕变暗  */
-.commodity_screen {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: #000;
-  opacity: 0.2;
-  overflow: hidden;
-  z-index: 1000;
-  color: #fff;
-  filter: blur(38px);
-}
-/*对话框 */
-.commodity_attr_box {
-  /*height: 300rpx;*/
-  padding-bottom: 4%;
-  width: 100%;
-  overflow: hidden;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 2000;
-  background: #fff;
-  padding-top: 20rpx;
-  border-top-right-radius: 22rpx;
-  border-top-left-radius: 22rpx;
-}
-.share-image{
-  width: 76rpx;
-  height: 76rpx;
-}
-.message{
-  position: absolute;
-  right: 112rpx;
-  top: 8rpx;
-  color: @theme;
-  // border: 1rpx solid @theme;
-  padding: 4rpx 12rpx;
-  margin-top: 22rpx;
-  border-radius: 4rpx;
-  font-weight: 600;
-}
-.message_red{
-  background: red;
-  width: 16rpx;
-  height: 16rpx;
-  position: absolute;
-  right: -8rpx;
-  border-radius: 50%;
-}
-.userinfo-info {
-  float: left;
-  line-height: 1;
-  padding: 8rpx 0;
-  margin-left: 3 * 8rpx;
-  position: relative;
-}
+  .message_red{
+    background: red;
+    width: 16rpx;
+    height: 16rpx;
+    position: absolute;
+    right: -8rpx;
+    border-radius: 50%;
+  }
+  .userinfo-info {
+    float: left;
+    line-height: 1;
+    padding: 8rpx 0;
+    margin-left: 3 * 8rpx;
+    position: relative;
+  }
   ._bc-title{
     border-bottom: 3rpx solid #f3f3f3;
     margin: 0 32rpx;

@@ -21,7 +21,7 @@
                       <image src="http://images.ufutx.com/201902/21/7b3892dcf60fabda05add35abfa9aec3.png" mode="aspectFit" wx:else   style="width: 38rpx;height: 38rpx;" class="flo_l"></image>
                     </view>
                   </view>
-                  <view class="font_26 flo_l color-theme ellipsis_1" style="margin-left: 16rpx;max-width: 88%;">{{item.content}}</view>
+                  <view class="font_26 flo_l color-666 ellipsis_1" style="margin-left: 16rpx;max-width: 88%;">{{item.content}}</view>
                   <!--<view class="weui-cell__ft weui-cell__ft_in-access">-->
                   <view class="dist flo_r" wx:if="{{item.status == 0}}"></view>
                   <!--<view class="bc_right flo_r">-->

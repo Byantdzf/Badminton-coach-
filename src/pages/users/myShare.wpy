@@ -8,7 +8,7 @@
     <view class="text-center" style="position: fixed;width: 100%;top: 4%;">
       <image  mode="aspectFill" src="{{avatar}}" class="party_image"></image>
       <view style="margin-top: 12rpx">Hi，我是{{name}}</view>
-      <view style="margin-top: 2rpx" class="font_36 bold color-theme">我在福恋，找对象！</view>
+      <view style="margin-top: 2rpx" class="font_36 bold color-theme">我在福恋，为你找对象！</view>
       <view style="margin-top: 2rpx" class="font_22 color-666">用科技让交友变简单</view>
     </view>
   </view>

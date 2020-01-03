@@ -182,7 +182,7 @@
             if (data.length > 0) {
               for (let item of data) {
                 this.list.push({
-                  icon: item.other_user.circle_avatar,
+                  icon: item.other_user.circle_avatar?item.other_user.circle_avatar:item.other_user.photo,
                   title: item.other_user.name,
                   message: {
                     content_type: item.last_message ? item.last_message.content_type : '',

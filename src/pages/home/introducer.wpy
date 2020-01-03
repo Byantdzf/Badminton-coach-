@@ -17,7 +17,7 @@
               <image src="{{mylibs.avatar}}" @tap="previewImageV2({{mylibs.avatar}})" @longpress="lookID({{id}})" mode="aspectFill"
                      style="width: 120rpx;height: 120rpx;border-radius: 50%;border:4rpx solid #ffffff;box-shadow: 1rpx 1rpx 12rpx #f4f4f4;" class="flo_l"></image>
             </view>
-            <view class="flo_l" style="margin-top: 16rpx;width: 60%;">
+            <view class="flo_l" style="margin-top: 16rpx;width: 56%;">
               <view class=" flo_l white ellipsis_1 " style="margin-left: 22rpx;">
                 <span class="font_28 bold">{{mylibs.name}}</span>
               </view>
