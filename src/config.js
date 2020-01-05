@@ -3,9 +3,9 @@
                         小程序配置文件
 ======================================================== */
 // 域名
-//     var host = 'https://love.ufutx.com/api',
+    var host = 'https://love.ufutx.com/api',
 // var host = 'http://love.hankin.ufutx.cn/api',
-var host = 'http://wlj.test/api',
+// var host = 'http://wlj.test/api',
     book = 'https://christ.data.ufutx.com/api',
     party = 'https://party.ufutx.com/api'
     // party= 'http://party.hankin.ufutx.cn/api'
