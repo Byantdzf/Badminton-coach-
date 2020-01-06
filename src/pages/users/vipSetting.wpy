@@ -2,7 +2,7 @@
   <NavBar rgba="#eeeff1" bag="#ffffff" title="VIP设置"></NavBar>
   <Loading :init.sync="init"></Loading>
   <view class="page-user ff">
-    <userTitle :user.sync="user"></userTitle>
+    <!--<userTitle :user.sync="user"></userTitle>-->
     <!--<view class="weui-cells weui-cells_after-title" hover-class="weui-cell_active">-->
       <!--<navigator url="/pages/users/vipData" class="weui-cell weui-cell_access" >-->
         <!--<view class="weui-cell__hd">-->
@@ -18,6 +18,7 @@
         <view class="weui-cell__hd">
         </view>
         <view class="weui-cell__bd">了解爱情语言（市级VIP）</view>
+        <!--<view>完成</view>-->
         <view class="weui-cell__ft weui-cell__ft_in-access" wx:if="{{user.is_love_language == 1}}">已完成</view>
         <view class="weui-cell__ft weui-cell__ft_in-access" wx:else>未完成</view>
       </view>

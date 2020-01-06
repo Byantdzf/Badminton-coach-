@@ -296,12 +296,12 @@
           path: 'https://mp.ufutx.net/mp/homepage?__biz=MzI2NTkzNzI2MA==&hid=3&sn=f745c9fa2bbb2f9ad2f9f53713f46171',
           type: 'community'
         },
-        {
-          icon: 'https://images.ufutx.com/201908/16/32877e07b4e6b3fd71a1c4020544ada5.png',
-          title: '小测试',
-          path: '/pages/users/vipSetting',
-          type: 'maker'
-        },
+        // {
+        //   icon: 'https://images.ufutx.com/201908/16/32877e07b4e6b3fd71a1c4020544ada5.png',
+        //   title: '小测试',
+        //   path: '/pages/users/vipSetting',
+        //   type: 'maker'
+        // },
         {
           icon: 'https://images.ufutx.com/201908/16/8dc613eeec55d9e4902c52058d8f4130.png',
           title: 'VIP服务',
@@ -470,12 +470,12 @@
           let {new_count} = data
           if (new_count > 0) {
             wx.setTabBarBadge({
-              index: 3,
+              index: 2,
               text: `${new_count}`
             })
           } else {
             wx.removeTabBarBadge({
-              index: 3
+              index: 2
             })
           }
         }
@@ -938,7 +938,7 @@
         margin-top: -8rpx;
       }
       ._bc-tab-item{
-        width: 100/4%;
+        width: 100/3%;
         background: white;
         image{
           width: 72rpx;

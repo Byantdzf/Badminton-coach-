@@ -98,7 +98,7 @@
                   content: '你已成功关闭自己的资料，他人无法再查看你的信息！',
                   success(res) {
                     if (res.confirm) {
-                      vm.$gotoBack(1)
+                      vm.$gotoTab('/pages/tabBar/user')
                     } else if (res.cancel) {
                       console.log('用户点击取消')
                     }

@@ -1,6 +1,6 @@
 <template>
   <view class="page-user">
-    <userTitle :user.sync="user"></userTitle>
+    <!--<userTitle :user.sync="user"></userTitle>-->
     <view class="weui-cells weui-cells_after-title">
       <view class="font_32 loveTitle" wx:if="{{showTitle}}">请用第一感觉选择最适合你的选项</view>
       <view class="font_32 loveTitle" wx:else>{{questions}}</view>

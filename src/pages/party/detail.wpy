@@ -12,7 +12,7 @@
       <view class="orange bold font_36 color-bbb" style="text-decoration:line-through" wx:else>￥{{detail.fee}}</view>
       <view class="font_28 text-left _bc-time">
         <image src="http://images.ufutx.com/201812/17/81bd3dafa34d85578e9943f28c333801.png"   mode="aspectFit"></image>
-        <span>{{detail.start_time}}-{{detail.end_time}}</span>
+        <span>{{detail.time}}</span>
       </view>
       <view class="font_28 text-left _bc-address" @tap="getlocation">
         <image src="http://images.ufutx.com/201812/17/54de58e17f256adabc16e8c5b82d26b4.png" mode="aspectFit"></image>
@@ -70,15 +70,22 @@
           </view>
         </block>
         <block wx:else>
-          <block wx:if="{{detail.fee == 0.00}}">
-            <view class="_bc-btn text-center flo_r white font_32 btn-theme" @tap="pay">
-              免费报名
+          <block wx:if="{{detail.activity_member_count > 0}}">
+            <view class="_bc-btn text-center flo_r white font_32" style="background: #d3d3d3;">
+              已报名
             </view>
           </block>
           <block wx:else>
-            <view class="_bc-btn text-center flo_r white font_32 btn-theme" @tap="apply('/pages/party/trade?party_id={{detail.id}}')">
-              立即报名
-            </view>
+            <block wx:if="{{detail.fee == 0.00}}">
+              <view class="_bc-btn text-center flo_r white font_32 btn-theme" @tap="pay">
+                免费报名
+              </view>
+            </block>
+            <block wx:else>
+              <view class="_bc-btn text-center flo_r white font_32 btn-theme" @tap="apply('/pages/party/trade?party_id={{detail.id}}')">
+                立即报名
+              </view>
+            </block>
           </block>
         </block>
       </block>
@@ -115,7 +122,8 @@
       hide: true,
       party_id: '',
       detail: {
-        poster: 'http://images.ufutx.com/201904/16/723e4eeacd9a8d598b894696808de9e0.gif'
+        poster: 'http://images.ufutx.com/201904/16/723e4eeacd9a8d598b894696808de9e0.gif',
+        time: 'as1'
       },
       userInfo: {},
       trade_no: '',
@@ -186,6 +194,15 @@
           this.noMoreList = false
           this.detail = data.activity
           this.detail.detail_pic = JSON.parse(this.detail.detail_pic)
+          let {start_time, end_time} = this.detail
+          console.log(start_time, end_time)
+          if (start_time.split(' ')[1] == '00:00') {
+            start_time = start_time.split(' ')[0]
+          }
+          if (end_time.split(' ')[1] == '00:00') {
+            end_time = end_time.split(' ')[0]
+          }
+          this.detail.time = `${start_time} 至 ${end_time}`
           this.members = data.members
           this.$apply()
           wx.hideLoading()

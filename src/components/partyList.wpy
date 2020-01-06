@@ -24,8 +24,14 @@
             <span class="_bc-address flo_r" wx:if="{{!item.city && !item.dist}}">全国</span>
             <span class="_bc-address flo_r" wx:else>{{item.city || ''}} {{item.dist || ''}}</span>
           </view>
-          <view class="font_22 flo_r _bc-btn" wx:if="{{item.is_deadline == 0}}">立即报名</view>
-          <view class="font_22 flo_r _bc-btn color-bbb" wx:else style="border-color: #bbbbbb">已结束</view>
+          <block wx:if="{{item.is_deadline == 0}}">
+            <view class="font_22 flo_r _bc-btn"  wx:if="{{item.activity_member_count > 0}}" style="border: none;color: #04be02">已报名</view>
+            <view class="font_22 flo_r _bc-btn"  wx:if="{{item.activity_member_count == 0}}">立即报名</view>
+
+          </block>
+          <block wx:else>
+            <view class="font_22 flo_r _bc-btn color-bbb" style="border-color: #bbbbbb">已结束</view>
+          </block>
         </view>
         <image src="https://images.ufutx.com/202001/03/471c8d80f4d4806c3d6f89358109925d.png" mode="aspectFill" class="successIcon" wx:if="{{item.activity_member_count > 0}}"></image>
       </view>

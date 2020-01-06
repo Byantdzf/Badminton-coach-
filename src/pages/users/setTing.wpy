@@ -1,153 +1,5 @@
 <template>
-  <view class="weui-panel">
-    <block wx:if="{{user.type == 'single'}}">
-      <message :time.sync="deadline"></message>
-    </block>
-    <view class="weui-cells_after-title">
-      <view class="weui-cell user_back">
-        <!--<navigator url="/pages/user/registerV2" >-->
-        <view class="userinfo clearfix">
-          <span  @tap.stop="userMessage" @longpress="longPress">
-            <image class="userinfo-avatar ff" src="{{Image}}" mode="aspectFill" />
-            <!--<image src="https://images.ufutx.com/201812/04/c0a087feb36282e96930e5c612c9d987.png" mode="aspectFit" class="vip-image" ></image>-->
-          </span>
-          <view class="userinfo-info">
-            <view class="userinfo-nickname font_32 bold">
-              <span wx:if="{{user.name !== '获取中...'}}">{{ user.name }}   </span>
-              <span wx:else style="color: #00b26a" @tap="gotoTab">点击登录</span>
-              <!--<open-data type="userNickName"></open-data>-->
-              <span class="font_26 state">{{StateText}}</span>
-              <view style="margin-top: 28rpx;margin-left: -12rpx;">
-                <block wx:if="{{user.type == 'marriage'}}">
-                  <view class="orange font_26 text-center flo_l menber" style="padding: 8rpx 16rpx;">
-                    <!--<image src="http://images.ufutx.com/201902/21/20416feb7d39e92b8fd56b27468f21f3.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;"-->
-                    <!--class="flo_l"></image>-->
-                    <view style="font-size: 20rpx;" class="flo_r">介绍人</view>
-                  </view>
-                </block>
-                <block wx:else>
-                  <block wx:if="{{user.rank_id == 0}}">
-                    <block wx:if="{{user.is_temp_member == 0}}">
-                    <span @tap="goto('/pages/users/upgradeVIP')">
-                      <!--<span class="flo_r font_26" style="margin: 8rpx 12rpx">升级</span>-->
-                      <view class="orange font_26 text-center flo_l menber" style="width: 116rpx" >
-                        <image src="http://images.ufutx.com/201902/21/20416feb7d39e92b8fd56b27468f21f3.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;"
-                               class="flo_l"></image>
-                        <view style="font-size: 20rpx;margin-top: 8rpx" class="flo_r">普通VIP</view>
-                      </view>
-                    </span>
-                    </block>
-                    <block wx:else>
-                    <span @tap="goto('/pages/users/upgradeVIP')">
-                      <!--<span class="flo_r font_26" style="margin: 8rpx 12rpx">升级</span>-->
-                      <view class="orange font_26 text-center flo_l menber" style="min-width: 76rpx">
-                        <image src="http://images.ufutx.com/201902/21/fea657836c8c203e75c0bb1316a4a827.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;"
-                               class="flo_l"></image>
-                        <view style="font-size: 20rpx;margin-top: 8rpx;margin-left: 4rpx;" class="flo_l">尊享VIP</view>
-                      </view>
-                    </span>
-                    </block>
-                  </block>
-                  <block wx:else>
-                    <span @tap="goto('/pages/users/upgradeVIP')">
-                      <!--<span class="flo_r font_26" style="margin: 8rpx 12rpx">升级</span>-->
-                      <view class="orange font_26 text-center flo_l menber" style="width: inherit; min-width: 76rpx">
-                        <image src="http://images.ufutx.com/201902/21/fea657836c8c203e75c0bb1316a4a827.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;"
-                               class="flo_l"></image>
-                        <view style="font-size: 20rpx;margin-top: 8rpx;margin-left: 4rpx;" class="flo_l">
-                          {{user.rank_name}}VIP
-                          <!--<text wx:if="{{user.deadline}}" class="color-666">到期时间：{{user.deadline}}</text>-->
-                        </view>
-                      </view>
-                    </span>
-                  </block>
-                </block>
-              </view>
-            </view>
-          </view>
-
-          <!--<view class="flo_r font_26 white" @tap="gotoUser({{user.type}})">-->
-          <!--<image src="../images/icon/edit_red.png" mode="aspectFill" class="flo_r"-->
-          <!--style="width: 48rpx;height: 48rpx;margin:0 -6rpx 0 12rpx; "></image>-->
-          <!--</view>-->
-          <!--<view class="message" @tap="goto('/pages/users/myNews')" >-->
-          <!--<image src="http://images.ufutx.com/201901/04/8fa5e8921c0dca549a1302af42c743c2.png" mode="aspectFill" class="flo_r {{user.new_notice_count ? 'doudun' : ''}}"-->
-          <!--style="width: 56rpx;height: 56rpx;margin:0 -6rpx 0 12rpx; "></image>-->
-          <!--<view class="message_red {{user.new_notice_count ? 'doudun' : ''}}" wx:if="{{user.new_notice_count}}"></view>-->
-          <!--</view>-->
-          <view class="message" style="right: 12rpx;" @tap.stop="goto('/pages/users/setTing')">
-            <!--<view class="font_26 bc_edit">编辑资料</view>-->
-            <image src="http://images.ufutx.com/201901/04/f6404bd7a4103ee0eb4b59b636c1861f.png" mode="aspectFill" class="flo_r" style="width: 56rpx;height: 56rpx;margin:0 -6rpx 0 12rpx; "></image>
-          </view>
-        </view>
-        <!--</navigator>-->
-      </view>
-    </view>
-  </view>
-  <modal :border.sync="border">
-    <view slot="wrapper" class="wrapper">
-      <view @tap="chooseimage" class="uploadAvatar text-center">
-        <image class="ff avater" src="{{Image}}" mode="aspectFill" />
-        <image src="https://images.ufutx.com/201812/04/c0a087feb36282e96930e5c612c9d987.png" mode="aspectFit" class="vip-image" ></image>
-      </view>
-      <image src="http://images.ufutx.com/201903/13/479fd90a75475e3f95598843944e7141.png" mode="aspectFit" @tap="quitMusic" class="music {{!stopMusic?'avatar-animation':''}}"></image>
-      <view style="height: 30vh;"></view>
-      <block wx:if="{{user.type == 'single'}}">
-        <view class="_bc_title white" >
-          <span class="flo_l font_28">生活照:</span>
-          <block wx:for="{{user.lifePhotos}}" wx:key="{{index}}">
-            <view class="_bc-photo flo_l">
-              <image src="{{item.photo}}" mode="aspectFill" class=" ff" @tap="previewImage({{item.photo}},{{user.lifePhotos}})"></image>
-            </view>
-          </block>
-          <view class="_bc-photo flo_l">
-            <image src="http://images.ufutx.com/201903/14/6350d843bbe4c3da05aa44a63a2d23b0.jpeg" mode="aspectFit" class=" ff" ></image>
-            <view class="more white font_28 text-center" @tap="goto('/pages/users/uploadPic')">更多...</view>
-          </view>
-          <view class="clearfloat"></view>
-        </view>
-      </block>
-      <view class="_bc_title white" style="padding-bottom: 32rpx;">
-        <view class="font_28" style="margin-bottom: 12rpx;" @tap="gotoUser({{user.type}})">
-          <span class="flo_l">基本信息:</span>
-          <span class="flo_r">
-            完善资料
-            <image src="http://images.ufutx.com/201903/11/a019b634a26641c65bde61fc5a939bfe.png" mode="aspectFit" class="icon-right"></image>
-          </span>
-          <view class="clearfloat"></view>
-        </view>
-        <view class="inline-block _bc-message font_26 color-666" wx:if="{{user.profile.sex}}">性别：{{user.profile.sex == 1?'男': '女'}}</view>
-        <view class="inline-block _bc-message font_26 color-666" wx:if="{{user.profile.age}}">{{user.profile.age}}</view>
-        <view class="inline-block _bc-message font_26 color-666" wx:if="{{user.profile.stature}}">身高：{{user.profile.stature + 'cm'}}</view>
-        <view class="inline-block _bc-message font_26 color-666" wx:if="{{user.profile.weight}}">体重：{{user.profile.weight + 'kg'}}</view>
-        <view class="inline-block _bc-message font_26 color-666" wx:if="{{user.profile.birthday}}">{{user.profile.birthday}}</view>
-        <view class="inline-block _bc-message font_26 color-666" wx:if="{{user.profile.degree}}">学历：{{user.profile.degree}}</view>
-        <view class="inline-block _bc-message font_26 color-666" wx:if="{{user.profile.city}}">常居地：{{user.profile.city}}</view>
-        <view class="inline-block _bc-message font_26 color-666" @tap="goto('/pages/users/unmarriV2')">...</view>
-      </view>
-      <image src="http://images.ufutx.com/201903/14/2f4acf83e4d8a8134902279b9d517ca9.png" mode="aspectFit" class="hidemodal" @tap="hide"></image>
-    </view>
-  </modal>
-  <modalUp>
-    <view slot="wrapper" class="wrapper-up white">
-      <view class="header">
-        <image src="http://images.ufutx.com/201903/05/cbc22feb2fcbd4b43173f763c6a46107.png" mode="aspectFit" class="image"></image>
-        <span class="font_28 bold">福恋： <span class="font_24">头像审核标准</span></span>
-      </view>
-      <view class="imagebox">
-        <image src="http://images.ufutx.com/201903/13/6b705dc8ce0087eae7301080e5e2fc90.png" mode="aspectFit"></image>
-      </view>
-      <!--<view class="text-center">-->
-      <!--<button size="mini"  type="default" @tap="chooseimage">-->
-      <!--<image mode="aspectFit" src="http://images.ufutx.com/201902/22/f564ba546511736c95a4e9dd4bb793da.png" style="width: 18px;height: 18px;vertical-align: middle;margin-bottom: 6rpx;"></image>-->
-      <!--上传-->
-      <!--</button>-->
-      <!--</view>-->
-    </view>
-  </modalUp>
-  <view class="commodity_screen" bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
-  <!--弹出框  -->
-  <view animation="{{animationData}}" class="commodity_attr_box" wx:if="{{showModalStatus}}">
+  <view  class="commodity_attr_box">
     <view class="_bc-title " hover-class="weui-cell_active"  @tap="gotofriends({{user}})">
       <span class="font_28">个人信息</span>
       <image class="image flo_r" mode="aspectFit" src="http://images.ufutx.com/201901/11/4276017b1691e5b0ad57ed6da88f681b.png"></image>
@@ -166,7 +18,7 @@
     <view style="background: #f8f8f8;height: 22rpx;"></view>
     <view class="_bc-title">
       <span class="font_28">隐身访问</span>
-      <switch checked="{{user.hidden}}" bindchange="hiddenChange" color="#ff7645" class="flo_r" style="margin-right: -22rpx;margin-top: -6rpx;"/>
+      <switch checked="{{user.hidden}}" bindchange="hiddenChange" color="#d92553" class="flo_r" style="margin-right: -22rpx;margin-top: -6rpx;"/>
     </view>
     <view class="_bc-title " hover-class="weui-cell_active"  @tap="goto('/pages/users/blacklist')">
       <span class="font_28">黑名单</span>
@@ -200,23 +52,22 @@
 
 <script>
   import wepy from 'wepy'
-  import message from './message'
-  import base from '../mixins/base'
-  import {service} from '../config.js'
-  import http from '../mixins/http'
-  import uploadImage from '../components/uploadImage'
-  import modal from '../components/modal'
-  import modalUp from '../components/modal-up'
-  export default class userTitle extends wepy.component {
+  import base from '../../mixins/base'
+  import {service} from '../../config.js'
+  import http from '../../mixins/http'
+  import uploadImage from '../../components/uploadImage'
+  import modal from '../../components/modal'
+  import modalUp from '../../components/modal-up'
+  export default class setTing extends wepy.page {
     mixins = [base, http]
-    props = {
-      user: {
-        type: Object,
-        default: {}
-      }
-    }
     components = {
-      message, modal, uploadImage, modalUp
+      modal, uploadImage, modalUp
+    }
+    config = {
+      navigationBarTitleText: '设置',
+      enablePullDownRefresh: true
+      // navigationBarTextStyle: 'black',
+      // navigationBarBackgroundColor: '#EEEFF1'
     }
     data = {
       user: {
@@ -267,11 +118,46 @@
         console.log(this.pic)
       }
     }
-
+    onShow() {
+      this.initPageData()
+      this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
+    }
     onLoad() {
       // this.$invoke('modal', 'showModal')
       console.log(this.user)
     }
+    // 初始化页面数据
+    initPageData() {
+      this.$get({url: service.user}, {
+        success: ({code, data}) => {
+          this.init = true
+          this.user = data
+          if (data.type == 'marriage') {
+            this.list.splice(4)
+            this.listV2 = [
+              {
+                icon: 'http://images.ufutx.com/201906/06/d9c45bb3869b616189ac0723887928ad.png',
+                title: '分享给好友',
+                type: 'navigateTo',
+                subhead: '获得更多的祝福',
+                path: '/pages/users/myShare'
+              },
+              {
+                icon: 'http://images.ufutx.com/201906/06/0059f55a19360df71f84b8d90d265f54.png',
+                title: '使用反馈',
+                type: 'navigateTo',
+                subhead: '共同维护福恋',
+                path: '/pages/users/feedback'
+              }
+            ]
+            this.$apply()
+          }
+          this.$apply()
+          wx.setStorageSync('type', data.type)
+        }
+      })
+    }
+
 
     // onHide() {
     //   this.$invoke('modal', 'hideModal')
@@ -537,8 +423,9 @@
   }
 </script>
 
-<style type="less" scoped>
-  @import "../styles/custom/fn.less";
+<style lang="less" scoped>
+  @import "../../styles/weui/base/fn.wxss";
+  @import "../../styles/custom/fn.less";
   .user_back{
     background: @lightgray;
     background-image: url("http://images.ufutx.com/201906/06/83732d63ccfe324e0c614319b7ffa0c1.png");
@@ -659,17 +546,17 @@
   /*对话框 */
   .commodity_attr_box {
     /*height: 300rpx;*/
-    padding-bottom: 4%;
+    /*padding-bottom: 4%;*/
     width: 100%;
     overflow: hidden;
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    /*position: fixed;*/
+    /*bottom: 0;*/
+    /*left: 0;*/
     z-index: 2000;
     background: #fff;
-    padding-top: 20rpx;
-    border-top-right-radius: 22rpx;
-    border-top-left-radius: 22rpx;
+    /*padding-top: 20rpx;*/
+    /*border-top-right-radius: 22rpx;*/
+    /*border-top-left-radius: 22rpx;*/
   }
   .share-image{
     width: 76rpx;

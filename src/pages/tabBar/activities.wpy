@@ -98,7 +98,7 @@
       }, {
         success: ({code, data}) => {
           if (!data.data.length) {
-            return vm.$showToast('我到底了啦...')
+            return console.log('没有更多了')
           }
           // for (let item of data.data) {
           //   item.fee = parseFloat(item.fee)

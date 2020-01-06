@@ -191,7 +191,20 @@ export default class httpMixin extends wepy.mixin {
             confirmText: `${operate}`,
             success: (res) => {
               if (res.confirm) {
-                wx.navigateTo({url: `/${path}`})
+                if (`${operate}` == '打开资料') {
+                  let vm = this
+                  this.$put({url: `${service.host}/change/hidden/profile`, data: {type: 'NONE'}}, {
+                    success: ({code, data}) => {
+                      vm.$showToast('已打开')
+                      setTimeout(() => {
+                        vm.$gotoBack(1)
+                      }, 1000)
+                    }
+                  })
+                  console.log('打开资料')
+                } else {
+                  wx.navigateTo({url: `/${path}`})
+                }
               } else if (res.cancel) {
                 if (currentPage) {
                   wx.navigateBack({

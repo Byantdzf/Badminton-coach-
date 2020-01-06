@@ -23,7 +23,7 @@
         <!--</picker>-->
       <!--</view>-->
       <view class="section list">
-        <picker mode="date"  value="{{birthday}}"  @change="typing('birthday')">
+        <picker mode="date"  value="{{birthday}}" end="{{endDate}}"  @change="typing('birthday')">
           <view class="picker">
             出生日期 <span class="red">*</span>
             <text class="text">{{birthday}}</text>
@@ -248,6 +248,7 @@
       Ideal_mateFocus: false,
       ShowButton: true,
       color: '#ff9832',
+      endDate: '', // 结束时间
       tempMember: 0 // 是否有可领取会员
     }
 
@@ -258,6 +259,13 @@
       this.getStatureList() // 身高数据
       this.getWeightList() // 体重数据
 
+      let timestamp = Date.parse(new Date());
+      let date = new Date(timestamp);
+      let Y =date.getFullYear();
+      let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+      let D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+      this.endDate = `${Y}-${M}-${D}`
+      this.$apply()
     }
     onShow() {
       console.log(this.route)
