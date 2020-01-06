@@ -12,7 +12,7 @@
             <image src="https://images.ufutx.com/201908/20/77fed53ebfab0b10a8e751111b20f787.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;margin-bottom: -2rpx;" wx:if="{{item.sex == '2'}}"></image>
             <image src="https://images.ufutx.com/201908/20/8307194a17256fcc3ff4df3fa6bb8c0e.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;margin-bottom: -2rpx;" wx:else></image>
           </view>
-          <view  class="font_22 color-666">{{item.age + '岁'}} · {{item.stature + 'cm'}}</view>
+          <view  class="font_22 color-666">{{item.age + '岁'}} · {{item.profile_courtship.stature + 'cm'}}</view>
         </view>
         <view class="flo_l main-btn font_26" style="margin-top: 36rpx;" @tap.stop="selectUser({{item}})">
           推荐给TA
