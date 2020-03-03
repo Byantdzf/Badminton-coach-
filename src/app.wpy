@@ -160,8 +160,8 @@
       ],
       window: {
         navigationBarTitleText: '福恋',
-        navigationBarTextStyle: 'white',
-        navigationBarBackgroundColor: '#D92553',
+        navigationBarTextStyle: 'black',
+        navigationBarBackgroundColor: '#fff',
 //        navigationStyle: 'custom',
 //        backgroundColorTop: '#f43934', // ios
 //        backgroundColorBottom: '#f43934', // ios

@@ -11,15 +11,16 @@
             </swiper-item>
           </block>
         </swiper>
-        <!--？？关注？？？-->
-        <view class="hint white font_28">
-          关注公众号,查看更多用户推荐~
-          <!--<image src="http://images.ufutx.com/201903/07/d9bcd9df3b54eb48c7fdcdcbfe45dd9e.png" mode="aspectFit" class="image"></image>-->
-          <!--<view class="hintBtn inline-block font_28" @tap="goto('/pages/users/guidePage')">关注</view>-->
-          <button class="btn hintBtn inline-block font_28" open-type="contact" send-message-title="关注公众号" send-message-img="{{pic_url}}" send-message-path="/pages/tabBar/home" show-message-card plain>关注</button>
+        <view class="realName white font_26 bold" wx:if="{{mylibs.is_approved !== 0}}" >
+        
         </view>
+        <!--？？关注？？？-->
+<!--        <view class="hint white font_28">-->
+<!--          关注公众号,查看更多用户推荐~-->
+<!--          <button class="btn hintBtn inline-block font_28" open-type="contact" send-message-title="关注公众号" send-message-img="{{pic_url}}" send-message-path="/pages/tabBar/home" show-message-card plain>关注</button>-->
+<!--        </view>-->
         <block wx:if="{{mylibs.self != 1}}">
-          <view style="border-radius: 50%;margin: -72rpx 78rpx;background: white;z-index: auto;position:relative;width: 100rpx;height: 100rpx;box-shadow: 1rpx 1rpx 12rpx #d0d0d0;" class="flo_r text-center" hover-class="btn_active" @tap="attention">
+          <view style="border-radius: 50%;margin: -120rpx 78rpx;background: rgba(255,255,255,.8);z-index: auto;position:relative;width: 100rpx;height: 100rpx;box-shadow: 1rpx 1rpx 12rpx #d0d0d0;" class="flo_r text-center" hover-class="btn_active" @tap="attention">
             <image src="http://images.ufutx.com/201902/18/876cc10bb46069d097d06368bbb2c8fa.png" wx:if="{{!is_love}}" mode="aspectFit" style="width: 62rpx;height: 62rpx;margin-top: 22rpx"></image>
             <image src="http://images.ufutx.com/201902/18/116ca324b9d0a6de38b0263ce080c06d.png" wx:else mode="aspectFit" style="width: 62rpx;height: 62rpx;margin-top: 22rpx"></image>
           </view>
@@ -33,90 +34,166 @@
         </block>
       </view>
       <view class="_bc-property">
-        <image src="{{mylibs.avatar}}" mode="aspectFill" @tap="previewImageV2({{mylibs.avatar}})" @longpress="lookID({{id}})" style="width: 120rpx;height: 120rpx;border-radius: 50%;border:4rpx solid #ffffff;box-shadow: 1rpx 1rpx 12rpx #f4f4f4;" class="flo_l"></image>
-        <!--<image src="http://images.ufutx.com/201812/29/31c646a02f34492847c9644a99acc405.png" mode="aspectFit" wx:if="{{mylibs.is_approved == 0}}" class="vip-image" @tap="hint('该用户未实名认证！')"></image>-->
-        <!--<image src="http://images.ufutx.com/201812/29/d26f9a4c175ddbceea2d5e9354ad8a0f.png" mode="aspectFit" wx:else class="vip-image" @tap="hint('该用户已实名认证！')"></image>-->
-        <view class="bold font_32 text-left ellipsis_1 name flo_l">
-          <span class="flo_l ellipsis_1 color-666" style="max-width: 300rpx;margin-top: -2rpx;">{{mylibs.name}}</span>
-          <image src="https://images.ufutx.com/201908/20/77fed53ebfab0b10a8e751111b20f787.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;" class="flo_l" wx:if="{{mylibs.profile_courtship.sex == '2'}}"></image>
-          <image src="https://images.ufutx.com/201908/20/8307194a17256fcc3ff4df3fa6bb8c0e.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;" class="flo_l" wx:else class="flo_l"></image>
-          <block wx:if="{{mylibs.rank_id == '0'}}">
-            <block wx:if="{{mylibs.temp_member == '0'}}">
-              <view class="main-bc flo_l">普通VIP</view>
-            </block>
-            <block wx:else>
-              <view class="main-bc_vip flo_l" @tap="goto('/pages/users/upgradeVIP')">尊享VIP</view>
-            </block>
-          </block>
-          <block wx:else>
-            <view class="main-bc_vip flo_l">{{mylibs.rank.name}}VIP</view>
-          </block>
-        </view>
-        <view class="font_26 text-left _bc-age flo_l color-666">
-          <span>{{mylibs.age}} · {{profile_courtship.stature}} · {{mylibs.profile_courtship.city?mylibs.profile_courtship.city:'未知城市'}}</span>
-        </view>
-        <view class="font_26 text-left flo_l _bc-age color-666" wx:if="{{mylibs.marriage.name}}">
-          <span>推荐人：<span @tap="gotoType({{mylibs.marriage}})">{{mylibs.marriage.name}}</span></span>
-        </view>
         <view class="font_26 text-left flo_l white box-recommend">
-          <image src="http://images.ufutx.com/201902/21/75b09943b5ac2b70810a3bc61da1a93a.png" mode="aspectFit" style="width: 24rpx;height: 24rpx;vertical-align: middle;margin-bottom: 6rpx;"></image>
-          <span class="fans">{{mylibs.preview_count}}</span>
-          <image src="http://images.ufutx.com/201902/21/75428ef7c3e29d220d2e2b1cea78951d.png" mode="aspectFit" style="width: 26rpx;height: 26rpx;vertical-align: middle;margin:0 4rpx 6rpx 10rpx;"></image>
-          <span class="">{{mylibs.fans_count}}</span>
+          <image src="https://images.ufutx.com/202002/26/664afa2d8344246af9d472f934163ab0.png" mode="aspectFit" style="width: 24rpx;height: 24rpx;vertical-align: middle;margin-bottom: 6rpx;"></image>
+          <span class="fans bold">{{mylibs.preview_count}}</span>
+          <image src="https://images.ufutx.com/202002/26/79b7d6ecc873712a7085fb08ee639f2d.png" mode="aspectFit" style="width: 26rpx;height: 26rpx;vertical-align: middle;margin:0 4rpx 6rpx 10rpx;"></image>
+          <span class="bold">{{mylibs.fans_count}}</span>
         </view>
-        <view class="font_24 text-right _bc-distance flo_l color-666">
-          <view class="color-theme font_24  bold">{{mylibs.distance}}<span class="font_28  bold">km</span></view>
-          <text style="margin-top: -18rpx;">{{login_time}}</text>
-        </view>
-        <view class="clearfloat"></view>
       </view>
-      <view class="main-tab-box">
+      <view class="font_28 _bc-center">
+        <view class="itemSchool">
+          <image src="https://images.ufutx.com/202002/20/9bcff5330ce2b6d9d20e25b310141bf0.png" mode="aspectFill" class="icon"></image>
+          {{mylibs.profile_courtship.graduate_school}}
+          <span style="color: #d2d4db" >|</span>
+          {{mylibs.profile_courtship.degree}}
+<!--          <view class="flo_r"> <span class="color-theme">·</span> 全日制</view>-->
+        </view>
+        <view class="itemInfo">
+          <view class="color-333 ellipsis_1 font_32 bold flo_l" style="max-width: 80%">{{mylibs.name}}</view>
+          <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:if="{{mylibs.sex=='2'}}" mode="aspectFill" class="flo_l icon"></image>
+          <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFill" wx:else class="flo_l icon" ></image>
+          <view class="flo_r ">
+            <image src="https://images.ufutx.com/202002/20/2024e9d4e75e92a551bf8f56d475c0eb.png"  mode="aspectFill" class="iconD flo_l"></image>
+            <view class="flo_r" style="margin-top: 10rpx">{{mylibs.profile_courtship.city || ''}}</view>
+            <view class="clearfloat"></view>
+          </view>
+          <view class="clearfloat"></view>
+          <view class="font_24">
+            {{mylibs.age? mylibs.age  : ''}}
+            <span style="color: #d2d4db" > | </span>
+            {{mylibs.profile_courtship.stature? mylibs.profile_courtship.stature : ''}}
+            <span style="color: #d2d4db" > | </span>
+            {{mylibs.profile_courtship.state? mylibs.profile_courtship.state: ''}}
+            <view class="color-theme flo_r font_24  bold text-right">{{mylibs.distance}}<span class="font_28  bold">km</span></view>
+          </view>
+          <!--          <view class="font_22 ellipsis_1">{{item.profile_courtship.introduction? item.profile_courtship.introduction : ''}}</view>-->
+        </view>
+        <view class="itemLabel font_26">
+<!--          <view class="itemBox flo_l"  wx:if="{{profile_courtship.degree}}">学历：{{mylibs.profile_courtship.degree}}</view>-->
+<!--          <view class="itemBox flo_l"  wx:if="{{profile_courtship.graduate_school}}">毕业于：{{mylibs.profile_courtship.graduate_school}}</view>-->
+          <view class="itemBox flo_l"  wx:if="{{profile_courtship.city}}">常居地：{{mylibs.profile_courtship.city}}</view>
+          <view class="itemBox flo_l"  wx:if="{{profile_courtship.resident_province}}">成长地：{{mylibs.profile_courtship.resident_city}}</view>
+          <view class="itemBox flo_l"  wx:if="{{profile_courtship.company}}">公司：{{mylibs.profile_courtship.company}}</view>
+          <view class="itemBox flo_l" wx:if="{{profile_courtship.industry}}">职业：{{mylibs.profile_courtship.industry}} - {{mylibs.profile_courtship.industry_sub}}</view>
+          <view class="itemBox flo_l"  wx:if="{{profile_courtship.post}}">职位：{{mylibs.profile_courtship.post}}</view>
+          <view class="itemBox flo_l" wx:if="{{profile_courtship.belief}}">信仰：{{mylibs.profile_courtship.belief}}</view>
+          <view class="clearfloat"></view>
+        </view>
+      </view>
+      <view class="_bc-center" style="padding: 4rpx 0 42rpx 0;width: 92%;">
         <block wx:for="{{tabs}}" wx:key="index">
-          <view class="main-tabs text-center inline-block" @tap="click_tab({{item}})">
-            <image src="{{item.icon}}" mode="aspectFit"></image>
-            <view class="font_22 color-666">{{item.name}}</view>
+          <view class="fnStyle text-center" @tap="click_tab({{item}})">
+            <image src="{{item.icon}}"  mode="aspectFill" class="icon"></image>
+            <view class="font_26 color-333">{{item.name}}</view>
           </view>
         </block>
-      </view>
-      <view class="main-approved-box" wx:if="{{mylibs.is_approved !== 0}}" >
-        <image  class="image" src="https://images.ufutx.com/201908/20/86ba88eebe8b6a61933e226734a39598.png" mode="widthFix"></image>
-        <view class="main-card text-right flo_r">
-          <view class="font_26 color-theme">{{mylibs.name}}</view>
-          <view class="font_22 colorb0">{{mylibs.card_num}}</view>
-          <view class="font_22 colorb0">认证通过时间：{{mylibs.approve_time}}</view>
-        </view>
-      </view>
-      <view class="main-approved-box" style="border: none">
-        <view class="color-666 flo_l font_28">自我介绍</view>
-        <view class="main-card flo_r font_26 color70">
-          {{profile_courtship.introduction}}
-        </view>
-      </view>
-      <view class="main-basic-box">
-        <view class="color-666 flo_l font_28">基本资料</view>
-        <view class="main-card flo_r font_26 color70">
-          <view class="infoList">
-            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.stature}}">{{profile_courtship.stature}}</view>
-            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.weight}}">{{profile_courtship.weight}}</view>
-            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.birthday}}">{{profile_courtship.birthday}}</view>
-            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.state}}">{{profile_courtship.state}}</view>
-            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.degree}}">{{'学历：' +profile_courtship.degree}}</view>
-            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.graduate_school}}">{{'毕业于：' +profile_courtship.graduate_school}}</view>
-            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.province}}">{{'常居地：' +profile_courtship.city}}</view>
-            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.resident_province}}">{{'成长地：' + profile_courtship.resident_city}}</view>
-            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.company}}">{{'公司：' +profile_courtship.company}}</view>
-            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.industry}}">{{'行业：' +profile_courtship.industry+'/'+profile_courtship.industry_sub}}</view>
-            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.post}}">{{'职位：' +profile_courtship.post}}</view>
-            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.belief}}">{{'信仰：' + profile_courtship.belief}}</view>
+        
+<!--        <view class="fnStyle text-center" @tap="goto('/pages/home/jointlyFriendlist')">-->
+<!--          <image src="https://images.ufutx.com/202002/26/45eb9f2f84c31d4702c48ac45818803a.png"  mode="aspectFill" class="icon"></image>-->
+<!--          <view class="font_26 color-333">共同喜欢</view>-->
+<!--        </view>-->
+        <view class="bc_dot"></view>
+        <view class="bc_info">
+          <view class="title color-333 font_32 bold">
+            关于我
+          </view>
+          <view class="font_26 color-333 text">
+            {{profile_courtship.introduction}}
+          </view>
+          <view class="title color-333 font_32 bold">
+            择偶标准
+          </view>
+          <view class="font_26 color-333 text">
+            {{profile_courtship.ideal_mate}}
           </view>
         </view>
-        <view class="clearfloat"></view>
-        <view class="color-666 flo_l font_28" style="margin-top: 32rpx;">理想对象</view>
-        <view class="main-card flo_r font_26 color70" style="padding: 50rpx 0; ">
-          {{profile_courtship.ideal_mate}}
-        </view>
       </view>
-      <view class="clearfloat"></view>
+      <view class="_bc-property">
+<!--        <image src="{{mylibs.avatar}}" mode="aspectFill" @tap="previewImageV2({{mylibs.avatar}})" @longpress="lookID({{id}})" style="width: 120rpx;height: 120rpx;border-radius: 50%;border:4rpx solid #ffffff;box-shadow: 1rpx 1rpx 12rpx #f4f4f4;" class="flo_l"></image>-->
+<!--        &lt;!&ndash;<image src="http://images.ufutx.com/201812/29/31c646a02f34492847c9644a99acc405.png" mode="aspectFit" wx:if="{{mylibs.is_approved == 0}}" class="vip-image" @tap="hint('该用户未实名认证！')"></image>&ndash;&gt;-->
+<!--        &lt;!&ndash;<image src="http://images.ufutx.com/201812/29/d26f9a4c175ddbceea2d5e9354ad8a0f.png" mode="aspectFit" wx:else class="vip-image" @tap="hint('该用户已实名认证！')"></image>&ndash;&gt;-->
+<!--        <view class="bold font_32 text-left ellipsis_1 name flo_l">-->
+<!--          <span class="flo_l ellipsis_1 color-666" style="max-width: 300rpx;margin-top: -2rpx;">{{mylibs.name}}</span>-->
+<!--          <image src="https://images.ufutx.com/201908/20/77fed53ebfab0b10a8e751111b20f787.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;" class="flo_l" wx:if="{{mylibs.profile_courtship.sex == '2'}}"></image>-->
+<!--          <image src="https://images.ufutx.com/201908/20/8307194a17256fcc3ff4df3fa6bb8c0e.png" mode="aspectFill" style="width: 32rpx;height: 32rpx;" class="flo_l" wx:else class="flo_l"></image>-->
+<!--          <block wx:if="{{mylibs.rank_id == '0'}}">-->
+<!--            <block wx:if="{{mylibs.temp_member == '0'}}">-->
+<!--              <view class="main-bc flo_l">普通VIP</view>-->
+<!--            </block>-->
+<!--            <block wx:else>-->
+<!--              <view class="main-bc_vip flo_l" @tap="goto('/pages/users/upgradeVIP')">尊享VIP</view>-->
+<!--            </block>-->
+<!--          </block>-->
+<!--          <block wx:else>-->
+<!--            <view class="main-bc_vip flo_l">{{mylibs.rank.name}}VIP</view>-->
+<!--          </block>-->
+<!--        </view>-->
+<!--        <view class="font_26 text-left _bc-age flo_l color-666">-->
+<!--          <span>{{mylibs.age}} · {{profile_courtship.stature}} · {{mylibs.profile_courtship.city?mylibs.profile_courtship.city:'未知城市'}}</span>-->
+<!--        </view>-->
+<!--        <view class="font_26 text-left flo_l _bc-age color-666" wx:if="{{mylibs.marriage.name}}">-->
+<!--          <span>推荐人：<span @tap="gotoType({{mylibs.marriage}})">{{mylibs.marriage.name}}</span></span>-->
+<!--        </view>-->
+<!--        <view class="font_26 text-left flo_l white box-recommend">-->
+<!--          <image src="https://images.ufutx.com/202002/26/664afa2d8344246af9d472f934163ab0.png" mode="aspectFit" style="width: 24rpx;height: 24rpx;vertical-align: middle;margin-bottom: 6rpx;"></image>-->
+<!--          <span class="fans bold">{{mylibs.preview_count}}</span>-->
+<!--          <image src="https://images.ufutx.com/202002/26/79b7d6ecc873712a7085fb08ee639f2d.png" mode="aspectFit" style="width: 26rpx;height: 26rpx;vertical-align: middle;margin:0 4rpx 6rpx 10rpx;"></image>-->
+<!--          <span class="bold">{{mylibs.fans_count}}</span>-->
+<!--        </view>-->
+<!--        <view class="font_24 text-right _bc-distance flo_l color-666">-->
+<!--          <view class="color-theme font_24  bold">{{mylibs.distance}}<span class="font_28  bold">km</span></view>-->
+<!--          <text style="margin-top: -18rpx;">{{login_time}}</text>-->
+<!--        </view>-->
+<!--        <view class="clearfloat"></view>-->
+      </view>
+<!--      <view class="main-tab-box">-->
+<!--        <block wx:for="{{tabs}}" wx:key="index">-->
+<!--          <view class="main-tabs text-center inline-block" @tap="click_tab({{item}})">-->
+<!--            <image src="{{item.icon}}" mode="aspectFit"></image>-->
+<!--            <view class="font_22 color-666">{{item.name}}</view>-->
+<!--          </view>-->
+<!--        </block>-->
+<!--      </view>-->
+<!--      <view class="main-approved-box" wx:if="{{mylibs.is_approved !== 0}}" >-->
+<!--        <image  class="image" src="https://images.ufutx.com/201908/20/86ba88eebe8b6a61933e226734a39598.png" mode="widthFix"></image>-->
+<!--        <view class="main-card text-right flo_r">-->
+<!--          <view class="font_26 color-theme">{{mylibs.name}}</view>-->
+<!--          <view class="font_22 colorb0">{{mylibs.card_num}}</view>-->
+<!--          <view class="font_22 colorb0">认证通过时间：{{mylibs.approve_time}}</view>-->
+<!--        </view>-->
+<!--      </view>-->
+<!--      <view class="main-approved-box" style="border: none">-->
+<!--        <view class="color-666 flo_l font_28">自我介绍</view>-->
+<!--        <view class="main-card flo_r font_26 color70">-->
+<!--          {{profile_courtship.introduction}}-->
+<!--        </view>-->
+<!--      </view>-->
+<!--      <view class="main-basic-box">-->
+<!--        <view class="color-666 flo_l font_28">基本资料</view>-->
+<!--        <view class="main-card flo_r font_26 color70">-->
+<!--          <view class="infoList">-->
+<!--            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.stature}}">{{profile_courtship.stature}}</view>-->
+<!--            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.weight}}">{{profile_courtship.weight}}</view>-->
+<!--            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.birthday}}">{{profile_courtship.birthday}}</view>-->
+<!--            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.state}}">{{profile_courtship.state}}</view>-->
+<!--            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.degree}}">{{'学历：' +profile_courtship.degree}}</view>-->
+<!--            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.graduate_school}}">{{'毕业于：' +profile_courtship.graduate_school}}</view>-->
+<!--            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.province}}">{{'常居地：' +profile_courtship.city}}</view>-->
+<!--            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.resident_province}}">{{'成长地：' + profile_courtship.resident_city}}</view>-->
+<!--            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.company}}">{{'公司：' +profile_courtship.company}}</view>-->
+<!--            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.industry}}">{{'行业：' +profile_courtship.industry+'/'+profile_courtship.industry_sub}}</view>-->
+<!--            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.post}}">{{'职位：' +profile_courtship.post}}</view>-->
+<!--            <view class="_bc-info-item flo_l font_28" wx:if="{{profile_courtship.belief}}">{{'信仰：' + profile_courtship.belief}}</view>-->
+<!--          </view>-->
+<!--        </view>-->
+<!--        <view class="clearfloat"></view>-->
+<!--        <view class="color-666 flo_l font_28" style="margin-top: 32rpx;">理想对象</view>-->
+<!--        <view class="main-card flo_r font_26 color70" style="padding: 50rpx 0; ">-->
+<!--          {{profile_courtship.ideal_mate}}-->
+<!--        </view>-->
+<!--      </view>-->
+<!--      <view class="clearfloat"></view>-->
       <!--<view class="main-friendCircle" @tap="goto('/pages/friendCircle/otherFriendCircle?id={{id}}')">-->
         <!--<view class="font_28 flo_l">TA的动态</view>-->
         <!--<image src="https://images.ufutx.com/201908/21/4d47b3a34d7ad4cf2575e693014d116b.png" class="flo_r image"-->
@@ -185,7 +262,7 @@
   export default class information extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
-      navigationBarTitleText: '个人信息',
+      navigationBarTitleText: '个人介绍'
       // navigationStyle: 'custom'
     }
     components = {
@@ -204,25 +281,25 @@
       title: '',
       tabs: [
         {
-          name: '共同好友',
-          icon: 'https://images.ufutx.com/201908/20/630ad7fa79e3d3200c637a1a3d52f3c9.png',
-          path: '/pages/home/jointlyFriendlist'
-        },
-        {
-          name: '为TA推荐',
-          icon: 'https://images.ufutx.com/201908/20/423e04a17ae43b9fcb5b236ea7d82af9.png',
-          path: '/pages/home/recommendFriendlist'
-        },
-        {
-          name: '相遇地图',
-          icon: 'https://images.ufutx.com/201908/20/f8efc0b62700a161551ef47e8445e859.png',
-          path: '/pages/map/index'
-        },
-        {
           name: '帮我约TA',
-          icon: 'https://images.ufutx.com/201908/20/620d7ba2d5ebba95b80a0e906f5d1b56.png',
+          icon: 'https://images.ufutx.com/202002/27/c6ea97bfd62e82c94c5a31030dea8b0d.png',
           path: '/pages/home/loveMate'
+        },
+        {
+          name: '共同喜欢',
+          icon: 'https://images.ufutx.com/202002/26/45eb9f2f84c31d4702c48ac45818803a.png',
+          path: '/pages/home/jointlyFriendlist'
         }
+        // {
+        //   name: '为TA推荐',
+        //   icon: 'https://images.ufutx.com/201908/20/423e04a17ae43b9fcb5b236ea7d82af9.png',
+        //   path: '/pages/home/recommendFriendlist'
+        // },
+        // {
+        //   name: '相遇地图',
+        //   icon: 'https://images.ufutx.com/201908/20/f8efc0b62700a161551ef47e8445e859.png',
+        //   path: '/pages/map/index'
+        // },
       ],
       list: [
         {
@@ -673,14 +750,26 @@
   page{
     background: white;
     .page__bd{
-      /*position: absolute;*/
-      /*top: 0;*/
-      /*left: 0;*/
       ._bc-photo{
-        width: 100%;
+        width: 92%;
         height: 50vh;
         background: #f3f4f9;
         position: relative;
+        border-radius: 22rpx;
+        overflow: hidden;
+        margin: auto;
+        .realName{
+          position: absolute;
+          top: 32rpx;
+          left: 22rpx;
+          background-image: url("https://images.ufutx.com/202002/26/d5e810272fab69fe6fe6119a0ffdab3b.png");
+          background-size: cover;
+          background-repeat: no-repeat;
+          width: 120rpx;
+          height: 48rpx;
+          border-radius: 32rpx;
+          padding: 0 12rpx;
+        }
       }
       .main-bc, .main-bc_vip{
         width: 80rpx;
@@ -841,10 +930,11 @@
   }
   .atten_btn{
     border-radius: 50%;
-    background: white;z-index: 9999;position:relative;
+    background: rgba(255,255,255,.8);
+    z-index: 9999;position:relative;
     width: 60rpx;height: 60rpx;
     box-shadow: 1rpx 1rpx 12rpx #d0d0d0;
-    margin-top: -36rpx;
+    margin-top: -90rpx;
     margin-right: 12rpx;
    }
   .list_name_box {
@@ -1012,13 +1102,12 @@
   }
   .box-recommend{
     position: absolute;
-    left: 0;
-    top: -72rpx;
-    background: rgba(99, 97, 101, 0.6);
+    left: 22rpx;
+    top: -92rpx;
+    background: rgba(0, 0, 0, 0.5);
     display: inline-block;
-    padding: 2rpx 12rpx;
+    padding: 2rpx 20rpx;
     border-radius: 22rpx;
-    box-shadow: 1rpx 1rpx 12rpx #bababa;
   }
   .fans{
     padding: 0 14rpx 0 8rpx;
@@ -1059,6 +1148,89 @@
       background-image: linear-gradient(to right, #eb6266 0%,  #D92553 100%);
       color: white;
       margin-bottom: -12rpx;
+    }
+  }
+  ._bc-center {
+    width: 88%;
+    padding: 20rpx;
+    box-shadow: 1rpx 1rpx 12rpx #e6e7eb;
+    border-radius: 16rpx;
+    margin-bottom: 42rpx;
+    background: #fff;
+    margin: 12rpx auto;
+    .itemSchool{
+      padding: 4rpx 12rpx;
+      background: #f4f5f9;
+      border-radius: 8rpx;
+      .icon{
+        width: 36rpx;
+        height: 36rpx;
+        margin-bottom: -6rpx;
+      }
+    }
+    .itemLabel{
+      padding: 6rpx;
+      margin-top: 12rpx;
+      .itemBox{
+        padding: 8rpx 16rpx;
+        background: #f4f5f9;
+        margin-right: 16rpx;
+        margin-bottom: 12rpx;
+      }
+    }
+    .itemInfo{
+      padding: 6rpx;
+      margin-top: 12rpx;
+      padding-bottom: 12rpx;
+      border-bottom: 1rpx solid #eeeded;
+      .icon{
+        width: 32rpx;
+        height: 32rpx;
+        margin-top: 12rpx;
+        margin-left: 4rpx;
+      }
+      .iconD{
+        width: 30rpx;
+        height: 30rpx;
+        margin-top: 14rpx;
+        margin-left: 4rpx;
+      }
+    }
+    .fnStyle{
+      padding: 22rpx;
+      width: 20%;
+      display: inline-block;
+      .icon{
+        width: 60rpx;
+        height: 60rpx;
+        margin-bottom: -6rpx;
+      }
+    }
+    .bc_dot{
+      width: 100%;
+      height: 1rpx;
+      border-bottom: 1rpx solid #eeeded;
+    }
+    .bc_info{
+      padding: 4rpx 42rpx;
+      .title{
+        position: relative;
+        display: inline-block;
+        margin-top: 32rpx;
+        &:after{
+          content: '';
+          width: 100rpx;
+          height: 8rpx;
+          background: #D92553;
+          position: absolute;
+          left: 0;
+          bottom: -12rpx;
+          border-radius: 22rpx;
+        }
+      }
+      .text{
+        margin-top: 22rpx;
+      }
     }
   }
 </style>

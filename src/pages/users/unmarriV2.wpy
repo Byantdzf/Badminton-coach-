@@ -11,7 +11,7 @@
         <block wx:else>
           <open-data type="userAvatarUrl"  mode="aspectFit" class="active_user flo_l"></open-data>
         </block>
-        <view  class="btn_red font_26 flo_r" @tap="ensure" style="margin-right:12rpx;width: 180rpx;height: 108rpx;line-height: 108rpx;margin-top: 24rpx;">保存</view>
+        <view  class="btn-theme font_26 flo_r" @tap="ensure" style="margin-right:42rpx;width: 120rpx;height: 52rpx;line-height: 52rpx;margin-top: 24rpx;border-radius: 42rpx;">保存</view>
       </view>
       <view style="height: 20rpx"></view>
       <!--<view class="section list">-->
@@ -22,9 +22,10 @@
           <!--</view>-->
         <!--</picker>-->
       <!--</view>-->
+      <view class="mainTitle bold font_28 color-333">基础资料</view>
       <view class="section list">
         <picker mode="date"  value="{{birthday}}" end="{{endDate}}"  @change="typing('birthday')">
-          <view class="picker">
+          <view class="picker color-333">
             出生日期 <span class="red">*</span>
             <text class="text">{{birthday}}</text>
           </view>
@@ -32,7 +33,7 @@
       </view>
       <view class="section list">
         <picker  value="{{stateIndex}}" range="{{state}}"  bindchange="stateChange" >
-          <view class="picker">
+          <view class="picker color-333">
             单身状态 <span class="red">*</span>
             <text class="text">{{state[stateIndex]}}</text>
           </view>
@@ -40,7 +41,7 @@
       </view>
       <view  class="section list">
         <picker  value="{{statureIndex}}" range="{{statureList}}"  bindchange="statureChange" >
-          <view class="picker">
+          <view class="picker color-333">
             身高 <span class="red">*</span>
             <text class="text">{{statureList[statureIndex]}}</text>
           </view>
@@ -48,7 +49,7 @@
       </view>
       <view  class="section list">
         <picker  value="{{weightIndex}}" range="{{weightList}}"  bindchange="weightChange" >
-          <view class="picker">
+          <view class="picker color-333">
             体重 <span class="red">*</span>
             <text class="text">{{weightList[weightIndex]}}</text>
           </view>
@@ -62,8 +63,9 @@
         <!--国籍 <span class="red">*</span>-->
         <!--<input type="text" placeholder="输入您的国籍" class="Inp"  @input="typing('country')" @blur="typing_v2" value="{{country}}" focus="{{countryFocus}}"/>-->
       <!--</view>-->
+      <view class="mainTitle bold font_28 color-333">个人资料</view>
       <view  class="list ">
-        <view class="picker">
+        <view class="picker color-333">
           常居地 <span class="red">*</span>
           <selectCity :itemIndex.sync="CITY_INDEX" class="flo_r">
             <text class="text" slot="Input">{{region[1]}} / {{region[2]}}</text>
@@ -72,14 +74,14 @@
       </view>
       <view  class="list ">
         <picker  value="{{residentIndex}}" range="{{resident_type}}"  bindchange="resident_typeChange" >
-          <view class="picker">
+          <view class="picker color-333">
             成长环境 <span class="red">*</span>
             <text class="text">{{resident_type[residentIndex]}}</text>
           </view>
         </picker>
       </view>
       <view  class="list ">
-        <view class="picker">
+        <view class="picker color-333">
           成长地 <span class="red">*</span>
           <selectCity1 :itemIndex.sync="CITY_INDEX1" class="flo_r">
             <text class="text" slot="Input">{{region_id[0]}} / {{region_id[1]}}</text>
@@ -88,27 +90,27 @@
       </view>
       <view  class="list ">
         <picker  value="{{degreeIndex}}" range="{{degree}}"  bindchange="degreeChange" >
-          <view class="picker">
+          <view class="picker color-333">
             最高学历 <span class="red">*</span>
             <text class="text" >{{degree[degreeIndex]}}</text>
           </view>
         </picker>
       </view>
-      <view  class="list {{Graduate_schoolFocus || !graduate_school ? 'InputFocus' : ''}}">
+      <view  class="list {{Graduate_schoolFocus || !graduate_school ? 'InputFocus' : ''}} color-333">
         <span class="flo_l">毕业学校 <span class="red">*</span></span>
         <input type="text" placeholder="输入您的学校" class="Inp" @input="typing('graduate_school')" @blur="typing_v2"   value="{{graduate_school}}" focus="{{Graduate_schoolFocus}}" cursor-spacing="50"/>
       </view>
-      <view  class="list {{companyFocus || !company ? 'InputFocus' : ''}}">
+      <view  class="list {{companyFocus || !company ? 'InputFocus' : ''}} color-333">
         <span class="flo_l">工作单位</span>
         <input type="text" placeholder="公司名称" class="Inp" @input="typing('company')" @blur="typing_v2"  value="{{company}}" focus="{{companyFocus}}" cursor-spacing="50"/>
       </view>
-      <view  class="list {{companyFocus || !company ? 'InputFocus' : ''}}">
+      <view  class="list {{companyFocus || !company ? 'InputFocus' : ''}} color-333">
         <span class="flo_l">公司职位</span>
         <input type="text" placeholder="公司职位" class="Inp" @input="typing('post')" @blur="typing_v2"  value="{{post}}" cursor-spacing="50"/>
       </view>
       <view  class="list ">
         <picker  value="{{work_sortIndex}}" range="{{work_sort}}"  bindchange="work_sortChange" >
-          <view class="picker">
+          <view class="picker color-333">
             单位性质 <span class="red">*</span>
             <text class="text" >{{work_sort[work_sortIndex]}}</text>
           </view>
@@ -116,7 +118,7 @@
       </view>
       <view  class="list">
         <picker mode="multiSelector" @change="bindMultiPickerChange2" @columnchange="bindMultiPickerColumnChange2" value="{{multiIndex2}}" range="{{objectMultiArray}}" >
-          <view class="picker">
+          <view class="picker color-333">
             行业 <span class="red">*</span>
             <text class="text ellipsis_1 flo_r text-right" style="width: 80%" wx:if="{{show && industry}}"> {{industry}} / {{industry_sub}}</text>
             <text class="text ellipsis_1 flo_r text-right" style="width: 80%" wx:else>{{objectMultiArray[0][multiIndex2[0]]}} - {{objectMultiArray[1][multiIndex2[1]]}}</text>
@@ -125,28 +127,39 @@
       </view>
       <view  class="list ">
         <picker  value="{{beliefIndex}}" range="{{belief}}"  bindchange="beliefChange" >
-          <view class="picker">
+          <view class="picker color-333">
             信仰 <span class="red">*</span>
             <text class="text" >{{belief[beliefIndex]}}</text>
           </view>
         </picker>
       </view>
-      <view  class="list {{wechat_idFocus || !wechat_id ? 'InputFocus' : ''}}">
+      <view  class="list color-333 {{wechat_idFocus || !wechat_id ? 'InputFocus' : ''}}">
         <span class="flo_l">微信号 <span class="red">*</span></span>
         <input type="text" placeholder="微信号" class="Inp" @input="typing('wechat_id')" @blur="typing_v2"  value="{{wechat_id}}" cursor-spacing="50"/>
       </view>
-      <view  class="list {{IntroductionFocus ? 'InputFocus' : ''}} {{!introduction ? 'InputFocus' : ''}}" style="height: 420rpx">
-        个人介绍（家庭情况，兴趣爱好，自我评价） <span class="red">*</span>
-        <view class="weui-cell">
-          <view class="weui-cell__bd" style="border-top: 1rpx solid #d3d3d3;border-bottom: 1rpx solid #d3d3d3;overflow: auto;">
+      <view class="mainTitle bold font_28 color-333">个人相册</view>
+      <view class="userPhoto">
+<!--        <block wx:for="{{photos}}" wx:key="index">-->
+<!--          <image src="{{item}}" mode="aspectFill" @tap="chooseimage"></image>-->
+<!--        </block>-->
+        <view class="flo_l" wx:for="{{photos}}" wx:key="{{index}}" @tap="previewImage({{item.photo}},{{photos}})" style="position: relative">
+          <image src="{{item.photo}}" mode="aspectFill" class="imge"  @longpress="deleteImage({{index}},{{item.id}})"/>
+        </view>
+        <image src="https://images.ufutx.com/202002/27/b38976f0c5f1fbfa2f0878acc71051e6.png" mode="aspectFit" @tap="chooseimage"></image>
+        <view class="font_22 text-right" style="padding: 0 22rpx;color: #d92557;">*长按删除图片</view>
+      </view>
+      <view class="mainTitle bold font_28 color-333">自我介绍</view>
+      <view  class="list color-333 {{IntroductionFocus ? 'InputFocus' : ''}} {{!introduction ? 'InputFocus' : ''}}" style="height: 420rpx;border: none;">
+        关于我 <span class="red">*</span>
+        <view class="">
+          <view class="" style="border-top: 1rpx solid #d3d3d3;border-bottom: 1rpx solid #d3d3d3;overflow: auto;">
             <textarea class="" @input="typing('introduction')" @blur="typing_v2" adjust-position="true" style="width: 100% !important;" value="{{introduction}}" focus="{{IntroductionFocus}}" />
           </view>
-          <!--<view class="font_12" style="text-align: right">限140字</view>-->
         </view>
       </view>
-      <view  class="list {{Ideal_mateFocus ? 'InputFocus' : ''}} {{!ideal_mate ? 'InputFocus' : ''}}" style="height: 420rpx">
+      <view  class="list color-333 {{Ideal_mateFocus ? 'InputFocus' : ''}} {{!ideal_mate ? 'InputFocus' : ''}}" style="height: 420rpx;border: none;">
         理想对象（写下你对另一半的期望） <span class="red">*</span>
-        <view class="weui-cell" >
+        <view class="" >
           <!--<view class="weui-cell__bd" >-->
           <textarea class="" @input="typing('ideal_mate')" @blur="typing_v2" adjust-position="true" style="width: 100% !important;border-top: 1rpx solid #d3d3d3;border-bottom: 1rpx solid #d3d3d3;overflow: auto;"  value="{{ideal_mate}}" focus="{{Ideal_mateFocus}}" />
           <!--</view>-->
@@ -168,12 +181,13 @@
   import Loading from '../../components/loading'
   import selectCity1 from '../../components/selectCity'
   import selectCity from '../../components/selectCity'
+  import uploadImages from '../../components/uploadImages'
 
   export default class Unmarried extends wepy.page {
     mixins = [base, http, user, ShareMessage]
-    components = {NavBar, Loading, selectCity1, selectCity}
+    components = {NavBar, Loading, selectCity1, selectCity, uploadImages}
     config = {
-      navigationBarTitleText: '修改单身资料',
+      navigationBarTitleText: '编辑资料',
       enablePullDownRefresh: false
     }
     data = {
@@ -203,6 +217,7 @@
       region: ['国', '省', '市'],
       region_id: ['省', '市', '区'],
       CITY_INDEX: 0,
+      photos: [],
       CITY_INDEX1: 1,
       birthday: '1990-01-01',
       user: {
@@ -348,6 +363,12 @@
           that.ideal_mate = result.ideal_mate
           that.work_text = result.work_sort
           that.DegreeText = result.degree
+          // let photoList = []
+          // for (let item of result.photos) {
+          //   photoList.push(item.photo)
+          // }
+          that.photos = result.photos
+          console.log(that.photos)
           console.log(result.stature)
           console.log(result.weight)
 
@@ -465,6 +486,40 @@
       })
     }
     methods = {
+      deleteImage(index,id) { // 删除
+        let that = this
+        wx.showModal({
+          title: '提示',
+          content: '删除该照片？',
+          success(res) {
+            if (res.confirm) {
+              that.$delete({url: `${service.host}/users/profile/photos/${id}`}, {
+                success: ({code, res}) => {
+                  wx.showToast({
+                    title: '删除成功',
+                    icon: 'none',
+                    duration: 1500
+                  })
+                  that.photos.splice(index,1)
+                  that.$apply()
+                },
+                fail: ({code, data}) => {
+                },
+                complete: () => {
+                }
+              })
+            } else if (res.cancel) {
+              console.log('用户点击取消')
+            }
+          }
+        })
+      },
+      previewImage(imge, list) {
+        this.$previewImage(imge, list)
+      },
+      chooseimage() { // 上传生活照
+        this.$invoke('uploadImages', 'chooseimage')
+      },
       // 更新userinfo
       onGotUserInfo: function(e) {
         console.log(e.detail.errMsg)
@@ -674,6 +729,30 @@
 //          }
     }
     events = {
+      'UpLoadImage': (value) => {
+        let vm = this
+        let photos = []
+        photos.push(value)
+        vm.$post({
+          url: `${service.host}/users/profile/photos`,
+          data: {
+            photos: photos
+          }
+        }, {
+          success: ({code, data}) => {
+            wx.showToast({
+              title: '上传成功',
+              icon: 'none',
+              duration: 1500
+            })
+            vm.getuser()
+          },
+          fail: ({code, data}) => {
+          },
+          complete: () => {
+          }
+        })
+      },
       'selectCity': (value, index) => {
         console.log(value)
         console.log(index)
@@ -693,7 +772,7 @@
     background: #ffffff;
   }
   .active {
-    border: 1 rpx solid red
+    border: 1rpx solid red
   }
 
   .display_inlin {
@@ -723,19 +802,6 @@
   .weui-cell{
     padding: 12rpx 0;
   }
-  .list{
-    margin-left: 32rpx;
-    margin-right: 32rpx;
-    height: 72rpx;
-    line-height: 72rpx;
-    font-size: 28rpx;
-    padding-right: 22rpx;
-    padding-left: 22rpx;
-    margin-bottom: 22rpx;
-    border-radius: 6rpx;
-    background: #f4f3f9;
-    border: 2rpx solid #eeeeee;
-  }
   .Inp{
     text-align: right; width: 72%;height: 72rpx;
     float: right;
@@ -757,7 +823,7 @@
     /*box-shadow: 5rpx 5rpx 12rpx #c2571f;*/
   }
   .InputFocus{
-    border: 1px solid red;
+    color: red;
   }
   .active_user{
     width: 100rpx;
@@ -774,5 +840,24 @@
     border-radius: 6rpx;
     box-shadow: 1rpx 1rpx 12rpx #dbdbdb;
     line-height: inherit;
+  }
+  .mainTitle{
+    padding: 16rpx 32rpx;
+    background: #f4f5f9;
+  }
+  .userPhoto{
+    padding: 22rpx;
+    image{
+      width: 160rpx;
+      height: 160rpx;
+      margin: 0 16rpx 12rpx 0;
+    }
+  }
+  .list{
+    height: 86rpx;
+    line-height: 86rpx;
+    font-size: 28rpx;
+    margin: 0 32rpx;
+    border-bottom: 2rpx solid #f4f5f9;
   }
 </style>

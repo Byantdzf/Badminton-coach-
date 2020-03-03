@@ -1,8 +1,19 @@
 <template>
   <Loading :init.sync="init"></Loading>
-  <Tab_NavBar rgba="#ffffff" title="最新消息"></Tab_NavBar>
+  <view class="mainTab">
+    <view class="itemTab text-center" @tap="tabClick('0')">
+      <image src="https://images.ufutx.com/202002/25/e487769514ef754ca16fc70086a7a420.png" mode="aspectFit"></image>
+      <view class="font_26">好友消息</view>
+      <view class="active" wx:if="{{type == 0}}"></view>
+    </view>
+    <view class="itemTab text-center" @tap="tabClick('1')">
+      <image src="https://images.ufutx.com/202002/25/8d99bbf686fced76a38192c448f089ae.png" mode="aspectFit"></image>
+      <view class="font_26">系统消息</view>
+      <view class="active" wx:if="{{type == 1}}"></view>
+    </view>
+  </view>
   <view class="page-user">
-    <view wx:for="{{listV2}}" wx:key="index" class="list ff" @tap="goto({{index}}, {{item}})">
+    <view wx:for="{{listV2}}" wx:key="index" class="list ff" wx:if="{{type == 0}}" @tap="goto({{index}}, {{item}})">
       <view class="flo_l relative_bot">
         <image src="{{item.icon}}" class="_icon" mode="aspectFill" wx:if="{{item.icon}}"></image>
         <view class="dost white" wx:if="{{item.message.new_count && item.message.new_count != 0}}">{{item.message.new_count}}</view>
@@ -61,37 +72,38 @@
   import user from '../../mixins/user'
   import ShareMessage from '../../mixins/ShareMessage'
   import Loading from '../../components/loading'
-  import Tab_NavBar from '../../components/Tab_NavBar'
   import {service} from '../../config.js'
 
   export default class news extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
       navigationBarTitleText: '我的消息',
-      enablePullDownRefresh: true
+      enablePullDownRefresh: true,
+      navigationBarBackgroundColor: '#f4f5f9'
     }
     components = {
-      Loading, Tab_NavBar
+      Loading
     }
     data = {
       init: false,
       page: 1,
       loading: false,
       noMore: false,
+      type: 0,
       list: [],
       listV2: [],
       typeList: [
         {
-          icon: 'http://images.ufutx.com/201905/24/2a8b1b56565df18e7ad8e3e4d7554629.png',
+          icon: 'https://images.ufutx.com/202002/25/47798be12f5dd811bb419390a946969c.png',
           title: '福恋小助手',
           message: {},
           path: `/pages/home/chitchat?id=1&name=福恋小助手&type=chat`
-        },
-        {
-          icon: 'http://images.ufutx.com/201905/24/ee6e88b5d0ce3911300a04f028284bf1.png',
-          title: '系统通知',
-          message: {},
-          path: '/pages/users/myNews'
+        // },
+        // {
+        //   icon: 'http://images.ufutx.com/201905/24/ee6e88b5d0ce3911300a04f028284bf1.png',
+        //   title: '系统通知',
+        //   message: {},
+        //   path: '/pages/users/myNews'
         }
       ]
     }
@@ -137,6 +149,10 @@
 
     // 初始化页面数据
     initPageData() {
+      if (this.type == 1) {
+        this.getLibraries()
+        return
+      }
       this.$get({url: `${service.host}/message/linkmen/v2`, data: {page: this.page}}, {
         success: ({code, data}) => {
           this.init = true
@@ -226,9 +242,136 @@
         }
       })
     }
+    getLibraries(keyword) {
+      let _this = this
+      _this.loading = true
+      this.$get({
+        url: service.notices,
+        data: {
+          page: this.page
+        }
+      }, {
+        success: ({code, data}) => {
+          _this.init = true
+          _this.noMore = false
+          _this.loading = false
+          if (data.length == 0 && data.last_page == 1) {
+            _this.loading = false
+            _this.noMore = true
+            // _this.list = []
+            return
+          }
+          if (data.current_page > data.last_page) {
+            _this.noMore = true
+            _this.loading = false
+            return
+          }
+          data = data.data
+          if (this.isArray(data) && data.length === 0) {
+            _this.noMore = true
+            _this.list = []
+            return
+          }
+          if (this.list.length === 0 || this.page === 1) {
+            // this.list = []
+            // this.list = [...this.typeList]
+            if (data.length > 0) {
+              for (let item of data) {
+                this.list.push({
+                  icon: item.other_user.circle_avatar ? item.other_user.circle_avatar:item.other_user.photo,
+                  title: item.other_user.name,
+                  type: item.type,
+                  id: item.id,
+                  message: {
+                    content_type: item.type ? item.type : '',
+                    content: item.content ? item.content : '',
+                    created_at: item.created_at ? item.created_at : '',
+                    id: item.other_user.id,
+                    type: item.other_user.type,
+                    new_count: item.new_count
+                  },
+                  path: `/pages/home/chitchat?id=${item.other_user.id}&name=${item.other_user.name}&type=${item.other_user.type}`
+                })
+              }
+            }
+            this.loading = false
+            this.$apply()
+          } else {
+            let items = []
+            for (let item of data) {
+              items.push({
+                icon: item.other_user.circle_avatar ? item.other_user.circle_avatar:item.other_user.photo,
+                title: item.other_user.name,
+                type: item.type,
+                id: item.id,
+                message: {
+                  content_type: item.type ? item.type : '',
+                  content: item.content ? item.content : '',
+                  created_at: item.created_at ? item.created_at : '',
+                  id: item.other_user.id,
+                  type: item.other_user.type,
+                  new_count: item.new_count
+                },
+                path: `/pages/home/chitchat?id=${item.other_user.id}&name=${item.other_user.name}&type=${item.other_user.type}`
+              })
+            }
+            this.list = [...this.list, ...items]
+            console.log(this.list)
+            this.$apply()
+          }
+          // if (_this.list.length === 0 || _this.page === 1) {
+          //   _this.list = data
+          // } else {
+          //   data.map(function (item, index) {
+          //     _this.list.push(item)
+          //   })
+          // }
+          _this.noMore = true
+          _this.page += 1
+        
+          //          _this.libs = data.data
+        },
+        fail: ({code, data}) => {
+        },
+        complete: () => {
+          this.loaded = false
+        }
+      })
+    }
 
     methods = {
+      tabClick(value) { // NavTab返回值
+        this.$showLoading('加载中...')
+        console.log(value)
+        this.list = []
+        this.page = 1
+        this.type = value
+        this.$apply()
+        this.initPageData()
+      },
       goto(index, item) {
+        console.log(item)
+        let url = ''
+        if (item.type) {
+          if (item.type == 'gift') {
+            url = '/pages/users/myGift'
+          } else if (item.type == 'follow') {
+            if (item.message.type == 'single') {
+              url = '/pages/home/information?id=' + item.message.id
+            } else {
+              url = '/pages/home/introducer?id=' + item.message.id
+            }
+          } else if (item.type == 'wechat') {
+            url = '/pages/users/examineWeChat?id=' + item.id
+          } else if (item.type == 'friend') {
+            url = '/pages/users/auditFriend?id=' + item.id
+          } else if (item.type == 'temp') {
+            url = '/pages/users/tempMember'
+          } else if (item.type == 'moment') {
+            url = `/pages/friendCircle/friendCircleDetail?id=${item.type_id}`
+          }
+          wx.navigateTo({url: url})
+        }
         wx.navigateTo({url: item.path})
       }
     }
@@ -239,22 +382,25 @@
   @import "../../styles/custom/fn.less";
   @import "../../styles/custom/reset.less";
 page{
-  background: #fcfcfc;
+  background: #f4f5f9;
   .page-user {
     position: relative;
-    height: 100vh;
+    min-height: 100vh;
+    padding-top: 14vw;
+    margin-top: -18vw;
+    background: white;
   }
   .list{
     padding: 22rpx 0 0 37rpx;
     ._icon{
       width: 100rpx;
       height: 100rpx;
-      margin-top: 6rpx;
+      margin-top: 4rpx;
       border-radius: 50%;
     }
     ._time{
       color: #cacaca;
-      margin-top: 16rpx;
+      margin-top: 6rpx;
       margin-right: 28rpx;
     }
     .dost{
@@ -277,7 +423,7 @@ page{
     ._item-user{
       padding-right: 4%;
       color: #838383;
-      margin-top: 6rpx;
+      margin-top: 12rpx;
       width: 78%;
       font-weight: 500;
       border-bottom: 1rpx solid #e2e2e2;
@@ -288,7 +434,40 @@ page{
   .message_type_text {
     margin-left: 8rpx;
     color: @theme;
-    margin-top: 8rpx;
+    margin-top: 4rpx;
+  }
+  .mainTab{
+    width: 94%;
+    height: 36vw;
+    background-image: url("https://images.ufutx.com/202002/25/b13e386f65c2a642df93368ab0f7a5aa.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: auto;
+    position: relative;
+    z-index: 99999;
+    text-align: center;
+    .itemTab{
+      width: 46%;
+      display: inline-block;
+      /*background: red;*/
+      margin-top: 32rpx;
+      padding: 22rpx 0;
+      position: relative;
+      image{
+        width: 90rpx;
+        height: 90rpx;
+        margin-bottom: -6rpx;
+      }
+      .active{
+        width: 120rpx;
+        height: 8rpx;
+        background: #D92553;
+        position: absolute;
+        left: 14vw;
+        bottom: 0;
+        border-radius: 16rpx;
+      }
+    }
   }
 }
 </style>

@@ -3,79 +3,85 @@
   <Loading :init.sync="init"></Loading>
   <form bindsubmit="formSubmit" report-submit>
     <button formType="submit" class="btn" data-type="click">
-      <view class="page-user">
-        <view class="state font_28 bold">
-          <view class="bold" style="margin-bottom: 12rpx;">当前状态：
-            <span class="success" style="margin-bottom: 12rpx;" wx:if="{{user.is_approved === 1}}">认证成功 <icon type="success_no_circle" size="20" /></span>
-            <span class="orange" style="margin-bottom: 12rpx;" wx:else>未认证
-              <span>
-                （剩余{{user.approve_time}}次）
-              </span>
-            </span>
-          </view>
-          <view class="color-666 font_24">实名认证是平台的基本要求，让Ta对您更放心！</view>
-          <!--<view class="color-666 font_24" wx:if="{{user.type === 'single'}}">实名认证通过后，邀请好友认证<span class="color-theme">可退还认证费！</span></view>-->
-        </view>
-        <view class="page-box text-center state">
-          <block wx:if="{{user.approve_order === 0 && user.type === 'single' && system !== 'iOS'}}">
-            <view class="font_26">平台为什么需要认证？</view>
-            <view class="font_24 text-left">为了保证用户资料的真实性，平台采用了人工审核及第三方正规渠道认证，需要一定人力成本和第三方费用，并为每一个会员建立专属档案。</view>
-            <button class="box-btn font_28" style="width: 55%;margin-top: 22rpx;" @tap="buyApprove" >认证加入福恋（10元）</button>
-          </block>
-          <block wx:else>
-            <view>
-              <span class="font_28">真实姓名：</span>
-              <input type="text" placeholder="请填写你的真实姓名" value="{{user.name}}" disabled="{{user.is_approved == 1}}" @input="typing('name')" />
-              <view class="clearfloat"></view>
-            </view>
-            <!--<view>-->
-              <!--<span class="font_28">手机号：</span>-->
-              <!--<input type="number" placeholder="请填写你的手机号" value="{{user.mobile}}" @input="typing('mobile')" />-->
-              <!--<view class="clearfloat"></view>-->
-            <!--</view>-->
-            <view>
-              <span class="font_28">身份证号：</span>
-              <input type="idcard" placeholder="请填写你的身份证号码" value="{{user.card_num}}" disabled="{{user.is_approved == 1}}" @input="typing('card_num')" />
-              <view class="clearfloat"></view>
-            </view>
-            <block  wx:if="{{user.is_approved !== 1}}">
-              <view class="font_24 text-left">
-                <switch bindchange="switch2Change" type="checkbox"/>
-                <span @tap="goto('/pages/users/protocol')">了解并同意服务协议</span>
-              </view>
-              <button class=" font_28 ff color-666 inline-block btn-theme" style="width: 30%;height: 72rpx;line-height: 72rpx;margin-right: 22rpx;"  @tap="hrefing(identification_photos,'身份证照片',{{user.identification_photos}})">人工认证</button>
-              <block wx:if="{{user.type === 'single'}}">
-                <button class="font_28 inline-block btn-theme" style="width: 30%;height: 72rpx;line-height: 72rpx" @tap="approve">自动认证</button>
-              </block>
-              <block wx:else>
-                <button class="font_28 inline-block btn-theme" style="width: 30%;height: 72rpx;line-height: 72rpx" @tap="ensure">免费认证</button>
-              </block>
-            </block>
-            <!--<block wx:else>-->
-              <!--<button class="font_28 inline-block btn-theme" style="width: 30%;height: 72rpx;line-height: 72rpx" hover-class="btn_active" @tap="returnCost">退还认证费</button>-->
-            <!--</block>-->
-          </block>
-          <view class="clearfloat"></view>
-        </view>
-      </view>
-      <!--<view class="text-center" wx:if="{{user.is_approved !== 1}}">-->
-        <!--<button class="box-btn" @tap="ensure" wx:if="{{user.approve_order !== 0}}">提交</button>-->
-        <!--<button class="box-btn" @tap="buyApprove"  wx:else>提交</button>-->
-      <!--</view>-->
-      <view class=" font_26 state info">
-        <view class="font_28 title bold">注意事项</view>
-        <view style="margin: 0rpx 22rpx;padding-top: 12rpx;" class="color-666">
-          <view>1、购买成功后，你将有三次提交机会，每次提交会消耗一次机会，若三次均未能通过,请<span class="color-theme" @tap="hrefing(identification_photos,'身份证照片',{{user.identification_photos}})">上传身份证</span>人工认证；
-          </view>
-          <text>2、请输入用您自己的身份证登记的手机号；</text>
-          <text>3、如没有自己身份登记的手机号，请按点击红色字体，按要求上传个人证件；</text>
-          <text>4、实名认证是平台的基本要求，只有认证的用户才能互看信息和交流互动；</text>
-          <text>5、认证成功后将不能更改，请务必确认信息准确无误；</text>
-          <text>6、由阿里云提供实名认证服务，安全可靠！</text>
-        </view>
-      </view>
     </button>
   </form>
+  <view class="page-user">
+    <image src="https://images.ufutx.com/202002/26/d3f278235101bd71305c7879427d18bf.png" mode="aspectFit" class="image"></image>
+    <view class="text">
+      <view class="font_30 bold color-333">为什么要认证？</view>
+      <view class="font_26 color-666">为了给大家创造一个真实安全优质的单身交友平台，每一个人都需要完成实名认证！</view>
+    </view>
+    <view class="text">
+      <view class="font_30 bold color-333">100%隐私安全</view>
+      <view class="font_26 color-666">认证信息仅用于官方审核，无需担心信息泄露，实名认证对接阿里云，安全可靠</view>
+    </view>
+<!--    <view class="text" style="margin-bottom: 32rpx;">-->
+<!--      <view class="font_30 bold color-333">当前状态：-->
+<!--        <span class="success" style="margin-bottom: 12rpx;">认证成功 <icon type="success_no_circle" size="20" /></span>-->
+<!--        <span class="orange" style="margin-bottom: 12rpx;">未认证</span>-->
+<!--      </view>-->
+<!--      <view class="font_26 color-666">实名认证是平台的基本要求，让Ta对您更放心！</view>-->
+<!--    </view>-->
+  </view>
+  <view style="border-top: 12rpx solid #f4f5f9;margin: 42rpx 0 12rpx 0;" wx:if="{{user.is_approved == 1}}">
+    <view class="mainBox" >
+      <!--    <image src="https://images.ufutx.com/202002/26/9bcff5330ce2b6d9d20e25b310141bf0.png" mode="aspectFit"></image>-->
+      <view class="text">
+        <view class="font_28 bold color-333">{{user.name}}</view>
+        <view class="font_28 bold color-333">{{user.card_num}}</view>
+      </view>
+    </view>
+  </view>
+  <view  class="page-user" style="padding: 0" wx:if="{{user.is_approved !== 1}}">
+    <view class="page-box text-center">
+      <block wx:if="{{user.approve_order === 0 && user.type === 'single' && system !== 'iOS'}}">
+        <view class="font_26">平台为什么需要认证？</view>
+        <view class="font_24 text-left">为了保证用户资料的真实性，平台采用了人工审核及第三方正规渠道认证，需要一定人力成本和第三方费用，并为每一个会员建立专属档案。</view>
+        <button class="box-btn font_28" style="width: 55%;margin-top: 22rpx;" @tap="buyApprove" >认证加入福恋（10元）</button>
+      </block>
+      <block wx:else>
+        <view class="inputBox">
+          <span class="font_28 color-333">姓名</span>
+          <input type="text" placeholder="请填写你的真实姓名" value="{{user.name}}" disabled="{{user.is_approved == 1}}" @input="typing('name')" />
+          <view class="clearfloat"></view>
+        </view>
+        <view class="inputBox color-333">
+          <span class="font_28">身份证号码</span>
+          <input type="idcard" placeholder="请填写你的身份证号码" value="{{user.card_num}}" disabled="{{user.is_approved == 1}}" @input="typing('card_num')" />
+          <view class="clearfloat"></view>
+        </view>
+        <block  wx:if="{{user.is_approved !== 1}}">
+          <block wx:if="{{user.type === 'single'}}">
+            <button class="font_28 inline-block btn-theme" style="width: 76%;height: 80rpx;line-height: 80rpx" @tap="approve">自动认证</button>
+          </block>
+          <block wx:else>
+            <button class="font_28 inline-block btn-theme" style="width: 76%;height: 80rpx;line-height: 80rpx" @tap="ensure">免费认证</button>
+          </block>
+          <view class="font_26 color-333">提交即表明您同意 <span class="color-theme" @tap="goto('/page/users/protocol')">《用户协议》</span></view>
+        </block>
+        <!--<block wx:else>-->
+        <!--<button class="font_28 inline-block btn-theme" style="width: 30%;height: 72rpx;line-height: 72rpx" hover-class="btn_active" @tap="returnCost">退还认证费</button>-->
+        <!--</block>-->
+      </block>
+      <view class="clearfloat"></view>
+    </view>
+  </view>
+  <!--<view class="text-center" wx:if="{{user.is_approved !== 1}}">-->
+  <!--<button class="box-btn" @tap="ensure" wx:if="{{user.approve_order !== 0}}">提交</button>-->
+  <!--<button class="box-btn" @tap="buyApprove"  wx:else>提交</button>-->
+  <!--</view>-->
+<!--  <view class=" font_26 state info">-->
+<!--    <view class="font_28 title bold">注意事项</view>-->
+<!--    <view style="margin: 0rpx 22rpx;padding-top: 12rpx;" class="color-666">-->
+<!--      <view>1、购买成功后，你将有三次提交机会，每次提交会消耗一次机会，若三次均未能通过,请<span class="color-theme" @tap="hrefing(identification_photos,'身份证照片',{{user.identification_photos}})">上传身份证</span>人工认证；-->
+<!--      </view>-->
+<!--      <text>2、请输入用您自己的身份证登记的手机号；</text>-->
+<!--      <text>3、如没有自己身份登记的手机号，请按点击红色字体，按要求上传个人证件；</text>-->
+<!--      <text>4、实名认证是平台的基本要求，只有认证的用户才能互看信息和交流互动；</text>-->
+<!--      <text>5、认证成功后将不能更改，请务必确认信息准确无误；</text>-->
+<!--      <text>6、由阿里云提供实名认证服务，安全可靠！</text>-->
+<!--    </view>-->
+<!--  </view>-->
   <modal>
       <view slot="wrapper">
         <view class="text-center" style="position: relative;margin-top: 6%;">
@@ -152,14 +158,14 @@
   export default class realName extends wepy.page {
     mixins = [base, http, user]
     config = {
-      navigationBarTitleText: '实名验证',
+      navigationBarTitleText: '实名认证',
       enablePullDownRefresh: true
     }
     data = {
       user: {},
       init: false,
       formId: [],
-      protocol: false,
+      protocol: true,
       shareImage: true,
       invite_pic: '',
       tempId: [], // 模板id
@@ -242,12 +248,28 @@
           // }
           // if (this.user.card_num) {
           //   this.disabled1 = true
-          // }
+          // console.log(this.interceptAndReplace(data.card_num,6,2,'*'),'as');
+          // console.log(this.interceptAndReplace(data.name,1,0,'*'),'as');
+          this.user.card_num = this.interceptAndReplace(data.card_num, 5, 2, '*')
+          this.user.name = this.interceptAndReplace(data.name, 1, 0, '*')
           this.invite_pic = data.my_share
           this.approve_time = data.approve_time
           this.$apply()
         }
       })
+    }
+    
+    // 指定下班更换   ***
+    interceptAndReplace(str, frontLen, endLen, symbol) {
+      // if (str.length != 11) {
+      //   return str;
+      // }
+      var len = str.length - frontLen - endLen;
+      var xing = '';
+      for (var i = 0; i < len; i++) {
+        xing += symbol;
+      }
+      return str.substring(0, frontLen) + xing + str.substring(str.length - endLen);
     }
 
     methods = {
@@ -505,26 +527,54 @@
   page{
     background: white;
     .state{
-      background: #f8f8f8;
+      background: #ffffff;
       padding: 12rpx 16rpx;
       border: 4rpx solid #f4f4f4;
       border-radius: 10rpx;
     }
+    .mainBox{
+      background-image: url("https://images.ufutx.com/202002/26/9e785a3b5d631fec6dcd89b8a89d95b4.png");
+      width:92%;
+      height: 250rpx;
+      background-size: contain;
+      background-repeat: no-repeat;
+      margin: auto;
+      margin-top: 32rpx;
+      position: relative;
+      .text{
+        position: absolute;
+        left: 48rpx;
+        top: 100rpx;
+      }
+    }
     .page-user{
-      padding: 22rpx;
+      /*padding: 22rpx;*/
+      .image{
+        width: 100%;
+        height: 250rpx;
+      }
+      .text{
+        padding: 22rpx 32rpx 0rpx 32rpx;
+      }
       .page-box{
-        margin: 32rpx auto;
-        padding: 22rpx;
-        input{
+        padding: 68rpx 22rpx;
+        border-top: 12rpx solid #f4f5f9;
+        .inputBox{
           width: 72%;
           text-align: left;
           background: white;
-          padding: 4rpx 12rpx;
-          border-radius: 8rpx;
-          border: 2rpx solid #dedede;
+          padding: 12rpx;
+          margin: auto;
+          border-radius: 6rpx;
+          border: 2rpx solid #b0b0b0;
+          font-size: 28rpx;
+          margin-bottom: 42rpx;
+        }
+        input{
+          width: 70%;
+          text-align: right;
           font-size: 28rpx;
           float: right;
-          margin-bottom: 42rpx;
         }
       }
     }

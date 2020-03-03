@@ -1,8 +1,21 @@
 <template>
   <view class="weui-tab">
-    <tabSearch title="搜索活动">
-      <navBarTop :tabs.sync="tabs" @tapClick="tapClick"></navBarTop>
-    </tabSearch>
+    
+    <tabSearchV2 title="搜索精彩活动" BColor="#fff"></tabSearchV2>
+    <view wx:if="{{activities.length>0}}" class="swiperBox">
+      <swiper :list.sync="activities" height="380"></swiper>
+    </view>
+    <view class="mainTab">
+      <view class="itemTab text-center" @tap="tabClick('0')">
+        <view class="{{type==0?'bold color-333 font_30':'color-666 font_28'}}  ">进行中</view>
+        <view class="active"  wx:if="{{type == 0}}"></view>
+      </view>
+      <view class="itemTab text-center"  @tap="tabClick('1')">
+        <view class="{{type==1?'bold color-333 font_30':'color-666 font_28'}}">往期活动</view>
+        <view class="active" wx:if="{{type == 1}}"></view>
+      </view>
+    </view>
+<!--    <navBarTop :tabs.sync="tabs" @tapClick="tapClick"></navBarTop>-->
     <partyList :list.sync="list" :hideMessage.sync="hideMessage"></partyList>
     <view wx:if="{{!list.length}}" class="text-center">
       <view class="font_28 bc_empty">
@@ -31,11 +44,12 @@
   import http from '../../mixins/http'
   import base from '../../mixins/base'
   import user from '../../mixins/user'
+  import swiper from '../../components/swiper'
   import ShareMessage from '../../mixins/ShareMessage'
   import partyList from '../../components/partyList'
   import pageScroll from '../../components/pageScroll'
-  import tabSearch from '../../components/tabSearch'
-  import navBarTop from '../../components/navBarTop'
+  import tabSearchV2 from '../../components/tabSearchV2'
+  // import navBarTop from '../../components/navBarTop'
 
   export default class activities extends wepy.page {
     mixins = [base, http, user, ShareMessage]
@@ -43,7 +57,7 @@
       navigationBarTitleText: '活动列表'
     }
     components = {
-      partyList, pageScroll, tabSearch, navBarTop
+      partyList, pageScroll, tabSearchV2, swiper
     }
     data = {
       list: [],
@@ -54,6 +68,7 @@
       inputVal: '',
       hidelist: false,
       formId: '',
+      activities: [], // 通知
       type: 0
     }
 
@@ -74,6 +89,7 @@
     onShow() {
       this.page = 1
       this.update()
+      this.getActivities()
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
     onPullDownRefresh() {
@@ -129,20 +145,36 @@
         }
       })
     }
+    getActivities() {
+      let vm = this
+      vm.$get({
+        url: `${service.host}/activities/carousels`
+      }, {
+        success: ({code, data}) => {
+          vm.activities = data
+          vm.$apply()
+        },
+        fail: ({code, data}) => {
+        },
+        complete: () => {
+        }
+      })
+    }
 
     methods = {
-      goto(url) {
-        wx.navigateTo({url: url})
-      }
-    }
-    events = {
-      'tabClick': (value) => { // NavTab返回值
+      tabClick(value) { // NavTab返回值
         this.$showLoading('加载中...')
+        console.log(value)
         this.page = 1
         this.type = value
         this.$apply()
         this.update()
       },
+      goto(url) {
+        wx.navigateTo({url: url})
+      }
+    }
+    events = {
       'search': (value) => { // 搜索返回值
         this.page = 1
         this.inputVal = value
@@ -159,5 +191,42 @@
   @import "../../styles/custom/fn.less";
   page{
     background: white;
+    .swiperBox{
+      margin: 32rpx;
+      border-radius: 20rpx;
+      overflow: hidden;
+    }
+    .mainTab{
+      width: 100%;
+      box-shadow: 0rpx 8rpx 12rpx #f1f1f1;
+      background-size: cover;
+      background-repeat: no-repeat;
+      margin: auto;
+      position: relative;
+      z-index: 99999;
+      text-align: center;
+      margin-bottom: 56rpx;
+      .itemTab{
+        width: 46%;
+        display: inline-block;
+        margin-top: 12rpx;
+        padding: 22rpx 0;
+        position: relative;
+        image{
+          width: 90rpx;
+          height: 90rpx;
+          margin-bottom: -6rpx;
+        }
+        .active{
+          width: 116rpx;
+          height: 8rpx;
+          background: #D92553;
+          position: absolute;
+          left: 15vw;
+          bottom: 0;
+          border-radius: 16rpx;
+        }
+      }
+    }
   }
 </style>

@@ -8,24 +8,26 @@
       <view class="font_32 bold _bc-title ellipsis_2 text-left">
         {{detail.theme}}
       </view>
-      <view class="font_36 bold orange" wx:if="{{detail.is_deadline == 0}}">￥{{detail.fee}}</view>
-      <view class="orange bold font_36 color-bbb" style="text-decoration:line-through" wx:else>￥{{detail.fee}}</view>
+      <view class="mainFee">
+        <view class="font_36 bold color-theme" wx:if="{{detail.is_deadline == 0}}">￥{{detail.fee}}</view>
+        <view class="color-theme bold font_36" style="text-decoration:line-through" wx:else>￥{{detail.fee}}</view>
+      </view>
       <view class="font_28 text-left _bc-time">
-        <image src="http://images.ufutx.com/201812/17/81bd3dafa34d85578e9943f28c333801.png"   mode="aspectFit"></image>
-        <span>{{detail.time}}</span>
+        <image src="https://images.ufutx.com/202002/27/2024e9d4e75e92a551bf8f56d475c0eb.png"   mode="aspectFit"></image>
+        <span class="color-333">{{detail.time}}</span>
       </view>
       <view class="font_28 text-left _bc-address" @tap="getlocation">
-        <image src="http://images.ufutx.com/201812/17/54de58e17f256adabc16e8c5b82d26b4.png" mode="aspectFit"></image>
-        <span>{{detail.address != null? detail.address : '全国'}}</span>
+        <image src="https://images.ufutx.com/202002/27/ccfe3df9695a3012fd6f928b479113ea.png" mode="aspectFit"></image>
+        <span class="color-333">{{detail.address != null? detail.address : '全国'}}</span>
       </view>
     </view>
     <block wx:if="{{members.length > 5}}">
-      <view class="_bc-wx">
+      <view class="_bc-wx ">
         <view class="_wx-title font_28" @tap="goto('/pages/party/member?party_id={{party_id}}')">
           报名成员
           <image src="http://images.ufutx.com/201812/17/38f1fee1f088f1c9c047d654c157b0dc.png"  mode="aspectFit" class="flo_r"></image>
           <span class="flo_r">
-          <span class="bold orange">{{members.length}}</span>人
+          <span class="bold color-theme">{{members.length}}</span>人
         </span>
         </view>
         <view class="_wx_member">
@@ -56,11 +58,11 @@
     <view style="height: 120rpx;"></view>
     <view class="_bc-Tab ff">
       <view class="_bc-item text-center flo_l" @tap="gotoTab('/pages/tabBar/home')">
-        <image src="http://images.ufutx.com/201906/27/392ca7501b4efeff80e05911b71837f5.png"   mode="aspectFit"></image>
+        <image src="https://images.ufutx.com/202002/27/44641052ec087246a15e8551df3adfac.png"   mode="aspectFit"></image>
         <view class="font_26 color-666">主页</view>
       </view>
       <button class="btn _bc-item text-center flo_l" open-type="getUserInfo" @getuserinfo="getuserinfo" >
-        <image src="http://images.ufutx.com/201906/27/376626941fcd70f6a9f0a65e0156580e.png"   mode="aspectFit"></image>
+        <image src="https://images.ufutx.com/202002/27/bd5901f59fad2756e4a270c412b61fbc.png"   mode="aspectFit"></image>
         <view class="font_26 color-666">分享</view>
       </button>
       <block wx:if="{{detail}}">
@@ -123,7 +125,7 @@
       party_id: '',
       detail: {
         poster: 'http://images.ufutx.com/201904/16/723e4eeacd9a8d598b894696808de9e0.gif',
-        time: 'as1'
+        time: ' '
       },
       userInfo: {},
       trade_no: '',
@@ -203,6 +205,10 @@
             end_time = end_time.split(' ')[0]
           }
           this.detail.time = `${start_time} 至 ${end_time}`
+          if (start_time.split(' ')[0] == end_time.split(' ')[0]) {
+            this.detail.time = start_time.split(' ')[0] +' '+ start_time.split(' ')[1]+' ~ '+end_time.split(' ')[1]
+            this.$apply()
+          }
           this.members = data.members
           this.$apply()
           wx.hideLoading()
@@ -428,32 +434,38 @@
         background-size: cover;
         margin: 22rpx;
         image{
-          width: 100%;
-          height: auto;
-          box-shadow: 1rpx 1rpx 12rpx #bfbfbf;
+          width: 690rpx;
+          height: 408rpx;
+          border-radius: 32rpx;
         }
       }
       ._bc-center{
-        padding: 32rpx;
+        padding: 2rpx 32rpx 22rpx 32rpx;
         border-bottom: 12rpx solid #f6f6f6;
+        .mainFee{
+          margin: 22rpx 0;
+        }
         ._bc-time{
-          margin-top: 16rpx;
           image{
-            width: 32rpx;
-            height: 32rpx;
-            margin-bottom: -8rpx;
+            width: 36rpx;
+            height: 36rpx;
+            margin-bottom: -6rpx;
             margin-right: 10rpx;
           }
         }
         ._bc-address{
           margin-top: 12rpx;
+          margin-bottom: 16rpx;
           image{
             width: 36rpx;
             height: 36rpx;
-            margin-bottom: -8rpx;
+            margin-bottom: -6rpx;
             margin-right: 10rpx;
           }
         }
+      }
+      .number{
+        border-top: 12rpx solid #f6f6f6;
       }
       ._bc-wx{
         border-bottom: 12rpx solid #f6f6f6;
@@ -501,8 +513,8 @@
           padding: 12rpx;
           margin-top: 6rpx;
           image{
-            width: 46rpx;
-            height: 46rpx;
+            width: 50rpx;
+            height: 50rpx;
           }
           view{
             margin-top: -12rpx;

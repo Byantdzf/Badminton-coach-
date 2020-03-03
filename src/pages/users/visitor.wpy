@@ -15,8 +15,8 @@
           <view class="vessel_text flo_l color666">
             <view class="flo_l" style="width: 50%;">
               <view  class="bold font_28 ellipsis_1 flo_l" style="max-width: 80%;margin-right: 12rpx">{{item.other_user.name}}</view>
-              <image src="http://images.ufutx.com/201902/21/a309744e67082c4bd46db0df504c32c5.png" wx:if="{{item.other_user.sex == 1}}" mode="aspectFit" style="width: 32rpx;height: 32rpx;margin-bottom: 4rpx;"></image>
-              <image src="http://images.ufutx.com/201902/21/7b3892dcf60fabda05add35abfa9aec3.png" wx:else mode="aspectFit" style="width: 32rpx;height: 32rpx;margin-bottom: 4rpx;"></image>
+              <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" wx:if="{{item.other_user.sex == 1}}" mode="aspectFit" style="width: 32rpx;height: 32rpx;margin-top: 4rpx;"></image>
+              <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:else mode="aspectFit" style="width: 32rpx;height: 32rpx;margin-top: 4rpx;"></image>
             </view>
             <view class="font_26 flo_r">{{item.created_at}}</view>
             <!--<view class="font_26 ellipsis_1">{{item.other_user.post}}</view>-->
@@ -62,8 +62,10 @@
   export default class visitor extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
-      navigationBarTitleText: '访客记录',
-      enablePullDownRefresh: true
+      navigationBarTitleText: '访问记录',
+      enablePullDownRefresh: true,
+      navigationBarTextStyle: 'white',
+      navigationBarBackgroundColor: '#d92557'
     }
     components = {NavBar, Search, Loading}
     data = {

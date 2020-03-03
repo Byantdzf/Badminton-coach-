@@ -49,7 +49,9 @@
   export default class jointlyFriendlist extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
-      navigationBarTitleText: '共同好友'
+      navigationBarTitleText: '共同好友',
+      navigationBarTextStyle: 'white',
+      navigationBarBackgroundColor: '#d92557'
     }
 
     components = {NavBar, Loading, pageScroll, search}

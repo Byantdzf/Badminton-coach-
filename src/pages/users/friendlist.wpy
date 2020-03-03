@@ -29,12 +29,12 @@
                   <image src="{{item.circle_avatar}}" mode="aspectFill"   style="width: 120rpx;height: 120rpx;border-radius: 12rpx;" class="flo_l"></image>
                 </view>
                 <view class="flo_l" style="width: 78%;">
-                  <view  class="font_28 flo_l orange ellipsis_1 bold" style="margin-left: 20rpx;">
+                  <view  class="font_28 flo_l color-333 ellipsis_1 bold" style="margin-left: 20rpx;">
                     {{item.name}}
                   </view>
                   <view  class="font_28 flo_l ellipsis_1" style="margin-left: 6rpx;margin-top: 2rpx;">
-                    <image src="http://images.ufutx.com/201902/21/a309744e67082c4bd46db0df504c32c5.png" mode="aspectFit" wx:if="{{item.sex == 1}}" style="width: 38rpx;height: 38rpx;" class="flo_l"></image>
-                    <image src="http://images.ufutx.com/201902/21/7b3892dcf60fabda05add35abfa9aec3.png" mode="aspectFit" wx:else   style="width: 38rpx;height: 38rpx;" class="flo_l"></image>
+                    <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFit" wx:if="{{item.sex == 1}}" style="width: 38rpx;height: 38rpx;" class="flo_l"></image>
+                    <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" mode="aspectFit" wx:else   style="width: 38rpx;height: 38rpx;" class="flo_l"></image>
                   </view>
                 </view>
                 <view class="font_26 flo_l black_6 ellipsis_1" style="margin-left: 14rpx">{{item.message}}</view>
@@ -74,7 +74,10 @@
   export default class friendlist extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
-      navigationBarTitleText: '好友'
+      navigationBarTitleText: '好友',
+      enablePullDownRefresh: true,
+      navigationBarTextStyle: 'white',
+      navigationBarBackgroundColor: '#d92557'
     }
 
     components = {NavBar, Loading, pageScroll}

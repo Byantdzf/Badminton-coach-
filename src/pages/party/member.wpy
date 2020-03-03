@@ -319,6 +319,7 @@
     .weui-tab__content{
       padding-top: 0px;
       text-align: center;
+      background: #f4f5f9;
     }
     text-align: center;
     background: #f4f4f4;
@@ -419,7 +420,8 @@
     z-index: 99999;
     border-top: none;
     .weui-search-bar__form{
-      border: 1rpx solid #d3d3d3;
+      border: 2rpx solid #d3d3d3;
+      background: #f4f5f9;
     }
   }
 </style>
