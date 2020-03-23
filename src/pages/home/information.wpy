@@ -12,10 +12,10 @@
           </block>
         </swiper>
         <view class="realName white font_26 bold" wx:if="{{mylibs.is_approved !== 0}}" >
-        
+
         </view>
         <!--？？关注？？？-->
-<!--        <view class="hint white font_28">-->
+<!--        <view class="hint white font_28">-->w
 <!--          关注公众号,查看更多用户推荐~-->
 <!--          <button class="btn hintBtn inline-block font_28" open-type="contact" send-message-title="关注公众号" send-message-img="{{pic_url}}" send-message-path="/pages/tabBar/home" show-message-card plain>关注</button>-->
 <!--        </view>-->
@@ -88,7 +88,7 @@
             <view class="font_26 color-333">{{item.name}}</view>
           </view>
         </block>
-        
+
 <!--        <view class="fnStyle text-center" @tap="goto('/pages/home/jointlyFriendlist')">-->
 <!--          <image src="https://images.ufutx.com/202002/26/45eb9f2f84c31d4702c48ac45818803a.png"  mode="aspectFill" class="icon"></image>-->
 <!--          <view class="font_26 color-333">共同喜欢</view>-->

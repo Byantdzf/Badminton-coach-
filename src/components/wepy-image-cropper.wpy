@@ -118,7 +118,7 @@
        */
       export_scale: {
         type: Number,
-        default: 3
+        default: 1
       },
       /**
        * 生成的图片质量0-1
