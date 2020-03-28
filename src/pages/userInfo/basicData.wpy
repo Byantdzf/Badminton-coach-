@@ -1,0 +1,417 @@
+<template>
+  <view class="main-container">
+    <Loading :loadModal.sync="loadModal" :title.sync="loadTitle"></Loading>
+    <cuCustom></cuCustom>
+    <view class="main-bc text-center">
+      <view class="main-referrer animation-slide-top">
+        <view class="font_42 color-333 bold">请选择填写资料</view>
+        <view class="color-666 font_26">根据你的信息，推荐合适的人给你</view>
+      </view>
+    </view>
+    <view class="_list">
+      <view class="_listItem animation-slide-bottom" style="animation-delay: 0.1s;">
+        <view class="font_28 color-333 bold">昵称 <span class="font_24 color-theme">(建议输入真实姓名)</span></view>
+        <input type="text" class="font_32 color-666 text" placeholder="请填写昵称" style="margin-bottom: 12rpx;" @change="typeing('name','')"/>
+      </view>
+      <view class="_listItem animation-slide-bottom" style="animation-delay: 0.2s;">
+        <view class="font_28 color-333 bold">手机号 <span class="font_24 color-theme"></span></view>
+        <input type="text" class="font_32 color-666 text inline-block" value="{{mobile}}"  disabled placeholder="请获取手机号" />
+        <button class="cu-btn bg-green flo_r light getMobile" open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber">
+          <image mode="aspectFit" src="https://images.ufutx.com/202003/28/5bcd5b54fc5325aa50e841e0cf9542d0.png" class="wxIcon"></image>
+          <span class="font_26">微信获取</span>
+        </button>
+      </view>
+      <view class="_listItem animation-slide-bottom" style="animation-delay: 0.3s;">
+        <view class="font_28 color-333 bold">性别 <span class="font_24 color-theme">(选择后将无法修改)</span></view>
+        <picker  value="{{sexIndex}}" range="{{sexList}}"  @change="typeing('sex','sexList')">
+          <input type="text" class="font_32 color-666 text inline-block" value="{{sex}}"  disabled placeholder="请选择你的性别" />
+          <image model="aspectFit" src="https://images.ufutx.com/202003/26/86d984836554149f44504692d518df2d.png" class="icon flo_r"></image>
+        </picker>
+      </view>
+      <view class="_listItem animation-slide-bottom" style="animation-delay: 0.4s;">
+        <view class="font_28 color-333 bold">生日</view>
+        <picker mode="date"  value="{{defaultBirthday}}" end="{{endDate}}"  @change="typeing('birthday','')">
+          <input type="text" class="font_32 color-666 text inline-block" value="{{birthday}}"  disabled placeholder="请选择你的生日" />
+          <image model="aspectFit" src="https://images.ufutx.com/202003/26/86d984836554149f44504692d518df2d.png" class="icon flo_r"></image>
+        </picker>
+      </view>
+      <view class="_listItem animation-slide-bottom" style="animation-delay: 0.5s;">
+        <view class="font_28 color-333 bold">城市</view>
+        <selectCity>
+          <view slot="Input">
+            <input type="text" class="font_32 color-666 text inline-block" disabled placeholder="请选择你所在的城市" value="{{addressType != '' ? address.province+' - '+ address.city: ''}}"/>
+            <image model="aspectFit" src="https://images.ufutx.com/202003/26/86d984836554149f44504692d518df2d.png" class="icon flo_r"></image>
+          </view>
+        </selectCity>
+      </view>
+      <view class="_listItem animation-slide-bottom" style="animation-delay: 0.6s;">
+        <view class="font_28 color-333 bold">信仰</view>
+        <picker  value="{{beliefIndex}}" range="{{beliefList}}"  @change="typeing('belief','beliefList')" >
+          <input type="text" class="font_32 color-666 text inline-block" disabled placeholder="请选择你的信仰" value="{{belief}}" />
+          <image model="aspectFit" src="https://images.ufutx.com/202003/26/86d984836554149f44504692d518df2d.png" class="icon flo_r"></image>
+        </picker>
+      </view>
+      <view class="_listItem animation-slide-bottom noBorder" style="animation-delay: 0.7s;">
+        <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" bindtap="getuserinfo">确定
+        </button>
+      </view>
+    </view>
+    <!--<view class="main-box">-->
+      <!--<view class="main-selectBox text-center ">-->
+      <!--<view class="main-selectBox text-center " wx:if="{{infoIndex == 0}}">-->
+        <!--<view class="color-666 font_28">我住在哪里？</view>-->
+        <!--<view class="color-666 font_28 main-input"  @tap="addressFn('address')">-->
+          <!--<selectCity  :AddressValue.sync="AddressValue">-->
+            <!--<text class="Input" slot="Input">{{addressType != '' ? address.province+' - '+ address.city: '深圳'}}</text>-->
+          <!--</selectCity>-->
+        <!--</view>-->
+        <!--<view class="font_22 main-issue color-theme"  @tap="getCenterLocation('address')">使用定位获取</view>-->
+      <!--</view>-->
+      <!--<view class="main-selectBox text-center ">-->
+        <!--<view class="color-666 font_28">我在哪个城市长大的？</view>-->
+        <!--<view class="color-666 font_28 main-input" @tap="addressFn('resident')">-->
+          <!--<selectCity  AddressValue="['中国', '广东省', '深圳市']">-->
+            <!--<text class="Input" slot="Input">{{addressType != '' ? resident.province+' - '+ resident.city: '深圳'}}</text>-->
+          <!--</selectCity>-->
+        <!--</view>-->
+        <!--<view class="font_22 main-issue color-theme" @tap="getCenterLocation('resident')">使用GPS定位获取</view>-->
+      <!--</view>-->
+      <!--<view class="main-selectBox text-center " wx:if="{{infoIndex == 6}}">-->
+        <!--<view class="color-666 font_28">我想找多大年龄的？</view>-->
+        <!--<view class="color-666 font_28 main-input">-->
+          <!--<image mode="aspectFit" src="https://images.ufutx.com/201908/15/e1cc6dae37377654a3fe93e163f3b1d9.png" class="down_icon flo_l" ></image>-->
+          <!--<view class="flo_r" style="width: 90%">-->
+            <!--<picker mode="selector" range="{{AgeList}}"  value="{{minIndex}}"  @change="ageFn('minAge')" class="inline-block">-->
+              <!--<span style="margin: 0 42rpx;">{{minAge}}</span>-->
+            <!--</picker>-->
+            <!--<span style="margin: 0 22rpx" class="inline-block">到</span>-->
+            <!--<picker mode="selector" range="{{AgeList}}"  value="{{maxIndex}}"  @change="ageFn('maxAge')" class="inline-block">-->
+              <!--<span style="margin: 0 42rpx;">{{maxAge}}</span>-->
+            <!--</picker>-->
+          <!--</view>-->
+          <!--<view class="clearfloat"></view>-->
+        <!--</view>-->
+      <!--</view>-->
+      <!--<view class="main-selectBox text-center " wx:if="{{infoIndex == 2}}">-->
+        <!--<view class="color-666 font_28">我的生日?</view>-->
+        <!--<view class="color-666 font_28 main-input">-->
+          <!--<image mode="aspectFit" src="https://images.ufutx.com/201908/15/e1cc6dae37377654a3fe93e163f3b1d9.png" class="down_icon flo_l" ></image>-->
+          <!--<picker mode="date"  value="{{birthday}}"  @change="pickerChangeDate">-->
+            <!--<view class="flo_r" style="width: 90%">-->
+              <!--<span style="margin: 0 12rpx;">{{birthday[0]}}      年</span>-->
+              <!--<span style="margin: 0 12rpx">{{birthday[1]}}     月</span>-->
+              <!--<span style="margin: 0 12rpx;">{{birthday[2]}}      日</span>-->
+            <!--</view>-->
+          <!--</picker>-->
+          <!--<view class="clearfloat"></view>-->
+        <!--</view>-->
+      <!--</view>-->
+      <!--<view class="main-btn text-center">-->
+        <!--<block wx:if="{{infoIndex > 1}}">-->
+          <!--<view class="item-last inline-block text-center white flo_l" @tap="lastFn" >上一步</view>-->
+          <!--<block  wx:if="{{infoIndex == 6}}">-->
+            <!--&lt;!&ndash;<button  class="btn item-next inline-block text-center white flo_r" open-type="getUserInfo" @getuserinfo="getuserinfo">&ndash;&gt;-->
+            <!--&lt;!&ndash;完成&ndash;&gt;-->
+            <!--&lt;!&ndash;</button>&ndash;&gt;-->
+            <!--<view class="item-next inline-block text-center white flo_r" @tap="saveFn">完成</view>-->
+          <!--</block>-->
+          <!--<block wx:else>-->
+            <!--<view class="item-next inline-block text-center white flo_r" @tap="nextFn">下一步</view>-->
+          <!--</block>-->
+        <!--</block>-->
+        <!--<block wx:else>-->
+          <!--<view class="item-next inline-block text-center white " @tap="nextFn">下一步</view>-->
+        <!--</block>-->
+      <!--</view>-->
+      <!--<modal>-->
+        <!--<view slot="wrapper" class="wrapper">-->
+          <!--<view class=" font_26 state info" style="margin:22rpx 32rpx;">-->
+            <!--<view style="margin: 0rpx 22rpx;">-->
+              <!--<view>福恋部分功能需要获取您的位置,不授权将无法获取相关数据！</view>-->
+            <!--</view>-->
+          <!--</view>-->
+          <!--<view style="width: 100%;" class="text-center">-->
+            <!--<button class="btn bold text-center" style="width: 100%;height: 100rpx;color: #d92553;margin: auto;line-height: 100rpx;border-top: 2rpx solid #e3e3e3" open-type="openSetting" @opensetting="openSetting_address">-->
+              <!--去授权-->
+            <!--</button>-->
+          <!--</view>-->
+        <!--</view>-->
+      <!--</modal>-->
+    <!--</view>-->
+  </view>
+</template>
+<script>
+  import wepy from 'wepy'
+  import { service } from '../../config.js'
+  import http from '../../mixins/http'
+  import base from '../../mixins/base'
+  import user from '../../mixins/user'
+  import ShareMessage from '../../mixins/ShareMessage'
+  import NavBar from '../../components/NavBar'
+  import Loading from '../../components/loading'
+  import selectCity from '../../components/selectCity'
+  import modal from '../../components/modal'
+  import {wx_login} from '../../utils/fn'
+  import cuCustom from '../../components/cu-custom'
+
+  export default class userInfo extends wepy.page {
+    mixins = [base, http, user, ShareMessage]
+    components = {NavBar, Loading, selectCity, modal, cuCustom}
+    config = {
+      navigationBarTitleText: '基本资料',
+      enablePullDownRefresh: false,
+      navigationStyle: 'custom'
+
+    }
+    data = {
+      loadModal: false,
+      loadTitle: '保存中...',
+      avatar: 'http://images.ufutx.com/201902/25/542cc218e40cbc8a8e3a9ce23d7f4789.gif',  // 头像
+      name: '',
+      mobile: '',
+      sex: '',
+      sexList: ['男', '女'],
+      sexIndex: 0,
+      addressType: '',
+      address: { // 居住地
+        country: '', province: '', city: ''
+      },
+      belief: '',
+      beliefList: ['基督教', '佛教', '伊斯兰教', '其他'],
+      beliefIndex: 0,
+      birthday: '', // 生日
+      defaultBirthday: '1990-01-01', // 默认生日
+      endDate: '2002-12-30', // 截止时间
+      userInfo: {},
+      unionid: ''
+    }
+
+    onLoad(e) {
+      if (wx.getStorageSync('match_profile')) {
+        this.getUserInfo()
+      }
+      if (wx.getStorageSync('userInfo')) {
+        this.type = wx.getStorageSync('type')
+        this.userInfo = wx.getStorageSync('userInfo')
+        this.$apply()
+        console.log(this.userInfo)
+      }
+    }
+
+    onShow() {
+      this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
+    }
+
+    methods = {
+      typeing(type, list, e) {
+        console.log(e.detail.value)
+        if (list) {
+          this[type] = this[list][e.detail.value]
+          this.$apply()
+          return
+        }
+        this[type] = e.detail.value
+        this.$apply()
+      },
+      getuserinfo(e) {
+        let vm = this
+        vm.loadModal = true
+        vm.$apply()
+        console.log(vm.loadModal)
+        let data = {
+          nickname: vm.name,
+          sex: vm.sex,
+          belief: vm.belief,
+          country: vm.address.country,
+          province: vm.address.province,
+          city: vm.address.city,
+          birthday: vm.birthday,
+          mobile: vm.mobile,
+          userInfo: vm.userInfo,
+          unionid: vm.unionid,
+          type: vm.type
+        }
+        console.log(data)
+        vm.$post({url: `${service.host}/wechat/register/v3`, data}, {
+          success: ({code, data}) => {
+            console.log('注册成功')
+            setTimeout(() => {
+              vm.loadTitle = '成功'
+              vm.$apply()
+            }, 1800)
+            setTimeout(() => {
+              vm.loadModal = false
+              vm.$apply()
+            }, 2800)
+          }
+        })
+      },
+      getCenterLocation(type) {
+        let vm = this
+        if (!vm.hide) {
+          vm.$invoke('modal', 'showModal')
+        }
+        vm.addressType = type
+        vm.$apply()
+        wx.getLocation({
+          type: 'gcj02',
+          success: function (res) {
+            console.log(res)
+            vm.getAddress(res.latitude, res.longitude)
+            wx.setStorageSync('myLong', res.longitude)
+            wx.setStorageSync('myLat', res.latitude)
+          },
+          fail: function () {
+            vm.hide = false
+            vm.$apply()
+          }
+        })
+      },
+      openSetting_address(e) {
+        let vm = this
+        if (e.detail.authSetting['scope.userLocation']) {
+          // 如果打开了地理位置，就会为true
+          wepy.getLocation({
+            altitude: true,
+            type: 'gcj02',
+            success: function (res) {
+              vm.hide = true
+              vm.$Toast_success('授权成功!')
+              vm.$invoke('modal', 'hideModal')
+              vm.myLat = res.latitude
+              vm.myLong = res.longitude
+              vm.getAddress(res.latitude, res.longitude)
+              wx.setStorageSync('myLong', res.longitude)
+              wx.setStorageSync('myLat', res.latitude)
+              vm.$apply()
+            },
+            fail: function () {
+            },
+            complete: function () {
+            }
+          })
+        }
+      },
+      getPhoneNumber(e) { // 获取手机号
+        let vm = this
+        wx_login().then((code) => {
+          wx.setStorageSync('code', code)
+          if (e.detail.iv) {
+            let data = {
+              code: code,
+              iv: e.detail.iv,
+              from_openid: wx.getStorageSync('from_openid'),
+              encryptedData: e.detail.encryptedData
+            }
+            vm.$showLoading('手机号获取中...')
+            vm.$post({url: `${service.host}/wechat/mobile/v2`, data}, {
+              success: ({code, data}) => {
+                let {phoneNumber, unionid} = data
+                vm.mobile = phoneNumber
+                vm.unionid = unionid
+                vm.$apply()
+                wx.setStorageSync('openid', data.openid)
+                wx.hideLoading()
+              }
+            })
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+        // let code = wx.getStorageSync('code')
+          // wx.checkSession({
+          //   success () {  //session_key 未过期，并且在本生命周期一直有效
+          //     if (e.detail.iv) {
+          //       let data = {
+          //         iv: e.detail.iv,
+          //         from_openid: wx.getStorageSync('from_openid'),
+          //         encryptedData: e.detail.encryptedData
+          //       }
+          //       vm.$showLoading('手机号获取中1...')
+          //       vm.$post({url: `${service.host}/wechat/mobile/v2`, data}, {
+          //         success: ({code, data}) => {
+          //           wx.setStorageSync('token', data.token)
+          //           vm.$apply()
+          //           wx.hideLoading()
+          //         }
+          //       })
+          //     }
+          //   },
+          //   fail () {  // session_key 已经失效，需要重新执行登录流程
+          //     wx_login().then((code) => {
+          //       if (e.detail.iv) {
+          //         let data = {
+          //           code: code,
+          //           iv: e.detail.iv,
+          //           from_openid: wx.getStorageSync('from_openid'),
+          //           encryptedData: e.detail.encryptedData
+          //         }
+          //         vm.$showLoading('手机号获取中2...')
+          //         vm.$post({url: `${service.host}/wechat/mobile/v2`, data}, {
+          //           success: ({code, data}) => {
+          //             wx.setStorageSync('token', data.token)
+          //             vm.$apply()
+          //             wx.hideLoading()
+          //           }
+          //         })
+          //       }
+          //     }).catch((error) => {
+          //       console.log(error)
+          //     })
+          //   }
+          // })
+      }
+    }
+    events = {
+      'selectCity': (value, index) => {
+        this.addressType = 'address'
+        this[this.addressType] = {
+          country: value[0], province: value[1], city: value[2]
+        }
+        this.$apply()
+      }
+    }
+  }
+</script>
+<style lang="less">
+  @import "../../styles/custom/fn.less";
+  page{
+    background: #ffffff;
+    .noBorder{border: none;}
+    .main-container{
+      ._list{
+        margin: 0 72rpx;
+        margin-top: 80rpx;
+        .getMobile{
+          padding: 0 16rpx !important;
+          .wxIcon{
+            width: 42rpx;
+            height: 42rpx;
+            vertical-align: middle;
+            margin-right: 6rpx;
+          }
+        }
+        ._listItem{
+          /*padding-bottom: -12rpx;*/
+          border-bottom: 2rpx solid #f6f6f6;
+          margin-top: 22rpx;
+          .text{
+            margin-top: 10rpx;
+          }
+          .icon{
+            width: 48rpx;
+            height: 48rpx;
+            margin-top: 8rpx;
+          }
+        }
+      }
+      .btn-box{
+        width: 100%;
+        background: #D92553;
+        border-radius: 6rpx;
+        padding: 16rpx;
+        margin: 82rpx auto;
+      }
+    }
+  }
+</style>

@@ -1,6 +1,6 @@
 <template>
   <view class="weui-tab">
-    
+
     <tabSearchV2 title="搜索精彩活动" BColor="#fff"></tabSearchV2>
     <view wx:if="{{activities.length>0}}" class="swiperBox">
       <swiper :list.sync="activities" height="380"></swiper>
@@ -55,6 +55,7 @@
     mixins = [base, http, user, ShareMessage]
     config = {
       navigationBarTitleText: '活动列表'
+      // navigationStyle: 'custom'
     }
     components = {
       partyList, pageScroll, tabSearchV2, swiper

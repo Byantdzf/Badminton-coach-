@@ -85,7 +85,7 @@
 
     watch = {
       AddressValue() {
-        console.log(this.AddressValue)
+        // console.log(this.AddressValue)
       }
     }
     methods = {
@@ -118,7 +118,7 @@
             break
           case 1:
             that.provinceId = e.detail.value
-            console.log(that.provinces[e.detail.value])
+            // console.log(that.provinces[e.detail.value])
             for (let item of that.provinces[that.nationId].son[that.provinceId].son) {
               city.push(item.name)
             }

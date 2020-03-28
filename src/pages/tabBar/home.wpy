@@ -1,164 +1,54 @@
 <template>
-  <Loading :init.sync="init"></Loading>
+  <!--<Loading :init.sync="init"></Loading>-->
   <view class="">
     <NavBarV2 rgba="#f4f5f9" bag="#b81f46" title_c="#ffffff" title="福恋"></NavBarV2>
-<!--    <block wx:if="{{userType == 'single'}}">-->
-        <view class="_bc-list">
-<!--          <view style="padding: 12rpx 22rpx;">-->
-<!--            <span class="font_32 bold color-666">智能推荐</span>-->
-<!--          </view>-->
-<!--          <bolck  wx:if="{{list.length == 0}}">-->
-<!--            <block wx:if="{{initialize && list.length == 0}}">-->
-<!--              <view class="text-center main-hint">-->
-<!--                <image src="https://images.ufutx.com/201908/16/6f2f00d1bab1d96b8a1971e88c0e3575.png" mode="widthFix"-->
-<!--                       style="width: 240rpx;height: auto;"></image>-->
-<!--                <view class="font_26 color-666" style="margin-top: 12rpx">完善个人资料，领取尊享VIP！</view>-->
-<!--                <view class="item-btn white btn-theme font_28" @tap="goto('/pages/users/userInfo')">去完善</view>-->
-<!--              </view>-->
-<!--            </block>-->
-<!--          </bolck>-->
-<!--          <bolck  wx:else>-->
-            <template is="userList" data="{{list}}"></template>
-<!--          </bolck>-->
-          <block wx:if="{{loading}}">
-            <view class="weui-loadmore">
-              <view class="weui-loading"></view>
-              <view class="weui-loadmore__tips"  style="background: #f4f5f9">正在加载</view>
-            </view>
-          </block>
-          <block wx:if="{{noMore}}">
-            <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
-              <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot" style="background: #f4f5f9"></view>
-            </view>
-          </block>
-        </view>
-      </block>
-<!--    </block>-->
-<!--    <block wx:else>-->
-<!--      <view class="main-share">-->
-<!--        <view class="color-666">-->
-<!--          <span class="font_32 bold" >身边单身</span>-->
-<!--          <span class="font_22" style="margin-left: 22rpx;">邀请身边的单身进入福恋</span>-->
-<!--        </view>-->
-<!--        <view class="shareIcon">-->
-<!--          <block wx:for="{{shareUser}}" wx:key="index">-->
-<!--            <image src="{{item.circle_avatar}}" mode="widthFix" @tap="gotofriends({{item}},{{item.id}})"  @longpress="longPress({{index}}, {{item.id}})"></image>-->
-<!--          </block>-->
-<!--          <button class="btn white inline-block" hover-class="btn_active"  open-type="share" style="margin-bottom: -18rpx;">-->
-<!--            <image src="https://images.ufutx.com/201908/16/c9e298c58e88e16588b555040f43e71d.png" mode="widthFix"></image>-->
-<!--          </button>-->
-<!--        </view>-->
-<!--      </view>-->
-<!--      <view class="recommend font_26"  @tap="goto('/pages/map/index')">-->
-<!--        <view class="address flo_l" @tap.stop="goto('/pages/map/index')">-->
-<!--          <view class="ellipsis_1">-->
-<!--            <image src="http://images.ufutx.com/201905/29/116e3887dd6dcbcaad6a464f96bdcdcb.png" mode="widthFix" class="addressIcon"></image>-->
-<!--            &lt;!&ndash;{{address.city}}&ndash;&gt;-->
-<!--            相遇地图-->
-<!--          </view>-->
-<!--        </view>-->
-<!--        <view class="center flo_l">-->
-<!--          <span class="display_inlin">附近的人</span>-->
-<!--          <block wx:if="{{person.length>0}}">-->
-<!--            <image src="{{item.circle_avatar}}" mode="widthFix" wx:for="{{person}}" wx:key="{{index}}"  class="image display_inlin" ></image>-->
-<!--          </block>-->
-<!--          <block wx:else>-->
-<!--            <image src="{{item}}" mode="widthFix" wx:for="{{images}}" wx:key="{{index}}" class="image display_inlin" ></image>-->
-<!--          </block>-->
-<!--        </view>-->
-<!--        <image src="http://images.ufutx.com/201905/29/2eeab012d13d91f16f5a21ad6c578678.png" mode="widthFix" class="moreImage flo_r"></image>-->
-<!--      </view>-->
-<!--      <view class="main-title">-->
-<!--        <view  style="padding: 12rpx 32rpx;">-->
-<!--          <span class="font_32 bold color-666">智能推荐</span>-->
-<!--          <span class="font_28 color-666" style="margin-left: 32rpx;">为单身推荐TA</span>-->
-<!--        </view>-->
-<!--        <bolck  wx:if="{{list.length == 0}}">-->
-<!--          <block wx:if="{{initialize && list.length == 0}}">-->
-<!--            <view class="text-center main-hint">-->
-<!--              <image src="https://images.ufutx.com/201908/16/b1ce90ed0a31f6f543361e55d841d199.png" mode="widthFix"-->
-<!--                     style="width: 240rpx;height: auto;"></image>-->
-<!--              <view class="font_26 color-666" style="margin-top: 12rpx">邀请身边的单身们加入，为单身推荐TA</view>-->
-<!--              <button class="btn white inline-block item-btn white font_28 text-center" hover-class="btn_active"  open-type="share" style="margin-bottom: -18rpx;">-->
-<!--                邀请-->
-<!--              </button>-->
-<!--            </view>-->
-<!--            <view style="height: 12vw;"></view>-->
-<!--          </block>-->
-<!--        </bolck>-->
-<!--&lt;!&ndash;        <bolck  wx:else>&ndash;&gt;-->
-<!--&lt;!&ndash;          <view class="_bc-list">&ndash;&gt;-->
-<!--&lt;!&ndash;            <view class="item-avatar" wx:for="{{list}}" wx:key="{{index}}" @tap="gotofriends({{item}},{{item.id}})">&ndash;&gt;-->
-<!--&lt;!&ndash;              <image src="{{item.photo}}" mode="aspectFit" class="image"></image>&ndash;&gt;-->
-<!--&lt;!&ndash;              <view class="font_28 _bc-center color-666">&ndash;&gt;-->
-<!--&lt;!&ndash;                <view class="font_28">&ndash;&gt;-->
-<!--&lt;!&ndash;                  <view class="color-666 ellipsis_1 bold flo_l" style="max-width: 80%">{{item.name}}</view>&ndash;&gt;-->
-<!--&lt;!&ndash;                  <image src="http://images.ufutx.com/201811/09/df3aa8846ea6f02341f9077198555c39.png" wx:if="{{item.sex=='2'}}" mode="aspectFill" class="flo_l" style="width: 32rpx;height: 32rpx;margin: 6rpx 0 0 6rpx"></image>&ndash;&gt;-->
-<!--&lt;!&ndash;                  <image src="http://images.ufutx.com/201811/09/fc3a6545c016643bfe5ab2989658900b.png" mode="aspectFill" wx:else class="flo_l" style="width: 32rpx;height: 32rpx;margin: 6rpx 0 0 6rpx"></image>&ndash;&gt;-->
-<!--&lt;!&ndash;                  <view class="clearfloat"></view>&ndash;&gt;-->
-<!--&lt;!&ndash;                </view>&ndash;&gt;-->
-<!--&lt;!&ndash;                <view>&ndash;&gt;-->
-<!--&lt;!&ndash;                  <text class="font_22 bold">{{item.age? item.age + '岁' : ''}} {{item.profile_courtship.stature? '· ' +item.profile_courtship.stature +'cm': ''}} {{item.profile_courtship.city? '· '+item.profile_courtship.city: ''}}</text>&ndash;&gt;-->
-<!--&lt;!&ndash;                  <view class="font_22 ellipsis_1">{{item.profile_courtship.introduction? item.profile_courtship.introduction : ''}}</view>&ndash;&gt;-->
-<!--&lt;!&ndash;                </view>&ndash;&gt;-->
-<!--&lt;!&ndash;              </view>&ndash;&gt;-->
-<!--&lt;!&ndash;            </view>&ndash;&gt;-->
-<!--&lt;!&ndash;          </view>&ndash;&gt;-->
-<!--&lt;!&ndash;        </bolck>&ndash;&gt;-->
-<!--      </view>-->
-<!--    </block>-->
+    <view class="_bc-list">
+      <template is="userList" data="{{list}}"></template>
+    </view>
   </view>
-  </button>
-  </form>
-  <view class="getVip text-center" wx:if="{{showVip}}">
-    <view class="showPicVip">
-      <image src="https://images.ufutx.com/201908/16/66f4cfe4e83b08393978b144ec94151e.png" mode="widthFix"
-             style="width: 60vw;height: auto;margin-top: 24vw;"></image>
-    </view>
-    <view @tap="cancle('showVip')">
-      <image src="https://images.ufutx.com/201908/16/9a2234dcb203aebfad1a8674d6b4aa3e.png" mode="widthFix"
-             style="width: 60rpx;height: auto;margin-top: 6vw;"></image>
-    </view>
-    <view class="main-btn" @tap="getTempVip"></view>
-  </view>
-  <view class="getVip text-center" wx:if="{{showMoney}}">
-    <view class="showPicVip">
-      <image src="https://images.ufutx.com/201908/19/4d170506f0bf6ae1ced70bfa01823f72.png" mode="widthFix"
-             style="width: 60vw;height: auto;margin-top: 24vw;"></image>
-    </view>
-    <view @tap="cancle('showMoney')">
-      <image src="https://images.ufutx.com/201908/16/9a2234dcb203aebfad1a8674d6b4aa3e.png" mode="widthFix"
-             style="width: 60rpx;height: auto;margin-top: 6vw;"></image>
-    </view>
-    <view class="main-btn" @tap="getMoney" style="top: 76vw;left: 30vw;"></view>
-  </view>
-  <view class="commodity_screen" bindtap="cancel" wx:if="{{!hide}}"></view>
+  <!--<view class="getVip text-center" wx:if="{{showVip}}">-->
+    <!--<view class="showPicVip">-->
+      <!--<image src="https://images.ufutx.com/201908/16/66f4cfe4e83b08393978b144ec94151e.png" mode="widthFix"-->
+             <!--style="width: 60vw;height: auto;margin-top: 24vw;"></image>-->
+    <!--</view>-->
+    <!--<view @tap="cancle('showVip')">-->
+      <!--<image src="https://images.ufutx.com/201908/16/9a2234dcb203aebfad1a8674d6b4aa3e.png" mode="widthFix"-->
+             <!--style="width: 60rpx;height: auto;margin-top: 6vw;"></image>-->
+    <!--</view>-->
+    <!--<view class="main-btn" @tap="getTempVip"></view>-->
+  <!--</view>-->
+  <!--<view class="getVip text-center" wx:if="{{showMoney}}">-->
+    <!--<view class="showPicVip">-->
+      <!--<image src="https://images.ufutx.com/201908/19/4d170506f0bf6ae1ced70bfa01823f72.png" mode="widthFix"-->
+             <!--style="width: 60vw;height: auto;margin-top: 24vw;"></image>-->
+    <!--</view>-->
+    <!--<view @tap="cancle('showMoney')">-->
+      <!--<image src="https://images.ufutx.com/201908/16/9a2234dcb203aebfad1a8674d6b4aa3e.png" mode="widthFix"-->
+             <!--style="width: 60rpx;height: auto;margin-top: 6vw;"></image>-->
+    <!--</view>-->
+    <!--<view class="main-btn" @tap="getMoney" style="top: 76vw;left: 30vw;"></view>-->
+  <!--</view>-->
+  <!--<view class="commodity_screen" bindtap="cancel" wx:if="{{!hide}}"></view>-->
   <!--弹出框  -->
-  <view animation="{{animationData}}" class="commodity_attr_box" wx:if="{{!hide}}">
-    <view class=" font_26 state info" style="margin-bottom: 32rpx;margin-top: 12rpx;">
-      <view style="margin: 0rpx 22rpx;">
-        <view>福恋部分功能需要获取您的位置,不授权将无法获取相关数据！</view>
-      </view>
-    </view>
-    <view style="width: 100%;" class="text-center">
-      <button class="btn bold text-center" style="width: 100%;height: 100rpx;color: #d92553;margin: auto;line-height: 100rpx;border-top: 2rpx solid #e3e3e3" open-type="openSetting" @opensetting="openSetting_address">
-        去授权
-      </button>
-    </view>
-  </view>
-<!--  <pageScroll></pageScroll>-->
+  <!--<view animation="{{animationData}}" class="commodity_attr_box" wx:if="{{!hide}}">-->
+    <!--<view class=" font_26 state info" style="margin-bottom: 32rpx;margin-top: 12rpx;">-->
+      <!--<view style="margin: 0rpx 22rpx;">-->
+        <!--<view>福恋部分功能需要获取您的位置,不授权将无法获取相关数据！</view>-->
+      <!--</view>-->
+    <!--</view>-->
+    <!--<view style="width: 100%;" class="text-center">-->
+      <!--<button class="btn bold text-center"-->
+              <!--style="width: 100%;height: 100rpx;color: #d92553;margin: auto;line-height: 100rpx;border-top: 2rpx solid #e3e3e3"-->
+              <!--open-type="openSetting" @opensetting="openSetting_address">-->
+        <!--去授权-->
+      <!--</button>-->
+    <!--</view>-->
+  <!--</view>-->
   <template name="userList">
-    <!--  用户列表-->
-    <view class="item-avatar" wx:for="{{list}}" wx:key="{{index}}" @tap="gotofriends({{item}},{{item.id}})">
+    <view class="item-avatar radius shadow-warp bg-white margin-top" wx:for="{{list}}" wx:key="{{index}}" wx:if="{{index == 8}}"  @tap="gotofriends({{item}},{{item.id}})">
+      <image src="https://images.ufutx.com/202003/28/d5e810272fab69fe6fe6119a0ffdab3b.png" wx:if="{{item.is_approved == 1}}" mode="widthFix" class="approved"></image>
       <image src="{{item.photo}}" mode="aspectFill" class="image"></image>
       <view class="font_28 _bc-center">
-        <view class="itemSchool">
-          <image src="https://images.ufutx.com/202002/20/9bcff5330ce2b6d9d20e25b310141bf0.png" mode="aspectFill" class="icon"></image>
-          {{item.profile_courtship.graduate_school}}
-          <span style="color: #d2d4db" >|</span>
-          {{mylibs.profile_courtship.degree}}
-          <!--          <view class="flo_r"> <span class="color-theme">·</span> 全日制</view>-->
-        </view>
         <view class="itemInfo">
           <view class="color-333 ellipsis_1 font_32 bold flo_l" style="max-width: 80%">{{item.name}}</view>
           <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:if="{{item.sex=='2'}}" mode="aspectFill" class="flo_l icon"></image>
@@ -182,10 +72,6 @@
           <view class="itemBox flo_l">信仰：{{item.belief}}</view>
           <view class="clearfloat"></view>
         </view>
-<!--        <view>-->
-<!--          <text class="font_22 bold">{{item.age? item.age + '岁' : ''}} {{item.profile_courtship.stature? '· ' +item.profile_courtship.stature +'cm': ''}} {{item.profile_courtship.city? '· '+item.profile_courtship.city: ''}}</text>-->
-<!--          <view class="font_22 ellipsis_1">{{item.profile_courtship.introduction? item.profile_courtship.introduction : ''}}</view>-->
-<!--        </view>-->
       </view>
     </view>
   </template>
@@ -845,6 +731,7 @@
         //     }
         //   })
         // }
+
         if (type == 'community') {
           this.gotoApp(url)
         }
@@ -861,26 +748,28 @@
   @import "../../styles/weui/base/fn.wxss";
   @import "../../styles/custom/fn.less";
   page {
-    background: #f4f5f9;
+    background: #F3F6F8;
     .item-avatar {
-      width: 692rpx;
-      margin: 12rpx 28rpx 32rpx 28rpx;
-      /*border: 3rpx solid #cecece;*/
-      margin-bottom: 60rpx;
-      /*overflow: hidden;*/
-
+      width: 688rpx;
+      margin: 12rpx 32rpx 0rpx 32rpx;
+      border-radius: 16rpx;
+      overflow: hidden;
+      position: relative;
+      .approved{
+        position: absolute;
+        left: 32rpx;
+        top: 22rpx;
+        width: 140rpx;
+        height: auto;
+        z-index: 9999;
+      }
       .image {
         width: 100%;
         height: 680rpx;
-        border-radius: 16rpx;
+        margin-bottom: -32rpx;
       }
-
       ._bc-center {
-        padding: 20rpx;
-        box-shadow: 1rpx 1rpx 12rpx #e6e7eb;
-        border-radius: 16rpx;
-        margin-top: 16rpx;
-        margin-bottom: 32rpx;
+        padding: 24rpx;
         background: #fff;
           .itemSchool{
             padding: 4rpx 12rpx;

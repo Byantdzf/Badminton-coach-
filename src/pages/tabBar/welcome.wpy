@@ -1,7 +1,6 @@
 <template>
   <view class="box {{hide?'hide':''}}">
     <image src="https://images.ufutx.com/201908/16/7d151aa8067ab044838add608e7395fd.jpeg" mode="aspectFill" class="image"></image>
-    <!--<image src="https://images.ufutx.com/201908/06/519fa044ccc321dc18a710a3f254dc74.jpeg" mode="aspectFill" class="image-btn"></image>-->
     <view @tap="goto('/pages/users/registerV2')" class="next" wx:if="{{hideBtn}}"></view>
     <view class="wrapper" @tap="jump">
       <view class="font_24 flo_l text-center time">{{time}}s</view>
@@ -30,7 +29,6 @@
       hideBtn: false,
       time: 3,
       token: '',
-      // startImage: 'http://images.ufutx.com/201906/06/7d08adc288632283af704cbdf4a07e0b.jpeg'
       startImage: ''
     }
 
@@ -55,7 +53,7 @@
           if (this.token) {
             this.$gotoTab('/pages/tabBar/home')
           } else {
-            this.$goto('/pages/users/registerV2')
+            this.$goto('/pages/userInfo/typeSelect')
           }
         }
       }, 1000)
@@ -105,7 +103,6 @@
                 }
               } else {
                 that.hideBtn = true
-                // that.$goto('/pages/users/registerV2')
                 that.$apply()
               }
             }
@@ -125,7 +122,7 @@
         if (this.token) {
           this.$gotoTab('/pages/tabBar/home')
         } else {
-          this.$goto('/pages/users/registerV2')
+          this.$goto('/pages/userInfo/typeSelect')
         }
       },
       gotoTab(url) {

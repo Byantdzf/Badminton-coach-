@@ -8,10 +8,6 @@
   var HitBuilders = ga.HitBuilders
   const socket = require('./utils/sockte')
 
-  // 缓存上一个页面
-  // console.log(this.getCurrentPages())
-  //  var yeast = require('yeast')
-
   export default class extends wepy.app {
     config = {
       'requiredBackgroundModes': ['audio', 'location'],
@@ -29,13 +25,13 @@
         'pages/tabBar/questionList',
         'pages/tabBar/user'
       ],
-      'permission': {
+      'permission': {   // 地理位置获取
         'scope.userLocation': {
           'desc': '你的位置信息将用于小程序位置接口的效果展示'
         }
       },
-      'subPackages': [
-        {
+      'subPackages': [  // 分包
+        {   //  首页
           'root': 'pages/home',
           'pages': [
             'search',
@@ -53,13 +49,13 @@
             'addFriend'
           ]
         },
-        {
+        {   //  外链接
           'root': 'pages/books',
           'pages': [
             'bookDetail'
           ]
         },
-        {
+        {   // 聚会
           'root': 'pages/party',
           'pages': [
             'signSuccess',
@@ -72,7 +68,7 @@
             'paySuccess'
           ]
         },
-        {
+        {  // 地图
           'root': 'pages/map',
           'pages': [
             'index',
@@ -80,7 +76,15 @@
             'TXQQMap'
           ]
         },
-        {
+        {  // 用户信息
+          'root': 'pages/userInfo',
+          'pages': [
+            'typeSelect',
+            'basicData',
+            'sexSelect'
+          ]
+        },
+        {  // 问答
           'root': 'pages/question',
           'pages': [
             'list',
@@ -88,7 +92,7 @@
             'questionDetail'
           ]
         },
-        {
+        {  // 朋友圈
           'root': 'pages/friendCircle',
           'pages': [
             'otherFriendCircle',
@@ -97,7 +101,7 @@
             'friendCircleEdit'
           ]
         },
-        {
+        {   // 基本信息
           'root': 'pages/users',
           'pages': [
             'userInfo',
@@ -162,7 +166,7 @@
         navigationBarTitleText: '福恋',
         navigationBarTextStyle: 'black',
         navigationBarBackgroundColor: '#fff',
-//        navigationStyle: 'custom',
+        // navigationStyle: 'custom',
 //        backgroundColorTop: '#f43934', // ios
 //        backgroundColorBottom: '#f43934', // ios
         backgroundColor: '#eaeaea',
@@ -240,10 +244,18 @@
         success(res) {
           vm.globalData.windowHeight = res.windowHeight
           vm.globalData.windowWidth = res.windowWidth
+          vm.globalData.StatusBar = res.statusBarHeight
+          let capsule = wx.getMenuButtonBoundingClientRect()
+          if (capsule) {
+            vm.globalData.Custom = capsule
+            vm.globalData.CustomBar = capsule.bottom + capsule.top - res.statusBarHeight
+          } else {
+            vm.globalData.CustomBar = res.statusBarHeight + 50
+          }
+      console.log(vm.globalData)
         }
       })
     }
-
     onShow(options) {
       console.log(options)
       if (options.scene && arguments.length !== 0) {
@@ -518,4 +530,7 @@
   @import "./styles/weui/index.less";
   @import "./styles/custom/index.less";
   @import "./styles/custom/theme.less";
+  @import './colorui/icon.wxss';
+  @import './colorui/main.wxss';
+  @import './colorui/animation.wxss';
 </style>

@@ -1,191 +1,112 @@
 <template>
   <Loading :init.sync="init"></Loading>
-  <form bindsubmit="formSubmit" report-submit>
-  <button formType="submit" class="btn" data-type="click" style="border: none;">
   <view class="">
-    <NavBarV2 rgba="#D92553" bag="#b81f46" title_c="#ffffff" title="福恋"></NavBarV2>
-    <!--<view @tap="goto('/pages/map/mapList')">-->
-      <!--<tabSearch disabled="true"></tabSearch>-->
-    <!--</view>-->
-    <block wx:if="{{announcements.length>0}}">
-      <swiperV :list.sync="announcements" height="286"></swiperV>
-    </block>
-    <!--<button class="flex-grow-0 flex-y-center bar-bottom-btn" open-type="contact" send-message-title="我想认识TA" send-message-img="{{pic_url}}" send-message-path="/pages/tabBar/home" bindcontact='handleContact' show-message-card plain>客服</button>-->
-    <block wx:if="{{userType == 'single'}}">
-      <view class="_bc-tab text-left ff ">
-        <view class="_bc-tab-item text-center flo_l item{{index}}" wx:for="{{tab}}" wx:key="{{index}}" @tap="gotoV({{item.path}}, {{item.type}})">
-          <image src="{{item.icon}}" class=" {{index===0?'heart':''}}" mode="widthFix" wx:if="{{item.icon}}"></image>
-          <view  class="_item-text font_24 _text{{index}}">{{item.title}}</view>
-        </view>
-        <view class="clearfloat"></view>
-      </view>
-      <view class="recommend font_26"  @tap="goto('/pages/map/index')">
-        <view class="address flo_l" @tap.stop="goto('/pages/map/index')">
-          <view class="ellipsis_1">
-            <image src="http://images.ufutx.com/201905/29/116e3887dd6dcbcaad6a464f96bdcdcb.png" mode="widthFix" class="addressIcon"></image>
-            <!--{{address.city}}-->
-            相遇地图
-          </view>
-        </view>
-        <view class="center flo_l">
-          <span class="display_inlin">附近的人</span>
-          <block wx:if="{{person.length>0}}">
-            <image src="{{item.circle_avatar}}" mode="widthFix" wx:for="{{person}}" wx:key="{{index}}"  class="image display_inlin" ></image>
-          </block>
-          <block wx:else>
-            <image src="{{item}}" mode="widthFix" wx:for="{{images}}" wx:key="{{index}}" class="image display_inlin" ></image>
-          </block>
-        </view>
-        <image src="http://images.ufutx.com/201905/29/2eeab012d13d91f16f5a21ad6c578678.png" mode="widthFix" class="moreImage flo_r"></image>
-      </view>
-      <!--<view class="bc_swiper_box">-->
-      <!--<view>-->
-      <!--<span  class="font_32 bold color-666">小恋推荐</span>-->
-      <!--<span  class="font_28 color-666" style="margin-left: 32rpx;">根据你的资料，为你推荐</span>-->
-      <!--<image src="https://images.ufutx.com/201908/16/eb58574466d54d7ce3223725c6a92387.png" mode="widthFix" class="edit flo_r"></image>-->
-      <!--</view>-->
-      <!--<view class="bc_swiper">-->
-      <!--<swiper @change="getcurrent">-->
-      <!--<swiper-item  wx:for="{{recommends}}" wx:key="index"  wx:for-index="idx" wx:for-item="otherUser">-->
-      <!--<view class="_bc-list_swiper">-->
-      <!--<view class="item-avatar_swiper {{index ===0 || index === 2?'flo_l':'flo_r'}}" wx:for="{{otherUser}}" wx:key="{{index}}" wx:if="{{index<4}}" @tap="gotofriends({{item}},{{item.user_id}})">-->
-      <!--<image src="{{item.photo?item.photo:defPic}}" mode="aspectFill" class="image"></image>-->
-      <!--<view class="font_26 _bc-center_swiper color-666">-->
-      <!--<view class="color-666 ellipsis_1 bold" style="max-width: 80%">{{item.name}}</view>-->
-      <!--<view class="font_22 bold ellipsis_1" style="color: #919191">{{item.age? item.age + '岁' : ''}} {{item.stature? '· ' +item.stature +'cm': ''}} {{item.city? '· '+item.city: ''}}</view>-->
-      <!--</view>-->
-      <!--</view>-->
-      <!--</view>-->
-      <!--</swiper-item>-->
-      <!--</swiper>-->
-      <!--</view>-->
-      <!--<view class='text-center'>-->
-      <!--<block wx:for="{{recommends}}" wx:key="index">-->
-      <!--<text class="bc_dot {{index == current?'bc_dot_active':''}}"></text>-->
-      <!--</block>-->
-      <!--</view>-->
-      <!--</view>-->
-        <view class="_bc-list">
-          <view style="padding: 12rpx 22rpx;">
-            <span class="font_32 bold color-666">智能推荐</span>
-            <!--<span class="font_28 color-666" style="margin-left: 32rpx;">根据你的资料，为你推荐</span>-->
-            <!--<image src="https://images.ufutx.com/201908/16/eb58574466d54d7ce3223725c6a92387.png" mode="widthFix"-->
-                   <!--class="edit flo_r" @tap="goto('/pages/users/userInfo')"></image>-->
-          </view>
-          <bolck  wx:if="{{list.length == 0}}">
-            <block wx:if="{{initialize && list.length == 0}}">
-              <view class="text-center main-hint">
-                <image src="https://images.ufutx.com/201908/16/6f2f00d1bab1d96b8a1971e88c0e3575.png" mode="widthFix"
-                       style="width: 240rpx;height: auto;"></image>
-                <view class="font_26 color-666" style="margin-top: 12rpx">完善个人资料，领取尊享VIP！</view>
-                <view class="item-btn white btn-theme font_28" @tap="goto('/pages/users/userInfo')">去完善</view>
-              </view>
-            </block>
-          </bolck>
-          <bolck  wx:else>
-            <view class="item-avatar" wx:for="{{list}}" wx:key="{{index}}" @tap="gotofriends({{item}},{{item.id}})">
-              <image src="{{item.photo}}" mode="widthFix" class="image"></image>
-              <view class="font_28 _bc-center color-666">
-                <view class="font_28">
-                  <view class="color-666 ellipsis_1 bold flo_l" style="max-width: 80%">{{item.name}}</view>
-                  <image src="http://images.ufutx.com/201811/09/df3aa8846ea6f02341f9077198555c39.png" wx:if="{{item.sex=='2'}}" mode="aspectFill" class="flo_l" style="width: 32rpx;height: 32rpx;margin: 6rpx 0 0 6rpx"></image>
-                  <image src="http://images.ufutx.com/201811/09/fc3a6545c016643bfe5ab2989658900b.png" mode="aspectFill" wx:else class="flo_l" style="width: 32rpx;height: 32rpx;margin: 6rpx 0 0 6rpx"></image>
-                  <view class="clearfloat"></view>
-                </view>
-                <view>
-                  <text class="font_22 bold">{{item.age? item.age + '岁' : ''}} {{item.profile_courtship.stature? '· ' +item.profile_courtship.stature +'cm': ''}} {{item.profile_courtship.city? '· '+item.profile_courtship.city: ''}}</text>
-                  <view class="font_22 ellipsis_1">{{item.profile_courtship.introduction? item.profile_courtship.introduction : ''}}</view>
-                </view>
-              </view>
-            </view>
-          </bolck>
-          <block wx:if="{{loading}}">
-            <view class="weui-loadmore">
-              <view class="weui-loading"></view>
-              <view class="weui-loadmore__tips"  style="background: white">正在加载</view>
-            </view>
-          </block>
-          <block wx:if="{{noMore}}">
-            <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
-              <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot" style="background: white"></view>
-            </view>
-          </block>
+    <NavBarV2 rgba="#f4f5f9" bag="#b81f46" title_c="#ffffff" title="福恋"></NavBarV2>
+    <!--    <block wx:if="{{userType == 'single'}}">-->
+    <view class="_bc-list">
+      <!--          <view style="padding: 12rpx 22rpx;">-->
+      <!--            <span class="font_32 bold color-666">智能推荐</span>-->
+      <!--          </view>-->
+      <!--          <bolck  wx:if="{{list.length == 0}}">-->
+      <!--            <block wx:if="{{initialize && list.length == 0}}">-->
+      <!--              <view class="text-center main-hint">-->
+      <!--                <image src="https://images.ufutx.com/201908/16/6f2f00d1bab1d96b8a1971e88c0e3575.png" mode="widthFix"-->
+      <!--                       style="width: 240rpx;height: auto;"></image>-->
+      <!--                <view class="font_26 color-666" style="margin-top: 12rpx">完善个人资料，领取尊享VIP！</view>-->
+      <!--                <view class="item-btn white btn-theme font_28" @tap="goto('/pages/users/userInfo')">去完善</view>-->
+      <!--              </view>-->
+      <!--            </block>-->
+      <!--          </bolck>-->
+      <!--          <bolck  wx:else>-->
+      <template is="userList" data="{{list}}"></template>
+      <!--          </bolck>-->
+      <block wx:if="{{loading}}">
+        <view class="weui-loadmore">
+          <view class="weui-loading"></view>
+          <view class="weui-loadmore__tips"  style="background: #f4f5f9">正在加载</view>
         </view>
       </block>
+      <block wx:if="{{noMore}}">
+        <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+          <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot" style="background: #f4f5f9"></view>
+        </view>
+      </block>
+    </view>
     </block>
-    <block wx:else>
-      <view class="main-share">
-        <view class="color-666">
-          <span class="font_32 bold" >身边单身</span>
-          <span class="font_22" style="margin-left: 22rpx;">邀请身边的单身进入福恋</span>
-        </view>
-        <view class="shareIcon">
-          <block wx:for="{{shareUser}}" wx:key="index">
-            <image src="{{item.circle_avatar}}" mode="widthFix" @tap="gotofriends({{item}},{{item.id}})"  @longpress="longPress({{index}}, {{item.id}})"></image>
-          </block>
-          <button class="btn white inline-block" hover-class="btn_active"  open-type="share" style="margin-bottom: -18rpx;">
-            <image src="https://images.ufutx.com/201908/16/c9e298c58e88e16588b555040f43e71d.png" mode="widthFix"></image>
-          </button>
-        </view>
-      </view>
-      <view class="recommend font_26"  @tap="goto('/pages/map/index')">
-        <view class="address flo_l" @tap.stop="goto('/pages/map/index')">
-          <view class="ellipsis_1">
-            <image src="http://images.ufutx.com/201905/29/116e3887dd6dcbcaad6a464f96bdcdcb.png" mode="widthFix" class="addressIcon"></image>
-            <!--{{address.city}}-->
-            相遇地图
-          </view>
-        </view>
-        <view class="center flo_l">
-          <span class="display_inlin">附近的人</span>
-          <block wx:if="{{person.length>0}}">
-            <image src="{{item.circle_avatar}}" mode="widthFix" wx:for="{{person}}" wx:key="{{index}}"  class="image display_inlin" ></image>
-          </block>
-          <block wx:else>
-            <image src="{{item}}" mode="widthFix" wx:for="{{images}}" wx:key="{{index}}" class="image display_inlin" ></image>
-          </block>
-        </view>
-        <image src="http://images.ufutx.com/201905/29/2eeab012d13d91f16f5a21ad6c578678.png" mode="widthFix" class="moreImage flo_r"></image>
-      </view>
-      <view class="main-title">
-        <view  style="padding: 12rpx 32rpx;">
-          <span class="font_32 bold color-666">智能推荐</span>
-          <span class="font_28 color-666" style="margin-left: 32rpx;">为单身推荐TA</span>
-        </view>
-        <bolck  wx:if="{{list.length == 0}}">
-          <block wx:if="{{initialize && list.length == 0}}">
-            <view class="text-center main-hint">
-              <image src="https://images.ufutx.com/201908/16/b1ce90ed0a31f6f543361e55d841d199.png" mode="widthFix"
-                     style="width: 240rpx;height: auto;"></image>
-              <view class="font_26 color-666" style="margin-top: 12rpx">邀请身边的单身们加入，为单身推荐TA</view>
-              <button class="btn white inline-block item-btn white font_28 text-center" hover-class="btn_active"  open-type="share" style="margin-bottom: -18rpx;">
-                邀请
-              </button>
-            </view>
-            <view style="height: 12vw;"></view>
-          </block>
-        </bolck>
-        <bolck  wx:else>
-          <view class="_bc-list">
-            <view class="item-avatar" wx:for="{{list}}" wx:key="{{index}}" @tap="gotofriends({{item}},{{item.id}})">
-              <image src="{{item.photo}}" mode="widthFix" class="image"></image>
-              <view class="font_28 _bc-center color-666">
-                <view class="font_28">
-                  <view class="color-666 ellipsis_1 bold flo_l" style="max-width: 80%">{{item.name}}</view>
-                  <image src="http://images.ufutx.com/201811/09/df3aa8846ea6f02341f9077198555c39.png" wx:if="{{item.sex=='2'}}" mode="aspectFill" class="flo_l" style="width: 32rpx;height: 32rpx;margin: 6rpx 0 0 6rpx"></image>
-                  <image src="http://images.ufutx.com/201811/09/fc3a6545c016643bfe5ab2989658900b.png" mode="aspectFill" wx:else class="flo_l" style="width: 32rpx;height: 32rpx;margin: 6rpx 0 0 6rpx"></image>
-                  <view class="clearfloat"></view>
-                </view>
-                <view>
-                  <text class="font_22 bold">{{item.age? item.age + '岁' : ''}} {{item.profile_courtship.stature? '· ' +item.profile_courtship.stature +'cm': ''}} {{item.profile_courtship.city? '· '+item.profile_courtship.city: ''}}</text>
-                  <view class="font_22 ellipsis_1">{{item.profile_courtship.introduction? item.profile_courtship.introduction : ''}}</view>
-                </view>
-              </view>
-            </view>
-          </view>
-        </bolck>
-      </view>
-    </block>
+    <!--    </block>-->
+    <!--    <block wx:else>-->
+    <!--      <view class="main-share">-->
+    <!--        <view class="color-666">-->
+    <!--          <span class="font_32 bold" >身边单身</span>-->
+    <!--          <span class="font_22" style="margin-left: 22rpx;">邀请身边的单身进入福恋</span>-->
+    <!--        </view>-->
+    <!--        <view class="shareIcon">-->
+    <!--          <block wx:for="{{shareUser}}" wx:key="index">-->
+    <!--            <image src="{{item.circle_avatar}}" mode="widthFix" @tap="gotofriends({{item}},{{item.id}})"  @longpress="longPress({{index}}, {{item.id}})"></image>-->
+    <!--          </block>-->
+    <!--          <button class="btn white inline-block" hover-class="btn_active"  open-type="share" style="margin-bottom: -18rpx;">-->
+    <!--            <image src="https://images.ufutx.com/201908/16/c9e298c58e88e16588b555040f43e71d.png" mode="widthFix"></image>-->
+    <!--          </button>-->
+    <!--        </view>-->
+    <!--      </view>-->
+    <!--      <view class="recommend font_26"  @tap="goto('/pages/map/index')">-->
+    <!--        <view class="address flo_l" @tap.stop="goto('/pages/map/index')">-->
+    <!--          <view class="ellipsis_1">-->
+    <!--            <image src="http://images.ufutx.com/201905/29/116e3887dd6dcbcaad6a464f96bdcdcb.png" mode="widthFix" class="addressIcon"></image>-->
+    <!--            &lt;!&ndash;{{address.city}}&ndash;&gt;-->
+    <!--            相遇地图-->
+    <!--          </view>-->
+    <!--        </view>-->
+    <!--        <view class="center flo_l">-->
+    <!--          <span class="display_inlin">附近的人</span>-->
+    <!--          <block wx:if="{{person.length>0}}">-->
+    <!--            <image src="{{item.circle_avatar}}" mode="widthFix" wx:for="{{person}}" wx:key="{{index}}"  class="image display_inlin" ></image>-->
+    <!--          </block>-->
+    <!--          <block wx:else>-->
+    <!--            <image src="{{item}}" mode="widthFix" wx:for="{{images}}" wx:key="{{index}}" class="image display_inlin" ></image>-->
+    <!--          </block>-->
+    <!--        </view>-->
+    <!--        <image src="http://images.ufutx.com/201905/29/2eeab012d13d91f16f5a21ad6c578678.png" mode="widthFix" class="moreImage flo_r"></image>-->
+    <!--      </view>-->
+    <!--      <view class="main-title">-->
+    <!--        <view  style="padding: 12rpx 32rpx;">-->
+    <!--          <span class="font_32 bold color-666">智能推荐</span>-->
+    <!--          <span class="font_28 color-666" style="margin-left: 32rpx;">为单身推荐TA</span>-->
+    <!--        </view>-->
+    <!--        <bolck  wx:if="{{list.length == 0}}">-->
+    <!--          <block wx:if="{{initialize && list.length == 0}}">-->
+    <!--            <view class="text-center main-hint">-->
+    <!--              <image src="https://images.ufutx.com/201908/16/b1ce90ed0a31f6f543361e55d841d199.png" mode="widthFix"-->
+    <!--                     style="width: 240rpx;height: auto;"></image>-->
+    <!--              <view class="font_26 color-666" style="margin-top: 12rpx">邀请身边的单身们加入，为单身推荐TA</view>-->
+    <!--              <button class="btn white inline-block item-btn white font_28 text-center" hover-class="btn_active"  open-type="share" style="margin-bottom: -18rpx;">-->
+    <!--                邀请-->
+    <!--              </button>-->
+    <!--            </view>-->
+    <!--            <view style="height: 12vw;"></view>-->
+    <!--          </block>-->
+    <!--        </bolck>-->
+    <!--&lt;!&ndash;        <bolck  wx:else>&ndash;&gt;-->
+    <!--&lt;!&ndash;          <view class="_bc-list">&ndash;&gt;-->
+    <!--&lt;!&ndash;            <view class="item-avatar" wx:for="{{list}}" wx:key="{{index}}" @tap="gotofriends({{item}},{{item.id}})">&ndash;&gt;-->
+    <!--&lt;!&ndash;              <image src="{{item.photo}}" mode="aspectFit" class="image"></image>&ndash;&gt;-->
+    <!--&lt;!&ndash;              <view class="font_28 _bc-center color-666">&ndash;&gt;-->
+    <!--&lt;!&ndash;                <view class="font_28">&ndash;&gt;-->
+    <!--&lt;!&ndash;                  <view class="color-666 ellipsis_1 bold flo_l" style="max-width: 80%">{{item.name}}</view>&ndash;&gt;-->
+    <!--&lt;!&ndash;                  <image src="http://images.ufutx.com/201811/09/df3aa8846ea6f02341f9077198555c39.png" wx:if="{{item.sex=='2'}}" mode="aspectFill" class="flo_l" style="width: 32rpx;height: 32rpx;margin: 6rpx 0 0 6rpx"></image>&ndash;&gt;-->
+    <!--&lt;!&ndash;                  <image src="http://images.ufutx.com/201811/09/fc3a6545c016643bfe5ab2989658900b.png" mode="aspectFill" wx:else class="flo_l" style="width: 32rpx;height: 32rpx;margin: 6rpx 0 0 6rpx"></image>&ndash;&gt;-->
+    <!--&lt;!&ndash;                  <view class="clearfloat"></view>&ndash;&gt;-->
+    <!--&lt;!&ndash;                </view>&ndash;&gt;-->
+    <!--&lt;!&ndash;                <view>&ndash;&gt;-->
+    <!--&lt;!&ndash;                  <text class="font_22 bold">{{item.age? item.age + '岁' : ''}} {{item.profile_courtship.stature? '· ' +item.profile_courtship.stature +'cm': ''}} {{item.profile_courtship.city? '· '+item.profile_courtship.city: ''}}</text>&ndash;&gt;-->
+    <!--&lt;!&ndash;                  <view class="font_22 ellipsis_1">{{item.profile_courtship.introduction? item.profile_courtship.introduction : ''}}</view>&ndash;&gt;-->
+    <!--&lt;!&ndash;                </view>&ndash;&gt;-->
+    <!--&lt;!&ndash;              </view>&ndash;&gt;-->
+    <!--&lt;!&ndash;            </view>&ndash;&gt;-->
+    <!--&lt;!&ndash;          </view>&ndash;&gt;-->
+    <!--&lt;!&ndash;        </bolck>&ndash;&gt;-->
+    <!--      </view>-->
+    <!--    </block>-->
   </view>
   </button>
   </form>
@@ -225,7 +146,49 @@
       </button>
     </view>
   </view>
-  <pageScroll></pageScroll>
+  <!--  <pageScroll></pageScroll>-->
+  <template name="userList">
+    <!--  用户列表-->
+    <view class="item-avatar" wx:for="{{list}}" wx:key="{{index}}" @tap="gotofriends({{item}},{{item.id}})">
+      <image src="{{item.photo}}" mode="aspectFill" class="image"></image>
+      <view class="font_28 _bc-center">
+        <view class="itemSchool">
+          <image src="https://images.ufutx.com/202002/20/9bcff5330ce2b6d9d20e25b310141bf0.png" mode="aspectFill" class="icon"></image>
+          {{item.profile_courtship.graduate_school}}
+          <span style="color: #d2d4db" >|</span>
+          {{mylibs.profile_courtship.degree}}
+          <!--          <view class="flo_r"> <span class="color-theme">·</span> 全日制</view>-->
+        </view>
+        <view class="itemInfo">
+          <view class="color-333 ellipsis_1 font_32 bold flo_l" style="max-width: 80%">{{item.name}}</view>
+          <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:if="{{item.sex=='2'}}" mode="aspectFill" class="flo_l icon"></image>
+          <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFill" wx:else class="flo_l icon" ></image>
+          <view class="flo_r ">
+            <image src="https://images.ufutx.com/202002/20/2024e9d4e75e92a551bf8f56d475c0eb.png"  mode="aspectFill" class="iconD flo_l"></image>
+            <view class="flo_r" style="margin-top: 10rpx">{{item.profile_courtship.city || ''}}</view>
+          </view>
+          <view class="clearfloat"></view>
+          <view class="font_24">
+            {{item.age? item.age + '岁' : ''}}
+            <span style="color: #d2d4db" > | </span>
+            {{item.profile_courtship.stature? item.profile_courtship.stature +'cm': ''}}
+            <span style="color: #d2d4db" > | </span>
+            {{item.profile_courtship.state? item.profile_courtship.state: ''}}
+          </view>
+          <!--          <view class="font_22 ellipsis_1">{{item.profile_courtship.introduction? item.profile_courtship.introduction : ''}}</view>-->
+        </view>
+        <view class="itemLabel">
+          <view class="itemBox flo_l">职业：{{item.industry_sub}}</view>
+          <view class="itemBox flo_l">信仰：{{item.belief}}</view>
+          <view class="clearfloat"></view>
+        </view>
+        <!--        <view>-->
+        <!--          <text class="font_22 bold">{{item.age? item.age + '岁' : ''}} {{item.profile_courtship.stature? '· ' +item.profile_courtship.stature +'cm': ''}} {{item.profile_courtship.city? '· '+item.profile_courtship.city: ''}}</text>-->
+        <!--          <view class="font_22 ellipsis_1">{{item.profile_courtship.introduction? item.profile_courtship.introduction : ''}}</view>-->
+        <!--        </view>-->
+      </view>
+    </view>
+  </template>
 </template>
 
 <script>
@@ -237,7 +200,6 @@
   // import ShareMessage from '../../mixins/ShareMessage'
   import swiperV from '../../components/swiper'
   import Loading from '../../components/loading'
-  import Tab_NavBar from '../../components/Tab_NavBar'
   import pageScroll from '../../components/pageScroll'
   import tabSearch from '../../components/tabSearch'
   import NavBarV2 from '../../components/NavBarV2'
@@ -898,252 +860,66 @@
 <style lang="less">
   @import "../../styles/weui/base/fn.wxss";
   @import "../../styles/custom/fn.less";
-  page{
-    background: #ffffff;
-    .getVip{
-      position: relative;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 10000;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.5);
-      .showPicVip {
-        transform: scale(0);
-        animation: myMove2 1000ms 300ms;
-        animation-fill-mode: forwards;
+  page {
+    background: #f4f5f9;
+    .item-avatar {
+      width: 692rpx;
+      margin: 12rpx 28rpx 32rpx 28rpx;
+      /*border: 3rpx solid #cecece;*/
+      margin-bottom: 60rpx;
+      /*overflow: hidden;*/
+
+      .image {
+        width: 100%;
+        height: 680rpx;
+        border-radius: 16rpx;
       }
-      @keyframes myMove2 {
-        from {
-          transform: scale(0);
+
+      ._bc-center {
+        padding: 20rpx;
+        box-shadow: 1rpx 1rpx 12rpx #e6e7eb;
+        border-radius: 16rpx;
+        margin-top: 16rpx;
+        margin-bottom: 32rpx;
+        background: #fff;
+        .itemSchool{
+          padding: 4rpx 12rpx;
+          background: #f4f5f9;
+          border-radius: 8rpx;
+          .icon{
+            width: 36rpx;
+            height: 36rpx;
+            margin-bottom: -6rpx;
+          }
         }
-        to {
-          transform: scale(1);
+        .itemLabel{
+          padding: 6rpx;
+          margin-top: 12rpx;
+          .itemBox{
+            padding: 8rpx 16rpx;
+            background: #f4f5f9;
+            margin-right: 16rpx;
+          }
         }
-      }
-      .main-btn{
-        width: 40vw;
-        height: 80rpx;
-        position: absolute;
-        left: 28vw;
-        top: 86vw;
-      }
-    }
-    ._bc-tab{
-      width: 100%;
-      padding: 35rpx 0 20rpx 0;
-      border-bottom: 20rpx solid #f4f4f4;
-      ._item-text{
-        margin-top: -8rpx;
-      }
-      ._bc-tab-item{
-        width: 100/3%;
-        background: white;
-        image{
-          width: 72rpx;
-        }
-      }
-    }
-    .main-share{
-      padding: 12rpx 22rpx 0 22rpx;
-      border-bottom: 14rpx solid #f4f4f4;
-      .shareIcon{
-        margin-top: 12rpx;
-        image{
-          width: 82rpx;
-          height: 82rpx;
-          margin-right: 12rpx;
-        }
-      }
-    }
-    .recommend{
-      height: 112rpx;
-      margin-bottom: 12rpx;
-      border-bottom: 14rpx solid #f4f4f4;
-      .address{
-        width: 22%;
-        line-height: 112rpx;
-        padding-left: 50rpx;
-        .addressIcon{
-          width: 26rpx;
-          vertical-align: middle;
-          margin-bottom: 8rpx;
-          margin-right: 6rpx;
+        .itemInfo{
+          padding: 6rpx;
+          margin-top: 12rpx;
+          padding-bottom: 12rpx;
+          border-bottom: 1rpx solid #eeeded;
+          .icon{
+            width: 32rpx;
+            height: 32rpx;
+            margin-top: 12rpx;
+            margin-left: 4rpx;
+          }
+          .iconD{
+            width: 30rpx;
+            height: 30rpx;
+            margin-top: 14rpx;
+            margin-left: 4rpx;
+          }
         }
       }
-      .center{
-        width: 60%;
-        line-height: 112rpx;
-        .image{
-          width: 62rpx;
-          vertical-align: middle;
-          margin-bottom: 6rpx;
-          margin-left: 10rpx;
-          height: auto;
-        }
-      }
-      .moreImage{
-        width: 20rpx;
-        margin-right: 26rpx;
-        margin-top: 38rpx;
-        height: auto;
-      }
-    }
-    .bc_swiper_box{
-      padding: 12rpx 28rpx 0 28rpx;
-      .bc_swiper{
-        margin-top: 32rpx;
-      }
-      swiper{
-        height: 780rpx;
-      }
-      .bc_dot{
-        width: 40rpx;
-        height: 8rpx;
-        background: #cecece;
-        margin-left: 6rpx;
-      }
-      .bc_dot_active{
-        background: #d92553;
-      }
-    }
-    .main-title{
-      .main-hint{
-        margin-top: 62rpx;
-      }
-      .item-btn{
-        width: 200rpx;
-        height: 60rpx;
-        line-height: 60rpx;
-        background: #D92553;
-        border-radius: 8rpx;
-        margin: 40rpx auto;
-      }
-    }
-    .item-btn{
-      width: 200rpx;
-      height: 60rpx;
-      line-height: 60rpx;
-      background: #D92553;
-      border-radius: 8rpx;
-      margin: 40rpx auto;
-    }
-    .edit{
-      width: 42rpx;
-      height: auto;
-      margin-top: 8rpx;
-    }
-    ._bc-list{
-      .item-avatar{
-        width: 92%;
-        margin: 12rpx 28rpx 32rpx 28rpx;
-        border: 3rpx solid #cecece;
-        border-radius: 12rpx;
-        margin-bottom: 40rpx;
-        overflow: hidden;
-        .image{
-          width: 100%;
-          height: 483rpx;
-        }
-        ._bc-center{
-          padding: 6rpx 20rpx 20rpx 20rpx;
-        }
-      }
-    }
-    ._bc-list_swiper{
-      .item-avatar_swiper{
-        width: 48%;
-        border: 3rpx solid #cecece;
-        border-radius: 12rpx;
-        display: inline-block;
-        overflow: hidden;
-        margin-bottom: 20rpx;
-        .image{
-          width: 100%;
-          height: 260rpx;
-        }
-        ._bc-center_swiper{
-          padding: 0 16rpx 12rpx 16rpx;
-        }
-      }
-    }
-    .state{
-      background: #f7f7f7;
-      padding: 12rpx 16rpx;
-      border: 1rpx solid #d3d3d3;
-      border-radius: 10rpx;
-    }
-    .info{
-      margin: 22rpx;
-      margin-top: 46rpx;
-      padding: 22rpx 0;
-      .title{
-        border-bottom: 1rpx solid #d3d3d3;
-        margin: 0 0 0 22rpx;
-        padding-bottom: 12rpx;
-      }
-    }
-    .modelInput{
-      border-bottom: 2px solid #f4f4f4;
-      padding: 2rpx 48rpx;
-    }
-  }
-  .State{
-    padding-right: 8%;
-    span {
-      padding: 6rpx 12rpx;
-      background: #f3f4f9;
-      margin-top: 12rpx;
-      margin-right: 22rpx;
-      border-radius: 4rpx;
-    }
-  }
-  /*使屏幕变暗  */
-  .commodity_screen {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background: #000;
-    opacity: 0.2;
-    overflow: hidden;
-    z-index: 1000;
-    color: #fff;
-  }
-  /*对话框 */
-  .commodity_attr_box {
-    /*height: 300rpx;*/
-    padding-bottom: 4%;
-    width: 100%;
-    overflow: hidden;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 2000;
-    background: #fff;
-    padding-top: 20rpx;
-    border-top-right-radius: 22rpx;
-    border-top-left-radius: 22rpx;
-  }
-  .heart {
-    /*animation:heartbeat 1s infinite;*/
-    -webkit-animation:heartbeat 1.4s 3;
-    /*animation-fill-mode: forwards;*/
-  }
-  @keyframes heartbeat {
-    0% {
-      transform:rotate(0deg) scale(0.8,0.8);
-      opacity:1;
-    }
-    25% {
-      transform:rotate(0deg) scale(1.2,1.2);
-      opacity:0.8;
-    }
-    100% {
-      transform:rotate(0deg) scale(0.8,0.8);
-      opacity:1;
     }
   }
 </style>
