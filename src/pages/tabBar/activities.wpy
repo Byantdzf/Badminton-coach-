@@ -1,10 +1,14 @@
 <template>
   <view class="weui-tab">
-
+    <cuCustom bgColor="bg-white">
+      <!--<view slot="backText">返回</view>-->
+      <view slot="content" class="bold ">精彩活动</view>
+    </cuCustom>
     <tabSearchV2 title="搜索精彩活动" BColor="#fff"></tabSearchV2>
     <view wx:if="{{activities.length>0}}" class="swiperBox">
       <swiper :list.sync="activities" height="380"></swiper>
     </view>
+    <view wx:else class="swiperBox main-bc-image"></view>
     <view class="mainTab">
       <view class="itemTab text-center" @tap="tabClick('0')">
         <view class="{{type==0?'bold color-333 font_30':'color-666 font_28'}}  ">进行中</view>
@@ -15,7 +19,6 @@
         <view class="active" wx:if="{{type == 1}}"></view>
       </view>
     </view>
-<!--    <navBarTop :tabs.sync="tabs" @tapClick="tapClick"></navBarTop>-->
     <partyList :list.sync="list" :hideMessage.sync="hideMessage"></partyList>
     <view wx:if="{{!list.length}}" class="text-center">
       <view class="font_28 bc_empty">
@@ -49,16 +52,17 @@
   import partyList from '../../components/partyList'
   import pageScroll from '../../components/pageScroll'
   import tabSearchV2 from '../../components/tabSearchV2'
+  import cuCustom from '../../components/cu-custom'
   // import navBarTop from '../../components/navBarTop'
 
   export default class activities extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
-      navigationBarTitleText: '活动列表'
-      // navigationStyle: 'custom'
+      navigationBarTitleText: '活动列表',
+      navigationStyle: 'custom'
     }
     components = {
-      partyList, pageScroll, tabSearchV2, swiper
+      partyList, pageScroll, tabSearchV2, swiper, cuCustom
     }
     data = {
       list: [],
@@ -70,6 +74,7 @@
       hidelist: false,
       formId: '',
       activities: [], // 通知
+      CustomBar: wepy.$instance.globalData.CustomBar,
       type: 0
     }
 
@@ -167,6 +172,7 @@
         this.$showLoading('加载中...')
         console.log(value)
         this.page = 1
+        this.list = []
         this.type = value
         this.$apply()
         this.update()
@@ -192,10 +198,21 @@
   @import "../../styles/custom/fn.less";
   page{
     background: white;
+    .mainTabbar{
+      position: fixed;left: 0px;
+    }
     .swiperBox{
-      margin: 32rpx;
-      border-radius: 20rpx;
+      margin: 22rpx 32rpx;
+      border-radius: 6rpx;
       overflow: hidden;
+    }
+    .main-bc-image{
+      width: 91%;
+      height: 380rpx;
+      background-image: url("https://images.ufutx.com/202003/31/8708b241ff1b362f6c45da920d82d428.png");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
     }
     .mainTab{
       width: 100%;
@@ -204,7 +221,7 @@
       background-repeat: no-repeat;
       margin: auto;
       position: relative;
-      z-index: 99999;
+      z-index: 99;
       text-align: center;
       margin-bottom: 56rpx;
       .itemTab{

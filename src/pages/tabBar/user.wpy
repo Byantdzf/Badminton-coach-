@@ -1,136 +1,65 @@
 <template>
-  <Loading :init.sync="init"></Loading>
   <view class="page-user">
     <userTitle :user.sync="user"></userTitle>
     <view class="bc_tab color-333">
       <view  class="text-center flo_l mainF"
             @tap="goto('/pages/users/friendlist?type=friend')">
         <view class="bold font_32" >{{user.friend_count}}</view>
-        <view class=" font_26">我的好友</view>
+        <view class="font_26">我的好友</view>
       </view>
       <view class="text-center flo_l mainFA "
             @tap="goto('/pages/users/friendlist?type=attention')">
         <view class="bold font_32" >{{user.follow_count}}</view>
-        <view class=" font_26">我的关注</view>
+        <view class="font_26">我的关注</view>
       </view>
       <view class="text-center flo_l mainF" @tap="goto('/pages/users/friendlist?type=fans')">
         <view class="bold font_32" >{{user.fans_count}}</view>
-        <view class=" font_26">关注我的</view>
+        <view class="font_26">关注我的</view>
       </view>
     </view>
-    <view class="_list" @tap="goto('/pages/users/myActivity')">
-      <image src="https://images.ufutx.com/202002/26/a70ff1e938748c2ee4821c2c19b4c537.png" mode="aspectFill" class="img flo_l"></image>
-      <span class="font_30 color-333">我的活动</span>
+    <view class="_list" wx:for="{{list}}" wx:key="index" @tap="goto('/pages/users/myActivity')">
+      <image src="{{item.icon}}" mode="widthFix" class="img flo_l"></image>
+      <span class="font_30 color-333">{{item.title}}</span>
       <image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>
     </view>
-    <view class="_list" @tap="goto('/pages/users/realName')">
-      <image src="https://images.ufutx.com/202002/26/36d229ac60d08f68ae80d614387f64f3.png" mode="aspectFill" class="img flo_l"></image>
-      <span class="font_30 color-333">认证中心</span>
-      <image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>
-    </view>
-    <view class="_list _listV2"  @tap="goto('/pages/users/withdrawBlessing')">
-      <image src="https://images.ufutx.com/202002/26/5a75208b028f61923d0799cf8acf8363.png" mode="aspectFill" class="img flo_l"></image>
-      <span class="font_30 color-333">我的钱包</span>
-      <image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>
-    </view>
-    <view class="_list" @tap="goto('/pages/users/upgradeVIP')">
-      <image src="https://images.ufutx.com/202002/26/9afdeabd97cf4c69aa805d36e4a46528.png" mode="aspectFill" class="img flo_l"></image>
-      <span class="font_30 color-333">会员中心</span>
-      <image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>
-    </view>
-    <view class="_list _listV2" @tap="goto('/pages/users/visitor')">
-      <image src="https://images.ufutx.com/202002/26/c0385d1447276a20160a8e5c5cce7724.png" mode="aspectFill" class="img flo_l"></image>
-      <span class="font_30 color-333">访问记录</span>
-      <image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>
-    </view>
-    <view class="_list _listV2" @tap="goto('/pages/users/myShare')">
-      <image src="https://images.ufutx.com/202002/26/7a6550c4caf427111ee747f47302b236.png" mode="aspectFill" class="img flo_l"></image>
-      <span class="font_30 color-333">推荐给好友</span>
-      <image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>
-    </view>
-    <view class="_list _listV2" @tap="goto('/pages/users/setTing')">
-      <image src="https://images.ufutx.com/202002/26/975b8a657710b588ffbff8a4023164a2.png" mode="aspectFill" class="img flo_l"></image>
-      <span class="font_30 color-333">设置</span>
-      <image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>
-    </view>
-    <view class="_list" @tap.stop="goto({{'/pages/users/groupList?id=' + user.id}})" wx:if="{{user.is_admin == 1}}">
-      <image src="http://images.ufutx.com/201906/06/e6f59ac1e95df7039b79191ad486ad72.png" mode="aspectFill" class="img flo_l"></image>
-      <span class="font_30 color-333">团契VIP</span>
-      <image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>
-    </view>
+
+
+
+    <!--<view class="_list" @tap="goto('/pages/users/realName')">-->
+      <!--<image src="https://images.ufutx.com/202002/26/36d229ac60d08f68ae80d614387f64f3.png" mode="aspectFill" class="img flo_l"></image>-->
+      <!--<span class="font_30 color-333">认证中心</span>-->
+      <!--<image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>-->
+    <!--</view>-->
+    <!--<view class="_list"  @tap="goto('/pages/users/withdrawBlessing')">-->
+      <!--<image src="https://images.ufutx.com/202002/26/5a75208b028f61923d0799cf8acf8363.png" mode="aspectFill" class="img flo_l"></image>-->
+      <!--<span class="font_30 color-333">我的钱包</span>-->
+      <!--<image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>-->
+    <!--</view>-->
+    <!--<view class="_list" @tap="goto('/pages/users/upgradeVIP')">-->
+      <!--<image src="https://images.ufutx.com/202002/26/9afdeabd97cf4c69aa805d36e4a46528.png" mode="aspectFill" class="img flo_l"></image>-->
+      <!--<span class="font_30 color-333">会员中心</span>-->
+      <!--<image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>-->
+    <!--</view>-->
+    <!--<view class="_list _listV2" @tap="goto('/pages/users/visitor')">-->
+      <!--<image src="https://images.ufutx.com/202002/26/c0385d1447276a20160a8e5c5cce7724.png" mode="aspectFill" class="img flo_l"></image>-->
+      <!--<span class="font_30 color-333">访问记录</span>-->
+      <!--<image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>-->
+    <!--</view>-->
+    <!--<view class="_list _listV2" @tap="goto('/pages/users/myShare')">-->
+      <!--<image src="https://images.ufutx.com/202002/26/7a6550c4caf427111ee747f47302b236.png" mode="aspectFill" class="img flo_l"></image>-->
+      <!--<span class="font_30 color-333">推荐给好友</span>-->
+      <!--<image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>-->
+    <!--</view>-->
+    <!--<view class="_list _listV2" @tap="goto('/pages/users/setTing')">-->
+      <!--<image src="https://images.ufutx.com/202002/26/975b8a657710b588ffbff8a4023164a2.png" mode="aspectFill" class="img flo_l"></image>-->
+      <!--<span class="font_30 color-333">设置</span>-->
+      <!--<image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>-->
+    <!--</view>-->
     <view style="height: 160rpx"></view>
-<!--    <view class="_list">-->
-<!--      <image src="https://images.ufutx.com/202002/26/c0c6603fbf679709d92fe4927a0d39f7.png" mode="aspectFill" class="img flo_l"></image>-->
-<!--      <span class="font_30 color-333">新手指引</span>-->
-<!--      <image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>-->
-<!--    </view>-->
-
-
-<!--    <view class="ff color-666 bc_box">-->
-<!--      <block wx:for="{{list}}" wx:key="{{index}}">-->
-<!--        <block wx:if="{{item.type == 'navigateTo'}}">-->
-<!--          <block wx:if="{{item.title == 'vip设置'}}">-->
-<!--            <view @tap="gotoVipSet" wx:if="{{user.type !== 'marriage'}}" class="text-center inline-block text-center" style="width: 25%;">-->
-<!--              <view hover-class="btn_active" class="box-icon text-center">-->
-<!--                <image src="{{item.icon}}" mode="aspectFill"></image>-->
-<!--              </view>-->
-<!--              <view class="font_26">{{item.title}}</view>-->
-<!--            </view>-->
-<!--          </block>-->
-<!--          <block wx:else>-->
-<!--            <navigator url="{{item.path +'?id=' + user.id}}" class="text-center inline-block" style="width: 25%;">-->
-<!--              <view hover-class="btn_active" class="box-icon text-center">-->
-<!--                <block wx:if="{{index == 0}}">-->
-<!--                  <image src="http://images.ufutx.com/201906/06/60b617bf82a31ddae11178d69ed0dad5.png" wx:if="{{user.is_approved == 1}}" mode="aspectFit"></image>-->
-<!--                  <image src="{{item.icon}}"  mode="aspectFit" wx:else></image>-->
-<!--                </block>-->
-<!--                <block wx:else>-->
-<!--                  <image src="{{item.icon}}" mode="aspectFit" wx:if="{{item.icon == 'http://images.ufutx.com/201901/07/259aad006e38cc2b4efcccfde1e6d254.png'}}"></image>-->
-<!--                  <image src="{{item.icon}}" mode="aspectFit" wx:else></image>-->
-<!--                </block>-->
-<!--              </view>-->
-<!--              <view class="font_26">{{item.title}}</view>-->
-<!--            </navigator>-->
-<!--          </block>-->
-<!--        </block>-->
-<!--        <block wx:else>-->
-<!--          <navigator target="miniProgram" open-type="navigate" app-id="wxd2920948e02c5c76" path="/pages/users/integral"-->
-<!--                     extra-data="{{extraData}}" version="develop" class="text-center inline-block" style="width: 25%;">-->
-<!--            <view hover-class="btn_active" class="box-icon text-center">-->
-<!--              <image src="{{item.icon}}" mode="aspectFit"></image>-->
-<!--            </view>-->
-<!--            <view class="font_26">{{item.title}}</view>-->
-<!--          </navigator>-->
-<!--        </block>-->
-<!--      </block>-->
-<!--    </view>-->
-    <!--<button @tap="detection">测试人脸识别</button>-->
-<!--    <view  class="ff color-666 bc_box">-->
-<!--      <block wx:for="{{listV2}}" wx:key="{{index}}">-->
-<!--        <block wx:if="{{item.type == 'navigateTo'}}">-->
-<!--          <navigator url="{{item.path +'?id=' + user.id}}" class="text-center inline-block" style="width: 25%;">-->
-<!--            <view hover-class="btn_active" class="box-icon text-center">-->
-<!--              <image src="{{item.icon}}" mode="aspectFit"></image>-->
-<!--            </view>-->
-<!--            <view class="font_26">{{item.title}}</view>-->
-<!--            <view class="font_22" style="color: #aeaeb0">{{item.subhead}}</view>-->
-<!--          </navigator>-->
-<!--        </block>-->
-<!--        <block wx:else>-->
-<!--          <button class="btn text-center inline-block " open-type="feedback" style="width: 25%;margin-bottom: -10rpx;">-->
-<!--            <view hover-class="btn_active" class="box-icon text-center">-->
-<!--              <image src="{{item.icon}}"  mode="aspectFit"></image>-->
-<!--            </view>-->
-<!--            <view class="font_26">{{item.title}}</view>-->
-<!--            <view class="font_22" style="color: #aeaeb0">{{item.subhead}}</view>-->
-<!--          </button>-->
-<!--        </block>-->
-<!--      </block>-->
-<!--      &lt;!&ndash;<view @tap="play">开始播放</view>&ndash;&gt;-->
-<!--    </view>-->
-    <official-account style="position:fixed;bottom:0;width:100%;height:168rpx;"></official-account>
+    <!--<official-account style="position:fixed;bottom:0;width:100%;height:168rpx;"></official-account>-->
   </view>
 </template>
+
 <script>
   import wepy from 'wepy'
   import http from '../../mixins/http'
@@ -147,115 +76,67 @@
     config = {
       navigationBarTitleText: '我的',
       enablePullDownRefresh: true,
-      navigationBarBackgroundColor: '#f4f5f9'
+      navigationBarBackgroundColor: '#f4f5f9',
+      navigationStyle: 'custom'
     }
     components = {userTitle, Loading}
     data = {
-      libraries: {},
       user: {
         friend_count: 0,
         follow_count: 0,
         fans_count: 0
       },
       is_vip: false,
-      init: false,
-      nickName: '加载中...',
-      extraData: {},
-      filePath: '',
       list: [
         {
-          icon: 'http://images.ufutx.com/201906/06/d0a89b4561063eaf5b50de2c551fcd8d.png',
-          title: '实名验证',
+          icon: 'https://images.ufutx.com/202003/31/36d229ac60d08f68ae80d614387f64f3.png',
+          title: '认证中心',
           type: 'navigateTo',
           path: '/pages/users/realName'
         },
         {
-          icon: 'http://images.ufutx.com/201906/06/cc9dbd4154643115fc396d2eed34500e.png',
-          title: '福分商城',
+          icon: 'https://images.ufutx.com/202003/31/01c07e1193e4fa4e1ab88728bf08e1f6.png',
+          title: '会员中心',
+          type: 'navigateTo',
+          path: '/pages/users/upgradeVIP'
+        },
+        {
+          icon: 'https://images.ufutx.com/202003/31/d818cf51568200f390e2f15897c1e624.png',
+          title: '我的福分',
           type: 'navigateApp',
           path: '/pages/users/realName'
         },
         {
-          icon: 'http://images.ufutx.com/201906/06/22468f70905609ffa626922be573f481.png',
+          icon: 'https://images.ufutx.com/202003/31/639d18a3c5883e90c200fe99910ccab1.png',
           title: '我的订单',
           type: 'navigateTo',
           path: '/pages/users/myPay'
         },
         {
-          icon: 'http://images.ufutx.com/201906/06/a2813c248d3aef6705217eb9ac35ff30.png',
-          title: '我的礼物',
-          type: 'navigateTo',
-          path: '/pages/users/myGift'
-        },
-
-        {
-          icon: 'http://images.ufutx.com/201906/06/444e1445817215a83b642b025ca39f13.png',
+          icon: 'https://images.ufutx.com/202003/31/a70ff1e938748c2ee4821c2c19b4c537.png',
           title: '我的活动',
           type: 'navigateTo',
           path: '/pages/users/myActivity'
         },
-        // {
-        //   icon: 'http://images.ufutx.com/201902/21/eaf9e40f14b262f337006a78ee54f312.png',
-        //   title: '爱情测试',
-        //   type: 'navigateTo',
-        //   path: '/pages/users/vipSetting'
-        // },
-        // {
-        //   icon: 'http://images.ufutx.com/201902/21/1c974cb866fe63498c2677797182f655.png',
-        //   title: '测试结果',
-        //   type: 'navigateTo',
-        //   path: '/pages/users/myTest'
-        // },
         {
-          icon: 'http://images.ufutx.com/201906/06/8cf7ae80af6d20ea35f62ccacf4c38e2.png',
-          title: '访客记录',
+          icon: 'https://images.ufutx.com/202003/31/7a6550c4caf427111ee747f47302b236.png',
+          title: '推荐给好友',
           type: 'navigateTo',
-          path: '/pages/users/visitor'
-        },
-        {
-          icon: 'https://images.ufutx.com/201912/19/d73be27882089a4962c6a2c824b68189.png',
-          title: '福分提现',
-          type: 'navigateTo',
-          path: '/pages/users/withdrawBlessing'
-        },
-        {
-          icon: 'http://images.ufutx.com/201906/06/dc978fa8252e83b835e705905e4cb3fc.png',
-          title: 'vip设置',
-          type: 'navigateTo',
-          path: '/pages/users/realName'
-        }
-      ],
-      listV2: [
-        {
-          icon: 'http://images.ufutx.com/201906/06/a0537fab40210232fc1dbf64185df4d5.png',
-          title: '加好友设置',
-          type: 'navigateTo',
-          subhead: '深入了解对方',
-          path: '/pages/users/addFriendSet'
-        },
-        {
-          icon: 'http://images.ufutx.com/201906/06/bc5cf19323e802b90aa14c75984d90d4.png',
-          title: '上传生活照',
-          type: 'navigateTo',
-          subhead: '获得更多的关注',
-          path: '/pages/users/uploadPic'
-        },
-        {
-          icon: 'http://images.ufutx.com/201906/06/d9c45bb3869b616189ac0723887928ad.png',
-          title: '分享给好友',
-          type: 'navigateTo',
-          subhead: '获得更多的祝福',
           path: '/pages/users/myShare'
         },
         {
-          icon: 'http://images.ufutx.com/201906/06/0059f55a19360df71f84b8d90d265f54.png',
-          title: '使用反馈',
+          icon: 'https://images.ufutx.com/202003/31/975b8a657710b588ffbff8a4023164a2.png',
+          title: '通用设置',
           type: 'navigateTo',
-          subhead: '共同维护福恋',
-          path: '/pages/users/feedback'
+          path: '/pages/users/realName'
+        },
+        {
+          icon: 'https://images.ufutx.com/202003/31/ee0a4f2e9bd9cb6e81dc5def6f08bf3a.png',
+          title: '关于福恋',
+          type: 'navigateTo',
+          path: '/pages/users/realName'
         }
       ]
-
     }
 
     computed = {}
@@ -266,38 +147,12 @@
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
 
-    // onReady() {
-    //   innerAudioContext.autoplay = false // 这里设置为不自动播放，笔者希望想让播的时候再播
-    //   innerAudioContext.onPlay(() => {
-    //     console.log('开始播放')
-    //   })
-    //   innerAudioContext.onError((res) => {
-    //     console.log(res.errMsg)
-    //     console.log(res.errCode)
-    //   })
-    // }
-
     onShareAppMessage(res) {
       return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
     }
 
     onLoad(e) {
-      if (e.type && e.type == 'news') {
-        return this.$goto(`/pages/users/myNews`)
-      }
       this.getUid()
-      // 初始化
-      // let that = this
-      // var res = wx.getSystemInfoSync()
-      // if (res.platform == 'ios') {
-      //   this.backgroundAudioManager = wx.getBackgroundAudioManager()
-      // } else {
-      //   this.backgroundAudioManager = wx.createInnerAudioContext()
-      // }
-      // this.backgroundAudioManager.title = '此时此刻'
-      // this.backgroundAudioManager.epname = '此时此刻'
-      // this.backgroundAudioManager.singer = '许巍'
-      // this.backgroundAudioManager.coverImgUrl = 'http://y.gtimg.cn/music/photo_new/T002R300x300M000003rsKF44GyaSk.jpg?max_age=2592000'
     }
 
     onPullDownRefresh() {
@@ -346,26 +201,6 @@
         success: ({code, data}) => {
           this.init = true
           this.user = data
-          if (data.type == 'marriage') {
-            this.list.splice(4)
-            this.listV2 = [
-              {
-                icon: 'http://images.ufutx.com/201906/06/d9c45bb3869b616189ac0723887928ad.png',
-                title: '分享给好友',
-                type: 'navigateTo',
-                subhead: '获得更多的祝福',
-                path: '/pages/users/myShare'
-              },
-              {
-                icon: 'http://images.ufutx.com/201906/06/0059f55a19360df71f84b8d90d265f54.png',
-                title: '使用反馈',
-                type: 'navigateTo',
-                subhead: '共同维护福恋',
-                path: '/pages/users/feedback'
-              }
-            ]
-            this.$apply()
-          }
           this.$apply()
           wx.setStorageSync('type', data.type)
         }
@@ -373,35 +208,6 @@
     }
 
     methods = {
-//       play() {
-// // 地址，这里换成download下来的那个tempFilePath地址就可以（可以在page外再设置一个全局变量，download里面把tempFilePath存进去，如：filePath = res.tempFilePath;这里就能直接用filePath了）
-//         let that = this
-//         if (!wx.getStorageSync('voice')) {
-//           wx.downloadFile({
-//             url: 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46',
-//             header: {
-//               'content-type': 'application/x-www-form-urlencoded'
-//             },
-//             success(res) {
-//               wx.setStorageSync('key', 'value')
-//               console.log('download res:', res)
-//               if (res.statusCode === 200) {
-//                 that.filePath = res.tempFilePath
-//                 console.log('voice:', that.filePath)
-//                 // that.backgroundAudioManager.src = filePath   //替换掉playVoice那段
-//                 wx.setStorageSync('voice', res.tempFilePath)
-//               } else {
-//                 // wx.showToast({
-//                 //   title: 'something wrong!',
-//                 //   image: "/images/icon/connect.png"
-//                 // })
-//               }
-//             }
-//           })
-//         }
-//         innerAudioContext.src = wx.getStorageSync('voice')
-//         innerAudioContext.play();   // 播放
-//       },
       gotofriends(item) {
         let url = ''
         if (item.type == 'single') {
@@ -411,77 +217,7 @@
         }
         wx.navigateTo({url: url})
       },
-      detection() {
-        let vm = this
-        wx.chooseImage({
-          count: 9,
-          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-          sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-          success: (res) => {
-            console.log(res)
-            wx.getFileSystemManager().readFile({
-              filePath: res.tempFilePaths[0], // 选择图片返回的相对路径
-              encoding: 'base64', // 编码格式
-              success: rest => { // 成功的回调
-                console.log('data:image/png;base64,' + rest.data)
-                // let base64 = wx.getFileSystemManager().readFileSync(res.tempFilePaths[0], 'base64')
-                vm.$post({
-                  url: `${service.host}/vivo/detection`,
-                  data: {
-                    file: rest.data
-                  }
-                }, {
-                  success: ({code, data}) => {
-                    console.log(data)
-                  }
-                })
-              }
-            })
-
-            // 以下两行注释的是同步方法，不过我不太喜欢用。
-            // let base64 = wx.getFileSystemManager().readFileSync(res.tempFilePaths[0], 'base64')
-            // console.log(base64)
-          }
-        })
-      },
       goto(url) {
-        wx.navigateTo({url: url})
-      },
-      gotoVipSet() {
-        let url = ''
-        if (user.rank_id == 0) {
-          return wx.showModal({
-            title: '提示',
-            content: '需要先成为VIP会员！',
-            confirmText: '去升级',
-            success: function (res) {
-              if (res.confirm) {
-//                wx.navigateTo({url: url})
-                wx.redirectTo({url: '/pages/users/upgradingVIP'})
-              } else if (res.cancel) {
-                console.log('用户点击取消')
-              }
-            }
-          })
-        }
-        if (user.is_profile == 0) {
-          if (user.type == 'single') {
-            url = '/pages/users/unmarri'
-          } else {
-            url = '/pages/users/intro'
-          }
-        } else {
-          url = '/pages/users/vipData'
-        }
-        wx.navigateTo({url: url})
-      },
-      gotoUser(type) {
-        let url = ''
-        if (type == 'single') {
-          url = '/pages/users/unmarri'
-        } else {
-          url = '/pages/users/intro'
-        }
         wx.navigateTo({url: url})
       }
     }
@@ -494,82 +230,43 @@
 
   page {
     background: #f4f5f9;
-    .dot {
-      position: absolute;
-      right: 28%;
-      top: -4%;
-      min-width: 32rpx;
-      height: 32rpx;
-      border-radius: 50%;
-      background: red;
-      line-height: 32rpx;
-    }
-
-    .box-icon {
-      /*border: 12rpx solid #f7f7f7;*/
-      width: 80rpx;
-      height: 68rpx;
-      /*border-radius: 50%;*/
-      /*box-shadow: 1rpx 1rpx 12rpx #d3d3d3;*/
-      margin:  auto;
-      margin-top: 16rpx;
-      image{
-        width: 60rpx;
-        height: 60rpx;
-      }
-    }
-    .bc_num{
-      margin: 8rpx 0 4rpx 0;
-      color: @theme;
-    }
     .bc_tab{
-      background: #f4f5f9;
       width: 100%;
-      height: 100rpx;
-      padding: 10rpx 0 16rpx 0;
-      /*<!--box-shadow: 0rpx -6rpx 12 rpx #e3e3e3;-->*/
+      height: 120rpx;
+      background: white;
       position: relative;
-    }
-    .bc_box{
-      border-top: 26rpx solid @lightgray;
-      padding: 10rpx 0;
-    }
-    .mainF, .mainFA{
-      width: 33%;
-      height: 100%;
-    }
-    .mainFA{
-      position: relative;
-      &:after{
-        content: " ";
-        position: absolute;
-        left: 0;
-        top: 16rpx;
-        height: 28px;
-        width: 1px;
-        background: #eeeded;
+      padding-top: 16rpx;
+      margin-bottom: 22rpx;
+      .mainF, .mainFA{
+        width: 33%;
+        height: 100%;
       }
-      &:before{
-        content: " ";
-        position: absolute;
-        right: 0;
-        top: 16rpx;
-        height: 28px;
-        width: 1px;
-        background: #eeeded;
+      .mainFA{
+        position: relative;
+        &:after,&:before{
+          content: " ";
+          position: absolute;
+          top: 16rpx;
+          height: 28px;
+          width: 1px;
+          background: #f6f6f6;
+        }
+        &:after{left: 0;}
+        &:before{right: 0;}
       }
     }
     ._list{
       background: #FFFFFF;
-      padding: 0 38rpx;
+      padding: 0 32rpx;
       overflow: hidden;
       line-height: 100rpx;
-      margin-bottom: 12rpx;
+      border-bottom: 2rpx solid #f6f6f6;
       .img{
-        width: 56rpx;
-        height: 56rpx;
-        margin-top: 22rpx;
-        margin-right: 4rpx;
+        width: 44rpx;
+        height: auto;
+        line-height: 100rpx;
+        margin-top: 3.6vw;
+        margin-right: 8rpx;
       }
       .icon{
         width: 32rpx;

@@ -159,9 +159,7 @@
     components = {NavBar, Loading, selectCity, modal, cuCustom}
     config = {
       navigationBarTitleText: '基本资料',
-      enablePullDownRefresh: false,
-      navigationStyle: 'custom'
-
+      enablePullDownRefresh: false
     }
     data = {
       loadModal: false,

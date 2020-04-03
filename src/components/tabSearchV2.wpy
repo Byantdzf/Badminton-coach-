@@ -1,26 +1,35 @@
 <template>
-  <view class="weui-tab__content bc_BoxTab" >
-    <view class="weui-search-bar"  style="background-color: {{BColor}} !important;">
-      <view class="weui-search-bar__form">
-        <view class="weui-search-bar__box">
-          <!--<image src="http://images.ufutx.com/201905/28/828547386e36c11a03b10e41fae92374.png" class="weui-icon-search_in-box" mode="widthFix" style="width: 28rpx;"></image>-->
-          <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-          <input type="text" class="weui-search-bar__input" placeholder="{{title}}" confirm-type="search" value="{{inputVal}}" focus="{{inputShowed}}" @confirm="inputTyping" />
-          <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
-            <icon type="clear" size="14"></icon>
-          </view>
-        </view>
-        <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
-          <!--<image src="http://images.ufutx.com/201905/28/828547386e36c11a03b10e41fae92374.png" class="weui-icon-search" mode="widthFix" style="width: 28rpx;"></image>-->
-          <icon class="weui-icon-search" type="search" size="14"></icon>
-          <view class="weui-search-bar__text">{{title}}</view>
-        </label>
-      </view>
-      <view class="weui-search-bar__cancel-btn font_32 color-333" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
+  <view class="cu-bar bg-white search _tab__content bc_BoxTab ">
+    <view class="search-form round">
+      <text class="cuIcon-search"></text>
+      <input type="text"  placeholder="{{title}}" confirm-type="search" value="{{inputVal}}" focus="{{inputShowed}}" @confirm="inputTyping" ></input>
     </view>
-    <slot></slot>
+    <!--<view class="action">-->
+    <!--<button class="cu-btn bg-white shadow round " style="">搜索</button>-->
+    <!--</view>-->
   </view>
   <view style="height: {{bc_height}}"></view>
+  <!--<view class="weui-tab__content bc_BoxTab">-->
+    <!--<view class="weui-search-bar"  style="background-color: {{BColor}} !important;">-->
+      <!--<view class="weui-search-bar__form">-->
+        <!--<view class="weui-search-bar__box">-->
+          <!--&lt;!&ndash;<image src="http://images.ufutx.com/201905/28/828547386e36c11a03b10e41fae92374.png" class="weui-icon-search_in-box" mode="widthFix" style="width: 28rpx;"></image>&ndash;&gt;-->
+          <!--<icon class="weui-icon-search_in-box" type="search" size="14"></icon>-->
+          <!--<input type="text" class="weui-search-bar__input" placeholder="{{title}}" confirm-type="search" value="{{inputVal}}" focus="{{inputShowed}}" @confirm="inputTyping" />-->
+          <!--<view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">-->
+            <!--<icon type="clear" size="14"></icon>-->
+          <!--</view>-->
+        <!--</view>-->
+        <!--<label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">-->
+          <!--&lt;!&ndash;<image src="http://images.ufutx.com/201905/28/828547386e36c11a03b10e41fae92374.png" class="weui-icon-search" mode="widthFix" style="width: 28rpx;"></image>&ndash;&gt;-->
+          <!--<icon class="weui-icon-search" type="search" size="14"></icon>-->
+          <!--<view class="weui-search-bar__text">{{title}}</view>-->
+        <!--</label>-->
+      <!--</view>-->
+      <!--<view class="weui-search-bar__cancel-btn font_32 color-333" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>-->
+    <!--</view>-->
+    <!--<slot></slot>-->
+  <!--</view>-->
 </template>
 
 <script>
@@ -71,19 +80,23 @@
       showInput() {
         if (this.disabled) return
         this.inputShowed = true
+        this.$apply()
       },
       hideInput() {
         this.inputVal = ''
         this.inputShowed = false
         this.$emit('search', this.inputVal)
+        this.$apply()
       },
       clearInput() {
         this.inputVal = ''
+        this.$apply()
         this.$emit('search', this.inputVal)
       },
       inputTyping(e) {
         this.$showLoading('搜索中...')
         this.inputVal = e.detail.value
+        this.$apply()
         this.$emit('search', this.inputVal)
       },
       goto(url) {
@@ -95,29 +108,10 @@
 
 <style lang="less">
   @import "../styles/custom/fn.less";
-  .weui-search-bar{border: none;}
-  .weui-search-bar__form, .weui-search-bar__label{
-    background: #f4f5f9 !important;
-    border: none;
-    /*border-radius: 42rpx!important;*/
-    color: @darkgray;
-  }
-  .weui-search-bar__text{
-    color: @gray;
-    margin-top: -2rpx;
-  }
-  .weui-search-bar__cancel-btn{
-    color: @darkgray;
-  }
-  .weui-search-bar__label{
-    text-align: left;
-    padding-left: 20rpx;
-  }
-  .weui-tab__content{
-    width: 96%;
+  ._tab__content{
+    width: 100%;
     position: fixed;
-    top: 0;
-    left: 2%;
+    left: 0%;
     z-index: 9999;
   }
 </style>

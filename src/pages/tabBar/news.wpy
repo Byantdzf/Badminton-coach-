@@ -1,5 +1,9 @@
 <template>
-  <Loading :init.sync="init"></Loading>
+  <!--<Loading :init.sync="init"></Loading>-->
+  <cuCustom bgColor="bg-news">
+    <!--<view slot="backText">返回</view>-->
+    <view slot="content" class="bold">消息</view>
+  </cuCustom>
   <view class="mainTab">
     <view class="itemTab text-center" @tap="tabClick('0')">
       <image src="https://images.ufutx.com/202002/25/e487769514ef754ca16fc70086a7a420.png" mode="aspectFit"></image>
@@ -73,16 +77,19 @@
   import ShareMessage from '../../mixins/ShareMessage'
   import Loading from '../../components/loading'
   import {service} from '../../config.js'
+  import cuCustom from '../../components/cu-custom'
 
   export default class news extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
       navigationBarTitleText: '我的消息',
       enablePullDownRefresh: true,
-      navigationBarBackgroundColor: '#f4f5f9'
+      navigationBarBackgroundColor: '#f4f5f9',
+      navigationStyle: 'custom'
     }
     components = {
-      Loading
+      Loading,
+      cuCustom
     }
     data = {
       init: false,
@@ -328,7 +335,7 @@
           // }
           _this.noMore = true
           _this.page += 1
-        
+
           //          _this.libs = data.data
         },
         fail: ({code, data}) => {
@@ -383,6 +390,7 @@
   @import "../../styles/custom/reset.less";
 page{
   background: #f4f5f9;
+  .bg-news{background: #f4f5f9;}
   .page-user {
     position: relative;
     min-height: 100vh;
@@ -444,12 +452,11 @@ page{
     background-repeat: no-repeat;
     margin: auto;
     position: relative;
-    z-index: 99999;
+    z-index: 99;
     text-align: center;
     .itemTab{
       width: 46%;
       display: inline-block;
-      /*background: red;*/
       margin-top: 32rpx;
       padding: 22rpx 0;
       position: relative;
