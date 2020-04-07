@@ -58,9 +58,7 @@
     </view>
   </template>
   <template name="mainBC">
-    <view class="item-avatar _mainBC radius"
-          wx:for="{{list}}" wx:key="index"
-          wx:if="{{index == itemIndex}}" @tap="gotofriends({{item}},{{item.id}})">
+    <view class="item-avatar _mainBC radius">
       <image src="https://images.ufutx.com/202003/31/8708b241ff1b362f6c45da920d82d428.png" mode="aspectFill" class="image"></image>
       <view class="font_28 _bc-center">
         <view class="itemInfo">

@@ -78,16 +78,17 @@
             </view>
           </block>
           <block wx:else>
-            <block wx:if="{{detail.fee == 0.00}}">
-              <view class="_bc-btn text-center flo_r white font_32 btn-theme" @tap="pay">
-                免费报名
-              </view>
-            </block>
-            <block wx:else>
+            <!--<block >-->
+              <!--<view class="_bc-btn text-center flo_r white font_32 btn-theme" @tap="pay">-->
+                <!--免费报名-->
+              <!--</view>-->
+            <!--</block>-->
+            <!--<block wx:else>-->
               <view class="_bc-btn text-center flo_r white font_32 btn-theme" @tap="apply('/pages/party/trade?party_id={{detail.id}}')">
-                立即报名
+                <block wx:if="{{detail.fee == 0.00}}">免费报名</block>
+                <block wx:else>立即报名</block>
               </view>
-            </block>
+            <!--</block>-->
           </block>
         </block>
       </block>
