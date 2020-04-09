@@ -1,145 +1,61 @@
 <template>
-  <NavBar rgba="#ffffff" bag="#ffffff" title="实名验证"></NavBar>
-  <Loading :init.sync="init"></Loading>
-  <form bindsubmit="formSubmit" report-submit>
-    <button formType="submit" class="btn" data-type="click">
-    </button>
-  </form>
+  <cuCustom bgImage="https://images.ufutx.com/202004/09/9c88daa577e4e4148d15f316f0d55524.png"  isBack="{{true}}">
+    <!--<view slot="content">-->
+      <!--<image src="https://images.ufutx.com/202004/09/9c88daa577e4e4148d15f316f0d55524.png" mode="widthFix"></image>-->
+    <!--</view>-->
+    <view slot="backText">返回</view>
+    <view slot="content">实名认证</view>
+  </cuCustom>
   <view class="page-user">
-    <image src="https://images.ufutx.com/202002/26/d3f278235101bd71305c7879427d18bf.png" mode="aspectFit" class="image"></image>
-    <view class="text">
-      <view class="font_30 bold color-333">为什么要认证？</view>
-      <view class="font_26 color-666">为了给大家创造一个真实安全优质的单身交友平台，每一个人都需要完成实名认证！</view>
+    <view class="mainText animation-slide-top">
+      <view class="text">
+        <view class="font_30 bold color-333">为什么要认证？</view>
+        <view class="font_26 color-666">为了给大家创造一个真实安全优质的单身交友平台，每一个人都需要完成实名认证！</view>
+      </view>
+      <view class="text">
+        <view class="font_30 bold color-333">100%隐私安全</view>
+        <view class="font_26 color-666">认证信息仅用于官方审核，无需担心信息泄露，实名认证对接阿里云，安全可靠</view>
+      </view>
     </view>
-    <view class="text">
-      <view class="font_30 bold color-333">100%隐私安全</view>
-      <view class="font_26 color-666">认证信息仅用于官方审核，无需担心信息泄露，实名认证对接阿里云，安全可靠</view>
-    </view>
-<!--    <view class="text" style="margin-bottom: 32rpx;">-->
-<!--      <view class="font_30 bold color-333">当前状态：-->
-<!--        <span class="success" style="margin-bottom: 12rpx;">认证成功 <icon type="success_no_circle" size="20" /></span>-->
-<!--        <span class="orange" style="margin-bottom: 12rpx;">未认证</span>-->
-<!--      </view>-->
-<!--      <view class="font_26 color-666">实名认证是平台的基本要求，让Ta对您更放心！</view>-->
-<!--    </view>-->
   </view>
-  <view style="border-top: 12rpx solid #f4f5f9;margin: 42rpx 0 12rpx 0;" wx:if="{{user.is_approved == 1}}">
-    <view class="mainBox" >
-      <!--    <image src="https://images.ufutx.com/202002/26/9bcff5330ce2b6d9d20e25b310141bf0.png" mode="aspectFit"></image>-->
+  <view wx:if="{{user.is_approved && user.is_approved == 1}}">
+    <view class="mainBox animation-slide-bottom" style="animation-delay: 0.1s;">
       <view class="text">
         <view class="font_28 bold color-333">{{user.name}}</view>
         <view class="font_28 bold color-333">{{user.card_num}}</view>
       </view>
     </view>
   </view>
-  <view  class="page-user" style="padding: 0" wx:if="{{user.is_approved !== 1}}">
+  <view  class="page-user" style="padding: 0" wx:if="{{user.is_approved && user.is_approved !== 1}}">
     <view class="page-box text-center">
-      <block wx:if="{{user.approve_order === 0 && user.type === 'single' && system !== 'iOS'}}">
-        <view class="font_26">平台为什么需要认证？</view>
-        <view class="font_24 text-left">为了保证用户资料的真实性，平台采用了人工审核及第三方正规渠道认证，需要一定人力成本和第三方费用，并为每一个会员建立专属档案。</view>
-        <button class="box-btn font_28" style="width: 55%;margin-top: 22rpx;" @tap="buyApprove" >认证加入福恋（10元）</button>
-      </block>
-      <block wx:else>
-        <view class="inputBox">
-          <span class="font_28 color-333">姓名</span>
-          <input type="text" placeholder="请填写你的真实姓名" value="{{user.name}}" disabled="{{user.is_approved == 1}}" @input="typing('name')" />
-          <view class="clearfloat"></view>
+        <view class="inputBox animation-slide-bottom" style="animation-delay: 0.1s;">
+          <view class="font_28 color-theme textStyle bold">姓名</view>
+          <input type="text" class="inputStyle font_32" placeholder="请填写你的真实姓名" value="{{user.name}}" disabled="{{user.is_approved == 1}}" @input="typing('name')" />
         </view>
-        <view class="inputBox color-333">
-          <span class="font_28">身份证号码</span>
-          <input type="idcard" placeholder="请填写你的身份证号码" value="{{user.card_num}}" disabled="{{user.is_approved == 1}}" @input="typing('card_num')" />
-          <view class="clearfloat"></view>
+        <view class="inputBox color-333 animation-slide-bottom" style="animation-delay: 0.2s;">
+          <view class="font_28 color-theme textStyle bold">身份证号码</view>
+          <input type="idcard" class="inputStyle font_32" placeholder="请填写你的身份证号码" value="{{user.card_num}}" disabled="{{user.is_approved == 1}}" @input="typing('card_num')" />
         </view>
-        <block  wx:if="{{user.is_approved !== 1}}">
-          <block wx:if="{{user.type === 'single'}}">
-            <button class="font_28 inline-block btn-theme" style="width: 76%;height: 80rpx;line-height: 80rpx" @tap="approve">自动认证</button>
-          </block>
-          <block wx:else>
-            <button class="font_28 inline-block btn-theme" style="width: 76%;height: 80rpx;line-height: 80rpx" @tap="ensure">免费认证</button>
-          </block>
-          <view class="font_26 color-333">提交即表明您同意 <span class="color-theme" @tap="goto('/page/users/protocol')">《用户协议》</span></view>
-        </block>
+      <view class="_listItem animation-slide-bottom noBorder" style="animation-delay: 0.3s;margin-top: 100rpx;">
+        <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" @tap="approve" >自动认证</button>
+        <view><span class="font_24">提交即表明您同意 <span class="color-theme">《服务协议》</span>和<span class="color-theme">《隐私协议》</span></span></view>
+      </view>
+        <!--<block  wx:if="{{user.is_approved !== 1}}">-->
+          <!--<block wx:if="{{user.type === 'single'}}">-->
+            <!--<button class="font_28 inline-block btn-theme" style="width: 76%;height: 80rpx;line-height: 80rpx" @tap="approve">自动认证</button>-->
+          <!--</block>-->
+          <!--<block wx:else>-->
+            <!--<button class="font_28 inline-block btn-theme" style="width: 76%;height: 80rpx;line-height: 80rpx" @tap="ensure">免费认证</button>-->
+          <!--</block>-->
+          <!--<view class="font_26 color-333">提交即表明您同意 <span class="color-theme" @tap="goto('/page/users/protocol')">《用户协议》</span></view>-->
+        <!--</block>-->
         <!--<block wx:else>-->
         <!--<button class="font_28 inline-block btn-theme" style="width: 30%;height: 72rpx;line-height: 72rpx" hover-class="btn_active" @tap="returnCost">退还认证费</button>-->
         <!--</block>-->
-      </block>
+      <!--</block>-->
       <view class="clearfloat"></view>
     </view>
   </view>
-  <!--<view class="text-center" wx:if="{{user.is_approved !== 1}}">-->
-  <!--<button class="box-btn" @tap="ensure" wx:if="{{user.approve_order !== 0}}">提交</button>-->
-  <!--<button class="box-btn" @tap="buyApprove"  wx:else>提交</button>-->
-  <!--</view>-->
-<!--  <view class=" font_26 state info">-->
-<!--    <view class="font_28 title bold">注意事项</view>-->
-<!--    <view style="margin: 0rpx 22rpx;padding-top: 12rpx;" class="color-666">-->
-<!--      <view>1、购买成功后，你将有三次提交机会，每次提交会消耗一次机会，若三次均未能通过,请<span class="color-theme" @tap="hrefing(identification_photos,'身份证照片',{{user.identification_photos}})">上传身份证</span>人工认证；-->
-<!--      </view>-->
-<!--      <text>2、请输入用您自己的身份证登记的手机号；</text>-->
-<!--      <text>3、如没有自己身份登记的手机号，请按点击红色字体，按要求上传个人证件；</text>-->
-<!--      <text>4、实名认证是平台的基本要求，只有认证的用户才能互看信息和交流互动；</text>-->
-<!--      <text>5、认证成功后将不能更改，请务必确认信息准确无误；</text>-->
-<!--      <text>6、由阿里云提供实名认证服务，安全可靠！</text>-->
-<!--    </view>-->
-<!--  </view>-->
-  <modal>
-      <view slot="wrapper">
-        <view class="text-center" style="position: relative;margin-top: 6%;">
-          <text class="bold font_32" style="margin-bottom: 22rpx;">认证费退还</text>
-          <!--<span class=" flo_r" style="position: absolute; right: 22rpx; top: -12rpx;" @tap="hideModal">X</span>-->
-          <view class="font_26 color-666">仅需邀请1位单身好友加入福恋、认证成功;</view>
-          <view class="font_26 color-666">您的认证费将自动退还</view>
-          <block wx:if="{{user.refund_approve_status == '2'}}">
-            <view class="text-center" style="margin-top: 32rpx">
-              <view class="plan inline-block text-center"></view>
-              <view class="inline-block solt"></view>
-              <view class="plan inline-block text-center"></view>
-              <view class="inline-block solt"></view>
-              <view class="plan inline-block text-center"></view>
-            </view>
-            <view class="font_26">
-              <view class="inline-block green">邀请好友</view>
-              <view class="inline-block green" style="margin: 0 60rpx;">好友加入福恋</view>
-              <view class="inline-block green">退还费用</view>
-            </view>
-          </block>
-          <block wx:elif="{{user.refund_approve_status == '1'}}">
-            <view class="text-center" style="margin-top: 32rpx">
-              <view class="plan inline-block text-center"></view>
-              <view class="inline-block solt"></view>
-              <view class="plan inline-block text-center"></view>
-              <view class="inline-block solt" style="background: #bbbbbb;"></view>
-              <view class="plan inline-block text-center" style="background: #bbbbbb;"></view>
-            </view>
-            <view class="font_26">
-              <view class="inline-block green">邀请好友</view>
-              <view class="inline-block green" style="margin: 0 60rpx;">好友加入福恋</view>
-              <view class="inline-block color-bbb">退还费用</view>
-            </view>
-          </block>
-          <block wx:else>
-            <view class="text-center" style="margin-top: 32rpx">
-              <view class="plan inline-block text-center"></view>
-              <view class="inline-block solt" style="background: #bbbbbb;"></view>
-              <view class="plan inline-block text-center" style="background: #bbbbbb;"></view>
-              <view class="inline-block solt" style="background: #bbbbbb;"></view>
-              <view class="plan inline-block text-center" style="background: #bbbbbb;"></view>
-            </view>
-            <view class="font_26">
-              <view class="inline-block green">邀请好友</view>
-              <view class="inline-block color-bbb" style="margin: 0 60rpx;">好友加入福恋</view>
-              <view class="inline-block color-bbb">退还费用</view>
-            </view>
-          </block>
-          <view style="width: 100%;margin-top: 10%;border-top: 1rpx solid #d3d3d3;" class="font_32 ">
-            <view class="inline-block bold" style="width: 49%;border-right: 1rpx solid #d3d3d3;height: 100rpx;line-height: 100rpx;" @tap="savePic">
-              发朋友圈
-            </view>
-            <button class="inline-block bold btn text-center font_32" style="width: 50%;height: 100rpx;line-height: 100rpx;color: orange;margin-bottom: -38rpx;" open-type="share">发送好友</button>
-          </view>
-        </view>
-      </view>
-  </modal>
   <sharePic :pic.sync="invite_pic" :shareImage.sync="shareImage"></sharePic>
 </template>
 
@@ -154,12 +70,14 @@
   import modal from '../../components/modal'
   import sharePic from '../../components/sharePic'
   import {getsubscription} from '../../utils/fn'
+  import cuCustom from '../../components/cu-custom'
 
   export default class realName extends wepy.page {
     mixins = [base, http, user]
     config = {
       navigationBarTitleText: '实名认证',
-      enablePullDownRefresh: true
+      enablePullDownRefresh: true,
+      navigationStyle: 'custom'
     }
     data = {
       user: {},
@@ -172,7 +90,7 @@
       system: wx.getStorageSync('system'),
       approve_time: 0
     }
-    components = {NavBar, Loading, modal, sharePic}
+    components = {NavBar, Loading, modal, sharePic, cuCustom}
 
     computed = {}
 
@@ -200,7 +118,7 @@
             icon: 'success',
             duration: 1500
           })
-          var shareTickets = res.shareTickets
+          let shareTickets = res.shareTickets
           if (shareTickets.length == 0) {
             return false
           }
@@ -217,12 +135,10 @@
     onPullDownRefresh() {
       this.initPageData()
     }
-    // 获取模板id
     getTempId() {
       let data = {template_key: 'activity_success_notice'}
       this.$get({url: `${service.host}/subscribe/template/id`, data}, {
         success: ({code, data}) => {
-          console.log(data)
           this.tempId.push(data)
           this.$apply()
         },
@@ -243,13 +159,6 @@
         success: ({code, data}) => {
           this.init = true
           this.user = data
-          // if (this.user.name) {
-          //   this.disabled = true
-          // }
-          // if (this.user.card_num) {
-          //   this.disabled1 = true
-          // console.log(this.interceptAndReplace(data.card_num,6,2,'*'),'as');
-          // console.log(this.interceptAndReplace(data.name,1,0,'*'),'as');
           this.user.card_num = this.interceptAndReplace(data.card_num, 5, 2, '*')
           this.user.name = this.interceptAndReplace(data.name, 1, 0, '*')
           this.invite_pic = data.my_share
@@ -258,8 +167,8 @@
         }
       })
     }
-    
-    // 指定下班更换   ***
+
+    // 指定下标更换   ***
     interceptAndReplace(str, frontLen, endLen, symbol) {
       // if (str.length != 11) {
       //   return str;
@@ -267,7 +176,7 @@
       var len = str.length - frontLen - endLen;
       var xing = '';
       for (var i = 0; i < len; i++) {
-        xing += symbol;
+        xing += symbol
       }
       return str.substring(0, frontLen) + xing + str.substring(str.length - endLen);
     }
@@ -282,14 +191,6 @@
         this.$invoke('modal', 'hideModal')
         this.shareImage = false
         this.$apply()
-      },
-      switch2Change(e) {
-        this.protocol = e.detail.value
-        this.$apply()
-        console.log(this.protocol)
-      },
-      returnCost() {
-        this.$invoke('modal', 'showModal')
       },
       hideModal() {
         this.$invoke('modal', 'hideModal')
@@ -467,29 +368,23 @@
         if (!this.protocol) {
           return this.$showToast('请先选择同意服务协议')
         }
-        if (!that.approve_time) {
-          wx.showModal({
-            title: '提示',
-            content: `你的会员认证次数已达上限，请上传身份证照，我们将会进行人工审核！点击继续`,
-            confirmText: '继续',
-            success(res) {
-              if (res.confirm) {
-                wx.navigateTo({
-                  url: '/pages/users/vipImage?type=identification_photos&title=身份证照片' + '&imageArr=' + that.user.identification_photos
-                })
-              } else if (res.cancel) {
-                console.log('用户点击取消')
-              }
-            }
-          })
-          return
-        }
-        // wx.showModal({
-        //   title: '提示',
-        //   content: `你已购买认证服务，现剩余${that.approve_time}次认证次数，本次认证将会消耗1次认证次数，是否继续？`,
-        //   confirmText: '继续',
-        //   success(res) {
-        //     if (res.confirm) {
+        // if (!that.approve_time) {
+          // wx.showModal({
+          //   title: '提示',
+          //   content: `你的会员认证次数已达上限，请上传身份证照，我们将会进行人工审核！点击继续`,
+          //   confirmText: '继续',
+          //   success(res) {
+          //     if (res.confirm) {
+          //       wx.navigateTo({
+          //         url: '/pages/users/vipImage?type=identification_photos&title=身份证照片' + '&imageArr=' + that.user.identification_photos
+          //       })
+          //     } else if (res.cancel) {
+          //       console.log('用户点击取消')
+          //     }
+          //   }
+          // })
+        //   return
+        // }
         that.$showLoading('自动认证中...')
         that.$post({url: `${service.host}/user/approve`, data}, {
           success: ({code, res}) => {
@@ -534,12 +429,12 @@
     }
     .mainBox{
       background-image: url("https://images.ufutx.com/202002/26/9e785a3b5d631fec6dcd89b8a89d95b4.png");
-      width:92%;
+      width: 86%;
       height: 250rpx;
       background-size: contain;
       background-repeat: no-repeat;
       margin: auto;
-      margin-top: 32rpx;
+      margin-top: 100rpx;
       position: relative;
       .text{
         position: absolute;
@@ -548,68 +443,52 @@
       }
     }
     .page-user{
-      /*padding: 22rpx;*/
-      .image{
-        width: 100%;
-        height: 250rpx;
-      }
-      .text{
-        padding: 22rpx 32rpx 0rpx 32rpx;
+      .mainText{
+        padding: 40rpx 60rpx 0rpx 60rpx;
+        .text{
+          margin-bottom: 32rpx;
+        }
       }
       .page-box{
         padding: 68rpx 22rpx;
-        border-top: 12rpx solid #f4f5f9;
         .inputBox{
-          width: 72%;
+          width: 86%;
           text-align: left;
           background: white;
           padding: 12rpx;
           margin: auto;
-          border-radius: 6rpx;
-          border: 2rpx solid #b0b0b0;
-          font-size: 28rpx;
-          margin-bottom: 42rpx;
-        }
-        input{
-          width: 70%;
-          text-align: right;
-          font-size: 28rpx;
-          float: right;
+          border-bottom: 2rpx solid #f6f6f6;
+          margin-bottom: 32rpx;
+          overflow: hidden;
+          .textStyle{
+            margin-bottom: 12rpx;
+          }
         }
       }
     }
-    .box-btn{
-      background: orange;
-      line-height: 2;
-      width: 72%;
-      color: white;
-      padding: 4rpx 0;
-      /*box-shadow: 1rpx 1rpx 12rpx #d3d3d3;*/
-    }
-    .info{
-      margin: 22rpx;
-      margin-top: 46rpx;
-      padding: 22rpx 0;
-      .title{
-        border-bottom: 1rpx solid #f3f3f3;
-        padding-bottom: 10rpx;
-        text-align: left;
-        margin-left: 22rpx;
+    ._listItem{
+      margin-top: 22rpx;
+      .noBorder{
+        border: none;
+      }
+      .text{
+        margin-top: 16rpx;
+      }
+      .icon{
+        width: 38rpx;
+        height: 38rpx;
+        vertical-align: middle;
+        margin-bottom: 4rpx;
+        margin-right: 8rpx;
       }
     }
-    .plan{
-      width: 36rpx;
-      height: 36rpx;
-      background: #0aba07;
-      border-radius: 50%;
-      position: relative;
-    }
-    .solt{
-      width: 140rpx;
-      height: 2rpx;
-      background: #1AAC19;
-      margin: 0 8rpx;
-      margin-bottom: 16rpx;
+    .btn-box{
+      width: 86%;
+      background: #D92553;
+      border-radius: 6rpx;
+      padding: 16rpx;
+      padding-bottom: 4rpx;
+      margin: 22rpx auto;
     }
   }
 </style>

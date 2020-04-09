@@ -1,7 +1,8 @@
 <template>
   <Loading :init.sync="init"/>
   <view class="container">
-    <view  class="ff shop animation-slide-top">
+    <view class="ff shop animation-slide-top">
+      <block wx:if="{{detail}}">
         <image src="{{detail.poster}}" mode="widthFix" class="goods_image flo_l"></image>
         <view class="font_28 flo_l color-333 ellipsis_2 bold" style="width: 60%;">{{detail.theme}}</view>
         <view class="font_26 address">
@@ -10,7 +11,13 @@
             <span class="color-theme bold" wx:else>￥{{detail.fee}}</span>
           </view>
         </view>
-        <view class="clearfloat"></view>
+      </block>
+      <block wx:else>
+        <view class="goods_image flo_l" style="background: #F5F5F5;height: 120rpx;"></view>
+        <view class="flo_l" style="width: 60%;background: #F5F5F5;height: 40rpx;"></view>
+        <view class="font_26 address flo_l" style="background: #F5F5F5;height: 40rpx;width: 50%;margin-top: 16rpx;"></view>
+      </block>
+      <view class="clearfloat"></view>
     </view>
     <view class="_list">
       <view class="_listItem animation-slide-bottom" style="animation-delay: 0.1s;">

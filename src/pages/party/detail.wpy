@@ -224,7 +224,12 @@
       })
     }
     getShareImage() {
-      var self = this
+      let self = this
+      if (self.pic) {
+        self.hide = false
+        self.$apply()
+        return
+      }
       self.$showLoading('生成海报中...')
       console.log(self.userInfo)
       let data = {

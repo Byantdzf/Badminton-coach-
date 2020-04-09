@@ -17,14 +17,11 @@
         <view class="font_26">关注我的</view>
       </view>
     </view>
-    <view class="_list" wx:for="{{list}}" wx:key="index" @tap="goto('/pages/users/myActivity')">
+    <view class="_list" wx:for="{{list}}" wx:key="index" @tap="goto({{item.path}})">
       <image src="{{item.icon}}" mode="widthFix" class="img flo_l"></image>
       <span class="font_30 color-333">{{item.title}}</span>
       <image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>
     </view>
-
-
-
     <!--<view class="_list" @tap="goto('/pages/users/realName')">-->
       <!--<image src="https://images.ufutx.com/202002/26/36d229ac60d08f68ae80d614387f64f3.png" mode="aspectFill" class="img flo_l"></image>-->
       <!--<span class="font_30 color-333">认证中心</span>-->

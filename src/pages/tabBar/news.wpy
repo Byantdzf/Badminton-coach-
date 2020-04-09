@@ -4,57 +4,68 @@
     <!--<view slot="backText">返回</view>-->
     <view slot="content" class="bold">消息</view>
   </cuCustom>
-  <view class="mainTab">
-    <view class="itemTab text-center" @tap="tabClick('0')">
-      <image src="https://images.ufutx.com/202002/25/e487769514ef754ca16fc70086a7a420.png" mode="aspectFit"></image>
-      <view class="font_26">好友消息</view>
-      <view class="active" wx:if="{{type == 0}}"></view>
+  <!--<view class="mainTab">-->
+    <!--<view class="itemTab text-center" @tap="tabClick('0')">-->
+      <!--<image src="https://images.ufutx.com/202002/25/e487769514ef754ca16fc70086a7a420.png" mode="aspectFit"></image>-->
+      <!--<view class="font_26">好友消息</view>-->
+      <!--<view class="active" wx:if="{{type == 0}}"></view>-->
+    <!--</view>-->
+    <!--<view class="itemTab text-center" @tap="tabClick('1')">-->
+      <!--<image src="https://images.ufutx.com/202002/25/8d99bbf686fced76a38192c448f089ae.png" mode="aspectFit"></image>-->
+      <!--<view class="font_26">系统消息</view>-->
+      <!--<view class="active" wx:if="{{type == 1}}"></view>-->
+    <!--</view>-->
+  <!--</view>-->
+  <view class="cu-list menu-avatar">
+    <view class="cu-item" wx:for="{{listV2}}" wx:key="index">
+      <view class="cu-avatar round lg" style="background-image:url({{item.icon}});"></view>
+      <view class="content">
+        <view class="text-grey">
+          <text class="text-cut color-333">{{item.title}}</text>
+          <!--<view class="cu-tag round bg-orange sm">战士</view>-->
+        </view>
+        <view class="text-gray text-sm flex">
+          <text class="text-cut" style="height: 34rpx;">{{item.message.content}}</text>
+        </view>
+      </view>
+      <view class="action">
+        <view class="text-grey text-xs">{{item.message.last_time}}</view>
+        <view class="cu-tag round bg-red sm" wx:if="{{item.message.new_count || item.message.count}}">{{item.message.new_count || item.message.count}}</view>
+      </view>
     </view>
-    <view class="itemTab text-center" @tap="tabClick('1')">
-      <image src="https://images.ufutx.com/202002/25/8d99bbf686fced76a38192c448f089ae.png" mode="aspectFit"></image>
-      <view class="font_26">系统消息</view>
-      <view class="active" wx:if="{{type == 1}}"></view>
+    <!--<view class="cu-item" wx:for="{{listV2}}" wx:key="{{index}}" wx:if="{{!noMore && list.length < 0}}">-->
+      <!--<view class="cu-avatar round lg" style="background: #F6F6F6"></view>-->
+      <!--<view class="content">-->
+        <!--<view class="text-grey " style="background: #F6F6F6;width: 26%;height: 32rpx;margin-top: -6rpx;"></view>-->
+        <!--<view class="text-gray text-sm flex" style="background: #F6F6F6;width: 88%;height: 32rpx;margin-top: 12rpx;">-->
+          <!--<text class="text-cut" style="height: 34rpx;"></text>-->
+        <!--</view>-->
+      <!--</view>-->
+    <!--</view>-->
+    <view class="_line"></view>
+    <view class="cu-item  {{modalName=='move-box-'+ index?'move-cur':''}}" bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}"  wx:for="{{list}}" wx:key="index">
+      <view class="cu-avatar round lg" style="background-image:url({{item.icon}});"></view>
+      <view class="content">
+        <view class="text-grey">
+          <text class="text-cut color-333">{{item.title}}</text>
+          <!--<view class="cu-tag round bg-orange sm">战士</view>-->
+        </view>
+        <view class="text-gray text-sm flex">
+          <text class="text-cut" style="height: 34rpx;">{{item.message.content}}</text>
+        </view>
+      </view>
+      <view class="action">
+        <view class="text-grey text-xs">{{item.message.last_time}}</view>
+        <view class="cu-tag round bg-red sm" wx:if="{{item.message.new_count}}">{{item.message.new_count}}</view>
+      </view>
+      <view class="move">
+        <view class="bg-red" @tap="deleteFn({{item.message.magId}},{{index}})">删除 {{item.id}}</view>
+      </view>
     </view>
+    <button class="btn service" hover-class="btn_active" open-type="contact">
+      <image src="https://images.ufutx.com/202004/08/404ba11c54ed1539e55c4b3e123a443a.png" mode="aspectFit"></image>
+    </button>
   </view>
-  <view class="page-user">
-    <view wx:for="{{listV2}}" wx:key="index" class="list ff" wx:if="{{type == 0}}" @tap="goto({{index}}, {{item}})">
-      <view class="flo_l relative_bot">
-        <image src="{{item.icon}}" class="_icon" mode="aspectFill" wx:if="{{item.icon}}"></image>
-        <view class="dost white" wx:if="{{item.message.new_count && item.message.new_count != 0}}">{{item.message.new_count}}</view>
-      </view>
-      <view  class="_item-text flo_l">
-        <span class="font_28">{{item.title}}</span>
-        <span class="font_22 message_type_text" wx:if="{{item.message.type == 'marriage'}}">介绍人</span>
-      </view>
-      <span class="font_22 flo_r _time">{{item.message.created_at}}</span>
-      <view  class="_item-user ellipsis_1 flo_r font_26">
-        <span wx:if="{{item.message.content}}">
-          <span wx:if="{{item.message.content_type === 'CARD'}}" class="color-theme">有一条推荐信息...</span>
-          <span wx:else>{{item.message.content}}</span>
-        </span>
-        <span wx:else>暂无新消息</span>
-      </view>
-      <view class="clearfloat"></view>
-    </view>
-    <view wx:for="{{list}}" wx:key="index" class="list ff" @tap="goto({{index}}, {{item}})">
-      <view class="flo_l relative_bot">
-        <image src="{{item.icon}}" class="_icon" mode="aspectFill" wx:if="{{item.icon}}"></image>
-        <view class="dost white" wx:if="{{item.message.new_count && item.message.new_count != 0}}">{{item.message.new_count}}</view>
-      </view>
-      <view  class="_item-text flo_l">
-        <text class="font_28 flo_l bold ellipsis_1" style="max-width: 180rpx">{{item.title}}</text>
-        <text class="font_22 bold flo_l message_type_text" wx:if="{{item.message.type == 'marriage'}}">介绍人</text>
-      </view>
-      <span class="font_22 flo_r _time">{{item.message.created_at}}</span>
-      <view  class="_item-user ellipsis_1 flo_r font_26">
-        <span wx:if="{{item.message.content}}">
-          <span wx:if="{{item.message.content_type === 'CARD'}}" class="color-theme">有一条推荐信息...</span>
-          <span wx:else>{{item.message.content}}</span>
-        </span>
-        <span wx:else>暂无新消息</span>
-      </view>
-      <view class="clearfloat"></view>
-    </view>
     <block wx:if="{{loading}}">
       <view class="weui-loadmore">
         <view class="weui-loading"></view>
@@ -63,10 +74,10 @@
     </block>
     <block wx:if="{{noMore}}">
       <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
-        <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot" style="background: #fcfcfc"></view>
+        <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot" style="background: #f4f5f9"></view>
       </view>
     </block>
-  </view>
+  <!--</view>-->
 </template>
 
 <script>
@@ -98,21 +109,32 @@
       noMore: false,
       type: 0,
       list: [],
-      listV2: [],
-      typeList: [
+      listV2: [
         {
-          icon: 'https://images.ufutx.com/202002/25/47798be12f5dd811bb419390a946969c.png',
+          icon: 'https://images.ufutx.com/202004/08/dbe9d52c044d4fb0801f45214ffef3fc.png',
           title: '福恋小助手',
           message: {},
           path: `/pages/home/chitchat?id=1&name=福恋小助手&type=chat`
-        // },
-        // {
-        //   icon: 'http://images.ufutx.com/201905/24/ee6e88b5d0ce3911300a04f028284bf1.png',
-        //   title: '系统通知',
-        //   message: {},
-        //   path: '/pages/users/myNews'
+        },
+        {
+          icon: 'https://images.ufutx.com/202004/08/009b9e2a3c5faea5323d770cd61260c5.png',
+          title: '来访记录',
+          message: {
+            content: '查看谁看过你了'
+          },
+          path: '/pages/users/myNews'
+        },
+        {
+          icon: 'https://images.ufutx.com/202004/08/09270773d76d4fa2f80d75c9f3c37dd7.png',
+          title: '系统通知',
+          message: {},
+          path: '/pages/users/myNews'
         }
-      ]
+      ],
+      typeList: [],
+      ListTouchStart: '',
+      ListTouchDirection: '',
+      modalName: ''
     }
     onShow() {
       this.page = 1
@@ -164,19 +186,23 @@
         success: ({code, data}) => {
           this.init = true
           console.log(data)
-          let {chat, linkmen, notice} = data
-          this.typeList.forEach((item, index) => {
+          let {chat, linkmen, notice, visit} = data
+          this.listV2.forEach((item, index) => {
             switch (index) {
               case 0:
                 item.message = chat
                 break
               case 1:
+                item.message = visit
+                break
+              case 2:
                 item.message = notice
                 break
             }
           })
-          this.listV2 = [...this.typeList]
+          this.listV2 = [...this.listV2]
           this.$apply()
+          console.log(this.listV2)
           if (!linkmen.data.length) {
             this.noMore = true
             this.list = [...this.list]
@@ -213,7 +239,9 @@
                     created_at: item.last_message ? item.last_message.created_at : '',
                     id: item.other_user.id,
                     type: item.other_user.type,
-                    new_count: item.new_count
+                    last_time: item.last_message.last_time,
+                    new_count: item.new_count,
+                    magId: item.id
                   },
                   path: `/pages/home/chitchat?id=${item.other_user.id}&name=${item.other_user.name}&type=${item.other_user.type}`
                 })
@@ -233,7 +261,9 @@
                   created_at: item.last_message ? item.last_message.created_at : '',
                   id: item.other_user.id,
                   type: item.other_user.type,
-                  new_count: item.new_count
+                  last_time: item.last_message.last_time,
+                  new_count: item.new_count,
+                  magId: item.id
                 },
                 path: `/pages/home/chitchat?id=${item.other_user.id}&name=${item.other_user.name}&type=${item.other_user.type}`
               })
@@ -295,6 +325,7 @@
                     created_at: item.created_at ? item.created_at : '',
                     id: item.other_user.id,
                     type: item.other_user.type,
+                    last_time: item.last_message.last_time,
                     new_count: item.new_count
                   },
                   path: `/pages/home/chitchat?id=${item.other_user.id}&name=${item.other_user.name}&type=${item.other_user.type}`
@@ -317,6 +348,7 @@
                   created_at: item.created_at ? item.created_at : '',
                   id: item.other_user.id,
                   type: item.other_user.type,
+                  last_time: item.last_message.last_time,
                   new_count: item.new_count
                 },
                 path: `/pages/home/chitchat?id=${item.other_user.id}&name=${item.other_user.name}&type=${item.other_user.type}`
@@ -347,6 +379,44 @@
     }
 
     methods = {
+      deleteFn (id, index) {
+        console.log(index)
+        this.$delete({
+          url: `${service.host}/message/linkmen/${id}`
+        }, {
+          success: ({code, data}) => {
+            this.list.splice(index, 1)
+            console.log('删除成功')
+          },
+          fail: ({code, data}) => {
+          },
+          complete: () => {
+          }
+        })
+      },
+      // ListTouch触摸开始
+      ListTouchStart(e) {
+        this.ListTouchStart = e.touches[0].pageX
+        this.$apply()
+      },
+      // ListTouch计算方向
+      ListTouchMove(e) {
+        this.ListTouchDirection = e.touches[0].pageX - this.data.ListTouchStart > 0 ? 'right' : 'left'
+        this.$apply()
+      },
+
+      // ListTouch计算滚动
+      ListTouchEnd(e) {
+        if (this.ListTouchDirection == 'left'){
+          this.modalName = e.currentTarget.dataset.target
+          this.$apply()
+        } else {
+          this.modalName = null
+          this.$apply()
+        }
+        this.ListTouchDirection = null
+        this.$apply()
+      },
       tabClick(value) { // NavTab返回值
         this.$showLoading('加载中...')
         console.log(value)
@@ -390,91 +460,24 @@
   @import "../../styles/custom/reset.less";
 page{
   background: #f4f5f9;
-  .bg-news{background: #f4f5f9;}
-  .page-user {
-    position: relative;
-    min-height: 100vh;
-    padding-top: 14vw;
-    margin-top: -18vw;
-    background: white;
+  .bg-news{background: white}
+  ._line{
+    width: 100%;
+    height: 4rpx;
+    background: #F6F6F6;
   }
-  .list{
-    padding: 22rpx 0 0 37rpx;
-    ._icon{
-      width: 100rpx;
-      height: 100rpx;
-      margin-top: 4rpx;
-      border-radius: 50%;
-    }
-    ._time{
-      color: #cacaca;
-      margin-top: 6rpx;
-      margin-right: 28rpx;
-    }
-    .dost{
-      height: 32rpx;
-      min-width: 32rpx;
-      text-align: center;
-      font-size: 20rpx;
-      position: absolute;
-      right: 0rpx;
-      top: 8rpx;
-      font-weight: 600;
-      border-radius: 50%;
-      background: red;
-    }
-    ._item-text{
-      margin-left: 30rpx;
-      font-weight: 700;
-      overflow: hidden;
-    }
-    ._item-user{
-      padding-right: 4%;
-      color: #838383;
-      margin-top: 12rpx;
-      width: 78%;
-      font-weight: 500;
-      border-bottom: 1rpx solid #e2e2e2;
-      padding-bottom: 26rpx;
+  .service{
+    position: fixed;
+    bottom: 22vh;
+    right: 8vw;
+    image{
+      width: 130rpx;
+      height: 130rpx;
     }
   }
-
-  .message_type_text {
-    margin-left: 8rpx;
-    color: @theme;
-    margin-top: 4rpx;
-  }
-  .mainTab{
-    width: 94%;
-    height: 36vw;
-    background-image: url("https://images.ufutx.com/202002/25/b13e386f65c2a642df93368ab0f7a5aa.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    margin: auto;
-    position: relative;
-    z-index: 99;
+  .cu-list.menu-avatar>.cu-item .action {
+    width: 132rpx;
     text-align: center;
-    .itemTab{
-      width: 46%;
-      display: inline-block;
-      margin-top: 32rpx;
-      padding: 22rpx 0;
-      position: relative;
-      image{
-        width: 90rpx;
-        height: 90rpx;
-        margin-bottom: -6rpx;
-      }
-      .active{
-        width: 120rpx;
-        height: 8rpx;
-        background: #D92553;
-        position: absolute;
-        left: 14vw;
-        bottom: 0;
-        border-radius: 16rpx;
-      }
-    }
   }
 }
 </style>
