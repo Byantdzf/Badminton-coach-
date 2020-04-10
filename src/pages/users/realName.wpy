@@ -1,5 +1,5 @@
 <template>
-  <cuCustom bgImage="https://images.ufutx.com/202004/09/9c88daa577e4e4148d15f316f0d55524.png"  isBack="{{true}}">
+  <cuCustom bgImage="https://images.ufutx.com/202004/09/9c88daa577e4e4148d15f316f0d55524.png"  isCustom="{{true}}">
     <!--<view slot="content">-->
       <!--<image src="https://images.ufutx.com/202004/09/9c88daa577e4e4148d15f316f0d55524.png" mode="widthFix"></image>-->
     <!--</view>-->

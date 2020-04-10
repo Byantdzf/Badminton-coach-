@@ -107,7 +107,7 @@
           icon: 'https://images.ufutx.com/202003/31/639d18a3c5883e90c200fe99910ccab1.png',
           title: '我的订单',
           type: 'navigateTo',
-          path: '/pages/users/myPay'
+          path: '/pages/users/myOrderList'
         },
         {
           icon: 'https://images.ufutx.com/202003/31/a70ff1e938748c2ee4821c2c19b4c537.png',

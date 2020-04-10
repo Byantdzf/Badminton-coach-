@@ -1,16 +1,9 @@
 <template>
-  <NavBar rgba="#f8f8f8" bag="#ffffff" title="我的订单"></NavBar>
-  <Loading :init.sync="init"></Loading>
   <view class="page__bd "  wx:for="{{list}}" wx:key="*this" >
     <view class="flo_l borrowlist" @tap="info({{item}})">
-      <!--<view class="flo_l" style="">-->
-        <!--<view  class="font_32 flo_l ellipsis_1 bold" style="margin-left: 12rpx;">-->
-          <!--{{item.type}}-->
-        <!--</view>-->
         <view  class="font_26 flo_r ellipsis_1 " style="margin-left: 12rpx;">
           {{item.created_at}}
         </view>
-      <!--</view>-->
       <view class="font_28 flo_l black_6 ellipsis_1 bold" style="margin-left: 34rpx;">
         {{item.goods}}
       </view>
@@ -83,12 +76,6 @@
     <view wx:if="{{other.other_openid}}" style="width: 50%;height: 200rpx;position: absolute;right: 0;bottom:-4%;z-index: 9999" class="text-center">
       <image style="width: 188rpx; height: 188rpx;" mode="aspectFit" src="http://images.ufutx.com/201807/26/2c167f2b853b4efbbe43a363deebb63a.png"></image>
     </view>
-    <!--<view style="position: absolute;left: 40%;bottom: 0;background: #FAFAFC; z-index: 999999;">-->
-    <!--<cover-view-->
-    <!--style="position: relative;left: 42% ;z-index: 999999; top: 10%;color: orange;background: white;width: 120rpx;height: 68rpx;margin-top: 22rpx;line-height: 68rpx;border-radius: 12rpx;box-shadow: 1rpx 1rpx 12rpx #96d3d0"-->
-    <!--@tap.stop="saveImage('save')">保存-->
-    <!--</cover-view>-->
-    <!--</view>-->
   </modal>
   <modal  hidden="{{showAddress}}"
           confirm-text="确定"
@@ -113,7 +100,7 @@
   import Loading from '../../components/loading'
   import { service } from '../../config.js'
 
-  export default class myPay extends wepy.page {
+  export default class myOrderList extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
       navigationBarTitleText: '我的订单',

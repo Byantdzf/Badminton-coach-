@@ -136,7 +136,7 @@
             'vipSetting',
             'vipData',
             'integralRecord',
-            'myPay',
+            'myOrderList',
             'friendlist',
             'examineWeChat',
             'auditFriend',
