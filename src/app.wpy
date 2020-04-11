@@ -15,11 +15,8 @@
         'pages/tabBar/welcome',
         'pages/tabBar/home',
         'pages/tabBar/activities',
-        'pages/tabBar/home/indexv2',
         'pages/tabBar/news',
-        'pages/tabBar/attention',
         'pages/tabBar/friendCircleList',
-        'pages/tabBar/party/index',
         'pages/tabBar/books/index',
         'pages/tabBar/loveMate',
         'pages/tabBar/questionList',
@@ -104,6 +101,7 @@
         {   // 基本信息
           'root': 'pages/users',
           'pages': [
+            'aboutLove',
             'userInfo',
             'ImageCropper',
             'ImageCropperV2',
@@ -134,7 +132,6 @@
             'integral',
             'myGift',
             'vipSetting',
-            'vipData',
             'integralRecord',
             'myOrderList',
             'friendlist',

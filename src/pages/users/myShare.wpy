@@ -1,32 +1,63 @@
 <template>
-  <!--<NavBar bag="#ffffff">分享</NavBar>-->
-  <Loading :init.sync="init"></Loading>
-  <view class="page__bd ">
-    <image mode="aspectFill" style="width: 100%;height:100vh;position: fixed;top: 0;left: 0;" src="https://images.ufutx.com/201908/28/e5e5894cbe9df9b02e330c38eb81b9cc.png" ></image>
-  </view>
+  <cuCustom  bgColor="bg-white" isCustom="{{true}}" class="">
+    <view slot="content">推荐给好友</view>
+  </cuCustom>
   <view>
-    <view class="text-center" style="position: fixed;width: 100%;top: 4%;">
-      <image  mode="aspectFill" src="{{avatar}}" class="party_image"></image>
-      <view style="margin-top: 12rpx">Hi，我是{{name}}</view>
-      <view style="margin-top: 2rpx" class="font_36 bold color-theme">我在福恋，为你找对象！</view>
-      <view style="margin-top: 2rpx" class="font_22 color-666">用科技让交友变简单</view>
+    <view class="mainShare">
+      <image src="https://images.ufutx.com/202004/11/fd60fcb6fe2f7df813c73d903fc5a7cf.png" mode="widthFix" class="image"></image>
     </view>
-  </view>
-  <view>
-    <view class="text-center" style="position: fixed;width: 100%;bottom: 17vw;">
-      <image  mode="aspectFit" src="{{qrcode}}" style="width: 300rpx;height: 300rpx;"></image>
-      <view style="margin:auto; margin-top: 48rpx;width: 82%;padding: 0 6vw;">
-        <view class="text-center flo_l">
-          <button class="btn main-btn font_28 " open-type="share" >邀请好友</button>
+    <view class="mainRule">
+      <image src="https://images.ufutx.com/202004/11/2cb9b1b6cde8452a27fc0940c8fe2fcc.png" mode="widthFix" class="image"></image>
+    </view>
+    <view class="cu-timeline">
+      <view class="cu-time">昨天</view>
+      <view class="cu-item cur cuIcon-noticefill">
+        <view class="content bg-green shadow-blur">
+          <text>22:22</text> 【广州市】快件已到达地球
         </view>
-        <view  class="text-center flo_r">
-          <button class="btn main-btn font_28 main-btn-a"   @tap="saveImageV1" >保存海报</button>
+      </view>
+    </view>
+    <view class="cu-timeline">
+      <view class="cu-time">06-17</view>
+      <view class="cu-item">
+        <view class="content bg-purple shadow-blur">
+          <text>01:30</text> 【喵星】 MX-12138 已揽收，准备发往银河系
         </view>
-        <view class="clearfloat"></view>
+      </view>
+    </view>
+    <view class="cu-timeline">
+      <view class="cu-time">06-17</view>
+      <view class="cu-item">
+        <view class="content bg-gray shadow-blur">
+          <view>这是第一次，我家的铲屎官走了这么久。久到足足有三天！！ </view>
+        </view>
       </view>
     </view>
   </view>
-  <sharePic :pic.sync="invite_pic" :shareImage.sync="shareImage"></sharePic>
+  <view class="ruleStyle shadow-blur">
+    <view class="table">
+      <view class="color-theme font_26 inline-block title bold text-center">累计人数</view>
+      <view class="color-theme font_26 inline-block value bold">赠送会员时长</view>
+    </view>
+    <view class="table">
+      <view class="font_26 inline-block title text-center ">1人</view>
+      <view class="font_26 inline-block value ">获得1天超级会员</view>
+    </view>
+    <view class="table">
+      <view class="font_26 inline-block title text-center ">3人</view>
+      <view class="font_26 inline-block value ">获得7天超级会员</view>
+    </view>
+    <view class="table">
+      <view class="font_26 inline-block title text-center ">5人</view>
+      <view class="font_26 inline-block value ">获得8天超级会员</view>
+    </view>
+  </view>
+  <view style="height: 22vw;"></view>
+  <view class="main-btn text-center animation-slide-bottom">
+    <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" @tap="ShareFn">推荐给好友</button>
+  </view>
+  <!--<sharePic :pic.sync="invite_pic" :shareImage.sync="shareImage"></sharePic>-->
+  <shareComponent :hide.sync="hide" :shareImage.sync="invite_pic"></shareComponent>
 </template>
 
 <script>
@@ -36,21 +67,22 @@
   import user from '../../mixins/user'
   //  import ShareMessage from '../../mixins/ShareMessage'
   import { service } from '../../config.js'
-  import sharePic from '../../components/sharePic'
-  import NavBar from '../../components/NavBarV2'
-  import Loading from '../../components/loading'
+  import shareComponent from '../../components/shareComponent'
+  // import NavBar from '../../components/NavBarV2'
+  // import Loading from '../../components/loading'
+  import cuCustom from '../../components/cu-custom'
+
   export default class myShare extends wepy.page {
     mixins = [base, http, user]
     components = {
-      sharePic,
-      NavBar,
-      Loading
+      shareComponent,
+      cuCustom
     }
     config = {
-      navigationBarTitleText: '分享给好友',
+      navigationBarTitleText: '推荐给好友',
       // navigationBarBackgroundColor: '#ffebee',
-      enablePullDownRefresh: false
-      // navigationStyle: 'custom'
+      enablePullDownRefresh: false,
+      navigationStyle: 'custom'
     }
     data = {
       list: [],
@@ -130,11 +162,23 @@
     }
 
     methods = {
+      ShareFn() {
+        let vm = this
+        if (!vm.invite_pic) {
+          return
+        }
+        vm.hide = false
+        vm.$apply()
+      },
       goto (url) {
         wx.navigateTo({url: url})
-      },
-      saveImageV1 () {
-        this.shareImage = false
+      }
+    }
+    events = {
+      'hideShare': (type) => {
+        console.log(type)
+        this.hide = type
+        this.$apply()
       }
     }
   }
@@ -144,81 +188,41 @@
   @import "../../styles/custom/fn.less";
   @import "../../styles/custom/reset.less";
   page{
-    background: #ffebee;
-  }
-  .main-btn {
-    padding: 8rpx 32rpx;
-    color: #D92553;
-    border-radius: 4rpx;
-    border: 1rpx solid #D92553;
-  }
-  .main-btn-a{
-    color: white;
-    background: #D92553;
-  }
-  .page-user{
-    background: white;
-    padding: 22rpx 50rpx;
-  }
-  .shareBtn{
-    position: fixed;
-    left: 5%;
-    bottom: 19%;
-    width: 254rpx;
-    height: 74rpx;
-    /*background: red;*/
-  }
-  .shareBtnV{
-    position: fixed;
-    right: 5%;
-    bottom: 19%;
-    width: 254rpx;
-    height: 74rpx;
-    /*background: red;*/
-  }
-  .weui-cells {
-    position: inherit;
-    margin-top: 12rpx;
-  }
-  .user_back{
-    background-image: url("http://local-pictures.img-cn-shenzhen.aliyuncs.com/201806/11/wx53cf66d72649eb5a.o6zAJs2lf_SH4K2plnWTlsSfhR70.9TmBzGGHW7w9470132e3efb72f0a1c8c06768b4cbd80.png");
-    background-size: cover;
-    position: relative;
-  }
-  .imagebox{
-    width: 33%;
-  }
-  .borrowlist{
-    width: 86%;
-    box-shadow: 1rpx 1rpx 18rpx #d3d3d3;
-    margin-top: 18rpx;
-    border-radius: 6rpx;
-    margin-left: 4%;
-    background: white;
-    padding: 22rpx;
-    /*position: relative*/
-  }
-  .weui-cell__ft {
-    margin-top: 10%;
-  }
-  .shaerImage{
-    width: 600rpx;
-    height: 800rpx;
-  }
-  .addresslList{
-    padding: 12rpx;
-    border-bottom: 1rpx solid #d3d3d3;
-  }
-  .party_image{
-    overflow: hidden;
-    display: block;
-    width: 160rpx;
-    height: 160rpx;
-    margin: 20rpx;
-    margin-top: 50rpx;
-    border-radius: 50%;
-    border: 2px solid #fff;
-    margin: auto;
-    /*box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);*/
+    background: #ffffff;
+    .mainShare,.mainRule{
+      .image{
+        width: 100%;
+        height: auto;
+      }
+    }
+    .mainRule{
+      padding: 22rpx 38rpx;
+    }
+    .ruleStyle{
+      width: 92%;
+      margin: 60rpx auto;
+      background: #f1f1f1;
+      padding: 40rpx 2rpx;
+      border-radius: 10rpx;
+      .table{
+        .title{width: 32%;}
+        .value{width: 60%;}
+      }
+    }
+    .main-btn{
+      width: 100%;
+      position: fixed;
+      bottom: 0;
+      padding: 4vw 7vw;
+      background: white;
+      box-shadow: 1rpx 1rpx 12rpx #f3f3f3;
+      .btn-box{
+        width: 86vw;
+        background: #D92553;
+        border-radius: 6rpx;
+        padding: 16rpx;
+        margin: 12rpx auto;
+      }
+    }
   }
 </style>

@@ -2,7 +2,7 @@
   <view class="cu-modal {{!hide?'show':''}}">
     <view class="cu-dialog">
       <view class="cu-bar bg-white justify-end">
-        <view class="content bold">分享活动</view>
+        <view class="content">提示</view>
         <view class="action" bindtap="hideModel">
           <text class="cuIcon-close text-red"></text>
         </view>

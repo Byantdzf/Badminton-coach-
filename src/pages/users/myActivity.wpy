@@ -1,17 +1,23 @@
 <template>
-  <NavBar rgba="#ffffff" bag="#ffffff" title="活动预约"></NavBar>
-  <Loading :init.sync="init"></Loading>
-  <view class="weui-panel weui-panel_access">
-    <view class="weui-navbar">
-      <view wx:for="{{tabs}}" wx:key="{{item.id}}" id="{{item.id}}" class="weui-navbar__item {{activeIndex == item.id ? 'weui-bar__item_on' : ''}}" @tap="tabClick">
-        <view class="weui-navbar__title" >{{item.name}}</view>
-      </view>
-      <view class="weui-navbar__slider" style="width:{{sliderWidth}}px; left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
-    </view>
-    <view style="width: 100%;height: 100rpx"></view>
-    <view class="weui-panel__bd">
-    </view>
+  <!--<NavBar rgba="#ffffff" bag="#ffffff" title="活动预约"></NavBar>-->
+  <!--<Loading :init.sync="init"></Loading>-->
+  <cuCustom  bgImage="https://images.ufutx.com/202004/09/9c88daa577e4e4148d15f316f0d55524.png" isCustom="{{true}}">
+    <view slot="content">我的活动</view>
+  </cuCustom>
+  <!--<view class="weui-panel weui-panel_access">-->
+    <!--<view class="weui-navbar">-->
+      <!--<view wx:for="{{tabs}}" wx:key="{{item.id}}" id="{{item.id}}" class="weui-navbar__item {{activeIndex == item.id ? 'weui-bar__item_on' : ''}}" @tap="tabClick">-->
+        <!--<view class="weui-navbar__title" >{{item.name}}</view>-->
+      <!--</view>-->
+      <!--<view class="weui-navbar__slider" style="width:{{sliderWidth}}px; left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>-->
+    <!--</view>-->
+    <!--<view style="width: 100%;height: 100rpx"></view>-->
+  <!--</view>-->
+  <!--<view style="width: 100%;height: 100rpx"></view>-->
+  <view class="mainTab text-center font_30 ff">
+    <view class="white itemText inline-block color-333 {{active == index?'active color-theme':''}}" wx:for="{{tabs}}"  @tap="tabClick({{index}})">{{item.name}}</view>
   </view>
+  <view style="height: 120rpx;"></view>
   <block wx:if="{{list.length > 0}}">
     <view class="_bc_content ff" wx:for="{{list}}" wx:key="{{index}}">
       <view class="_bc_list">
@@ -19,21 +25,21 @@
           <image src="{{item.poster}}" mode="aspectFit"></image>
         </view>
         <view class="goods_message flo_l">
-          <view class="font_28 bold ellipsis_2">{{item.theme}}</view>
+          <view class="font_28 bold ellipsis_1">{{item.theme}}</view>
           <view class="font_24">{{item.city}} {{item.dist}}</view>
-          <view class="font_24">{{item.start_time}} ~ {{item.end_time}}</view>
+          <view class="font_24">
+            {{item.start_time}}
+            <view class="_bc_item ff flo_r">
+              <view class="_bc_btn_warn font_24 flo_r warn" wx:if="{{item.is_deadline == 1}}">已过期</view>
+              <view class="_bc_btn_success font_24 flo_r primary" wx:else>已报名</view>
+            </view>
+          </view>
         </view>
-        <view class="clearfloat"></view>
-      </view>
-      <view class="_bc_item ff">
-        <view class="_bc_btn_warn font_24 flo_r warn" wx:if="{{item.is_deadline == 1}}">已过期</view>
-        <view class="_bc_btn_success font_24 flo_r primary" wx:else>已报名</view>
-
         <view class="clearfloat"></view>
       </view>
     </view>
   </block>
-  <block wx:else>
+  <block wx:if="{{noMore && list.length < 0}}">
     <view  class="book text-center" >
       <view class="font_28" style="margin-top: 22rpx">
         暂无活动信息
@@ -64,14 +70,18 @@
   import ShareMessage from '../../mixins/ShareMessage'
   import NavBar from '../../components/NavBar'
   import Loading from '../../components/loading'
+  import cuCustom from '../../components/cu-custom'
+
   export default class myActivity extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
-      navigationBarTitleText: '我的活动'
+      navigationBarTitleText: '我的活动',
+      navigationStyle: 'custom'
     }
-    components = {NavBar, Loading}
+    components = {NavBar, Loading, cuCustom}
 
     data = {
+      active: 0,
       loaded: false,
       mylibs: [],
       tabs: [
@@ -220,12 +230,10 @@
         this.page = 1
         this.getLibraries(this.inputVal)
       },
-      tabClick(e) {
+      tabClick(index) {
         let that = this
-        that.loading = true
-        that.sliderOffset = e.currentTarget.offsetLeft
-        that.activeIndex = e.currentTarget.id
-        that.type = that.tabs[e.currentTarget.id].type
+        that.type = that.tabs[index].type
+        that.active = index
         that.list = []
         that.page = 1
         that.$apply()
@@ -247,16 +255,20 @@
   @import "../../styles/weui/base/fn.wxss";
   @import "../../styles/custom/fn.less";
   page{
-    background: #F7F7F7;
+    background: #F6F6F6;
+  }
+  .weui-navbar{
+    border: none;
+    box-shadow: 1rpx 1rpx 12rpx #f6f6f6;
   }
   .weui-navbar__slider {
     background-color: #d92553;
   }
   .weui-panel{
-    margin-bottom: 12rpx;
-  }
-  weui-loadmore__tips {
-    background: #F7F7F7;
+    position: fixed;
+    width: 100%;
+
+    z-index: 999;
   }
   .weui-navbar__item.weui-bar__item_on {
     color: #d92553;
@@ -264,17 +276,43 @@
   .weui-panel {
     margin-top: 0px;
   }
+  .mainTab{
+    width: 100%;
+    position: fixed;
+    margin-bottom: 18rpx;
+    box-shadow: 1rpx 1rpx 12rpx #f6f6f6;
+    z-index: 999;
+    .itemText {
+      width: 33%;
+      margin: 26rpx 0;
+      position: relative;
+    }
+    .active{
+      font-size: 32rpx;
+      font-weight: bold;
+      &:before{
+        content: " ";
+        position: absolute;
+        bottom: -12rpx;
+        left: 12.2vw;
+        height: 4rpx;
+        width: 68rpx;
+        border-radius: 8rpx;
+        background: #d92557;
+      }
+    }
+  }
   .book{
     padding: 12rpx;
     background: white;
     border-bottom: 1rpx solid #dedede;
   }
   ._bc_content{
-    padding: 0 22rpx;
-    margin-bottom: 12rpx;
+    padding: 4rpx 22rpx;
+    padding-right: 6rpx;
+    border-bottom: 1rpx solid #f6f6f6;
     ._bc_list{
       padding: 12rpx 0;
-      border-bottom: 1rpx solid #d3d3d3;
       .goods_image{
         width: 30%;
         height: 164rpx;
@@ -284,14 +322,13 @@
         }
       }
       .goods_message{
-        width: 65%;
+        width: 70%;
         padding: 16rpx;
       }
     }
     ._bc_item{
-      padding: 12rpx 22rpx;
       ._bc_btn_warn,._bc_btn_success{
-        padding: 2rpx 6rpx;
+        padding: 2rpx 12rpx;
         border: 1rpx solid #E64240;
         border-radius: 4rpx;
       }

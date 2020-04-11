@@ -56,7 +56,7 @@
       <view class="clearfloat"></view>
     </view>
   </view>
-  <sharePic :pic.sync="invite_pic" :shareImage.sync="shareImage"></sharePic>
+  <!--<sharePic :pic.sync="invite_pic" :shareImage.sync="shareImage"></sharePic>-->
 </template>
 
 <script>

@@ -17,7 +17,7 @@
     <!--</view>-->
   <!--</view>-->
   <view class="cu-list menu-avatar">
-    <view class="cu-item" wx:for="{{listV2}}" wx:key="index">
+    <view class="cu-item" wx:for="{{listV2}}" wx:key="index" @tap="goto({{index}}, {{item.path}})">
       <view class="cu-avatar round lg" style="background-image:url({{item.icon}});"></view>
       <view class="content">
         <view class="text-grey">
@@ -43,7 +43,7 @@
       <!--</view>-->
     <!--</view>-->
     <view class="_line"></view>
-    <view class="cu-item  {{modalName=='move-box-'+ index?'move-cur':''}}" bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}"  wx:for="{{list}}" wx:key="index">
+    <view class="cu-item  {{modalName=='move-box-'+ index?'move-cur':''}}" bindtouchstart="ListTouchStart" bindtouchmove="ListTouchMove" bindtouchend="ListTouchEnd" data-target="move-box-{{index}}"  wx:for="{{list}}" wx:key="index" @tap="goto({{index}}, {{item.path}})">
       <view class="cu-avatar round lg" style="background-image:url({{item.icon}});"></view>
       <view class="content">
         <view class="text-grey">
@@ -122,7 +122,7 @@
           message: {
             content: '查看谁看过你了'
           },
-          path: '/pages/users/myNews'
+          path: '/pages/users/visitor'
         },
         {
           icon: 'https://images.ufutx.com/202004/08/09270773d76d4fa2f80d75c9f3c37dd7.png',
@@ -426,30 +426,30 @@
         this.$apply()
         this.initPageData()
       },
-      goto(index, item) {
-        console.log(item)
+      goto(index, path) {
+        console.log(index, path)
         let url = ''
-        if (item.type) {
-          if (item.type == 'gift') {
-            url = '/pages/users/myGift'
-          } else if (item.type == 'follow') {
-            if (item.message.type == 'single') {
-              url = '/pages/home/information?id=' + item.message.id
-            } else {
-              url = '/pages/home/introducer?id=' + item.message.id
-            }
-          } else if (item.type == 'wechat') {
-            url = '/pages/users/examineWeChat?id=' + item.id
-          } else if (item.type == 'friend') {
-            url = '/pages/users/auditFriend?id=' + item.id
-          } else if (item.type == 'temp') {
-            url = '/pages/users/tempMember'
-          } else if (item.type == 'moment') {
-            url = `/pages/friendCircle/friendCircleDetail?id=${item.type_id}`
-          }
-          wx.navigateTo({url: url})
-        }
-        wx.navigateTo({url: item.path})
+        // if (item.type) {
+        //   if (item.type == 'gift') {
+        //     url = '/pages/users/myGift'
+        //   } else if (item.type == 'follow') {
+        //     if (item.message.type == 'single') {
+        //       url = '/pages/home/information?id=' + item.message.id
+        //     } else {
+        //       url = '/pages/home/introducer?id=' + item.message.id
+        //     }
+        //   } else if (item.type == 'wechat') {
+        //     url = '/pages/users/examineWeChat?id=' + item.id
+        //   } else if (item.type == 'friend') {
+        //     url = '/pages/users/auditFriend?id=' + item.id
+        //   } else if (item.type == 'temp') {
+        //     url = '/pages/users/tempMember'
+        //   } else if (item.type == 'moment') {
+        //     url = `/pages/friendCircle/friendCircleDetail?id=${item.type_id}`
+        //   }
+        //   wx.navigateTo({url: url})
+        // }
+        wx.navigateTo({url: path})
       }
     }
   }

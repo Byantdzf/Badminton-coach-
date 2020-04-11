@@ -25,7 +25,7 @@
     </view>
     <swiper class="card-swiper" circular="true"  bindchange="cardSwiper">
       <swiper-item wx:for="{{rankList}}" wx:key="index" class="{{cardCur==index?'cur':''}}"  @tap="showFn({{index}})">
-        <view class="swiper-item radius shadow margin-top {{active == '0'?'bg-yellow':'bg-gradual-blue'}}">
+        <view class="swiper-item radius shadow margin-top {{active == '0'?'bg-grey':'bg-grey'}} {{item.id?'':'bg-grey'}}">
           <image src="{{item.pic}}" mode="aspectFill"></image>
           <!--<video src="{{item.url}}" autoplay loop muted show-play-btn="{{false}}" controls="{{false}}" objectFit="cover" wx:if="{{item.type=='video'}}"></video>-->
         </view>
@@ -53,6 +53,19 @@
       <block wx:else>
         <view class="font_24 color-666 placeholderStyle" wx:for="{{5}}"  wx:key="index" style="width:{{100/index}}%"></view>
       </block>
+    </view>
+  </view>
+  <view class="cu-modal {{modalName=='Modal'?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">提示</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl">
+        由于相关规范，ios小程序此功能暂不可用
+      </view>
     </view>
   </view>
   <view class="cu-modal {{modalName=='DialogModal'?'show':''}}">
@@ -306,6 +319,13 @@
         success: ({code, data}) => {
           vm.specialVIP = data
           vm.rankList = data.sub_ranks
+          if (vm.system == 'iOS') {
+            vm.rankList = [
+              {pic: 'https://images.ufutx.com/202004/11/3ccfd5478ea792e8793c7eebbf152511.png'},
+              {pic: 'https://images.ufutx.com/202004/11/cbc6bdbbbee7881f9c6e97f36aad4639.png'},
+              {pic: 'https://images.ufutx.com/202004/11/684d70c9b43dab6e9c83e0a53bf8029f.png'}
+            ]
+          }
           vm.payData.title = `超级会员（${vm.rankList[0].name}）`
           vm.payData.price = `${vm.rankList[0].price}`
           vm.payData.discount_price = `${vm.rankList[0].discount_price}`
@@ -370,11 +390,16 @@
         }
       },
       showFn (index) { // 弹框支付
-        this.modalName = 'DialogModal'
-        let monay = this.payData.discount_price - this.payData.remain_amount
-        this.payData.monay = Math.abs(monay).toFixed(2)
-        this.payData.payId = this.rankList[index].id
-        this.$apply()
+        if (this.rankList[index].id) {
+          this.modalName = 'DialogModal'
+          let monay = this.payData.discount_price - this.payData.remain_amount
+          this.payData.monay = Math.abs(monay).toFixed(2)
+          this.payData.payId = this.rankList[index].id
+          this.$apply()
+        } else {
+          this.modalName = 'Modal'
+          this.$apply()
+        }
       },
       hideModal () {
         this.modalName = ''
@@ -421,6 +446,7 @@
             if (data.wx_pay.length == 0) {
               that.$post({url: `${service.orderpay}/${that.trade_no}/v2`}, {
                 success: ({code, data}) => {
+                  that.getUserData()
                   that.$Toast_success('支付成功')
                 },
                 fail: ({code, data}) => {
@@ -434,6 +460,7 @@
               if (wxconfig.payment_debug) {
                 return that.$post({url: `${service.orderpay}/${that.trade_no}/v2`}, {
                   success: ({code, data}) => {
+                    that.getUserData()
                     that.$Toast_success('支付成功')
                   },
                   fail: ({code, data}) => {
@@ -451,6 +478,7 @@
                 success: function (res) {
                   that.$post({url: `${service.orderpay}/${that.trade_no}/v2`}, {
                     success: ({code, data}) => {
+                      that.getUserData()
                       that.$Toast_success('支付成功')
                     },
                     fail: ({code, data}) => {
@@ -577,6 +605,11 @@
           margin-top: 62rpx;
           margin-bottom: 12rpx;
         }
+      }
+    }
+    .card-swiper{
+      .swiper-item{
+        border-radius: 14rpx;
       }
     }
   }

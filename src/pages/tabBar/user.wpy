@@ -53,6 +53,19 @@
       <!--<image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>-->
     <!--</view>-->
     <view style="height: 160rpx"></view>
+    <view class="cu-modal {{modalName=='Modal'?'show':''}}">
+      <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+          <view class="content">提示</view>
+          <view class="action" bindtap="hideModal">
+            <text class="cuIcon-close text-red"></text>
+          </view>
+        </view>
+        <view class="padding-xl text-left">
+          福分商城正在维护中,下个版本将开放福分商城，福分可在福分商城里购买商品，对应的使用规则，敬请期待!
+        </view>
+      </view>
+    </view>
     <!--<official-account style="position:fixed;bottom:0;width:100%;height:168rpx;"></official-account>-->
   </view>
 </template>
@@ -83,6 +96,7 @@
         follow_count: 0,
         fans_count: 0
       },
+      modalName: '',
       is_vip: false,
       list: [
         {
@@ -101,7 +115,7 @@
           icon: 'https://images.ufutx.com/202003/31/d818cf51568200f390e2f15897c1e624.png',
           title: '我的福分',
           type: 'navigateApp',
-          path: '/pages/users/realName'
+          path: ''
         },
         {
           icon: 'https://images.ufutx.com/202003/31/639d18a3c5883e90c200fe99910ccab1.png',
@@ -121,17 +135,17 @@
           type: 'navigateTo',
           path: '/pages/users/myShare'
         },
-        {
-          icon: 'https://images.ufutx.com/202003/31/975b8a657710b588ffbff8a4023164a2.png',
-          title: '通用设置',
-          type: 'navigateTo',
-          path: '/pages/users/realName'
-        },
+        // {
+        //   icon: 'https://images.ufutx.com/202003/31/975b8a657710b588ffbff8a4023164a2.png',
+        //   title: '通用设置',
+        //   type: 'navigateTo',
+        //   path: '/pages/users/realName'
+        // },
         {
           icon: 'https://images.ufutx.com/202003/31/ee0a4f2e9bd9cb6e81dc5def6f08bf3a.png',
           title: '关于福恋',
           type: 'navigateTo',
-          path: '/pages/users/realName'
+          path: '/pages/users/aboutLove'
         }
       ]
     }
@@ -205,6 +219,10 @@
     }
 
     methods = {
+      hideModal () {
+        this.modalName = ''
+        this.$apply()
+      },
       gotofriends(item) {
         let url = ''
         if (item.type == 'single') {
@@ -215,7 +233,12 @@
         wx.navigateTo({url: url})
       },
       goto(url) {
-        wx.navigateTo({url: url})
+        if (url) {
+          wx.navigateTo({url: url})
+          return
+        }
+        this.modalName = 'Modal'
+        this.$apply()
       }
     }
   }

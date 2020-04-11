@@ -1,0 +1,60 @@
+<template>
+  <view class="mainAbout">
+    <view class="mainIcon text-center">
+      <image mode="widthFix" src="https://images.ufutx.com/202004/11/4ffffbdb6ff48be065b089edb7321de8.png"></image>
+    </view>
+    <view class="font_32 color-333 text-center bold">关于福恋 </view>
+    <view class="textStyle font_28 color-666">
+      婚恋行业的后起之秀，我们的使命是：推进单身进入婚恋、组建合一家庭、幸福一生！秉承“使命、开放、互助、幸福”的核心价值观，推进正确的爱情观和婚姻观；帮助建立幸福美满、合一包容家庭；为孩子提供稳定健康的成长环境
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import http from '../../mixins/http'
+  import base from '../../mixins/base'
+  import user from '../../mixins/user'
+  import ShareMessage from '../../mixins/ShareMessage'
+  import userTitle from '../../components/userTitle'
+  import NavBar from '../../components/NavBar'
+  import Loading from '../../components/loading'
+  import { service } from '../../config.js'
+
+  export default class addFriendSet extends wepy.page {
+    mixins = [base, http, user, ShareMessage]
+    config = {
+      navigationBarTitleText: '关于福恋'
+    }
+    components = {}
+    data = {}
+    onShow() {}
+    onLoad() {}
+    onPullDownRefresh() {}
+
+    methods = {
+    }
+  }
+</script>
+
+<style lang="less">
+  @import "../../styles/custom/fn.less";
+  @import "../../styles/custom/reset.less";
+  page{
+    background: #ffffff;
+    .mainAbout{
+      .mainIcon{
+        margin: 76rpx auto;
+        margin-bottom: 12rpx;
+        image{
+          width: 150rpx;
+          height: auto;
+        }
+      }
+      .textStyle{
+        padding: 22rpx 30rpx;
+        text-indent: 2em;
+      }
+    }
+  }
+</style>

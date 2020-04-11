@@ -1,31 +1,49 @@
 <template>
-  <Loading :init.sync="init"></Loading>
-  <NavBar title="访客记录" bag="#FFFFFF" rgba="#f4f4f4"></NavBar>
+  <cuCustom  bgImage="https://images.ufutx.com/202004/09/9c88daa577e4e4148d15f316f0d55524.png"  isBack="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">访问记录</view>
+  </cuCustom>
   <view class="list">
-    <block wx:if="{{list.length > 0}}">
-      <Search class="search" BColor="#d92553" title="搜索访客"></Search>
-      <view style="height: 100rpx;"></view>
-    </block>
+    <!--<view class="text-left radius bg-white">-->
+      <!--<tabSearchV2 title="搜索访问记录" BColor="#fff"></tabSearchV2>-->
+    <!--</view>-->
     <view class="kai-content text-left">
       <block wx:if="{{list.length > 0}}">
-        <view wx:for="{{list}}" wx:key="index" class="ff vessel" @tap="gotofriends({{item}})">
+        <view wx:for="{{list}}" wx:key="index" class="ff vessel" @tap="gotofriends({{item}}, {{index}})" wx:if="{{index < 2}}">
           <view class="vessel_image flo_l">
-            <image src="{{item.other_user.avatar}}" mode="aspectFill" class="avatar"></image>
+            <image src="{{item.other_user.photo || photo}}" mode="aspectFill" class="avatar"></image>
           </view>
           <view class="vessel_text flo_l color666">
             <view class="flo_l" style="width: 50%;">
-              <view  class="bold font_28 ellipsis_1 flo_l" style="max-width: 80%;margin-right: 12rpx">{{item.other_user.name}}</view>
+              <view  class="bold font_28 ellipsis_1 flo_l" style="max-width: 80%;margin-right: 12rpx;">{{item.other_user.name}}</view>
               <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" wx:if="{{item.other_user.sex == 1}}" mode="aspectFit" style="width: 32rpx;height: 32rpx;margin-top: 4rpx;"></image>
               <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:else mode="aspectFit" style="width: 32rpx;height: 32rpx;margin-top: 4rpx;"></image>
+              <view class="font_24 color-333">{{item.other_user.age + '岁'}} 广东深圳</view>
+              <view class="font_24 color-333">悄悄访问了你的主页</view>
             </view>
-            <view class="font_26 flo_r">{{item.created_at}}</view>
-            <!--<view class="font_26 ellipsis_1">{{item.other_user.post}}</view>-->
-            <!--<view class="font_26 ellipsis_1">{{item.card.company}}</view>-->
+            <view class="font_24 color-666 flo_r">{{item.created_at}}</view>
+          </view>
+          <view class="clearfloat"></view>
+        </view>
+        <image mode="widthFix" src="https://images.ufutx.com/202004/11/7379bf2b22b647e335a7e6df5b5e97ad.png" style="width: 100%;" wx:if="{{list.length > 2}}"></image>
+        <view wx:for="{{list}}" wx:key="index" class="ff vessel" @tap="gotofriends({{item}}, {{index}})" wx:if="{{index > 1}}" style="filter:blur(4px) contrast(.8)">
+          <view class="vessel_image flo_l">
+            <image src="{{item.other_user.photo || photo}}" mode="aspectFill" class="avatar"></image>
+          </view>
+          <view class="vessel_text flo_l color666">
+            <view class="flo_l" style="width: 50%;">
+              <view  class="bold font_28 ellipsis_1 flo_l" style="max-width: 80%;margin-right: 12rpx;">{{item.other_user.name}}</view>
+              <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" wx:if="{{item.other_user.sex == 1}}" mode="aspectFit" style="width: 32rpx;height: 32rpx;margin-top: 4rpx;"></image>
+              <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:else mode="aspectFit" style="width: 32rpx;height: 32rpx;margin-top: 4rpx;"></image>
+              <view class="font_24 color-333">{{item.other_user.age + '岁'}} 广东深圳</view>
+              <view class="font_24 color-333">悄悄访问了你的主页</view>
+            </view>
+            <view class="font_24 color-666 flo_r">{{item.created_at}}</view>
           </view>
           <view class="clearfloat"></view>
         </view>
       </block>
-      <block wx:else>
+      <block  wx:if="{{list.length < 0 && noMore}}">
         <view  class="text-center" >
           <view class="font_28 black_6" style="margin-top: 22rpx">
             暂无访客信息
@@ -45,6 +63,19 @@
         </view>
       </block>
     </view>
+    <view class="cu-modal {{modalName=='Modal'?'show':''}}">
+      <view class="cu-dialog">
+        <view class="cu-bar bg-white justify-end">
+          <view class="content">提示</view>
+          <view class="action" bindtap="hideModal">
+            <text class="cuIcon-close text-red"></text>
+          </view>
+        </view>
+        <view class="padding-xl text-left">
+          以下访问记录只有超级会员才能查看哦！
+        </view>
+      </view>
+    </view>
   </view>
 </template>
 
@@ -53,39 +84,39 @@
   import http from '../../mixins/http'
   import base from '../../mixins/base'
   import user from '../../mixins/user'
-  import ShareMessage from '../../mixins/ShareMessage'
   import {service} from '../../config.js'
   import NavBar from '../../components/NavBar'
   import Search from '../../components/SearchV2'
   import Loading from '../../components/loading'
+  import cuCustom from '../../components/cu-custom'
+  import tabSearchV2 from '../../components/tabSearchV2'
 
   export default class visitor extends wepy.page {
-    mixins = [base, http, user, ShareMessage]
+    mixins = [base, http, user]
     config = {
       navigationBarTitleText: '访问记录',
       enablePullDownRefresh: true,
       navigationBarTextStyle: 'white',
-      navigationBarBackgroundColor: '#d92557'
+      navigationStyle: 'custom'
     }
-    components = {NavBar, Search, Loading}
+    components = {NavBar, Search, Loading, cuCustom, tabSearchV2}
     data = {
+      photo: 'https://images.ufutx.com/202004/11/54578611656798245210940077c32ced.png',
       init: false,
       list: [],
       noMore: false,
       page: 1,
       loading: true,
+      modalName: '',
       inputVal: ''
     }
+
     computed = {}
 
     onShow() {
       // 初始化页面数据
       this.initPageData()
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
-    }
-
-    onShareAppMessage(res) {
-      return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
     }
 
     onLoad() {
@@ -150,10 +181,19 @@
     }
 
     methods = {
+      hideModal () {
+        this.modalName = ''
+        this.$apply()
+      },
       goto(url) {
         wx.navigateTo({url: url})
       },
-      gotofriends(item) {
+      gotofriends(item, index) {
+        if (index > 1) {
+          this.modalName = 'Modal'
+          this.$apply()
+          return
+        }
         let url = ''
         if (item.other_user.type == 'single') {
           url = '/pages/home/information?id=' + item.other_user.id
@@ -205,23 +245,22 @@
     .search{
       position: fixed;
       width: 100%;
+      z-index: 999;
     }
     .kai-content{
-      padding-top: 16rpx;
+      padding: 16rpx 0;
     }
     .vessel{
-      padding: 12rpx 22rpx 0 22rpx;
-      /*background: #f8f8f8;*/
-      border-bottom: 2px solid #f4f4f4;
+      padding: 12rpx 28rpx;
+      border-bottom: 1px solid #f6f6f6;
       .vessel_image{
         display: inline-block;
+        margin-top: 10rpx;
         .avatar{
           width: 100rpx;
           height: 100rpx;
           border-radius: 50%;
-          border: 2px solid #eeeeee;
-          margin-bottom: 10rpx;
-          margin-right: 12rpx;
+          margin-right: 22rpx;
         }
       }
       .vessel_text{
