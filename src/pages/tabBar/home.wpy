@@ -4,10 +4,10 @@
     <NavBarV2 rgba="#f4f5f9" bag="#b81f46" title_c="#ffffff" title="福恋"></NavBarV2>
     <view class="_bc-list">
       <block wx:if="{{list.length > 0}}">
-        <template is="userList" data="{{list, itemIndex, vanish, show}}"></template>
+        <template is="userList" data="{{list, itemIndex, vanish, vanishV2, show, showV2}}"></template>
       </block>
       <view class="main-bc text-center">
-        <template is="mainBC" data="{{list, itemIndex, vanish, show}}"></template>
+        <template is="mainBC" data="{{list, itemIndex, vanish, vanishV2, show, showV2}}"></template>
       </view>
     </view>
     <view class="main-fn text-center">
@@ -15,20 +15,19 @@
         <image mode="widthFix" src="https://images.ufutx.com/202003/30/982d51fb107b78fb06274504042f214f.png"
                class="icon"></image>
       </view>
-      <view hover-class="btn_active" class="inline-block" @tap="goto()">
+      <view hover-class="btn_active" class="inline-block" @tap="gotoFn()">
         <image mode="widthFix" src="https://images.ufutx.com/202003/30/89b4462220392cf7cc5de08ec5d79f1e.png"
                class="image"></image>
-
       </view>
       <view hover-class="btn_active" class="inline-block" @tap="likeFn()">
-        <image mode="widthFix" src="https://images.ufutx.com/202003/30/8fcee82b5aee306f05d978429ed56615.png"
-               class="icon"></image>
+        <image mode="widthFix" src="https://images.ufutx.com/202004/13/aa85805db5dfe1abc6d743641f2531c1.png"
+               class="icon {{doudun ? 'doudun' : ''}}"></image>
       </view>
     </view>
     <view style="height: 32vw;"></view>
   </view>
   <template name="userList">
-    <view class="item-avatar radius bg-white margin-top {{vanish?'animation-slide-left animation-reverse':''}} {{show?'animation-slide-up':''}}"
+    <view class="item-avatar radius bg-white margin-top {{vanish?'animation-slide-left animation-reverse':''}} {{show?'animation-slide-up':''}} {{vanishV2?'animation-slide-right animation-reverse':''}} {{showV2?'animation-slide-up':''}}"
           wx:for="{{list}}" wx:key="index"
           wx:if="{{index == itemIndex}}" @tap="gotofriends({{item}},{{item.id}})">
       <image src="https://images.ufutx.com/202003/28/d5e810272fab69fe6fe6119a0ffdab3b.png" wx:if="{{item.is_approved == 1}}" mode="widthFix" class="approved"></image>
@@ -121,6 +120,9 @@
       itemIndex: 0,
       throttle: true, // 节流
       vanish: false, // 消失
+      vanishV2: false,
+      showV2: true,
+      doudun: false,
       show: true
     }
 
@@ -139,6 +141,11 @@
     }
     onShow() {
       let vm = this
+      // let token = wx.getStorageSync('token')
+      // if (!token) {
+      //   this.$goto('/pages/userInfo/typeSelect')
+      //   return
+      // }
       vm.userType = wx.getStorageSync('type')
       vm.page = 1
       vm.$apply()
@@ -393,6 +400,20 @@
       },
       likeFn() {  //  心仪对象
         console.log('心仪')
+        this.throttle = false
+        this.vanishV2 = true
+        this.showV2 = false
+        this.doudun = true
+        this.$apply()
+        setTimeout(() => {
+          this.itemIndex ++
+          this.vanishV2 = false
+          this.showV2 = true
+          this.doudun = false
+          this.$apply()
+        }, 800)
+        console.log('换一个')
+        console.log(this.vanish)
       },
       gotofriends(item, id) {
         let url = '',
@@ -409,6 +430,11 @@
         wx.navigateTo({url: url})
       },
       goto(url) {
+        wx.navigateTo({url: url})
+      },
+      gotoFn() {
+        console.log(this.list[this.itemIndex].id)
+        let url = `/pages/home/information?id=${this.list[this.itemIndex].id}`
         wx.navigateTo({url: url})
       }
     }
@@ -555,6 +581,27 @@
         width: 90%;
         z-index: -99999;
       }
+    }
+  }
+  .doudun{
+    animation: tada 1s .1s ease both;
+  }
+
+  @keyframes tada {
+    0% {
+      transform: scale(1);
+    }
+    10%, 20% {
+      transform: scale(0.9) rotate(-6deg)
+    }
+    30%, 50%, 70%, 90% {
+      transform: scale(1.2) rotate(6deg)
+    }
+    40%, 60%, 80% {
+      transform: scale(1.2) rotate(-6deg)
+    }
+    100% {
+      transform: scale(1) rotate(0)
     }
   }
 </style>

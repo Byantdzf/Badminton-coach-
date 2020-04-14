@@ -142,7 +142,9 @@
 </script>
 
 <style lang="less">
-  /*.main-box{*/
+  .main-box{
+    width: 100%;
+  }
     /*width: 80vw;*/
     /*height: 10vh;*/
     /*position: fixed;*/

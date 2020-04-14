@@ -153,6 +153,11 @@
     computed = {}
 
     onShow() {
+      let token =wx.getStorageSync('token')
+      if (!token) {
+        this.$goto('/pages/userInfo/typeSelect')
+        return
+      }
       this.getNewCount()
       this.initPageData()
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
@@ -163,7 +168,12 @@
     }
 
     onLoad(e) {
-      this.getUid()
+      // let token =wx.getStorageSync('token')
+      // if (!token) {
+      //   this.$goto('/pages/userInfo/typeSelect')
+      //   return
+      // }
+      // this.getUid()
     }
 
     onPullDownRefresh() {

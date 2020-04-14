@@ -9,7 +9,7 @@
               <view class="page__bd "  wx:for="{{list}}" wx:key="*this" >
                 <view class="flo_l borrowlist" @tap="gototype('{{item}}')">
                   <view class="flo_l weui-cell__hd" >
-                    <image src="{{item.other_user.circle_avatar}}" mode="aspectFit"   class="flo_l bc_acatar"></image>
+                    <image src="{{item.other_user.photo}}" mode="aspectFit"   class="flo_l bc_acatar"></image>
                   </view>
                   <view class="flo_l" style="width: 78%;">
                     <view  class="font_28 flo_l black_6 ellipsis_1 bold" style="margin-left: 12rpx;">

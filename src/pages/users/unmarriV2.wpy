@@ -1,174 +1,275 @@
 <template>
-  <Loading :init.sync="init"></Loading>
-  <NavBar title="修改资料"></NavBar>
   <view class="container">
-    <view class="orderdata">
-      <view class="next text-center">
-        <block wx:if="{{avatar}}">
-          <image  src="{{avatar}}" class="active_user flo_l" mode="aspectFill" background-size="cover" />
-          <button class="btn font_24 flo_l getinfo" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">从微信获取最新头像</button>
-        </block>
-        <block wx:else>
-          <open-data type="userAvatarUrl"  mode="aspectFit" class="active_user flo_l"></open-data>
-        </block>
-        <view  class="btn-theme font_26 flo_r" @tap="ensure" style="margin-right:42rpx;width: 120rpx;height: 52rpx;line-height: 52rpx;margin-top: 24rpx;border-radius: 42rpx;">保存</view>
+    <view class="mainInfo">
+      <view class="uploadBox text-center" @tap="choosePic()">
+        <view class="_bc"></view>
+        <image src="https://images.ufutx.com/202004/13/bef9600dda1bc32934d950aa7ac499c5.png" mode="aspectFit" class="uploadIcon"></image>
       </view>
-      <view style="height: 20rpx"></view>
+      <image  src="{{avatar}}" class="active_user" mode="aspectFill"/>
+      <view class="mainTitle"  @tap="goto('/pages/users/unmarri')">
+        <view class="_title font_30 bold flo_l">基础资料</view>
+        <image  src="https://images.ufutx.com/202004/13/c9505127b21e909aae5a609987f5ac66.png" class="icon flo_r" mode="widthFix"/>
+      </view>
+      <view class="itemInfo">
+        <view class="color-333 ellipsis_1 font_32 flo_l" style="max-width: 80%">{{mylibs.name}}锋</view>
+        <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:if="{{mylibs.sex=='2'}}" mode="aspectFill" class="flo_l icon"></image>
+        <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFill" wx:else class="flo_l icon" ></image>
+        <!--<view class="flo_r ">-->
+          <!--<view class="flo_r" style="margin-top: 10rpx">{{mylibs.profile_courtship.city || ''}}深圳</view>-->
+          <!--<view class="clearfloat"></view>-->
+        <!--</view>-->
+        <view class="clearfloat"></view>
+        <view class="font_22">
+          {{mylibs.age || ''}} 24岁
+          <span style="margin-right: 12rpx;" >  </span>
+          {{mylibs.profile_courtship.stature || ''}}  180cm
+          <span style="margin-right: 12rpx;" >  </span>
+          {{mylibs.profile_courtship.state || ''}}  从未结婚
+          <span style="margin-right: 12rpx;" > </span>
+          {{mylibs.profile_courtship.state || ''}}  广东 深圳
+          <!--<view class="color-theme flo_r font_24  bold text-right" wx:if="{{mylibs.distance}}">-->
+            <!--{{mylibs.distance}}<span class="font_28  bold">km</span>-->
+          <!--</view>-->
+        </view>
+      </view>
+      <view class="itemLabel font_26">
+        <view class="itemBox flo_l" >学历：本科</view>
+        <view class="itemBox flo_l" >职业：互联网/高新科技</view>
+        <!--<view class="itemBox flo_l"  wx:if="{{profile_courtship.graduate_school}}">毕业于：{{mylibs.profile_courtship.graduate_school}}</view>-->
+        <!--<view class="itemBox flo_l"  wx:if="{{profile_courtship.city && profile_courtship.city != '区'}}">常居地：{{mylibs.profile_courtship.city}}</view>-->
+        <!--<view class="itemBox flo_l"  wx:if="{{profile_courtship.resident_province && profile_courtship.resident_province != '区'}}">成长地：{{mylibs.profile_courtship.resident_city}}</view>-->
+        <!--<view class="itemBox flo_l" wx:if="{{profile_courtship.industry}}">职业：{{mylibs.profile_courtship.industry}} - {{mylibs.profile_courtship.industry_sub}}</view>-->
+        <!--<view class="itemBox flo_l" wx:if="{{profile_courtship.belief}}">信仰：{{mylibs.profile_courtship.belief}}</view>-->
+        <!--<view class="clearfloat"></view>-->
+      </view>
+    </view>
+  </view>
+  <view class="container">
+    <view class="mainInfo">
+      <view class="mainTitle">
+        <view class="_title font_30 bold flo_l">个人相册</view>
+      </view>
+      <view class="mainPhoto">
+        <image class="flo_l" src="https://images.ufutx.com/202004/13/433af0dcef9beee34b3c48a3cdb8f0e4.png" mode="aspectFit"></image>
+        <view class="flo_l" wx:for="{{photos}}" wx:key="{{index}}" @tap="previewImage({{item.photo}},{{photos}})" >
+          <image src="{{item.photo}}" mode="aspectFill" class="imge"  @longpress="deleteImage({{index}},{{item.id}})"/>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="container">
+    <view class="mainInfo">
+      <view class="mainTitle">
+        <view class="_title font_30 bold flo_l">关于我的</view>
+        <image  src="https://images.ufutx.com/202004/13/c9505127b21e909aae5a609987f5ac66.png" class="icon flo_r" mode="widthFix"/>
+      </view>
+      <view class="mainPhoto">
+        <view>{{introduction}}</view>
+      </view>
+    </view>
+  </view>
+  <view class="container">
+    <view class="mainInfo">
+      <view class="mainTitle">
+        <view class="_title font_30 bold flo_l">兴趣爱好</view>
+        <image  src="https://images.ufutx.com/202004/13/c9505127b21e909aae5a609987f5ac66.png" class="icon flo_r" mode="widthFix"/>
+      </view>
+      <view class="mainPhoto">
+        <view>{{introduction}}</view>
+      </view>
+    </view>
+  </view>
+  <view class="container">
+    <view class="mainInfo">
+      <view class="mainTitle">
+        <view class="_title font_30 bold flo_l">择偶标准</view>
+        <image  src="https://images.ufutx.com/202004/13/c9505127b21e909aae5a609987f5ac66.png" class="icon flo_r" mode="widthFix"/>
+      </view>
+      <view class="mainPhoto">
+        <view>{{ideal_mate}}</view>
+      </view>
+    </view>
+  </view>
+  <view class="container">
+    <view class="mainInfo">
+      <view class="mainTitle">
+        <view class="_title font_30 bold flo_l">认证中心</view>
+        <image  src="https://images.ufutx.com/202004/13/e65d524c117c3bf8813714a314dcc048.png" class="icon flo_r" mode="widthFix"/>
+      </view>
+      <view class="mainPhoto">
+        <view class="font_28 color-333 bold flo_l">身份认证</view>
+        <view class="font_24 color-666 flo_r">未认证</view>
+      </view>
+    </view>
+  </view>
+  <!--<view class="container">-->
+    <!--<view class="orderdata">-->
+      <!--&lt;!&ndash;<view class="next text-center">&ndash;&gt;-->
+        <!--&lt;!&ndash;<block wx:if="{{avatar}}">&ndash;&gt;-->
+          <!--&lt;!&ndash;<image  src="{{avatar}}" class="active_user flo_l" mode="aspectFill" background-size="cover" />&ndash;&gt;-->
+          <!--&lt;!&ndash;<button class="btn font_24 flo_l getinfo" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">从微信获取最新头像</button>&ndash;&gt;-->
+        <!--&lt;!&ndash;</block>&ndash;&gt;-->
+        <!--&lt;!&ndash;<block wx:else>&ndash;&gt;-->
+          <!--&lt;!&ndash;<open-data type="userAvatarUrl"  mode="aspectFit" class="active_user flo_l"></open-data>&ndash;&gt;-->
+        <!--&lt;!&ndash;</block>&ndash;&gt;-->
+        <!--&lt;!&ndash;<view  class="btn-theme font_26 flo_r" @tap="ensure" style="margin-right:42rpx;width: 120rpx;height: 52rpx;line-height: 52rpx;margin-top: 24rpx;border-radius: 42rpx;">保存</view>&ndash;&gt;-->
+      <!--&lt;!&ndash;</view>&ndash;&gt;-->
+      <!--<view style="height: 20rpx"></view>-->
+      <!--&lt;!&ndash;<view class="section list">&ndash;&gt;-->
+        <!--&lt;!&ndash;<picker  value="{{sexIndex}}" range="{{sex}}"  @change="sexChange" >&ndash;&gt;-->
+          <!--&lt;!&ndash;<view class="picker">&ndash;&gt;-->
+            <!--&lt;!&ndash;性别 <span class="red">*</span>&ndash;&gt;-->
+            <!--&lt;!&ndash;<text class="text">{{sex[sexIndex]}}</text>&ndash;&gt;-->
+          <!--&lt;!&ndash;</view>&ndash;&gt;-->
+        <!--&lt;!&ndash;</picker>&ndash;&gt;-->
+      <!--&lt;!&ndash;</view>&ndash;&gt;-->
+      <!--<view class="mainTitle bold font_28 color-333">基础资料</view>-->
       <!--<view class="section list">-->
-        <!--<picker  value="{{sexIndex}}" range="{{sex}}"  @change="sexChange" >-->
-          <!--<view class="picker">-->
-            <!--性别 <span class="red">*</span>-->
-            <!--<text class="text">{{sex[sexIndex]}}</text>-->
+        <!--<picker mode="date"  value="{{birthday}}" end="{{endDate}}"  @change="typing('birthday')">-->
+          <!--<view class="picker color-333">-->
+            <!--出生日期 <span class="red">*</span>-->
+            <!--<text class="text">{{birthday}}</text>-->
           <!--</view>-->
         <!--</picker>-->
       <!--</view>-->
-      <view class="mainTitle bold font_28 color-333">基础资料</view>
-      <view class="section list">
-        <picker mode="date"  value="{{birthday}}" end="{{endDate}}"  @change="typing('birthday')">
-          <view class="picker color-333">
-            出生日期 <span class="red">*</span>
-            <text class="text">{{birthday}}</text>
-          </view>
-        </picker>
-      </view>
-      <view class="section list">
-        <picker  value="{{stateIndex}}" range="{{state}}"  bindchange="stateChange" >
-          <view class="picker color-333">
-            单身状态 <span class="red">*</span>
-            <text class="text">{{state[stateIndex]}}</text>
-          </view>
-        </picker>
-      </view>
-      <view  class="section list">
-        <picker  value="{{statureIndex}}" range="{{statureList}}"  bindchange="statureChange" >
-          <view class="picker color-333">
-            身高 <span class="red">*</span>
-            <text class="text">{{statureList[statureIndex]}}</text>
-          </view>
-        </picker>
-      </view>
-      <view  class="section list">
-        <picker  value="{{weightIndex}}" range="{{weightList}}"  bindchange="weightChange" >
-          <view class="picker color-333">
-            体重 <span class="red">*</span>
-            <text class="text">{{weightList[weightIndex]}}</text>
-          </view>
-        </picker>
-      </view>
-      <!--<view  class="list {{WeightFocus || !weight ? 'InputFocus' : ''}}">-->
-        <!--体重 <span class="red">*</span>-->
-        <!--<input type="number" placeholder="输入您的体重（kg）" class="Inp"   @input="typing('weight')" @blur="typing_v2" value="{{weight}}" focus="{{WeightFocus}}"/>-->
+      <!--<view class="section list">-->
+        <!--<picker  value="{{stateIndex}}" range="{{state}}"  bindchange="stateChange" >-->
+          <!--<view class="picker color-333">-->
+            <!--单身状态 <span class="red">*</span>-->
+            <!--<text class="text">{{state[stateIndex]}}</text>-->
+          <!--</view>-->
+        <!--</picker>-->
+      <!--</view>-->
+      <!--<view  class="section list">-->
+        <!--<picker  value="{{statureIndex}}" range="{{statureList}}"  bindchange="statureChange" >-->
+          <!--<view class="picker color-333">-->
+            <!--身高 <span class="red">*</span>-->
+            <!--<text class="text">{{statureList[statureIndex]}}</text>-->
+          <!--</view>-->
+        <!--</picker>-->
+      <!--</view>-->
+      <!--<view  class="section list">-->
+        <!--<picker  value="{{weightIndex}}" range="{{weightList}}"  bindchange="weightChange" >-->
+          <!--<view class="picker color-333">-->
+            <!--体重 <span class="red">*</span>-->
+            <!--<text class="text">{{weightList[weightIndex]}}</text>-->
+          <!--</view>-->
+        <!--</picker>-->
+      <!--</view>-->
+      <!--&lt;!&ndash;<view  class="list {{WeightFocus || !weight ? 'InputFocus' : ''}}">&ndash;&gt;-->
+        <!--&lt;!&ndash;体重 <span class="red">*</span>&ndash;&gt;-->
+        <!--&lt;!&ndash;<input type="number" placeholder="输入您的体重（kg）" class="Inp"   @input="typing('weight')" @blur="typing_v2" value="{{weight}}" focus="{{WeightFocus}}"/>&ndash;&gt;-->
+      <!--&lt;!&ndash;</view>&ndash;&gt;-->
+      <!--&lt;!&ndash;<view  class="list">&ndash;&gt;-->
+        <!--&lt;!&ndash;国籍 <span class="red">*</span>&ndash;&gt;-->
+        <!--&lt;!&ndash;<input type="text" placeholder="输入您的国籍" class="Inp"  @input="typing('country')" @blur="typing_v2" value="{{country}}" focus="{{countryFocus}}"/>&ndash;&gt;-->
+      <!--&lt;!&ndash;</view>&ndash;&gt;-->
+      <!--<view class="mainTitle bold font_28 color-333">个人资料</view>-->
+      <!--<view  class="list ">-->
+        <!--<view class="picker color-333">-->
+          <!--常居地 <span class="red">*</span>-->
+          <!--<selectCity :itemIndex.sync="CITY_INDEX" class="flo_r">-->
+            <!--<text class="text" slot="Input">{{region[1]}} / {{region[2]}}</text>-->
+          <!--</selectCity>-->
+        <!--</view>-->
+      <!--</view>-->
+      <!--<view  class="list ">-->
+        <!--<picker  value="{{residentIndex}}" range="{{resident_type}}"  bindchange="resident_typeChange" >-->
+          <!--<view class="picker color-333">-->
+            <!--成长环境 <span class="red">*</span>-->
+            <!--<text class="text">{{resident_type[residentIndex]}}</text>-->
+          <!--</view>-->
+        <!--</picker>-->
+      <!--</view>-->
+      <!--<view  class="list ">-->
+        <!--<view class="picker color-333">-->
+          <!--成长地 <span class="red">*</span>-->
+          <!--<selectCity1 :itemIndex.sync="CITY_INDEX1" class="flo_r">-->
+            <!--<text class="text" slot="Input">{{region_id[0]}} / {{region_id[1]}}</text>-->
+          <!--</selectCity1>-->
+        <!--</view>-->
+      <!--</view>-->
+      <!--<view  class="list ">-->
+        <!--<picker  value="{{degreeIndex}}" range="{{degree}}"  bindchange="degreeChange" >-->
+          <!--<view class="picker color-333">-->
+            <!--最高学历 <span class="red">*</span>-->
+            <!--<text class="text" >{{degree[degreeIndex]}}</text>-->
+          <!--</view>-->
+        <!--</picker>-->
+      <!--</view>-->
+      <!--<view  class="list {{Graduate_schoolFocus || !graduate_school ? 'InputFocus' : ''}} color-333">-->
+        <!--<span class="flo_l">毕业学校 <span class="red">*</span></span>-->
+        <!--<input type="text" placeholder="输入您的学校" class="Inp" @input="typing('graduate_school')" @blur="typing_v2"   value="{{graduate_school}}" focus="{{Graduate_schoolFocus}}" cursor-spacing="50"/>-->
+      <!--</view>-->
+      <!--<view  class="list {{companyFocus || !company ? 'InputFocus' : ''}} color-333">-->
+        <!--<span class="flo_l">工作单位</span>-->
+        <!--<input type="text" placeholder="公司名称" class="Inp" @input="typing('company')" @blur="typing_v2"  value="{{company}}" focus="{{companyFocus}}" cursor-spacing="50"/>-->
+      <!--</view>-->
+      <!--<view  class="list {{companyFocus || !company ? 'InputFocus' : ''}} color-333">-->
+        <!--<span class="flo_l">公司职位</span>-->
+        <!--<input type="text" placeholder="公司职位" class="Inp" @input="typing('post')" @blur="typing_v2"  value="{{post}}" cursor-spacing="50"/>-->
+      <!--</view>-->
+      <!--<view  class="list ">-->
+        <!--<picker  value="{{work_sortIndex}}" range="{{work_sort}}"  bindchange="work_sortChange" >-->
+          <!--<view class="picker color-333">-->
+            <!--单位性质 <span class="red">*</span>-->
+            <!--<text class="text" >{{work_sort[work_sortIndex]}}</text>-->
+          <!--</view>-->
+        <!--</picker>-->
       <!--</view>-->
       <!--<view  class="list">-->
-        <!--国籍 <span class="red">*</span>-->
-        <!--<input type="text" placeholder="输入您的国籍" class="Inp"  @input="typing('country')" @blur="typing_v2" value="{{country}}" focus="{{countryFocus}}"/>-->
-      <!--</view>-->
-      <view class="mainTitle bold font_28 color-333">个人资料</view>
-      <view  class="list ">
-        <view class="picker color-333">
-          常居地 <span class="red">*</span>
-          <selectCity :itemIndex.sync="CITY_INDEX" class="flo_r">
-            <text class="text" slot="Input">{{region[1]}} / {{region[2]}}</text>
-          </selectCity>
-        </view>
-      </view>
-      <view  class="list ">
-        <picker  value="{{residentIndex}}" range="{{resident_type}}"  bindchange="resident_typeChange" >
-          <view class="picker color-333">
-            成长环境 <span class="red">*</span>
-            <text class="text">{{resident_type[residentIndex]}}</text>
-          </view>
-        </picker>
-      </view>
-      <view  class="list ">
-        <view class="picker color-333">
-          成长地 <span class="red">*</span>
-          <selectCity1 :itemIndex.sync="CITY_INDEX1" class="flo_r">
-            <text class="text" slot="Input">{{region_id[0]}} / {{region_id[1]}}</text>
-          </selectCity1>
-        </view>
-      </view>
-      <view  class="list ">
-        <picker  value="{{degreeIndex}}" range="{{degree}}"  bindchange="degreeChange" >
-          <view class="picker color-333">
-            最高学历 <span class="red">*</span>
-            <text class="text" >{{degree[degreeIndex]}}</text>
-          </view>
-        </picker>
-      </view>
-      <view  class="list {{Graduate_schoolFocus || !graduate_school ? 'InputFocus' : ''}} color-333">
-        <span class="flo_l">毕业学校 <span class="red">*</span></span>
-        <input type="text" placeholder="输入您的学校" class="Inp" @input="typing('graduate_school')" @blur="typing_v2"   value="{{graduate_school}}" focus="{{Graduate_schoolFocus}}" cursor-spacing="50"/>
-      </view>
-      <view  class="list {{companyFocus || !company ? 'InputFocus' : ''}} color-333">
-        <span class="flo_l">工作单位</span>
-        <input type="text" placeholder="公司名称" class="Inp" @input="typing('company')" @blur="typing_v2"  value="{{company}}" focus="{{companyFocus}}" cursor-spacing="50"/>
-      </view>
-      <view  class="list {{companyFocus || !company ? 'InputFocus' : ''}} color-333">
-        <span class="flo_l">公司职位</span>
-        <input type="text" placeholder="公司职位" class="Inp" @input="typing('post')" @blur="typing_v2"  value="{{post}}" cursor-spacing="50"/>
-      </view>
-      <view  class="list ">
-        <picker  value="{{work_sortIndex}}" range="{{work_sort}}"  bindchange="work_sortChange" >
-          <view class="picker color-333">
-            单位性质 <span class="red">*</span>
-            <text class="text" >{{work_sort[work_sortIndex]}}</text>
-          </view>
-        </picker>
-      </view>
-      <view  class="list">
-        <picker mode="multiSelector" @change="bindMultiPickerChange2" @columnchange="bindMultiPickerColumnChange2" value="{{multiIndex2}}" range="{{objectMultiArray}}" >
-          <view class="picker color-333">
-            行业 <span class="red">*</span>
-            <text class="text ellipsis_1 flo_r text-right" style="width: 80%" wx:if="{{show && industry}}"> {{industry}} / {{industry_sub}}</text>
-            <text class="text ellipsis_1 flo_r text-right" style="width: 80%" wx:else>{{objectMultiArray[0][multiIndex2[0]]}} - {{objectMultiArray[1][multiIndex2[1]]}}</text>
-          </view>
-        </picker>
-      </view>
-      <view  class="list ">
-        <picker  value="{{beliefIndex}}" range="{{belief}}"  bindchange="beliefChange" >
-          <view class="picker color-333">
-            信仰 <span class="red">*</span>
-            <text class="text" >{{belief[beliefIndex]}}</text>
-          </view>
-        </picker>
-      </view>
-      <view  class="list color-333 {{wechat_idFocus || !wechat_id ? 'InputFocus' : ''}}">
-        <span class="flo_l">微信号 <span class="red">*</span></span>
-        <input type="text" placeholder="微信号" class="Inp" @input="typing('wechat_id')" @blur="typing_v2"  value="{{wechat_id}}" cursor-spacing="50"/>
-      </view>
-      <view class="mainTitle bold font_28 color-333">个人相册</view>
-      <view class="userPhoto">
-<!--        <block wx:for="{{photos}}" wx:key="index">-->
-<!--          <image src="{{item}}" mode="aspectFill" @tap="chooseimage"></image>-->
-<!--        </block>-->
-        <view class="flo_l" wx:for="{{photos}}" wx:key="{{index}}" @tap="previewImage({{item.photo}},{{photos}})" style="position: relative">
-          <image src="{{item.photo}}" mode="aspectFill" class="imge"  @longpress="deleteImage({{index}},{{item.id}})"/>
-        </view>
-        <image src="https://images.ufutx.com/202002/27/b38976f0c5f1fbfa2f0878acc71051e6.png" mode="aspectFit" @tap="chooseimage"></image>
-        <view class="font_22 text-right" style="padding: 0 22rpx;color: #d92557;">*长按删除图片</view>
-      </view>
-      <view class="mainTitle bold font_28 color-333">自我介绍</view>
-      <view  class="list color-333 {{IntroductionFocus ? 'InputFocus' : ''}} {{!introduction ? 'InputFocus' : ''}}" style="height: 420rpx;border: none;">
-        关于我 <span class="red">*</span>
-        <view class="">
-          <view class="" style="border-top: 1rpx solid #d3d3d3;border-bottom: 1rpx solid #d3d3d3;overflow: auto;">
-            <textarea class="" @input="typing('introduction')" @blur="typing_v2" adjust-position="true" style="width: 100% !important;" value="{{introduction}}" focus="{{IntroductionFocus}}" />
-          </view>
-        </view>
-      </view>
-      <view  class="list color-333 {{Ideal_mateFocus ? 'InputFocus' : ''}} {{!ideal_mate ? 'InputFocus' : ''}}" style="height: 420rpx;border: none;">
-        理想对象（写下你对另一半的期望） <span class="red">*</span>
-        <view class="" >
-          <!--<view class="weui-cell__bd" >-->
-          <textarea class="" @input="typing('ideal_mate')" @blur="typing_v2" adjust-position="true" style="width: 100% !important;border-top: 1rpx solid #d3d3d3;border-bottom: 1rpx solid #d3d3d3;overflow: auto;"  value="{{ideal_mate}}" focus="{{Ideal_mateFocus}}" />
+        <!--<picker mode="multiSelector" @change="bindMultiPickerChange2" @columnchange="bindMultiPickerColumnChange2" value="{{multiIndex2}}" range="{{objectMultiArray}}" >-->
+          <!--<view class="picker color-333">-->
+            <!--行业 <span class="red">*</span>-->
+            <!--<text class="text ellipsis_1 flo_r text-right" style="width: 80%" wx:if="{{show && industry}}"> {{industry}} / {{industry_sub}}</text>-->
+            <!--<text class="text ellipsis_1 flo_r text-right" style="width: 80%" wx:else>{{objectMultiArray[0][multiIndex2[0]]}} - {{objectMultiArray[1][multiIndex2[1]]}}</text>-->
           <!--</view>-->
-          <!--<view class="font_12" style="text-align: right">限140字</view>-->
-        </view>
-      </view>
-      <view style="height: 88rpx"></view>
-    </view>
-  </view>
+        <!--</picker>-->
+      <!--</view>-->
+      <!--<view  class="list ">-->
+        <!--<picker  value="{{beliefIndex}}" range="{{belief}}"  bindchange="beliefChange" >-->
+          <!--<view class="picker color-333">-->
+            <!--信仰 <span class="red">*</span>-->
+            <!--<text class="text" >{{belief[beliefIndex]}}</text>-->
+          <!--</view>-->
+        <!--</picker>-->
+      <!--</view>-->
+      <!--<view  class="list color-333 {{wechat_idFocus || !wechat_id ? 'InputFocus' : ''}}">-->
+        <!--<span class="flo_l">微信号 <span class="red">*</span></span>-->
+        <!--<input type="text" placeholder="微信号" class="Inp" @input="typing('wechat_id')" @blur="typing_v2"  value="{{wechat_id}}" cursor-spacing="50"/>-->
+      <!--</view>-->
+      <!--<view class="mainTitle bold font_28 color-333">个人相册</view>-->
+      <!--<view class="userPhoto">-->
+<!--&lt;!&ndash;        <block wx:for="{{photos}}" wx:key="index">&ndash;&gt;-->
+<!--&lt;!&ndash;          <image src="{{item}}" mode="aspectFill" @tap="chooseimage"></image>&ndash;&gt;-->
+<!--&lt;!&ndash;        </block>&ndash;&gt;-->
+        <!--<view class="flo_l" wx:for="{{photos}}" wx:key="{{index}}" @tap="previewImage({{item.photo}},{{photos}})" style="position: relative">-->
+          <!--<image src="{{item.photo}}" mode="aspectFill" class="imge"  @longpress="deleteImage({{index}},{{item.id}})"/>-->
+        <!--</view>-->
+        <!--<image src="https://images.ufutx.com/202002/27/b38976f0c5f1fbfa2f0878acc71051e6.png" mode="aspectFit" @tap="chooseimage"></image>-->
+        <!--<view class="font_22 text-right" style="padding: 0 22rpx;color: #d92557;">*长按删除图片</view>-->
+      <!--</view>-->
+      <!--<view class="mainTitle bold font_28 color-333">自我介绍</view>-->
+      <!--<view  class="list color-333 {{IntroductionFocus ? 'InputFocus' : ''}} {{!introduction ? 'InputFocus' : ''}}" style="height: 420rpx;border: none;">-->
+        <!--关于我 <span class="red">*</span>-->
+        <!--<view class="">-->
+          <!--<view class="" style="border-top: 1rpx solid #d3d3d3;border-bottom: 1rpx solid #d3d3d3;overflow: auto;">-->
+            <!--<textarea class="" @input="typing('introduction')" @blur="typing_v2" adjust-position="true" style="width: 100% !important;" value="{{introduction}}" focus="{{IntroductionFocus}}" />-->
+          <!--</view>-->
+        <!--</view>-->
+      <!--</view>-->
+      <!--<view  class="list color-333 {{Ideal_mateFocus ? 'InputFocus' : ''}} {{!ideal_mate ? 'InputFocus' : ''}}" style="height: 420rpx;border: none;">-->
+        <!--理想对象（写下你对另一半的期望） <span class="red">*</span>-->
+        <!--<view class="" >-->
+          <!--&lt;!&ndash;<view class="weui-cell__bd" >&ndash;&gt;-->
+          <!--<textarea class="" @input="typing('ideal_mate')" @blur="typing_v2" adjust-position="true" style="width: 100% !important;border-top: 1rpx solid #d3d3d3;border-bottom: 1rpx solid #d3d3d3;overflow: auto;"  value="{{ideal_mate}}" focus="{{Ideal_mateFocus}}" />-->
+          <!--&lt;!&ndash;</view>&ndash;&gt;-->
+          <!--&lt;!&ndash;<view class="font_12" style="text-align: right">限140字</view>&ndash;&gt;-->
+        <!--</view>-->
+      <!--</view>-->
+      <!--<view style="height: 88rpx"></view>-->
+    <!--</view>-->
+  <!--</view>-->
 </template>
 <script>
   import wepy from 'wepy'
@@ -188,7 +289,8 @@
     components = {NavBar, Loading, selectCity1, selectCity, uploadImages}
     config = {
       navigationBarTitleText: '编辑资料',
-      enablePullDownRefresh: false
+      enablePullDownRefresh: false,
+      navigationBarBackgroundColor: '#F3F6F8'
     }
     data = {
       init: false,
@@ -302,7 +404,7 @@
       }
       this.statureList = list
       this.$apply()
-      console.log(this.statureList)
+      // console.log(this.statureList)
     }
 
     getWeightList() { // 体重
@@ -318,7 +420,7 @@
       }
       this.weightList = list
       this.$apply()
-      console.log(this.weightList)
+      // console.log(this.weightList)
     }
 
     getindustry() {
@@ -335,7 +437,7 @@
           that.objectMultiArray.push(IndustryArr)
           that.objectMultiArray.push(result[0].items)
           that.$apply()
-          console.log(that.objectMultiArray)
+          // console.log(that.objectMultiArray)
         },
         fail: ({code, data}) => {
         },
@@ -351,6 +453,7 @@
         success: ({code, data}) => {
           that.init = true
           let result = data
+          that.mylibs = result
           that.age = result.age
           that.avatar = result.avatar
           that.weight = result.weight
@@ -368,9 +471,9 @@
           //   photoList.push(item.photo)
           // }
           that.photos = result.photos
-          console.log(that.photos)
-          console.log(result.stature)
-          console.log(result.weight)
+          // console.log(that.mylibs,'assssssssssssssssssssss')
+          // console.log(result.stature)
+          // console.log(result.weight)
 
           that.statureList.map((item, index) => {
             console.log(item)
@@ -486,6 +589,13 @@
       })
     }
     methods = {
+      choosePic() {  // 头像
+        this.$goto(`/pages/users/ImageCropper?src=${this.avatar}`)
+        // this.$invoke('uploadImage', 'chooseimage')
+      },
+      goto(url) {
+        this.$goto(url)
+      },
       deleteImage(index,id) { // 删除
         let that = this
         wx.showModal({
@@ -710,23 +820,6 @@
         this.beliefIndex = e.detail.value
         this.ensureData()
       }
-//          salaryChange(e) {
-//            console.log(e)
-//            console.log(this.salaries)
-//            this.Salaryshow = true
-//            this.salaryIndex = e.detail.value
-//            for (let i = 0; i < this.salaries.length; i++) {
-//              if (this.salary[this.salaryIndex] == this.salaries[i].text) {
-//                this.salary_id = this.salaries[i].id
-//              }
-//            }
-//          },
-//          carChange(e) {
-//            this.carIndex = e.detail.value
-//          },
-//          housingChange(e) {
-//            this.housingIndex = e.detail.value
-//          }
     }
     events = {
       'UpLoadImage': (value) => {
@@ -769,95 +862,109 @@
 </script>
 <style lang="less">
   page{
-    background: #ffffff;
+    background: #F3F6F8;
   }
-  .active {
-    border: 1rpx solid red
-  }
-
-  .display_inlin {
-    display: inline-block
-  }
-  .flo_l{float: left}
-  .userinfo{
-    width: 100%;
-    font-size: 26rpx;
-    font-weight: bold;
-    box-shadow: 1rpx 1rpx 10rpx #d6d6d6;
-    position: fixed;
-    left: 0;
-    top:0;
+  .container{
+    width: 92vw;
+    margin: 34rpx auto;
     background: white;
-    z-index: 10;
-  }
-  .violet{color: #B22DC3}
-
-  .font_12 {
-    font-size: 22 rpx
-  }
-  .orderdata{
-    width: 100%;
-    padding:32rpx 0;
-  }
-  .weui-cell{
-    padding: 12rpx 0;
-  }
-  .Inp{
-    text-align: right; width: 72%;height: 72rpx;
-    float: right;
-    /*padding-right: 22rpx;*/
-  }
-  .text{
-    float: right;
-    /*margin-right: 82rpx;*/
-    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-  }
-  .next{
-    height: 120rpx;
-    /*border-top: 1rpx solid #d9d9d9 ;*/
-    border-bottom: 1rpx solid #d9d9d9 ;
-    z-index: 10;
-    width: 100%;
-    background: white;
+    border-radius: 18rpx;
+    overflow: hidden;
+    box-shadow: 1rpx 1rpx 18rpx #ececec;
     padding-bottom: 12rpx;
-    /*box-shadow: 5rpx 5rpx 12rpx #c2571f;*/
-  }
-  .InputFocus{
-    color: red;
-  }
-  .active_user{
-    width: 100rpx;
-    height: 100rpx;
-    box-shadow: 1rpx 1rpx 12rpx #dedede;
-    margin:10rpx 16rpx 10rpx 36rpx;
-    border: 4rpx solid white;
-  }
-  .getinfo{
-    margin-top: 66rpx;
-    color: #ff9832;
-    border: 1rpx solid #ff9832;
-    padding: 2rpx 4rpx;
-    border-radius: 6rpx;
-    box-shadow: 1rpx 1rpx 12rpx #dbdbdb;
-    line-height: inherit;
-  }
-  .mainTitle{
-    padding: 16rpx 32rpx;
-    background: #f4f5f9;
-  }
-  .userPhoto{
-    padding: 22rpx;
-    image{
-      width: 160rpx;
-      height: 160rpx;
-      margin: 0 16rpx 12rpx 0;
+    .mainInfo{
+      position: relative;
+      .uploadBox{
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 99;
+        width: 100%;
+        ._bc{
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 680rpx;
+          background: rgba(0, 0, 0, .4);
+        }
+        .uploadIcon{
+          width: 100rpx;
+          height: 100rpx;
+          margin-top: 300rpx;
+        }
+      }
+      .active_user{
+        width: 100%;
+        height: 680rpx;
+        margin-bottom: -18rpx;
+        z-index: 9;
+      }
+      .mainTitle{
+        margin-top: 28rpx;
+        overflow: hidden;
+        padding: 4rpx 24rpx;
+        .icon{
+          width: 106rpx;
+          height: auto;
+        }
+        ._title{
+          position: relative;
+          margin-bottom: 12rpx;
+          &:after{
+            content: '';
+            width: 74rpx;
+            height: 8rpx;
+            background: #D92553;
+            position: absolute;
+            left: 18rpx;
+            bottom: -4rpx;
+            border-radius: 12rpx;
+          }
+        }
+      }
+      .mainPhoto{
+        padding: 8rpx 24rpx;
+        margin: 8rpx 0;
+        overflow: hidden;
+        image{
+          width: 118rpx;
+          height: 118rpx;
+          margin-right: 18rpx;
+          border-radius: 10rpx;
+        }
+      }
+      .itemInfo{
+        padding: 4rpx 24rpx;
+        border-bottom: 1rpx solid #eeeded;
+        .icon{
+          width: 32rpx;
+          height: 32rpx;
+          margin-top: 12rpx;
+          margin-left: 4rpx;
+        }
+        .iconD{
+          width: 30rpx;
+          height: 30rpx;
+          margin-top: 14rpx;
+          margin-left: 4rpx;
+        }
+      }
+      .itemLabel{
+        padding: 4rpx 24rpx;
+        margin-top: 16rpx;
+        overflow: hidden;
+        margin-bottom: 4rpx;
+        .itemBox{
+          padding: 0rpx 16rpx;
+          height: 42rpx;
+          line-height: 42rpx;
+          background: #f4f5f9;
+          margin-right: 16rpx;
+          margin-bottom: 16rpx;
+          border-radius: 6rpx;
+        }
+      }
     }
-  }
-  .list{
-    height: 86rpx;
-    line-height: 86rpx;
-    font-size: 28rpx;
-    margin: 0 32rpx;
-    border-bottom: 2rpx solid #f4f5f9;
   }
 </style>

@@ -228,7 +228,8 @@
     margin-bottom: 0;
   }
   ._bc-search{
-    border-bottom: 1rpx solid #e6e6e6;
+    border-bottom: 1rpx solid #f6f6f6;
+    border-top: 1rpx solid #f6f6f6;
     /*background: red;*/
     .section{
       width: 30%;

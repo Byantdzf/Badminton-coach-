@@ -306,6 +306,8 @@
       conversion(item, index) {
         this.item = item
         this.index = index
+        this.initAnimation(this.item, this.index)
+        return
         if (Number(item.price) > Number(this.remain_amount)) {
           this.cash = Number(item.price) - Number(this.remain_amount)
           this.$apply()

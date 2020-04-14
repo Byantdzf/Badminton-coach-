@@ -1,114 +1,119 @@
 <template>
   <Loading :init.sync="init"></Loading>
-  <!--<NavBar :title.sync="title" rgba="#D92553" bag="#b81f46" title_c="#ffffff"></NavBar>-->
+  <view class="mainBox">
+    <view class="_bc-photo">
+      <!--轮播图-->
+      <swiper class="swiper" style="height: 100%;" autoplay="true" indicator-dots="true" indicator-color="#c5c5c5" indicator-active-color="#ffffff">
+        <block wx:for="{{mylibs.profile_photos}}" wx:key="index" wx:if="{{index<10}}">
+          <swiper-item>
+            <image src="{{item.photo}}" class="" style="width: 100%;height: 50vh;"  mode="aspectFill" @tap="previewImage({{item.photo}},{{mylibs.profile_photos}})"/>
+          </swiper-item>
+        </block>
+      </swiper>
+      <view class="realName white font_26 bold" wx:if="{{mylibs.is_approved !== 0}}" ></view>
+      <!--关注 投诉-->
+      <block wx:if="{{mylibs.self != 1}}">
+        <view class="flo_r text-center likeBtn" hover-class="btn_active" @tap="attention">
+          <image src="http://images.ufutx.com/201902/18/876cc10bb46069d097d06368bbb2c8fa.png" wx:if="{{!is_love}}" mode="aspectFit" style="width: 62rpx;height: 62rpx;margin-top: 22rpx"></image>
+          <image src="http://images.ufutx.com/201902/18/116ca324b9d0a6de38b0263ce080c06d.png" wx:else mode="aspectFit" style="width: 62rpx;height: 62rpx;margin-top: 22rpx"></image>
+        </view>
+        <view class="font_32 white flo_r atten_btn">
+          <picker @change="bindPickerChange({{mylibs.id}})" value="{{index}}" range="{{setList}}">
+            <view class="text-center">
+              <image src="https://images.ufutx.com/201908/20/2ab42f9a9cd89ad98c53aff30f6d88b9.png" mode="aspectFit" style="width: 32rpx;height: 32rpx;vertical-align: middle;margin-top: 6rpx;"></image>
+            </view>
+          </picker>
+        </view>
+      </block>
+    </view>
+    <!--热度 关注度-->
+    <view class="_bc-property">
+      <view class="font_26 text-left flo_l white box-recommend">
+        <image src="https://images.ufutx.com/202002/26/664afa2d8344246af9d472f934163ab0.png" mode="aspectFit" style="width: 24rpx;height: 24rpx;vertical-align: middle;margin-bottom: 6rpx;"></image>
+        <span class="fans bold">{{mylibs.preview_count}}</span>
+        <image src="https://images.ufutx.com/202002/26/79b7d6ecc873712a7085fb08ee639f2d.png" mode="aspectFit" style="width: 26rpx;height: 26rpx;vertical-align: middle;margin:0 4rpx 8rpx 10rpx;"></image>
+        <span class="bold">{{mylibs.fans_count}}</span>
+      </view>
+    </view>
+    <view class="font_28 _bc-center">
+      <view class="itemInfo">
+        <view class="color-333 ellipsis_1 font_32 bold flo_l" style="max-width: 80%">{{mylibs.name}}</view>
+        <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:if="{{mylibs.sex=='2'}}" mode="aspectFill" class="flo_l icon"></image>
+        <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFill" wx:else class="flo_l icon" ></image>
+        <view class="flo_r ">
+          <view class="flo_r" style="margin-top: 10rpx">{{mylibs.profile_courtship.city || ''}}</view>
+          <view class="clearfloat"></view>
+        </view>
+        <view class="clearfloat"></view>
+        <view class="font_24">
+          {{mylibs.age || ''}}
+          <span style="color: #d2d4db" > | </span>
+          {{mylibs.profile_courtship.stature || ''}}
+          <span style="color: #d2d4db" > | </span>
+          {{mylibs.profile_courtship.state || ''}}
+          <view class="color-theme flo_r font_24  bold text-right" wx:if="{{mylibs.distance}}">
+            {{mylibs.distance}}<span class="font_28  bold">km</span>
+          </view>
+        </view>
+      </view>
+      <view class="itemLabel font_26">
+        <view class="itemBox flo_l"  wx:if="{{profile_courtship.degree}}">学历：{{mylibs.profile_courtship.degree}}</view>
+        <view class="itemBox flo_l"  wx:if="{{profile_courtship.graduate_school}}">毕业于：{{mylibs.profile_courtship.graduate_school}}</view>
+        <view class="itemBox flo_l"  wx:if="{{profile_courtship.city && profile_courtship.city != '区'}}">常居地：{{mylibs.profile_courtship.city}}</view>
+        <view class="itemBox flo_l"  wx:if="{{profile_courtship.resident_province && profile_courtship.resident_province != '区'}}">成长地：{{mylibs.profile_courtship.resident_city}}</view>
+        <!--<view class="itemBox flo_l"  wx:if="{{profile_courtship.company && profile_courtship.resident_province != '区'}}">公司：{{mylibs.profile_courtship.company}}</view>-->
+        <view class="itemBox flo_l" wx:if="{{profile_courtship.industry}}">职业：{{mylibs.profile_courtship.industry}} - {{mylibs.profile_courtship.industry_sub}}</view>
+        <!--<view class="itemBox flo_l"  wx:if="{{profile_courtship.post}}">职位：{{mylibs.profile_courtship.post}}</view>-->
+        <view class="itemBox flo_l" wx:if="{{profile_courtship.belief}}">信仰：{{mylibs.profile_courtship.belief}}</view>
+        <view class="clearfloat"></view>
+      </view>
+    </view>
+  </view>
+  <view class="mainBox mainInfo">
+    <view class="_title bold font_32 color-333">关于我</view>
+    <view class="font_26 color-333">
+    {{profile_courtship.introduction}}
+
+    </view>
+    <view class="_title bold font_32 color-333">择偶标准</view>
+    <view class="font_26 color-333">
+      {{profile_courtship.ideal_mate}}
+    </view>
+    <view class="_title bold font_32 color-333">兴趣爱好</view>
+    <view class="font_26 color-333">
+      {{profile_courtship.introduction}}
+    </view>
+  </view>
   <view class="navbar borrow" >
     <view class="page__bd">
-      <view class="_bc-photo">
-        <swiper class="swiper" style="height: 100%;" autoplay="true" indicator-dots="true" indicator-color="#c5c5c5" indicator-active-color="#ffffff">
-          <block wx:for="{{mylibs.profile_photos}}" wx:key="index" wx:if="{{index<10}}">
-            <swiper-item>
-                <image src="{{item.photo}}" class="" style="width: 100%;height: 50vh;"  mode="aspectFill" @tap="previewImage({{item.photo}},{{mylibs.profile_photos}})"/>
-            </swiper-item>
-          </block>
-        </swiper>
-        <view class="realName white font_26 bold" wx:if="{{mylibs.is_approved !== 0}}" >
+      <!--<view class="_bc-center" style="padding: 4rpx 0 42rpx 0;width: 92%;">-->
+        <!--<block wx:for="{{tabs}}" wx:key="index">-->
+          <!--<view class="fnStyle text-center" @tap="click_tab({{item}})">-->
+            <!--<image src="{{item.icon}}"  mode="aspectFill" class="icon"></image>-->
+            <!--<view class="font_26 color-333">{{item.name}}</view>-->
+          <!--</view>-->
+        <!--</block>-->
 
-        </view>
-        <!--？？关注？？？-->
-<!--        <view class="hint white font_28">-->w
-<!--          关注公众号,查看更多用户推荐~-->
-<!--          <button class="btn hintBtn inline-block font_28" open-type="contact" send-message-title="关注公众号" send-message-img="{{pic_url}}" send-message-path="/pages/tabBar/home" show-message-card plain>关注</button>-->
-<!--        </view>-->
-        <block wx:if="{{mylibs.self != 1}}">
-          <view style="border-radius: 50%;margin: -120rpx 78rpx;background: rgba(255,255,255,.8);z-index: auto;position:relative;width: 100rpx;height: 100rpx;box-shadow: 1rpx 1rpx 12rpx #d0d0d0;" class="flo_r text-center" hover-class="btn_active" @tap="attention">
-            <image src="http://images.ufutx.com/201902/18/876cc10bb46069d097d06368bbb2c8fa.png" wx:if="{{!is_love}}" mode="aspectFit" style="width: 62rpx;height: 62rpx;margin-top: 22rpx"></image>
-            <image src="http://images.ufutx.com/201902/18/116ca324b9d0a6de38b0263ce080c06d.png" wx:else mode="aspectFit" style="width: 62rpx;height: 62rpx;margin-top: 22rpx"></image>
-          </view>
-          <view class="font_32 white flo_r atten_btn">
-            <picker @change="bindPickerChange({{mylibs.id}})" value="{{index}}" range="{{setList}}">
-              <view class="text-center">
-                <image src="https://images.ufutx.com/201908/20/2ab42f9a9cd89ad98c53aff30f6d88b9.png" mode="aspectFit" style="width: 32rpx;height: 32rpx;vertical-align: middle;margin-top: 6rpx;"></image>
-              </view>
-            </picker>
-          </view>
-        </block>
-      </view>
-      <view class="_bc-property">
-        <view class="font_26 text-left flo_l white box-recommend">
-          <image src="https://images.ufutx.com/202002/26/664afa2d8344246af9d472f934163ab0.png" mode="aspectFit" style="width: 24rpx;height: 24rpx;vertical-align: middle;margin-bottom: 6rpx;"></image>
-          <span class="fans bold">{{mylibs.preview_count}}</span>
-          <image src="https://images.ufutx.com/202002/26/79b7d6ecc873712a7085fb08ee639f2d.png" mode="aspectFit" style="width: 26rpx;height: 26rpx;vertical-align: middle;margin:0 4rpx 6rpx 10rpx;"></image>
-          <span class="bold">{{mylibs.fans_count}}</span>
-        </view>
-      </view>
-      <view class="font_28 _bc-center">
-        <view class="itemSchool">
-          <image src="https://images.ufutx.com/202002/20/9bcff5330ce2b6d9d20e25b310141bf0.png" mode="aspectFill" class="icon"></image>
-          {{mylibs.profile_courtship.graduate_school}}
-          <span style="color: #d2d4db" >|</span>
-          {{mylibs.profile_courtship.degree}}
-<!--          <view class="flo_r"> <span class="color-theme">·</span> 全日制</view>-->
-        </view>
-        <view class="itemInfo">
-          <view class="color-333 ellipsis_1 font_32 bold flo_l" style="max-width: 80%">{{mylibs.name}}</view>
-          <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:if="{{mylibs.sex=='2'}}" mode="aspectFill" class="flo_l icon"></image>
-          <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFill" wx:else class="flo_l icon" ></image>
-          <view class="flo_r ">
-            <image src="https://images.ufutx.com/202002/20/2024e9d4e75e92a551bf8f56d475c0eb.png"  mode="aspectFill" class="iconD flo_l"></image>
-            <view class="flo_r" style="margin-top: 10rpx">{{mylibs.profile_courtship.city || ''}}</view>
-            <view class="clearfloat"></view>
-          </view>
-          <view class="clearfloat"></view>
-          <view class="font_24">
-            {{mylibs.age? mylibs.age  : ''}}
-            <span style="color: #d2d4db" > | </span>
-            {{mylibs.profile_courtship.stature? mylibs.profile_courtship.stature : ''}}
-            <span style="color: #d2d4db" > | </span>
-            {{mylibs.profile_courtship.state? mylibs.profile_courtship.state: ''}}
-            <view class="color-theme flo_r font_24  bold text-right">{{mylibs.distance}}<span class="font_28  bold">km</span></view>
-          </view>
-          <!--          <view class="font_22 ellipsis_1">{{item.profile_courtship.introduction? item.profile_courtship.introduction : ''}}</view>-->
-        </view>
-        <view class="itemLabel font_26">
-<!--          <view class="itemBox flo_l"  wx:if="{{profile_courtship.degree}}">学历：{{mylibs.profile_courtship.degree}}</view>-->
-<!--          <view class="itemBox flo_l"  wx:if="{{profile_courtship.graduate_school}}">毕业于：{{mylibs.profile_courtship.graduate_school}}</view>-->
-          <view class="itemBox flo_l"  wx:if="{{profile_courtship.city}}">常居地：{{mylibs.profile_courtship.city}}</view>
-          <view class="itemBox flo_l"  wx:if="{{profile_courtship.resident_province}}">成长地：{{mylibs.profile_courtship.resident_city}}</view>
-          <view class="itemBox flo_l"  wx:if="{{profile_courtship.company}}">公司：{{mylibs.profile_courtship.company}}</view>
-          <view class="itemBox flo_l" wx:if="{{profile_courtship.industry}}">职业：{{mylibs.profile_courtship.industry}} - {{mylibs.profile_courtship.industry_sub}}</view>
-          <view class="itemBox flo_l"  wx:if="{{profile_courtship.post}}">职位：{{mylibs.profile_courtship.post}}</view>
-          <view class="itemBox flo_l" wx:if="{{profile_courtship.belief}}">信仰：{{mylibs.profile_courtship.belief}}</view>
-          <view class="clearfloat"></view>
-        </view>
-      </view>
-      <view class="_bc-center" style="padding: 4rpx 0 42rpx 0;width: 92%;">
-        <block wx:for="{{tabs}}" wx:key="index">
-          <view class="fnStyle text-center" @tap="click_tab({{item}})">
-            <image src="{{item.icon}}"  mode="aspectFill" class="icon"></image>
-            <view class="font_26 color-333">{{item.name}}</view>
-          </view>
-        </block>
-
-<!--        <view class="fnStyle text-center" @tap="goto('/pages/home/jointlyFriendlist')">-->
-<!--          <image src="https://images.ufutx.com/202002/26/45eb9f2f84c31d4702c48ac45818803a.png"  mode="aspectFill" class="icon"></image>-->
-<!--          <view class="font_26 color-333">共同喜欢</view>-->
-<!--        </view>-->
-        <view class="bc_dot"></view>
-        <view class="bc_info">
-          <view class="title color-333 font_32 bold">
-            关于我
-          </view>
-          <view class="font_26 color-333 text">
-            {{profile_courtship.introduction}}
-          </view>
-          <view class="title color-333 font_32 bold">
-            择偶标准
-          </view>
-          <view class="font_26 color-333 text">
-            {{profile_courtship.ideal_mate}}
-          </view>
-        </view>
-      </view>
+<!--&lt;!&ndash;        <view class="fnStyle text-center" @tap="goto('/pages/home/jointlyFriendlist')">&ndash;&gt;-->
+<!--&lt;!&ndash;          <image src="https://images.ufutx.com/202002/26/45eb9f2f84c31d4702c48ac45818803a.png"  mode="aspectFill" class="icon"></image>&ndash;&gt;-->
+<!--&lt;!&ndash;          <view class="font_26 color-333">共同喜欢</view>&ndash;&gt;-->
+<!--&lt;!&ndash;        </view>&ndash;&gt;-->
+        <!--<view class="bc_dot"></view>-->
+        <!--<view class="bc_info">-->
+          <!--<view class="title color-333 font_32 bold">-->
+            <!--关于我-->
+          <!--</view>-->
+          <!--<view class="font_26 color-333 text">-->
+            <!--{{profile_courtship.introduction}}-->
+          <!--</view>-->
+          <!--<view class="title color-333 font_32 bold">-->
+            <!--择偶标准-->
+          <!--</view>-->
+          <!--<view class="font_26 color-333 text">-->
+            <!--{{profile_courtship.ideal_mate}}-->
+          <!--</view>-->
+        <!--</view>-->
+      <!--</view>-->
       <view class="_bc-property">
 <!--        <image src="{{mylibs.avatar}}" mode="aspectFill" @tap="previewImageV2({{mylibs.avatar}})" @longpress="lookID({{id}})" style="width: 120rpx;height: 120rpx;border-radius: 50%;border:4rpx solid #ffffff;box-shadow: 1rpx 1rpx 12rpx #f4f4f4;" class="flo_l"></image>-->
 <!--        &lt;!&ndash;<image src="http://images.ufutx.com/201812/29/31c646a02f34492847c9644a99acc405.png" mode="aspectFit" wx:if="{{mylibs.is_approved == 0}}" class="vip-image" @tap="hint('该用户未实名认证！')"></image>&ndash;&gt;-->
@@ -200,52 +205,75 @@
                <!--mode="aspectFit"></image>-->
         <!--<view class="font_28 color-666 flo_r">{{mylibs.momentCount+'条'}}</view>-->
       <!--</view>-->
-      <block wx:if="{{mylibs.self !== 1 && activeIndex == 0}}">
-        <view class="text-left font_32" style="padding-top: 26rpx;border-top: 8rpx solid #f8f8f8;" >
-          <view class="hinding">隐身访问</view>
-          <switch checked="{{mylibs.is_hidden}}" bindchange="hiddenChange" color="#D92553" class="flo_r" style="margin: -24rpx 32rpx;"/>
-          <view style="margin-left: 32rpx;" class="font_28 color-666 ">悄悄的看TA一眼，不让TA知道你来过</view>
-        </view>
-      </block>
+      <!--<block wx:if="{{mylibs.self !== 1 && activeIndex == 0}}">-->
+        <!--<view class="text-left font_32" style="padding-top: 26rpx;border-top: 8rpx solid #f8f8f8;" >-->
+          <!--<view class="hinding">隐身访问</view>-->
+          <!--<switch checked="{{mylibs.is_hidden}}" bindchange="hiddenChange" color="#D92553" class="flo_r" style="margin: -24rpx 32rpx;"/>-->
+          <!--<view style="margin-left: 32rpx;" class="font_28 color-666 ">悄悄的看TA一眼，不让TA知道你来过</view>-->
+        <!--</view>-->
+      <!--</block>-->
       <view style="height: 300rpx"></view>
     </view>
   </view>
-  <block wx:if="{{mylibs.self !== 1}}">
-      <form bindsubmit="formSubmit" report-submit>
-        <button formType="submit" class="btn" data-type="click">
-          <view class="fixed_bot font_32 text-center main-btns"
-                style="{{mylibs.is_friend !== 0 ? 'padding: 4vw 10vw;width: 80vw;':''}}">
-            <block wx:if="{{mylibs.is_friend == 0}}">
-              <!--<view class="item-btn inline-block color-theme flo_l" @tap="goto('/pages/home/giveGift?id={{mylibs.id}}')">送礼物-->
-              <!--</view>-->
-              <view class="item-btn inline-block item-btnA"  @tap="goto('/pages/home/addFriend?id={{mylibs.id}}')">加好友
-              </view>
-            </block>
-            <block wx:else>
-              <view class="item-btn inline-block color-theme flo_l" @tap="goto('/pages/home/chitchat?id={{mylibs.id}}&name={{mylibs.name}}&type={{mylibs.type}}')">
-                聊天</view>
-              <view class="item-btn inline-block item-btnA flo_r" @tap="goto('/pages/home/swopWeChat?id={{mylibs.id}}')" wx:if="{{userType !== 'marriage'}}">交换微信</view>
-              <!--<view class="item-btn  inline-block color-theme flo_r" @tap="goto('/pages/home/giveGift?id={{mylibs.id}}')">送礼物</view>-->
-            </block>
-            <view class="clearfloat"></view>
-          </view>
-        </button>
-      </form>
-  </block>
-  <block wx:if="{{loading}}">
-    <view class="weui-loadmore">
-      <!--<view class="weui-loading"></view>-->
-      <view class="weui-loadmore__tips">正在加载</view>
+  <block wx:if="{{mylibs.id && mylibs.self !== 1}}">
+    <view class="mainBtn">
+      <view class="blurBox"></view>
+      <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" bindtap="getuserinfo"  wx:if="{{mylibs.is_friend == 0}}" @tap="showAddFriendFn">添加好友
+      </button>
+      <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" bindtap="getuserinfo" @tap="goto('/pages/home/chitchat?id={{mylibs.id}}&name={{mylibs.name}}&type={{mylibs.type}}')"  wx:else>找Ta聊天
+      </button>
     </view>
   </block>
-  <block wx:if="{{noMore}}">
-    <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
-      <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot"></view>
-    </view>
-  </block>
+  <!--<block wx:if="{{mylibs.self !== 1}}">-->
+    <!--<view class="font_32 text-center main-btns"-->
+          <!--style="{{mylibs.is_friend !== 0 ? 'padding: 4vw 10vw;width: 80vw;':''}}">-->
+      <!--<block wx:if="{{mylibs.is_friend == 0}}">-->
+        <!--<view class="item-btn inline-block item-btnA"  @tap="goto('/pages/home/addFriend?id={{mylibs.id}}')">加好友-->
+        <!--</view>-->
+      <!--</block>-->
+      <!--<block wx:else>-->
+        <!--<view class="item-btn inline-block color-theme flo_l" @tap="goto('/pages/home/chitchat?id={{mylibs.id}}&name={{mylibs.name}}&type={{mylibs.type}}')">-->
+          <!--聊天</view>-->
+        <!--<view class="item-btn inline-block item-btnA flo_r" @tap="goto('/pages/home/swopWeChat?id={{mylibs.id}}')" wx:if="{{userType !== 'marriage'}}">交换微信</view>-->
+        <!--&lt;!&ndash;<view class="item-btn  inline-block color-theme flo_r" @tap="goto('/pages/home/giveGift?id={{mylibs.id}}')">送礼物</view>&ndash;&gt;-->
+      <!--</block>-->
+      <!--<view class="clearfloat"></view>-->
+    <!--</view>-->
+  <!--</block>-->
   <!--<view class="gotoHome"  @tap.stop="gotoTab('/pages/tabBar/home')">-->
     <!--<image src="http://images.ufutx.com/201901/21/69d00c9534aed8738478d16dfb974806.png" mode="aspectFit" ></image>-->
   <!--</view>-->
+  </view>
+  <view class="cu-modal {{modalName=='Modal'?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">申请{{mylibs.name}}为好友</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl text-left" style="padding-top: 20rpx;">
+        <view class="bold color-theme">say hello!</view>
+        <input type="text" placeholder="输入打招呼内容" class="inputStyle"  @input="typing"/>
+        <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top send" bindtap="getuserinfo" @tap="addFriend">发送
+        </button>
+      </view>
+      </view>
+    </view>
+  </view>
+  <view class="cu-modal {{modalName=='Modal_add'?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">申请{{mylibs.name}}为好友</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl text-left">
+        请求已发送，等待对方查看！
+      </view>
+    </view>
+  </view>
   </view>
 </template>
 
@@ -257,20 +285,19 @@
   import user from '../../mixins/user'
   import ShareMessage from '../../mixins/ShareMessage'
   import Loading from '../../components/loading'
-  import NavBar from '../../components/NavBarV2'
 
   export default class information extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
-      navigationBarTitleText: '个人介绍'
-      // navigationStyle: 'custom'
+      navigationBarTitleText: '个人介绍',
+      navigationBarBackgroundColor: '#F3F6F8'
     }
     components = {
-      Loading, NavBar
+      Loading
     }
     data = {
+      modalName: '',
       loaded: false,
-      totalTopHeight: 88, // navBar的高度
       init: false,
       is_love: false,
       mylibs: [],
@@ -279,6 +306,7 @@
       background_image: 'http://local-pictures.img-cn-shenzhen.aliyuncs.com/201806/15/wx53cf66d72649eb5a.o6zAJs2lf_SH4K2plnWTlsSfhR70.CaShiFjcO2Q7dd44e9547b343f1c8c4f6ae9424ab900.png',
       user: [],
       title: '',
+      message: '', // 打招呼信息
       tabs: [
         {
           name: '帮我约TA',
@@ -290,16 +318,6 @@
           icon: 'https://images.ufutx.com/202002/26/45eb9f2f84c31d4702c48ac45818803a.png',
           path: '/pages/home/jointlyFriendlist'
         }
-        // {
-        //   name: '为TA推荐',
-        //   icon: 'https://images.ufutx.com/201908/20/423e04a17ae43b9fcb5b236ea7d82af9.png',
-        //   path: '/pages/home/recommendFriendlist'
-        // },
-        // {
-        //   name: '相遇地图',
-        //   icon: 'https://images.ufutx.com/201908/20/f8efc0b62700a161551ef47e8445e859.png',
-        //   path: '/pages/map/index'
-        // },
       ],
       list: [
         {
@@ -386,39 +404,29 @@
             self.is_love = true
             self.$apply()
           }
-          console.log(self.list[0])
-          let test = [{title: '该会员还没有测试哦！', id: '0', value: ''}]
-          self.list[0].item = test
-          self.list[1].item = test
-          if (data.love_languages && data.love_languages.length > 0) {
-            self.list[0].item = data.love_languages
-          }
-          if (data.love_characters && data.love_characters.length > 0) {
-            self.list[1].item = data.love_characters
-          }
           if (data.profile_courtship) {
             self.profile_courtship = data.profile_courtship
             self.profile_courtship.industry = data.industry
             self.profile_courtship.industry_sub = data.industry_sub
           }
-          self.character = data.character
-          let text = '前活跃'
-          if (data.is_friend == 0) {
-            self.setList = ['举报']
-          }
-          if (data.login_time) {
-            if (data.login_time.day) {
-              return self.login_time = data.login_time.day + '天' + text
-            } else if (data.login_time.hour) {
-              return self.login_time = data.login_time.hour + '小时' + text
-            } else if (data.login_time.min) {
-              return self.login_time = data.login_time.min + '分钟' + text
-            } else if (data.login_time.sec) {
-              return self.login_time = data.login_time.sec + '秒' + text
-            } else {
-              return self.login_time = '潜水中...'
-            }
-          }
+          // self.character = data.character
+          // let text = '前活跃'
+          // if (data.is_friend == 0) {
+          //   self.setList = ['举报']
+          // }
+          // if (data.login_time) {
+          //   if (data.login_time.day) {
+          //     return self.login_time = data.login_time.day + '天' + text
+          //   } else if (data.login_time.hour) {
+          //     return self.login_time = data.login_time.hour + '小时' + text
+          //   } else if (data.login_time.min) {
+          //     return self.login_time = data.login_time.min + '分钟' + text
+          //   } else if (data.login_time.sec) {
+          //     return self.login_time = data.login_time.sec + '秒' + text
+          //   } else {
+          //     return self.login_time = '潜水中...'
+          //   }
+          // }
           self.$apply()
         },
         fail: ({code, data}) => {
@@ -434,22 +442,19 @@
       var self = this
       self.loading = false
     }
-
-// 让所有的展开项，都变为收起
-    packUp(data, index) {
-      for (let i = 0, len = data.length; i < len; i++) {
-        // 其他最外层列表变为关闭状态
-        if (index != i) {
-          data[i].show = false
-          for (let j = 0; j < data[i].item.length; j++) {
-            // 其他所有内层也为关闭状态
-            data[i].item[j].show = false
-          }
-        }
-      }
-    }
-
     methods = {
+      typing(e) {
+        this.message = e.detail.value
+        this.$apply()
+      },
+      hideModal () {
+        this.modalName = ''
+        this.$apply()
+      },
+      showAddFriendFn() {
+        this.modalName = 'Modal'
+        this.$apply()
+      },
       lookID(id) { // 查看ID
         this.$showToast(String(id))
       },
@@ -478,6 +483,46 @@
       previewImageV2(image) { // 预览单图
         console.log(image)
         this.$previewImage(image)
+      },
+      addFriend() {
+        let vm = this
+        vm.modalName = ''
+        vm.$apply()
+        console.log(this.message)
+        vm.$post({url: `${service.addFriend}/${vm.id}`}, {
+          success: ({code, data}) => {
+            vm.modalName=='Modal_add'
+            vm.$apply()
+          },
+          fail: ({code, data}) => {},
+          complete: () => {}
+        })
+        // vm.$post({url: service.users + '/' + vm.id + '/answer/questions', data}, {
+        //   success: ({code, data}) => {
+        //
+        //   },
+        //   fail: ({code, data}) => {},
+        //   complete: () => { self.loaded = false }
+        // })
+        // let self = this,
+        //   data = {answer: self.list},
+        //   active = true
+        // if (!self.id) {
+        //   return
+        // }
+        // self.list.forEach((item, index, arr) => {
+        //   if (arr[index].value == '') {
+        //     wx.showToast({
+        //       title: '请先回答对应的问题',
+        //       icon: 'none',
+        //       duration: 1200
+        //     })
+        //     active = false
+        //   }
+        // })
+        // if (active) {
+
+        // }
       },
       // 约见
       appointment(id) {
@@ -748,27 +793,67 @@
   @import "../../styles/weui/base/fn.wxss";
   @import "../../styles/custom/fn.less";
   page{
-    background: white;
-    .page__bd{
+    background: #F3F6F8;
+    .mainBox{
+      width: 92%;
+      border-radius: 16rpx;
+      overflow: hidden;
+      margin: auto;
+      box-shadow: 1rpx 1rpx 18rpx #e7eaec;
       ._bc-photo{
-        width: 92%;
+        width: 100%;
         height: 50vh;
         background: #f3f4f9;
         position: relative;
-        border-radius: 22rpx;
-        overflow: hidden;
-        margin: auto;
         .realName{
           position: absolute;
           top: 32rpx;
           left: 22rpx;
           background-image: url("https://images.ufutx.com/202002/26/d5e810272fab69fe6fe6119a0ffdab3b.png");
-          background-size: cover;
+          background-size: contain;
           background-repeat: no-repeat;
-          width: 120rpx;
-          height: 48rpx;
+          width: 168rpx;
+          height: 54rpx;
           border-radius: 32rpx;
           padding: 0 12rpx;
+        }
+        .atten_btn{
+          border-radius: 50%;
+          background: rgba(255,255,255,1);
+          z-index: 999;
+          position:relative;
+          width: 60rpx;height: 60rpx;
+          box-shadow: 1rpx 1rpx 12rpx #d0d0d0;
+          margin-top: -40rpx;
+          margin-right: 12rpx;
+        }
+        .likeBtn{
+          border-radius: 50%;
+          margin: -70rpx 78rpx;
+          background: rgba(255,255,255,1);
+          z-index: auto;
+          position:relative;
+          width: 100rpx;
+          height: 100rpx;
+          box-shadow: 1rpx 1rpx 12rpx #d0d0d0;
+        }
+      }
+      ._bc-property{
+        position: relative;
+        margin: 0 20rpx;
+        margin-right: 0;
+        .box-recommend{
+          position: absolute;
+          left: 0rpx;
+          top: -92rpx;
+          background: rgba(0, 0, 0, 0.5);
+          display: inline-block;
+          padding: 2rpx 20rpx;
+          border-radius: 22rpx;
+          .fans{
+            padding: 0 14rpx 0 8rpx;
+            position: relative;
+          }
         }
       }
       .main-bc, .main-bc_vip{
@@ -788,163 +873,61 @@
         background-image: url('https://images.ufutx.com/201908/20/9b3e5f0422db4c43b5e1a897cf0b187a.png');
         color: #e39c06;
       }
-      ._bc-property{
-        padding: 22rpx 0;
+    }
+    .mainInfo{
+      background: white;
+      padding: 32rpx;
+      padding-top: 0;
+      margin-top: 32rpx;
+      ._title{
+        margin-top: 32rpx;
+        margin-bottom: 12rpx;
         position: relative;
-        margin: 0 30rpx;
-        margin-right: 0;
-        .name{
-          width: 78%;
-          margin-left: 12rpx;
-          margin-top: -8rpx;
-          span{margin-right: 8rpx;}
-          image{margin-top: 8rpx;}
-        }
-        ._bc-age{
-          width: 78%;
-          margin-left: 12rpx;
-        }
-        ._bc-distance{
+        &:after{
+          content: '';
+          width: 72rpx;
+          height: 6rpx;
+          background: #D92553;
           position: absolute;
-          right: 3%;          top: 26%;
-          view{font-size: 42rpx;}
-        }
-        .icon-text{
-          margin: 20rpx 12rpx -4rpx 0rpx;
-        }
-        .attention{
-          border: 1rpx solid #d3d3d3;
-          border-radius: 6rpx;
-          margin-right: 4%;        }
-        ._bc-active {
-          position:absolute;
-          content:" ";
-          left:0;
-          bottom:0;
-          width:6em;
-          height:3px;
-          background-color:#049BFF;
-          transition:transform .3s;
+          left: 8rpx;
+          bottom: -2rpx;
+          border-radius: 42rpx;
         }
       }
     }
-    .weui-navbar__slider {
-      position:absolute;
-      content:" ";
-      left:0;
-      bottom:0;
-      height: 62rpx;
-      background-color: inherit;
-      background-image: url('http://images.ufutx.com/201901/11/4395bd4bc923c9ff2b1a6e808974da1e.png');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: bottom;
-      transition:transform .3s;
-      z-index: -9999;
-    }
-    .weui-navbar {
-      display:flex;
-      position:absolute;
-      z-index:500;
-      top:0;
-      width:100%;
-      border: none;
-      background: #f7f7f8;
-    }
-    .infoList{
-      padding: 0 0 32rpx 0;
-      overflow: hidden;
-      border-bottom: 1rpx solid #b0b0b0;
-      ._bc-info-item{
-        margin-top: 22rpx;
-        padding: 2rpx 22rpx;
-        background: #f5f5f5;
-        margin-right: 22rpx;
-        border: 1rpx solid #e5e5e5;
-        border-radius: 4rpx;
-      }
-      ._bc-info-text{
-        width: 94%;
-        margin-top: 22rpx;
-        padding: 22rpx 22rpx;
-        background: #f5f5f5;
-        border: 1rpx solid #e5e5e5;
-        border-radius: 24rpx 24rpx 24rpx 0;
-      }
-    }
-    .location{
-      width: 100%;
-      height: 206rpx;
-      background-image: url('http://images.ufutx.com/201901/11/16a137065d902c889ad6f529a8136523.png');
-      background-size: contain;
+    .mainBtn{
+      width: 100vw;
+      height: 120rpx;
       position: relative;
-      margin-top: -2rpx;
-      .address{
-        width: 42%;
-        height: 57%;
-        background-image: url("http://images.ufutx.com/201901/11/5a39e27477bfc642e7f23e2da4a81e55.png");
-        background-size: contain;
-        background-repeat: no-repeat;
-        padding: 16rpx 36rpx;
-        padding-top: 26rpx;
+      position: fixed;
+      bottom: 0;
+      .blurBox {
         position: absolute;
-        top: 0rpx;
-        left: 28%;
-      }
-      .address-btn{
-        width: 140rpx;
-        height: 140rpx;
-        position: absolute;
-        bottom: 0;
-        right: 0;
+        top: 0;
+        left: 0;
+        background: white;
+        filter: blur(10px) contrast(1.2);
+        width: 100%;
+        height: 100%;
       }
     }
-  }
-  .imagebox{
-    width: 33%;
-  }
-  .borrowlist{
-    width: 86%;
-    box-shadow: 1rpx 1rpx 18rpx #d3d3d3;
-    margin-top: 18rpx;
-    border-radius: 6rpx;
-    margin-left: 4%;
-    padding: 22rpx;
-  }
-  .menber{
-    background: white;
-    border-radius: 6rpx;
-    padding:4rpx 6rpx ;
-  }
-  .atten{
-    background: white;
-    width: 80rpx;
-    padding:2rpx 12rpx;
-    border-radius: 6rpx;
-    border: 1rpx solid #d3d3d3;
-    height: 48rpx;line-height: 48rpx;
-    margin-top: -40rpx;
-  }
-  .atten_w{
-    width: 140rpx;
-  }
-  .atten_btn{
-    border-radius: 50%;
-    background: rgba(255,255,255,.8);
-    z-index: 9999;position:relative;
-    width: 60rpx;height: 60rpx;
-    box-shadow: 1rpx 1rpx 12rpx #d0d0d0;
-    margin-top: -90rpx;
-    margin-right: 12rpx;
-   }
-  .list_name_box {
-    background: #fff;
-    border-bottom: 1px solid #efefef;
-    display: flex;
-    height: 90rpx;
-    align-items: center;
-    padding: 0 25rpx;
-    font-size: 32rpx;
+    .inputStyle{
+      height: 66rpx;
+      padding: 12rpx 0;
+      border-bottom: 1rpx solid #d92557;
+    }
+    .btn-box{
+      width: 80%;
+      background: #D92553;
+      border-radius: 6rpx;
+      padding: 16rpx;
+      margin: 16rpx auto;
+      letter-spacing: 8rpx;
+    }
+    .send{
+      margin: 50rpx auto;
+      margin-bottom: -12rpx;
+    }
   }
 
   .list_item_name {
@@ -1005,7 +988,6 @@
     image{
       width: 60rpx;
       height: 60rpx;
-      /*transform: rotateY(180deg);*/
       margin-top: 6rpx;
     }
   }
@@ -1042,24 +1024,6 @@
       background: #D92553;
     }
   }
-  .main-tab-box{
-    /*border-top: 14rpx solid #f6f6f6;*/
-    border-bottom: 1rpx solid #b0b0b0;
-    padding: 0 32rpx;
-    padding-bottom: 12rpx;
-    margin-top: 10rpx;
-    .main-tabs{
-      margin-right: 92rpx;
-      image{
-        width: 100rpx;
-        height: 100rpx;
-        margin-bottom: -6rpx;
-      }
-      &:nth-child(4){
-        margin: 0;
-      }
-    }
-  }
   .main-approved-box{
     padding: 32rpx;
     padding-bottom: 22rpx;
@@ -1074,108 +1038,23 @@
       margin-top: -18rpx;
     }
   }
-  .main-basic-box{
-    padding: 32rpx;
-    padding-bottom: 22rpx;
-    /*border-bottom: 1rpx solid #b0b0b0;*/
-    border-top: 14rpx solid #f6f6f6;
-    overflow: hidden;
-    .image{
-      width: 130rpx;
-      height: auto;
-    }
-    .main-card{
-      width: 75%;
-      margin-top: -18rpx;
-    }
-  }
-  .main-friendCircle{
-    padding: 26rpx 26rpx;
-    overflow: hidden;
-    border-top: 8rpx solid #F5F5F5;
-    .image{
-      width: 32rpx;
-      height: 32rpx;
-      margin-top: 7rpx;
-      margin-left: 16rpx;
-    }
-  }
-  .box-recommend{
-    position: absolute;
-    left: 22rpx;
-    top: -92rpx;
-    background: rgba(0, 0, 0, 0.5);
-    display: inline-block;
-    padding: 2rpx 20rpx;
-    border-radius: 22rpx;
-  }
-  .fans{
-    padding: 0 14rpx 0 8rpx;
-    position: relative;
-    /*&:after{*/
-      /*content: '';*/
-      /*width: 2rpx;*/
-      /*height: 26rpx;*/
-      /*background: #fffffd;*/
-      /*position: absolute;*/
-      /*right: 0;*/
-      /*top: 5rpx;*/
-    /*}*/
-  }
-  .hinding{
-    padding: 0 32rpx 0 32rpx;
-    border-left: 8rpx solid #D92553;
-  }
-  .hint{
-    width: 92%;
-    background: rgba(0,0,0,0.5);
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 12rpx 4%;
-    text-align: center;
-    .image{
-      width: 36rpx;
-      height: 36rpx;
-      vertical-align: middle;
-    }
-    .hintBtn{
-      padding: 0rpx 16rpx;
-      margin-left: 42rpx;
-      /*box-shadow: 1rpx 1rpx 12rpx #ffffff;*/
-      border-radius: 8rpx;
-      border: none;
-      background-image: linear-gradient(to right, #eb6266 0%,  #D92553 100%);
-      color: white;
-      margin-bottom: -12rpx;
-    }
-  }
   ._bc-center {
-    width: 88%;
-    padding: 20rpx;
-    box-shadow: 1rpx 1rpx 12rpx #e6e7eb;
-    border-radius: 16rpx;
+    width: 100%;
+    padding: 20rpx 20rpx 0 20rpx;
     margin-bottom: 42rpx;
     background: #fff;
-    margin: 12rpx auto;
-    .itemSchool{
-      padding: 4rpx 12rpx;
-      background: #f4f5f9;
-      border-radius: 8rpx;
-      .icon{
-        width: 36rpx;
-        height: 36rpx;
-        margin-bottom: -6rpx;
-      }
-    }
+    margin: 0 auto;
     .itemLabel{
       padding: 6rpx;
       margin-top: 12rpx;
       .itemBox{
-        padding: 8rpx 16rpx;
+        padding: 0rpx 16rpx;
+        height: 42rpx;
+        line-height: 42rpx;
         background: #f4f5f9;
         margin-right: 16rpx;
-        margin-bottom: 12rpx;
+        margin-bottom: 16rpx;
+        border-radius: 6rpx;
       }
     }
     .itemInfo{
@@ -1196,21 +1075,6 @@
         margin-left: 4rpx;
       }
     }
-    .fnStyle{
-      padding: 22rpx;
-      width: 20%;
-      display: inline-block;
-      .icon{
-        width: 60rpx;
-        height: 60rpx;
-        margin-bottom: -6rpx;
-      }
-    }
-    .bc_dot{
-      width: 100%;
-      height: 1rpx;
-      border-bottom: 1rpx solid #eeeded;
-    }
     .bc_info{
       padding: 4rpx 42rpx;
       .title{
@@ -1227,9 +1091,6 @@
           bottom: -12rpx;
           border-radius: 22rpx;
         }
-      }
-      .text{
-        margin-top: 22rpx;
       }
     }
   }

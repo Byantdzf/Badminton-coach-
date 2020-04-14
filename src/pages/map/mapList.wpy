@@ -4,27 +4,29 @@
       <view class="weui-tab">
           <view class="weui-tab__content ff" >
             <!--<view style="position:fixed;left: 0;top: 0; width: 100%;" class="ff">-->
-              <view class="weui-cells__title">
-                <view class="weui-search-bar__box text-left flo_l" style="width: 74%">
-                  <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-                  <input type="text" class="weui-search-bar__input" placeholder="搜索TA的名字和地址" confirm-type="search" value="{{inputVal}}" focus="{{inputShowed}}" @confirm="inputTyping" />
-                </view>
-                <view class="flo_l _bc-list">
-                  <image src="http://images.ufutx.com/201812/06/1222126e6c582af0af0dccf557510e8b.png" mode="aspectFit" class="flo_l" @tap="goto('/pages/map/index')"></image>
-                  <view class="flo_r _bc-message" @tap="gotoTab('/pages/tabBar/news')">
-                    <image src="http://images.ufutx.com/201812/06/85f92d47c50d8c84a26a4f08c4454b63.png" mode="aspectFit"></image>
-                    <view class="dost white" wx:if="{{message_count !== 0}}">{{message_count}}</view>
-                  </view>
-                </view>
-                <view class="clearfloat"></view>
-              </view>
-              <Search :title.sync="title" :type.sync="type"></Search>
+              <!--<view class="weui-cells__title">-->
+                <!--<view class="weui-search-bar__box text-left flo_l" style="width: 74%">-->
+                  <!--<icon class="weui-icon-search_in-box" type="search" size="14"></icon>-->
+                  <!--<input type="text" class="weui-search-bar__input" placeholder="搜索TA的名字和地址" confirm-type="search" value="{{inputVal}}" focus="{{inputShowed}}" @confirm="inputTyping" />-->
+                <!--</view>-->
+                <!--<view class="flo_l _bc-list">-->
+                  <!--<image src="http://images.ufutx.com/201812/06/1222126e6c582af0af0dccf557510e8b.png" mode="aspectFit" class="flo_l" @tap="goto('/pages/map/index')"></image>-->
+                  <!--<view class="flo_r _bc-message" @tap="gotoTab('/pages/tabBar/news')">-->
+                    <!--<image src="http://images.ufutx.com/201812/06/85f92d47c50d8c84a26a4f08c4454b63.png" mode="aspectFit"></image>-->
+                    <!--<view class="dost white" wx:if="{{message_count !== 0}}">{{message_count}}</view>-->
+                  <!--</view>-->
+                <!--</view>-->
+                <!--<view class="clearfloat"></view>-->
+              <!--</view>-->
+            <tabSearchV2 title="搜索昵称" BColor="#fff"></tabSearchV2>
+
+            <Search :title.sync="title" :type.sync="type"></Search>
             <!--</view>-->
             <!--<view style="height: 200rpx;"></view>-->
             <view class="page__bd "  wx:for="{{list}}" wx:key="*this" style="position: relative;">
               <view class="borrowlist" @tap="gotofriends({{item}})">
                 <view >
-                  <image src="{{item.avatar}}" mode="aspectFill"   style="width: 100%;height: 500rpx;"></image>
+                  <image src="{{item.avatar}}" mode="aspectFill"   style="width: 100%;height: 600rpx;"></image>
                   <view class="is_approved font_26 white" wx:if="{{item.is_approved == 1}}">
                     <image src="http://images.ufutx.com/201901/17/32f90bdb6e67589a042ffa6536c97997.png" mode="aspectFit" style="width: 30rpx;height: 20rpx;"></image>
                     已认证
@@ -34,7 +36,7 @@
                     未认证
                   </view>
                 </view>
-                <view style="width: 91%;padding: 12rpx 32rpx 22rpx 32rpx;">
+                <view style="width: 100%;padding: 12rpx 32rpx 22rpx 32rpx;">
                   <view class="flo_l">
                     <view  class="font_32 flo_l orange ellipsis_1">
                       <span class="bold">{{item.name}}</span>
@@ -83,6 +85,7 @@
   import user from '../../mixins/user'
   import ShareMessage from '../../mixins/ShareMessage'
   import Search from '../../components/search'
+  import tabSearchV2 from '../../components/tabSearchV2'
   import pageScroll from '../../components/pageScroll'
 
   export default class mapList extends wepy.page {
@@ -91,7 +94,7 @@
       navigationBarTitleText: '地图列表'
     }
     components = {
-      Search, pageScroll
+      Search, pageScroll, tabSearchV2
     }
     data = {
       loaded: false,
@@ -374,9 +377,10 @@
   .borrowlist{
     width: 92%;
     box-shadow: 1rpx 1rpx 18rpx #d3d3d3;
-    border-radius: 6rpx;
-    margin: 22rpx auto;
+    border-radius: 12rpx;
+    margin: 42rpx auto;
     background: white;
+    overflow: hidden;
   }
   .weui-cell__ft {
     margin-top: 10%;

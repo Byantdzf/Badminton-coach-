@@ -239,6 +239,7 @@
             }, 1800)
             setTimeout(() => {
               vm.loadModal = false
+              vm.gotoTab('/pages/tabBar/home')
               vm.$apply()
             }, 2800)
           }
