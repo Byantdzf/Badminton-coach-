@@ -6,17 +6,20 @@
     <view class="mainShare">
       <image src="https://images.ufutx.com/202004/11/fd60fcb6fe2f7df813c73d903fc5a7cf.png" mode="widthFix" class="image"></image>
     </view>
-    <view class="mainRule">
-      <image src="https://images.ufutx.com/202004/11/2cb9b1b6cde8452a27fc0940c8fe2fcc.png" mode="widthFix" class="image"></image>
+    <view class="font_32 bold mainRule color-333">活动规则</view>
+    <view style="margin: 0 30rpx;margin-top: -22rpx;">
+      <text class="font_24 color-666">1、当有新用户（此前未授权登录过福恋）通过您的分享进入福恋并授权登录，系统将记录您已分享给一位好友</text>
+      <text class="font_24 color-666">2、当您的累计分享人数达到指定人数，系统将发放对应的会员时长可兑换，请注意查收；</text>
+      <view class="font_24 color-666">3、如有其它疑问，请联系客服<span class="color-theme">0755-121321</span>咨询</view>
     </view>
-    <view class="bold color-333" style="margin-left: 32rpx;margin-top: -12rpx;">已成功分享13个好友</view>
+    <view class="bold color-333 mainRule">已成功分享{{total_count}}个好友 <span class="font_24 color-theme">(剩余可兑换{{remain_count}}位)</span> </view>
     <view class="cu-timeline" wx:if="{{shareData.fourth.enable}}">
       <view class="cu-time">{{shareData.fourth.register_date}}</view>
       <view class="cu-item cur cuIcon-noticefill">
         <view class="content bg-green shadow-blur">
-          <text>{{shareData.fourth.register_time}}</text> 成功分享第{{shareData.fourth.num}}位好友！获得超级会员{{shareData.fourth.day}}天体验
+          <text>{{shareData.fourth.register_time}}</text> 可兑换{{shareData.fourth.num}}位好友！获得超级会员{{shareData.fourth.day}}天体验
           <button class="btn text-center font_26 _btn white radius shadow bg-white inline-block color-theme flo_r bold"
-                  hover-class="btn_active" @tap="getVIPFn('fourth')">领取</button>
+                  hover-class="btn_active" @tap="getVIPFn('fourth')">兑换</button>
         </view>
       </view>
     </view>
@@ -24,9 +27,9 @@
       <view class="cu-time">{{shareData.third.register_date}}</view>
       <view class="cu-item cur cuIcon-noticefill">
         <view class="content bg-brown shadow-blur">
-          <text>{{shareData.third.register_time}}</text> 成功分享第{{shareData.third.num}}位好友！获得超级会员{{shareData.third.day}}天体验
+          <text>{{shareData.third.register_time}}</text> 可兑换{{shareData.third.num}}位好友！获得超级会员{{shareData.third.day}}天体验
           <button class="btn text-center font_26 _btn white radius shadow bg-white inline-block color-theme flo_r bold"
-                  hover-class="btn_active" @tap="getVIPFn('third')">领取</button>
+                  hover-class="btn_active" @tap="getVIPFn('third')">兑换</button>
         </view>
       </view>
     </view>
@@ -34,27 +37,19 @@
       <view class="cu-time">{{shareData.second.register_date}}</view>
       <view class="cu-item cur cuIcon-noticefill">
         <view class="content bg-orange shadow-blur">
-          <text>{{shareData.second.register_time}}</text> 成功分享第{{shareData.second.num}}位好友！获得超级会员{{shareData.second.day}}天体验
+          <text>{{shareData.second.register_time}}</text> 可兑换{{shareData.second.num}}位好友！获得超级会员{{shareData.second.day}}天体验
           <button class="btn text-center font_26 _btn white radius shadow bg-white inline-block color-theme flo_r bold"
-                  hover-class="btn_active" @tap="getVIPFn('second')">领取</button>
+                  hover-class="btn_active" @tap="getVIPFn('second')">兑换</button>
         </view>
       </view>
     </view>
-    <!--first: {num: 1, day: 1, enable: 1, created_at: "2019-08-19 18:10:34"}-->
-    <!--created_at: "2019-08-19 18:10:34"-->
-    <!--day: 1-->
-    <!--enable: 1-->
-    <!--num: 1-->
-    <!--fourth: {num: 10, day: 30, enable: 0, created_at: null}-->
-    <!--second: {num: 3, day: 7, enable: 0, created_at: null}-->
-    <!--third: {num: 5, day: 15, enable: 0, created_at: null}-->
     <view class="cu-timeline" wx:if="{{shareData.first.enable}}">
       <view class="cu-time">{{shareData.first.register_date}}</view>
       <view class="cu-item cur cuIcon-noticefill">
         <view class="content bg-purple shadow-blur">
-          <text>{{shareData.first.register_time}}</text> 成功分享第{{shareData.first.num}}位好友！获得超级会员{{shareData.first.day}}天体验
+          <text>{{shareData.first.register_time}}</text> 可兑换{{shareData.first.num}}位好友！获得超级会员{{shareData.first.day}}天体验
           <button class="btn text-center font_26 _btn white radius shadow bg-white inline-block color-theme flo_r bold"
-                  hover-class="btn_active" @tap="getVIPFn('first')">领取</button>
+                  hover-class="btn_active" @tap="getVIPFn('first')">兑换</button>
         </view>
       </view>
     </view>
@@ -134,6 +129,8 @@
       message: {},
       register_date: '', // 注册日期
       register_time: '', // 注册时间
+      total_count: '',
+      remain_count: '',
       shareData: {}
     }
 
@@ -193,6 +190,8 @@
           }
           vm.register_date = data.register_time.split(' ')[0]
           vm.register_time = data.register_time.split(' ')[1]
+          vm.total_count = data.total_count
+          vm.remain_count = data.remain_count
           vm.$apply()
           console.log(vm.shareData)
         },
@@ -265,7 +264,7 @@
       }
     }
     .mainRule{
-      padding: 22rpx 38rpx;
+      padding: 22rpx 30rpx;
     }
     ._btn{
       background: white;
