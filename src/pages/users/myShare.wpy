@@ -9,27 +9,60 @@
     <view class="mainRule">
       <image src="https://images.ufutx.com/202004/11/2cb9b1b6cde8452a27fc0940c8fe2fcc.png" mode="widthFix" class="image"></image>
     </view>
-    <view class="cu-timeline">
-      <view class="cu-time">昨天</view>
+    <view class="bold color-333" style="margin-left: 32rpx;margin-top: -12rpx;">已成功分享13个好友</view>
+    <view class="cu-timeline" wx:if="{{shareData.fourth.enable}}">
+      <view class="cu-time">{{shareData.fourth.register_date}}</view>
       <view class="cu-item cur cuIcon-noticefill">
         <view class="content bg-green shadow-blur">
-          <text>22:22</text> 【广州市】快件已到达地球
+          <text>{{shareData.fourth.register_time}}</text> 成功分享第{{shareData.fourth.num}}位好友！获得超级会员{{shareData.fourth.day}}天体验
+          <button class="btn text-center font_26 _btn white radius shadow bg-white inline-block color-theme flo_r bold"
+                  hover-class="btn_active" @tap="getVIPFn('fourth')">领取</button>
         </view>
       </view>
     </view>
-    <view class="cu-timeline">
-      <view class="cu-time">06-17</view>
-      <view class="cu-item">
+    <view class="cu-timeline" wx:if="{{shareData.third.enable}}">
+      <view class="cu-time">{{shareData.third.register_date}}</view>
+      <view class="cu-item cur cuIcon-noticefill">
+        <view class="content bg-brown shadow-blur">
+          <text>{{shareData.third.register_time}}</text> 成功分享第{{shareData.third.num}}位好友！获得超级会员{{shareData.third.day}}天体验
+          <button class="btn text-center font_26 _btn white radius shadow bg-white inline-block color-theme flo_r bold"
+                  hover-class="btn_active" @tap="getVIPFn('third')">领取</button>
+        </view>
+      </view>
+    </view>
+    <view class="cu-timeline" wx:if="{{shareData.second.enable}}">
+      <view class="cu-time">{{shareData.second.register_date}}</view>
+      <view class="cu-item cur cuIcon-noticefill">
+        <view class="content bg-orange shadow-blur">
+          <text>{{shareData.second.register_time}}</text> 成功分享第{{shareData.second.num}}位好友！获得超级会员{{shareData.second.day}}天体验
+          <button class="btn text-center font_26 _btn white radius shadow bg-white inline-block color-theme flo_r bold"
+                  hover-class="btn_active" @tap="getVIPFn('second')">领取</button>
+        </view>
+      </view>
+    </view>
+    <!--first: {num: 1, day: 1, enable: 1, created_at: "2019-08-19 18:10:34"}-->
+    <!--created_at: "2019-08-19 18:10:34"-->
+    <!--day: 1-->
+    <!--enable: 1-->
+    <!--num: 1-->
+    <!--fourth: {num: 10, day: 30, enable: 0, created_at: null}-->
+    <!--second: {num: 3, day: 7, enable: 0, created_at: null}-->
+    <!--third: {num: 5, day: 15, enable: 0, created_at: null}-->
+    <view class="cu-timeline" wx:if="{{shareData.first.enable}}">
+      <view class="cu-time">{{shareData.first.register_date}}</view>
+      <view class="cu-item cur cuIcon-noticefill">
         <view class="content bg-purple shadow-blur">
-          <text>01:30</text> 【喵星】 MX-12138 已揽收，准备发往银河系
+          <text>{{shareData.first.register_time}}</text> 成功分享第{{shareData.first.num}}位好友！获得超级会员{{shareData.first.day}}天体验
+          <button class="btn text-center font_26 _btn white radius shadow bg-white inline-block color-theme flo_r bold"
+                  hover-class="btn_active" @tap="getVIPFn('first')">领取</button>
         </view>
       </view>
     </view>
     <view class="cu-timeline">
-      <view class="cu-time">06-17</view>
+      <view class="cu-time">{{register_date}}</view>
       <view class="cu-item">
-        <view class="content bg-gray shadow-blur">
-          <view>这是第一次，我家的铲屎官走了这么久。久到足足有三天！！ </view>
+        <view class="content bg-grey shadow-blur">
+          <text>{{register_time}}</text> 成功注册了福恋！
         </view>
       </view>
     </view>
@@ -40,20 +73,25 @@
       <view class="color-theme font_26 inline-block value bold">赠送会员时长</view>
     </view>
     <view class="table">
-      <view class="font_26 inline-block title text-center ">1人</view>
-      <view class="font_26 inline-block value ">获得1天超级会员</view>
+      <view class="font_26 inline-block title text-center ">{{shareData.first.num}}人</view>
+      <view class="font_26 inline-block value ">获得{{shareData.first.day}}天超级会员</view>
     </view>
     <view class="table">
-      <view class="font_26 inline-block title text-center ">3人</view>
-      <view class="font_26 inline-block value ">获得7天超级会员</view>
+      <view class="font_26 inline-block title text-center ">{{shareData.second.num}}人</view>
+      <view class="font_26 inline-block value ">获得{{shareData.second.day}}天超级会员</view>
     </view>
     <view class="table">
-      <view class="font_26 inline-block title text-center ">5人</view>
-      <view class="font_26 inline-block value ">获得8天超级会员</view>
+      <view class="font_26 inline-block title text-center ">{{shareData.third.num}}人</view>
+      <view class="font_26 inline-block value ">获得{{shareData.third.day}}天超级会员</view>
+    </view>
+    <view class="table">
+      <view class="font_26 inline-block title text-center ">{{shareData.fourth.num}}人</view>
+      <view class="font_26 inline-block value ">获得{{shareData.fourth.day}}天超级会员</view>
     </view>
   </view>
   <view style="height: 22vw;"></view>
   <view class="main-btn text-center animation-slide-bottom">
+    <view class="blurBox"></view>
     <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" @tap="ShareFn">推荐给好友</button>
   </view>
   <!--<sharePic :pic.sync="invite_pic" :shareImage.sync="shareImage"></sharePic>-->
@@ -90,13 +128,13 @@
       init: false,
       loading: false,
       shareImage: true,
-      name: '',
-      avatar: '',
-      qrcode: '',
       goods: {},
       invite_pic: '',
       from_openid: '',
-      message: {}
+      message: {},
+      register_date: '', // 注册日期
+      register_time: '', // 注册时间
+      shareData: {}
     }
 
     computed = {
@@ -142,17 +180,21 @@
 
     // 初始化页面数据
     initPageData () {
-      let that = this
-      that.$showLoading('加载页面中')
-      this.$get({url: service.user_share}, {
+      let vm = this
+      vm.$get({url: `${service.host}/user/invite/remain/count`}, {
         success: ({code, data}) => {
-          this.init = true
-          this.avatar = data.avatar
-          this.name = data.name
-          this.qrcode = data.qrcode
-          this.invite_pic = data.pic
-          this.$apply()
-          wx.hideLoading()
+          vm.shareData = data.data
+          for (let item in vm.shareData) {
+            if (vm.shareData[item].created_at) {
+              vm.shareData[item].register_date = vm.shareData[item].created_at.split(' ')[0]
+              vm.shareData[item].register_time = vm.shareData[item].created_at.split(' ')[1]
+              vm.$apply()
+            }
+          }
+          vm.register_date = data.register_time.split(' ')[0]
+          vm.register_time = data.register_time.split(' ')[1]
+          vm.$apply()
+          console.log(vm.shareData)
         },
         fail: ({code, data}) => {
         },
@@ -162,13 +204,40 @@
     }
 
     methods = {
+      getVIPFn(val) {
+        console.log(val)
+        let vm = this
+        vm.$showLoading('加载海报中...')
+        vm.$post({url: `${service.host}/user/add/invite/super/rank/${val}`}, {
+          success: ({code, data}) => {
+            wx.hideLoading()
+            vm.$Toast_success('领取成功！')
+            vm.initPageData()
+          },
+          fail: ({code, data}) => {
+          },
+          complete: () => {
+          }
+        })
+      },
       ShareFn() {
         let vm = this
-        if (!vm.invite_pic) {
-          return
-        }
-        vm.hide = false
-        vm.$apply()
+        vm.$showLoading('加载海报中...')
+        vm.$get({url: service.user_share}, {
+          success: ({code, data}) => {
+            if (!data.pic) {
+              return
+            }
+            vm.invite_pic = data.pic
+            vm.hide = false
+            vm.$apply()
+            wx.hideLoading()
+          },
+          fail: ({code, data}) => {
+          },
+          complete: () => {
+          }
+        })
       },
       goto (url) {
         wx.navigateTo({url: url})
@@ -198,6 +267,13 @@
     .mainRule{
       padding: 22rpx 38rpx;
     }
+    ._btn{
+      background: white;
+      padding: 0 20rpx;
+      border-radius: 32rpx;
+      margin-top: 12rpx;
+      /*box-shadow: 1rpx 1rpx 12rpx #dedede;*/
+    }
     .ruleStyle{
       width: 92%;
       margin: 60rpx auto;
@@ -224,5 +300,8 @@
         margin: 12rpx auto;
       }
     }
+  }
+  .cu-timeline .cu-time {
+    width: 160rpx !important;
   }
 </style>

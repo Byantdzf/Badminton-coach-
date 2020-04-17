@@ -185,9 +185,9 @@
     }
 
     onLoad(e) {
-      if (wx.getStorageSync('match_profile')) {
-        this.getUserInfo()
-      }
+      // if (wx.getStorageSync('match_profile')) {
+      //   this.getUserInfo()
+      // }
       if (wx.getStorageSync('userInfo')) {
         this.type = wx.getStorageSync('type')
         this.userInfo = wx.getStorageSync('userInfo')

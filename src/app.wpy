@@ -101,6 +101,7 @@
           'root': 'pages/users',
           'pages': [
             'aboutLove',
+            'editPage',
             'userInfo',
             'ImageCropper',
             'ImageCropperV2',
