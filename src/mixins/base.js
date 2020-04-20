@@ -124,6 +124,20 @@ export default class baseMixin extends wepy.mixin {
     })
   }
 
+  $callPhone(mobile) {
+    wx.makePhoneCall({
+      phoneNumber: mobile,
+      success: function () {
+        console.log('拨打电话成功!')
+        // resolve(res)
+      },
+      fail: function () {
+        console.log('拨打电话失败！')
+        // reject('拨打电话失败')
+      }
+    })
+  }
+
   // 警告框
   $alert(item = '标题', item2) {
     const param = this.isObject(item) ? Object.assign({
@@ -158,6 +172,11 @@ export default class baseMixin extends wepy.mixin {
       delta: num
     })
   }
+  $gotoH5(URL) {
+    console.log(encodeURIComponent(URL))
+    wx.navigateTo({url: '/pages/books/bookDetail?url=' + encodeURIComponent(URL)})
+  }
+
   $gotoFriendPage(type, id) {
     let url = ''
     if (!type) {

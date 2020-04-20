@@ -18,45 +18,34 @@
       </view>
     </view>
   </view>
-  <view wx:if="{{user.is_approved && user.is_approved == 1}}">
-    <view class="mainBox animation-slide-bottom" style="animation-delay: 0.1s;">
-      <view class="text">
-        <view class="font_28 bold color-333">{{user.name}}</view>
-        <view class="font_28 bold color-333">{{user.card_num}}</view>
+  <block wx:if="{{user}}">
+    <view wx:if="{{user.is_approved == 1}}">
+      <view class="mainBox animation-slide-bottom" style="animation-delay: 0.1s;">
+        <view class="text">
+          <view class="font_28 bold color-333">{{user.name}}</view>
+          <view class="font_28 bold color-333">{{user.card_num}}</view>
+        </view>
       </view>
     </view>
-  </view>
-  <view  class="page-user" style="padding: 0" wx:if="{{user.is_approved && user.is_approved !== 1}}">
-    <view class="page-box text-center">
+    <view  class="page-user" style="padding: 0" wx:else>
+      <view class="page-box text-center">
         <view class="inputBox animation-slide-bottom" style="animation-delay: 0.1s;">
           <view class="font_28 color-theme textStyle bold">姓名</view>
-          <input type="text" class="inputStyle font_32" placeholder="请填写你的真实姓名" value="{{user.name}}" disabled="{{user.is_approved == 1}}" @input="typing('name')" />
+          <input type="text" class="inputStyle font_32" placeholder="请填写你的真实姓名" value="{{user.is_approved == 1?user.name:''}}" disabled="{{user.is_approved == 1}}" @input="typing('name')" />
         </view>
         <view class="inputBox color-333 animation-slide-bottom" style="animation-delay: 0.2s;">
           <view class="font_28 color-theme textStyle bold">身份证号码</view>
-          <input type="idcard" class="inputStyle font_32" placeholder="请填写你的身份证号码" value="{{user.card_num}}" disabled="{{user.is_approved == 1}}" @input="typing('card_num')" />
+          <input type="idcard" class="inputStyle font_32" placeholder="请填写你的身份证号码" value="{{user.is_approved == 1?user.card_num:''}}" disabled="{{user.is_approved == 1}}" @input="typing('card_num')" />
         </view>
-      <view class="_listItem animation-slide-bottom noBorder" style="animation-delay: 0.3s;margin-top: 100rpx;">
-        <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" @tap="approve" >自动认证</button>
-        <view><span class="font_24">提交即表明您同意 <span class="color-theme">《服务协议》</span>和<span class="color-theme">《隐私协议》</span></span></view>
+        <view class="_listItem animation-slide-bottom noBorder" style="animation-delay: 0.3s;margin-top: 100rpx;">
+          <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" @tap="approve" wx:if="{{user.approve_time > 0}}">自动认证</button>
+          <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" @tap="manualFn" wx:else>人工认证</button>
+          <view><span class="font_24">提交即表明您同意 <span class="color-theme">《服务协议》</span>和<span class="color-theme">《隐私协议》</span></span></view>
+        </view>
+        <view class="clearfloat"></view>
       </view>
-        <!--<block  wx:if="{{user.is_approved !== 1}}">-->
-          <!--<block wx:if="{{user.type === 'single'}}">-->
-            <!--<button class="font_28 inline-block btn-theme" style="width: 76%;height: 80rpx;line-height: 80rpx" @tap="approve">自动认证</button>-->
-          <!--</block>-->
-          <!--<block wx:else>-->
-            <!--<button class="font_28 inline-block btn-theme" style="width: 76%;height: 80rpx;line-height: 80rpx" @tap="ensure">免费认证</button>-->
-          <!--</block>-->
-          <!--<view class="font_26 color-333">提交即表明您同意 <span class="color-theme" @tap="goto('/page/users/protocol')">《用户协议》</span></view>-->
-        <!--</block>-->
-        <!--<block wx:else>-->
-        <!--<button class="font_28 inline-block btn-theme" style="width: 30%;height: 72rpx;line-height: 72rpx" hover-class="btn_active" @tap="returnCost">退还认证费</button>-->
-        <!--</block>-->
-      <!--</block>-->
-      <view class="clearfloat"></view>
     </view>
-  </view>
-  <!--<sharePic :pic.sync="invite_pic" :shareImage.sync="shareImage"></sharePic>-->
+  </block>
 </template>
 
 <script>
@@ -119,9 +108,9 @@
             duration: 1500
           })
           let shareTickets = res.shareTickets
-          if (shareTickets.length == 0) {
-            return false
-          }
+          // if (shareTickets.length == 0) {
+          //   return false
+          // }
         },
         fail: function (res) {
           // 转发失败
@@ -159,8 +148,12 @@
         success: ({code, data}) => {
           this.init = true
           this.user = data
-          this.user.card_num = this.interceptAndReplace(data.card_num, 5, 2, '*')
-          this.user.name = this.interceptAndReplace(data.name, 1, 0, '*')
+          if (data.card_num && data.is_approved) {
+            this.user.card_num = this.interceptAndReplace(data.card_num, 5, 2, '*')
+          }
+          if (data.name  && data.is_approved) {
+            this.user.name = this.interceptAndReplace(data.name, 1, 0, '*')
+          }
           this.invite_pic = data.my_share
           this.approve_time = data.approve_time
           this.$apply()
@@ -170,10 +163,7 @@
 
     // 指定下标更换   ***
     interceptAndReplace(str, frontLen, endLen, symbol) {
-      // if (str.length != 11) {
-      //   return str;
-      // }
-      var len = str.length - frontLen - endLen;
+      var len = str.length - frontLen - endLen
       var xing = '';
       for (var i = 0; i < len; i++) {
         xing += symbol
@@ -210,13 +200,6 @@
       },
       buyApprove() {
         let that = this
-        // that.getsubscription()
-        // wx.showModal({
-        //   title: '提示',
-        //   content: `你尚未购买认证服务，需要支付10元来购买，购买成功后，你拥有3次认证的机会，是否继续支付？`,
-        //   confirmText: '继续',
-        //   success(res) {
-        //     if (res.confirm) {
         that.$post({url: `${service.host}/user/buy/approve`}, {
           success: ({code, data}) => {
             console.log(data)
@@ -260,9 +243,6 @@
                         success(res) {
                         }
                       })
-                      // setTimeout(() => {
-                      //   wx.navigateTo({url: '/pages/users/vipSetting'})
-                      // }, 1200)
                     },
                     fail: ({code, data}) => {
                     },
@@ -285,11 +265,11 @@
           complete: () => {
           }
         })
-        //   } else if (res.cancel) {
-        //     console.log('用户点击取消')
-        //   }
-        // }
-        // })
+      },
+      manualFn() {
+        wx.navigateTo({
+          url: `/pages/users/identityPic?type=identification_photos&title=身份证照片`
+        })
       },
       // 免费认证（介绍人）
       ensure() {
@@ -335,9 +315,9 @@
               duration: 1200
             })
             if (wx.getStorageSync('jump')) {
-              setTimeout(() => {
-                wx.navigateTo({url: wx.getStorageSync('jump')})
-              }, 1200)
+              // setTimeout(() => {
+              //   wx.navigateTo({url: wx.getStorageSync('jump')})
+              // }, 1200)
             } else {
               this.$invoke('modal', 'showModal')
             }
@@ -487,7 +467,6 @@
       background: #D92553;
       border-radius: 6rpx;
       padding: 16rpx;
-      padding-bottom: 4rpx;
       margin: 22rpx auto;
     }
   }

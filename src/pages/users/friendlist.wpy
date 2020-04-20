@@ -5,7 +5,7 @@
     <view slot="backText">返回</view>
     <view slot="content">{{title}}</view>
   </cuCustom>
-  <view class="borrow">
+  <view class="borrow animation-fade">
     <view class="text-left radius bg-white">
       <tabSearchV2 title="搜索好友列表" BColor="#fff"></tabSearchV2>
     </view>

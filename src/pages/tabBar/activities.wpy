@@ -4,25 +4,29 @@
       <!--<view slot="backText">返回</view>-->
       <view slot="content" class="bold ">精彩活动</view>
     </cuCustom>
-    <tabSearchV2 title="搜索精彩活动" BColor="#fff"></tabSearchV2>
-    <view wx:if="{{activities.length>0}}" class="swiperBox">
-      <swiper :list.sync="activities" height="380"></swiper>
-    </view>
-    <view wx:else class="swiperBox main-bc-image"></view>
-    <view class="mainTab">
-      <view class="itemTab text-center" @tap="tabClick('0')">
-        <view class="{{type==0?'bold color-333 font_30':'color-666 font_28'}}  ">进行中</view>
-        <view class="active"  wx:if="{{type == 0}}"></view>
+    <view class="animation-slide-top">
+      <tabSearchV2 title="搜索精彩活动" BColor="#fff"></tabSearchV2>
+      <view wx:if="{{activities.length>0}}" class="swiperBox">
+        <swiper :list.sync="activities" height="380"></swiper>
       </view>
-      <view class="itemTab text-center"  @tap="tabClick('1')">
-        <view class="{{type==1?'bold color-333 font_30':'color-666 font_28'}}">往期活动</view>
-        <view class="active" wx:if="{{type == 1}}"></view>
+      <view wx:else class="swiperBox main-bc-image"></view>
+      <view class="mainTab">
+        <view class="itemTab text-center" @tap="tabClick('0')">
+          <view class="{{type==0?'bold color-333 font_30':'color-666 font_28'}}  ">进行中</view>
+          <view class="active"  wx:if="{{type == 0}}"></view>
+        </view>
+        <view class="itemTab text-center"  @tap="tabClick('1')">
+          <view class="{{type==1?'bold color-333 font_30':'color-666 font_28'}}">往期活动</view>
+          <view class="active" wx:if="{{type == 1}}"></view>
+        </view>
       </view>
     </view>
-    <partyList :list.sync="list" :hideMessage.sync="hideMessage"></partyList>
-    <view wx:if="{{!list.length}}" class="text-center">
-      <view class="font_28 bc_empty">
-        <image src="http://images.ufutx.com/201905/29/ea50e95b0b50c1fad3e3aec4827496dd.png" mode="widthFix"></image>
+    <view  class="animation-slide-bottom">
+      <partyList :list.sync="list" :hideMessage.sync="hideMessage"></partyList>
+      <view wx:if="{{!list.length}}" class="text-center">
+        <view class="font_28 bc_empty">
+          <image src="http://images.ufutx.com/201905/29/ea50e95b0b50c1fad3e3aec4827496dd.png" mode="widthFix"></image>
+        </view>
       </view>
     </view>
   </view>
@@ -85,6 +89,8 @@
     }
 
     async onLoad(e) {
+      this.page = 1
+      this.getActivities()
     }
 
     onPageScroll(res) { // 置顶事件
@@ -95,7 +101,6 @@
     onShow() {
       this.page = 1
       this.update()
-      this.getActivities()
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
     onPullDownRefresh() {

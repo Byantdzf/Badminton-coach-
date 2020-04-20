@@ -24,14 +24,14 @@
             </block>
           </view>
           <view class="userinfo-info text-center">
-            <span wx:if="{{user.name !== '获取中...'}}" class="font_28 bold white">{{ user.name }}</span>
+            <span wx:if="{{user.name !== '获取中...'}}" class="font_28 bold white">{{ user.nickname }}</span>
             <span wx:else @tap="gotoTab" class="font_30 bold white">点击登录</span>
           </view>
           <view class="editInfo" @tap.stop="goto('/pages/users/unmarriV2')">
-            <image src="https://images.ufutx.com/202003/31/46fe9cf2d318bc6515bc3508ed1ca425.png" mode="aspectFill" class="icon flo_l"></image>
-            <view class="font_26 white flo_r">
+            <view class="font_26 white flo_l">
               编辑资料
             </view>
+            <image src="https://images.ufutx.com/202004/20/358000854fe0ad24249b85f64640f9a4.png" mode="aspectFill" class="icon flo_r"></image>
           </view>
           <image src="../images/gif/wave.gif" mode="scaleToFill" class="gif-wave"></image>
         </view>
@@ -475,15 +475,14 @@
     }
     .editInfo{
       position: absolute;
-      right: 22rpx;
-      top: 22vw;
+      right: 12rpx;
+      top: 24vw;
       padding: 4rpx 12rpx;
       font-weight: 600;
       overflow: hidden;
       .icon{
-        width: 40rpx;
-        height: 40rpx;
-        margin-right: 4rpx;
+        width: 24rpx;
+        height: 42rpx;
       }
     }
     .userinfo-avatar {

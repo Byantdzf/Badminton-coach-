@@ -17,7 +17,7 @@
     <!--</view>-->
   <!--</view>-->
   <view class="cu-list menu-avatar">
-    <view class="cu-item" wx:for="{{listV2}}" wx:key="index" @tap="goto({{index}}, {{item.path}})">
+    <view class="cu-item animation-slide-right"  style="animation-delay: 0.{{index}}s;" wx:for="{{listV2}}" wx:key="index" @tap="goto({{index}}, {{item.path}})">
       <view class="cu-avatar round lg" style="background-image:url({{item.icon}});"></view>
       <view class="content">
         <view class="text-grey">

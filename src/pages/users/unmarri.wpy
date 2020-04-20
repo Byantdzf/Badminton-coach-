@@ -3,40 +3,25 @@
   <NavBar title="修改资料"></NavBar>
   <view class="container">
     <view class="orderdata">
-      <!--<view class="next text-center">-->
-        <!--<block wx:if="{{avatar}}">-->
-          <!--<image  src="{{avatar}}" class="active_user flo_l" mode="aspectFill" background-size="cover" />-->
-          <!--<button class="btn font_24 flo_l getinfo" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">从微信获取最新头像</button>-->
-        <!--</block>-->
-        <!--<block wx:else>-->
-          <!--<open-data type="userAvatarUrl"  mode="aspectFit" class="active_user flo_l"></open-data>-->
-        <!--</block>-->
-        <!--<view  class="btn-theme font_26 flo_r" @tap="ensure" style="margin-right:42rpx;width: 120rpx;height: 52rpx;line-height: 52rpx;margin-top: 24rpx;border-radius: 42rpx;">保存</view>-->
-      <!--</view>-->
-      <!--<view style="height: 20rpx"></view>-->
       <view class="mainTitle bold font_28 color-333 color-theme">基础资料</view>
       <view class="section list">
-        <!--<picker  value="{{sexIndex}}" range="{{sex}}"  @change="sexChange" >-->
-        <view class="picker color-333 bold">
-          <span class="font_26">昵称</span>
-          <span class="color-theme"> *</span>
-          <text class="text">{{name}}</text>
+        <view class="picker">
+          <span class="font_26 color-333 bold">昵称</span>
+          <span class="color-theme bold"> *</span>
+          <input type="text" placeholder="请输入" class="Inp text"  @blur="typing('name')"  value="{{name}}" cursor-spacing="50"/>
         </view>
-        <!--</picker>-->
       </view>
       <view class="section list">
-        <!--<picker  value="{{sexIndex}}" range="{{sex}}"  @change="sexChange" >-->
-        <view class="picker color-333 bold">
-          <span class="font_26">性别</span>
-          <span class="color-theme font_22">（不可修改）</span>
+        <view class="picker">
+          <span class="font_26 color-333 bold">性别</span>
+          <span class="color-theme font_22 bold">（不可修改）</span>
           <text class="text">{{sex[sexIndex]}}</text>
         </view>
-        <!--</picker>-->
       </view>
       <view  class="section list">
         <picker  value="{{statureIndex}}" range="{{statureList}}"  bindchange="statureChange" >
-          <view class="picker color-333 bold">
-            <span class="font_26">身高</span>
+          <view class="picker">
+            <span class="font_26 color-333 bold">身高</span>
             <span class="color-theme"> *</span>
             <text class="text">{{statureList[statureIndex]}}</text>
           </view>
@@ -61,15 +46,6 @@
         </view>
       </view>
       <view class="mainTitle bold font_28 color-theme">个人资料</view>
-      <!--<view  class="list ">-->
-        <!--<picker  value="{{residentIndex}}" range="{{resident_type}}"  bindchange="resident_typeChange" >-->
-          <!--<view class="picker color-333 bold">-->
-            <!--<span class="font_26">成长环境</span>-->
-            <!--<span class="color-theme">*</span>-->
-            <!--<text class="text">{{resident_type[residentIndex]}}</text>-->
-          <!--</view>-->
-        <!--</picker>-->
-      <!--</view>-->
       <view class="section list">
         <picker mode="date"  value="{{birthday}}" end="{{endDate}}"  @change="typing('birthday')">
           <view class="picker color-333 bold">
@@ -97,12 +73,12 @@
           </view>
         </picker>
       </view>
-      <view  class="list {{Graduate_schoolFocus || !graduate_school ? 'InputFocus' : ''}} color-333">
+      <view  class="list color-333">
         <view class="picker color-333 bold flo_l">
           <span class="font_26">毕业学校</span>
           <span class="color-theme"> *</span>
         </view>
-        <input type="text" placeholder="输入您的学校" class="Inp" @input="typing('graduate_school')" @blur="typing_v2"   value="{{graduate_school}}" focus="{{Graduate_schoolFocus}}" cursor-spacing="50"/>
+        <input type="text" placeholder="输入您的学校" class="Inp"  @blur="typing('graduate_school')"   value="{{graduate_school}}" cursor-spacing="50"/>
       </view>
       <view  class="list ">
         <view class="picker color-333 bold">
@@ -113,22 +89,6 @@
           </selectCity1>
         </view>
       </view>
-      <!--<view  class="list {{companyFocus || !company ? 'InputFocus' : ''}} color-333">-->
-        <!--<span class="flo_l">工作单位</span>-->
-        <!--<input type="text" placeholder="公司名称" class="Inp" @input="typing('company')" @blur="typing_v2"  value="{{company}}" focus="{{companyFocus}}" cursor-spacing="50"/>-->
-      <!--</view>-->
-      <!--<view  class="list {{companyFocus || !company ? 'InputFocus' : ''}} color-333">-->
-        <!--<span class="flo_l">公司职位</span>-->
-        <!--<input type="text" placeholder="公司职位" class="Inp" @input="typing('post')" @blur="typing_v2"  value="{{post}}" cursor-spacing="50"/>-->
-      <!--</view>-->
-      <!--<view  class="list ">-->
-        <!--<picker  value="{{work_sortIndex}}" range="{{work_sort}}"  bindchange="work_sortChange" >-->
-          <!--<view class="picker color-333">-->
-            <!--单位性质 <span class="color-theme">*</span>-->
-            <!--<text class="text" >{{work_sort[work_sortIndex]}}</text>-->
-          <!--</view>-->
-        <!--</picker>-->
-      <!--</view>-->
       <view  class="list">
         <picker mode="multiSelector" @change="bindMultiPickerChange2" @columnchange="bindMultiPickerColumnChange2" value="{{multiIndex2}}" range="{{objectMultiArray}}" >
           <view class="picker color-333 bold">
@@ -139,20 +99,29 @@
           </view>
         </picker>
       </view>
-      <view  class="list ">
-      <picker  value="{{beliefIndex}}" range="{{belief}}"  bindchange="beliefChange" >
-        <view class="picker color-333 bold">
-          <span class="font_26">信仰</span>
-          <span class="color-theme"> *</span>
-          <text class="text" >{{belief[beliefIndex]}}</text>
-        </view>
-      </picker>
-    </view>
-      <view  class="list color-333 {{wechat_idFocus || !wechat_id ? 'InputFocus' : ''}}">
+      <view class="list ">
+        <picker value="{{incomeIndex}}" range="{{incomeList}}" bindchange="incomeChange">
+          <view class="picker color-333 bold">
+            <span class="font_26">年收入</span>
+            <span class="color-theme"> *</span>
+            <text class="text">{{incomeList[incomeIndex]}}</text>
+          </view>
+        </picker>
+      </view>
+      <view class="list ">
+        <picker value="{{beliefIndex}}" range="{{belief}}" bindchange="beliefChange">
+          <view class="picker color-333 bold">
+            <span class="font_26">信仰</span>
+            <span class="color-theme"> *</span>
+            <text class="text">{{belief[beliefIndex]}}</text>
+          </view>
+        </picker>
+      </view>
+      <view  class="list color-333">
         <view class="picker color-333 bold flo_l">
           <span class="font_26">微信号</span>
         </view>
-        <input type="text" placeholder="微信号" class="Inp" @input="typing('wechat_id')" @blur="typing_v2"  value="{{wechat_id}}" cursor-spacing="50"/>
+        <input type="text" placeholder="微信号" class="Inp"  @blur="typing('wechat_id')"  value="{{wechat_id}}" cursor-spacing="50"/>
       </view>
       <view class="height160"></view>
     </view>
@@ -211,12 +180,13 @@
       weightList: [], // 体重list
       weightIndex: 20, // 默认160cm
       stateIndex: 0,
-      resident_type: ['城市', '乡村'],
       residentIndex: 0,
       degree: ['小学', '初中', '高中', '中专', '大专', '本科', '硕士', '博士', '其他'],
       degreeIndex: 0,
       work_sort: ['事业单位', '公务员', '央企', '国企', '私企', '外企'],
       work_sortIndex: 0,
+      incomeList: ['5~10w', '15~30w', '30~50w', '50~100w', '100~500w', '500以上'],
+      incomeIndex: 0,
       belief: ['基督教', '佛教', '伊斯兰教', '其他'],
       beliefIndex: 0,
       salary: [],
@@ -231,11 +201,6 @@
       photos: [],
       CITY_INDEX1: 1,
       birthday: '1990-01-01',
-      user: {
-        avatarUrl: '',
-        nickName: '艾丽丝',
-        mobile: '15361454427'
-      },
       name: '',
       age: '',
       weight: '',
@@ -261,19 +226,6 @@
       objectMultiArray: [],
       salary_id: '',
       salaries: [],
-      NameFocus: false,
-      AgeFocus: false,
-      StatureFocus: false,
-      WeightFocus: false,
-      countryFocus: false,
-      postFocus: false,
-      wechat_idFocus: false,
-      Graduate_schoolFocus: false,
-      companyFocus: false,
-      IntroductionFocus: false,
-      Ideal_mateFocus: false,
-      ShowButton: true,
-      color: '#ff9832',
       endDate: '', // 结束时间
       tempMember: 0 // 是否有可领取会员
     }
@@ -286,8 +238,8 @@
       this.getWeightList() // 体重数据
 
       let timestamp = Date.parse(new Date());
-      let date = new Date(timestamp);
-      let Y =date.getFullYear();
+      let date = new Date(timestamp)
+      let Y =date.getFullYear()
       let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
       let D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
       this.endDate = `${Y}-${M}-${D}`
@@ -296,8 +248,6 @@
     onShow() {
       console.log(this.route)
       this.$parent.getTracker(this.$root.$name, '个人信息（基础）修改')
-//          let Atanisi = Math.floor(Math.random() * 999999);
-//          console.log(this.color = Atanisi);
     }
 
     getStatureList() { // 身高
@@ -330,7 +280,7 @@
       this.$apply()
     }
 
-    getindustry() {
+    getindustry() {  // 行业
       let that = this
       this.loading = true
       this.$get({url: service.industry}, {
@@ -373,15 +323,6 @@
           that.ideal_mate = result.ideal_mate
           that.work_text = result.work_sort
           that.DegreeText = result.degree
-          // let photoList = []
-          // for (let item of result.photos) {
-          //   photoList.push(item.photo)
-          // }
-          that.photos = result.photos
-          console.log(that.photos)
-          console.log(result.stature)
-          console.log(result.weight)
-
           that.statureList.map((item, index) => {
             console.log(item)
             if (item == result.stature) {
@@ -398,21 +339,18 @@
               console.log(index)
             }
           })
-          // statureIndex
           if (result.birthday) {
             that.birthday = result.birthday
           }
-          that.company = result.company
           if (result.province) {
             that.region[0] = result.country
             that.region[1] = result.province
             that.region[2] = result.city
           }
-          if (result.resident_city) {
-            that.region_id[1] = result.resident_city
-            that.region_id[0] = result.resident_province
+          if (result.resident_dist) {
+            that.region_id[1] = result.resident_province
+            that.region_id[2] = result.resident_city
           }
-          that.residentIndex = result.resident_type === '城市' ? 0 : 1
           that.degree.forEach((item, index, arr) => {
             if (result.degree == arr[index]) {
               that.degreeIndex = index
@@ -434,6 +372,11 @@
               that.beliefIndex = index
             }
           })
+          that.incomeList.forEach((item, index, arr) => {
+            if (result.income == arr[index]) {
+              that.incomeIndex = index
+            }
+          })
           that.state.map((item, index, arr) => {
             if (item == result.state) {
               that.stateIndex = index
@@ -451,41 +394,8 @@
       })
     }
 
-    ShowModal(text) {
-      wx.showToast({
-        title: text,
-        icon: 'none',
-        duration: 1500
-      })
-    }
-
-    ensureData() {
-      let data = {
-        birthday: this.birthday,
-        company: this.company,
-        // sex: this.sexIndex == 0 ? 1 : 2,
-        stature: this.stature,
-        weight: this.weight,
-        post: this.post,
-        wechat_id: this.wechat_id,
-        graduate_school: this.graduate_school,
-        introduction: this.introduction,
-        ideal_mate: this.ideal_mate,
-        state: this.state[this.stateIndex],
-        country: this.region[0],
-        province: this.region[1],
-        city: this.region[2],
-        resident_type: this.resident_type[this.residentIndex],
-        resident_province: this.region_id[0],
-        resident_city: this.region_id[1],
-        resident_dist: this.region_id[2],
-        degree: this.degree[this.degreeIndex],
-        industry: !this.show ? this.objectMultiArray[0][this.multiIndex2[0]] : this.industry,
-        industry_sub: !this.show ? this.objectMultiArray[1][this.multiIndex2[1]] : this.industry_sub,
-        work_sort: this.work_sort[this.work_sortIndex],
-        belief: this.belief[this.beliefIndex]
-      }
-      this.$put({url: service.courtship + '/v2', data}, {
+    ensureData(data) { // 保存
+      this.$put({url: `${service.host}/profile/v2`, data}, {
         success: ({code, data}) => {
           console.log('参数保存成功！')
         },
@@ -496,159 +406,86 @@
       })
     }
     methods = {
-      deleteImage(index,id) { // 删除
-        let that = this
-        wx.showModal({
-          title: '提示',
-          content: '删除该照片？',
-          success(res) {
-            if (res.confirm) {
-              that.$delete({url: `${service.host}/users/profile/photos/${id}`}, {
-                success: ({code, res}) => {
-                  wx.showToast({
-                    title: '删除成功',
-                    icon: 'none',
-                    duration: 1500
-                  })
-                  that.photos.splice(index,1)
-                  that.$apply()
-                },
-                fail: ({code, data}) => {
-                },
-                complete: () => {
-                }
-              })
-            } else if (res.cancel) {
-              console.log('用户点击取消')
-            }
-          }
-        })
-      },
-      previewImage(imge, list) {
-        this.$previewImage(imge, list)
-      },
-      chooseimage() { // 上传生活照
-        this.$invoke('uploadImages', 'chooseimage')
-      },
-      // 更新userinfo
-      onGotUserInfo: function(e) {
-        console.log(e.detail.errMsg)
-        console.log(e.detail.userInfo.avatarUrl)
-        console.log(e.detail.rawData)
-        this.avatar = e.detail.userInfo.avatarUrl
+      ensure() {  // 检索参数
+        let vm = this
         let data = {
-          avatar: this.avatar
+          nickname: vm.name,
+          birthday: vm.birthday,
+          stature: vm.stature,
+          weight: vm.weight,
+          post: vm.post,
+          wechat_id: vm.wechat_id,
+          graduate_school: vm.graduate_school,
+          state: vm.state[vm.stateIndex],
+          country: vm.region[0],
+          province: vm.region[1],
+          city: vm.region[2],
+          resident_province: vm.region_id[1],
+          resident_city: vm.region_id[2],
+          degree: vm.degree[vm.degreeIndex],
+          industry: !vm.show ? vm.objectMultiArray[0][vm.multiIndex2[0]] : vm.industry,
+          industry_sub: !vm.show ? vm.objectMultiArray[1][vm.multiIndex2[1]] : vm.industry_sub,
+          belief: vm.belief[vm.beliefIndex],
+          income: vm.incomeList[vm.incomeIndex]
         }
-        this.$put({url: service.updateAvatar, data}, {
-          success: ({code, data}) => {
-            console.log('更新成功')
-          },
-          fail: ({code, data}) => {
-          },
-          complete: () => {
-          }
-        })
-      },
-      ensure() {
-        this.NameFocus = false
-        this.AgeFocus = false
-        this.StatureFocus = false
-        this.WeightFocus = false
-        this.Graduate_schoolFocus = false
-        this.companyFocus = false
-        this.IntroductionFocus = false
-        this.Ideal_mateFocus = false
-        this.ShowButton = true
-        let data = {
-//              name: this.name,
-          avatar: this.avatar,
-          birthday: this.birthday,
-          company: this.company,
-          sex: this.sexIndex == 0 ? 1 : 2,
-//              age: this.age,
-          stature: this.stature,
-          weight: this.weight,
-          post: this.post,
-          wechat_id: this.wechat_id,
-          graduate_school: this.graduate_school,
-          introduction: this.introduction,
-          ideal_mate: this.ideal_mate,
-          state: this.state[this.stateIndex],
-          country: this.region[0],
-          province: this.region[1],
-          city: this.region[2],
-          resident_type: this.resident_type[this.residentIndex],
-          resident_province: this.region_id[0],
-          resident_city: this.region_id[1],
-          resident_dist: this.region_id[2],
-          degree: this.degree[this.degreeIndex],
-          industry: !this.show ? this.objectMultiArray[0][this.multiIndex2[0]] : this.industry,
-          industry_sub: !this.show ? this.objectMultiArray[1][this.multiIndex2[1]] : this.industry_sub,
-          work_sort: this.work_sort[this.work_sortIndex],
-          belief: this.belief[this.beliefIndex]
-        }
-        console.log(this.stature)
-        if (!this.stature) {
-          this.StatureFocus = true
-          this.ShowModal('请填写身高（cm）')
-        } else if (!this.weight) {
-          this.WeightFocus = true
-          this.ShowModal('请填写体重（kg）')
-        } else if (!this.graduate_school) {
-          this.Graduate_schoolFocus = true
-          this.ShowModal('请填写毕业学校')
-        } else if (!this.company) {
-          this.companyFocus = true
-          this.ShowModal('请填写工作单位')
-        } else if (!this.introduction) {
-          this.IntroductionFocus = true
-          this.ShowModal('请填写一些自我介绍介绍')
-        } else if (!this.ideal_mate) {
-          this.Ideal_mateFocus = true
-          this.ShowModal('请描绘一下你未来的理想对象')
-        } else {
-          console.log(data)
-          this.$put({url: service.courtship, data}, {
-            success: ({code, data}) => {
-              wx.showToast({
-                title: '保存成功!',
-                icon: 'success',
-                duration: 800
-              })
-              this.tempMember = data.can_get_temp_member
-              setTimeout(() => {
-                if (this.tempMember == 1) {
-                  wx.color-themeirectTo({url: '/pages/users/tempMember'})
-                } else {
-                  if (data.is_rank == 0) {
-                    wx.color-themeirectTo({url: '/pages/users/upgradingVIP'})
-                  } else {
-                    wx.switchTab({url: '/pages/tabBar/user'})
-                  }
-                }
-              }, 800)
-            },
-            fail: ({code, data}) => {
-            },
-            complete: () => {
-              this.loading = false
-            }
-          })
-        }
+        console.log(data)
+        this.ensureData(data)
+        // if (!this.stature) {
+        //   this.StatureFocus = true
+        //   this.$showToast('请填写身高（cm）')
+        // } else if (!this.weight) {
+        //   this.WeightFocus = true
+        //   this.$showToast('请填写体重（kg）')
+        // } else if (!this.graduate_school) {
+        //   this.Graduate_schoolFocus = true
+        //   this.$showToast('请填写毕业学校')
+        // } else if (!this.company) {
+        //   this.companyFocus = true
+        //   this.$showToast('请填写工作单位')
+        // } else if (!this.introduction) {
+        //   this.IntroductionFocus = true
+        //   this.$showToast('请填写一些自我介绍介绍')
+        // } else if (!this.ideal_mate) {
+        //   this.Ideal_mateFocus = true
+        //   this.$showToast('请描绘一下你未来的理想对象')
+        // } else {
+        //   console.log(data)
+        //   this.$put({url: `${service.host}/profile/v2`, data}, {
+        //     success: ({code, data}) => {
+        //       wx.showToast({
+        //         title: '保存成功!',
+        //         icon: 'success',
+        //         duration: 800
+        //       })
+        //       this.tempMember = data.can_get_temp_member
+        //       setTimeout(() => {
+        //         if (this.tempMember == 1) {
+        //           // wx.color-themeirectTo({url: '/pages/users/tempMember'})
+        //         } else {
+        //           if (data.is_rank == 0) {
+        //             // wx.color-themeirectTo({url: '/pages/users/upgradingVIP'})
+        //           } else {
+        //             vm.$gotoBack(1)
+        //           }
+        //         }
+        //       }, 800)
+        //     },
+        //     fail: ({code, data}) => {
+        //     },
+        //     complete: () => {
+        //       this.loading = false
+        //     }
+        //   })
+        // }
       },
       bindMultiPickerChange2(e) {
         console.log(e)
         console.log('picker发送选择改变，携带值为', e.detail.value)
         this.multiIndex2 = e.detail.value
-        this.ensureData()
         this.$apply()
       },
       bindMultiPickerColumnChange2(e) {
         let that = this
-        // let data = {
-        //   objectMultiArray: that.data.objectMultiArray,
-        //   multiIndex2: that.data.multiIndex2
-        // }
         that.show = false
         that.multiIndex2[e.detail.column] = e.detail.value
         switch (e.detail.column) {
@@ -665,104 +502,50 @@
       },
       typing(type, e) {
         console.log(e.detail.value)
-//            if (this.isDefined(this[type])) {
         this[type] = e.detail.value
-        this.ensureData()
         this.$apply()
-//            }
+        console.log(this.name, 'name')
+        console.log(this.birthday, 'birthday')
+        console.log(this.graduate_school, 'graduate_school')
+        console.log(this.wechat_id, 'wechat_id')
       },
-      typing_v2(type, e) {
-        this.ensureData()
-      },
-      stateChange(e) {
+      stateChange(e) { // 单身状态
         this.stateIndex = e.detail.value
-        this.ensureData()
+        this.$apply()
+        console.log(this.state[this.stateIndex])
       },
       statureChange(e) { // 身高
         this.statureIndex = e.detail.value
         this.stature = this.statureList[this.statureIndex]
         this.$apply()
-        this.ensureData()
+        console.log(this.stature)
       },
       weightChange(e) { // 体重
         this.weightIndex = e.detail.value
         this.weight = this.weightList[this.weightIndex]
-        this.ensureData()
         this.$apply()
-      },
-      resident_typeChange(e) {
-        this.residentIndex = e.detail.value
-        this.ensureData()
-      },
-      cityChange(e) {
-        this.region = e.detail.value
-        this.ensureData()
-      },
-      region_idChange(e) {
-        this.region_id = e.detail.value
-        this.ensureData()
-      },
-      sexChange(e) {
-        this.sexIndex = e.detail.value
-        this.ensureData()
+        console.log(this.weight)
       },
       degreeChange(e) {
         this.ShowDegree = true
         this.degreeIndex = e.detail.value
-        this.ensureData()
+        this.$apply()
       },
       work_sortChange(e) {
         this.WorkShow = true
         this.work_sortIndex = e.detail.value
-        this.ensureData()
+        this.$apply()
       },
       beliefChange(e) {
         this.beliefIndex = e.detail.value
-        this.ensureData()
+        this.$apply()
+      },
+      incomeChange(e) {  // 年收入
+        this.incomeIndex = e.detail.value
+        this.$apply()
       }
-//          salaryChange(e) {
-//            console.log(e)
-//            console.log(this.salaries)
-//            this.Salaryshow = true
-//            this.salaryIndex = e.detail.value
-//            for (let i = 0; i < this.salaries.length; i++) {
-//              if (this.salary[this.salaryIndex] == this.salaries[i].text) {
-//                this.salary_id = this.salaries[i].id
-//              }
-//            }
-//          },
-//          carChange(e) {
-//            this.carIndex = e.detail.value
-//          },
-//          housingChange(e) {
-//            this.housingIndex = e.detail.value
-//          }
     }
     events = {
-      'UpLoadImage': (value) => {
-        let vm = this
-        let photos = []
-        photos.push(value)
-        vm.$post({
-          url: `${service.host}/users/profile/photos`,
-          data: {
-            photos: photos
-          }
-        }, {
-          success: ({code, data}) => {
-            wx.showToast({
-              title: '上传成功',
-              icon: 'none',
-              duration: 1500
-            })
-            vm.getuser()
-          },
-          fail: ({code, data}) => {
-          },
-          complete: () => {
-          }
-        })
-      },
       'selectCity': (value, index) => {
         console.log(value)
         console.log(index)
@@ -772,7 +555,6 @@
           this.region_id = value
         }
         this.$apply()
-        this.ensureData()
       }
     }
   }
@@ -838,9 +620,11 @@
     padding: 12rpx 0;
   }
   .Inp{
-    text-align: right; width: 72%;height: 72rpx;
+    text-align: right;
+    width: 72%;height: 72rpx;
     float: right;
-    /*padding-right: 22rpx;*/
+    margin-top: 6rpx;
+    font-weight: 200;
   }
   .text{
     float: right;

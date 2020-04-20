@@ -1,62 +1,56 @@
 <template>
-  <view class="container">
-    <view class="page-user">
-      <userTitle :user.sync="user"></userTitle>
-      <view class="orderdata">
-        <view class="clearfloat"></view>
-        <view class="Paths" style="margin:30rpx;" @tap="chooseimage">+</view>
-        <view style="padding: 22rpx ;border: 4rpx solid #f0f0f0;border-radius: 6rpx;margin: 10rpx">
-          <view wx:for="{{photosList}}" wx:key="*this" class="flo_l" @tap="previewImage({{item}},{{photosList}})" style="position: relative">
-            <image src="{{item}}" mode="widthFix" class="imge" />
-            <view class="white text-center font_26 deteleimage" @tap.stop="deteleimage({{index}})">
-              <image src="http://images.ufutx.com/201903/05/ed4182c14413647ddc5e8cd9ac311d0a.png" mode="aspectFit"></image>
-            </view>
-          </view>
-          <view class="clearfloat"></view>
-          <view class="font_26 color-333 bold" style="border-top: 4rpx dashed #f3f3f3;padding: 22rpx 12rpx;position: relative;">
-            <view class="example">
-              <view class="flo_l bold" style="margin-top: 8rpx;">查看示例：</view>
-              <image src="http://images.ufutx.com/201903/05/e6a4f3de5c1eaa60daad4e434a75667c.png" mode="aspectFit"  @tap="showModal"></image>
-              <view class="clearfloat"></view>
-            </view>
-            <view>1、身份证正面</view>
-            <view>2、身份证反面</view>
-            <view>3、手持身份证照片</view>
-            <view>4、其它身份证件</view>
-            <view> <span class="orange">提示语：</span>外籍成员，可用护照代替，证件只用于平台核实身份，不作它用，不对外显示，请放心上传！</view>
-          </view>
-        </view>
+  <view class="container animation-slide-top">
+    <view class="color-333 font_32 bold _title">请拍摄上传你的身份证照片</view>
+    <view class="font_24 color-666">认证信息仅用于官方审核，无需担心信息泄露，TA人无法看到你的隐私，我们会对照片进行安全处理，敬请放心。</view>
+    <view class="_picBox">
+      <view class="_itemPic flo_l text-center" @tap="chooseimage('0')">
+        <image src="{{photosList[0] || pic1}}" mode="aspectFill" class="_bcImge" />
+        <image src="https://images.ufutx.com/202004/17/fd1843e9ffd87c739c01fcb481a8eeff.png" mode="widthFix" class="_bcIcon" />
       </view>
-      <view class="next btn_red" @tap="ensure">提交</view>
+      <view class="_itemPic flo_r text-center" @tap="chooseimage('1')">
+        <image src="{{photosList[1] || pic2}}" mode="aspectFill" class="_bcImge" />
+        <image src="https://images.ufutx.com/202004/17/fd1843e9ffd87c739c01fcb481a8eeff.png" mode="widthFix" class="_bcIcon" />
+      </view>
     </view>
-    <modal>
-      <view slot="wrapper" class="wrapper">
-        <view class="header">
-          <image src="http://images.ufutx.com/201903/05/cbc22feb2fcbd4b43173f763c6a46107.png" mode="aspectFit" class="image"></image>
-          <span class="font_28 bold">福恋</span>
-        </view>
-        <view class="main">
-          <span class="font_32 bold">请上传你的身份证照片</span>
-          <view class="font_32 bold">示意图：</view>
-          <view class="text-center">
-            <swiper  display-multiple-items='1' circular previous-margin='50px' next-margin='50px' bindchange='change' current='{{current}}'>
-              <block wx:for="{{list}}" wx:key="{{index}}">
-                <swiper-item class="text-center">
-                  <view class="box {{index == current?'animationData': 'animationData2'}}" >
-                    <image src="{{item}}" mode="aspectFit" class="image"></image>
-                  </view>
-                </swiper-item>
-              </block>
-            </swiper>
-          </view>
-        </view>
-        <view class="footer">
-          <button class="text-center flo_l bold font_32" @tap="hideModal">取消</button>
-          <button class="upload text-center flo_r bold white font_32" @tap="chooseimage">上传</button>
-          <view class="clearfloat"></view>
+    <view class="_text">
+      <view class="font_26 color-333 inline-block text-center bold flo_l">拍摄手持身份证</view>
+      <view class="font_26 color-333 inline-block text-center bold flo_r">拍摄身份证正面</view>
+    </view>
+    <view class="color-333 font_32 bold _title">拍摄身份证要求</view>
+    <view class="font_24 color-666">持有本人有效身份证件；</view>
+    <view class="font_24 color-666">拍摄时确保身份证 <span class="color-theme">边框完整，字体清晰，亮度均匀；</span></view>
+    <image src="https://images.ufutx.com/202004/17/02b4d82fbfae8f11c2089bbca1957c78.png" mode="widthFix" class="_imge" />
+    <!--<view class="page-user">-->
+      <!--<view class="orderdata">-->
+        <!--<view class="Paths" style="margin:30rpx;" @tap="chooseimage">+</view>-->
+        <!--<view style="padding: 22rpx ;border: 4rpx solid #f0f0f0;border-radius: 6rpx;margin: 10rpx">-->
+          <!--<view wx:for="{{photosList}}" wx:key="*this" class="flo_l" @tap="previewImage({{item}},{{photosList}})" style="position: relative">-->
+            <!--<image src="{{item}}" mode="widthFix" class="imge" />-->
+            <!--<view class="white text-center font_26 deteleimage" @tap.stop="deteleimage({{index}})">-->
+              <!--<image src="http://images.ufutx.com/201903/05/ed4182c14413647ddc5e8cd9ac311d0a.png" mode="aspectFit"></image>-->
+            <!--</view>-->
+          <!--</view>-->
+          <!--<view class="clearfloat"></view>-->
+        <!--</view>-->
+      <!--</view>-->
+    <!--</view>-->
+  </view>
+  <view class="cu-modal {{modalName=='Modal'?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">提交成功</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
         </view>
       </view>
-    </modal>
+      <view class="padding-xl text-left">
+        审核结果将会在<span class="color-theme">1个工作日</span>内通知，请耐心等待，如有需要，请直接联系客服<span class="color-theme" @tap="callPhone('4000401707')">4000401707</span>
+      </view>
+    </view>
+  </view>
+  <view class="_listItem animation-slide-bottom noBorder" style="animation-delay: 0.3s;margin-top: 80rpx;">
+    <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" @tap="ensure" >提交</button>
+    <view class="text-center"><span class="font_24">提交即表明您同意 <span class="color-theme">《服务协议》</span>和<span class="color-theme">《隐私协议》</span></span></view>
   </view>
 </template>
 <script>
@@ -65,34 +59,29 @@
   import http from '../../mixins/http'
   import base from '../../mixins/base'
   import user from '../../mixins/user'
-  import userTitle from '../../components/userTitle'
   import modal from '../../components/modal'
   import ShareMessage from '../../mixins/ShareMessage'
   import uploadImages from '../../components/uploadImages'
+  import {callPhone} from '../../utils/fn'
 
-  export default class vipImage extends wepy.page {
+  export default class identityPic extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
-      navigationBarTitleText: '上传照片'
+      navigationBarTitleText: '人工审核'
     }
     data = {
       user: {
       },
-      current: 0,
-      list: [
-        'http://images.ufutx.com/201903/05/76b5a062053acd18a79570a987fe2031.png',
-        'http://images.ufutx.com/201903/05/0797ae89fdd68af7f47032d3de2924db.png'
-      ],
-      files: [],
-      type_v: '',
+      pic1: 'https://images.ufutx.com/202004/17/93103ccd2353eeba488cbaa0ea293539.png',
+      pic2: 'https://images.ufutx.com/202004/17/b6f8df8ad040ff1faed1d1d363f345ed.png',
+      Index: 0,
       uploadTitle: '',
+      modalName: '',
       tempFilePaths: '',
       photosList: []
     }
-    components = {userTitle, modal, uploadImages}
+    components = { modal, uploadImages}
     onLoad(e) {
-      this.type_v = e.type
-      this.$invoke('modal', 'showModal')
       this.initPageData()
     }
     onPullDownRefresh() {
@@ -110,6 +99,7 @@
           this.user = data
           this.photosList = data.identification_photos
           this.$apply()
+          console.log(this.photosList);
         }
       })
     }
@@ -121,7 +111,10 @@
         }
       that.$put({url: service.profile, data}, {
         success: ({code, res}) => {
-          if (type) this.$showToast('提交成功,等待管理员审核')
+          if (type) {
+            that.modalName = 'Modal'
+            that.$apply()
+          }
         },
         fail: ({code, data}) => {
         },
@@ -130,48 +123,27 @@
       })
     }
     methods = {
-      showModal() {
-        this.$invoke('modal', 'showModal')
-      },
-      change(e) {
-        this.current = e.detail.current
+      hideModal () {
+        this.modalName = ''
         this.$apply()
       },
-      hideModal() {
-        this.$invoke('modal', 'hideModal')
-      },
-      deteleimage(index) {
-        let that = this
-        wx.showModal({
-          title: '提示',
-          content: '是否确认删除该照片？',
-          success: function (res) {
-            if (res.confirm) {
-              console.log('用户点击确定')
-              that.photosList.splice(index, 1)
-              that.$apply()
-              that.submit()
-            } else if (res.cancel) {
-              console.log('用户点击取消')
-            }
-          }
-        })
-      },
-      chooseimage() {
-        this.$invoke('modal', 'hideModal')
+      chooseimage(index) {
+        this.Index = index
+        this.$apply()
         this.$invoke('uploadImages', 'chooseimage')
-      },
-      previewImage(image, photolist) {
-        this.$previewImages(image, photolist)
       },
       ensure() {
         this.submit('ensure')
+      },
+      callPhone (phone) {
+        this.$callPhone(phone)
       }
     }
     events = {
       'UpLoadImage': (value) => {
-        this.photosList.push(value)
+        this.photosList[this.Index] = value
         this.$apply()
+        console.log(this.photosList)
       }
     }
   }
@@ -181,6 +153,71 @@
   @import "../../styles/custom/reset.less";
   page{
     background: #ffffff;
+  }
+  .container{
+    padding: 58rpx;
+    ._title{
+      margin-bottom: 14rpx;
+    }
+    ._picBox{
+      margin-top: 36rpx;
+      overflow: hidden;
+      ._itemPic{
+        width: 46%;
+        height: 194rpx;
+        background-image: url("https://images.ufutx.com/202004/17/33b24d1820bb02989851406301cae8f7.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        position: relative;
+        ._bcImge{
+          width: 88%;
+          height: 156rpx;
+          margin-top: 18rpx;
+        }
+        ._bcIcon{
+          width: 62rpx;
+          height: 62rpx;
+          position: absolute;
+          top: 9vw;
+          left: 16vw;
+        }
+      }
+    }
+    ._text{
+      margin-top: 12rpx;
+      margin-bottom: 70rpx;
+      overflow: hidden;
+      view{
+        width: 46%;
+      }
+    }
+    ._imge{
+      margin-top: 38rpx;
+      width: 100%;
+    }
+  }
+  ._listItem{
+    margin-top: 22rpx;
+    .noBorder{
+      border: none;
+    }
+    .text{
+      margin-top: 16rpx;
+    }
+    .icon{
+      width: 38rpx;
+      height: 38rpx;
+      vertical-align: middle;
+      margin-bottom: 4rpx;
+      margin-right: 8rpx;
+    }
+    .btn-box{
+      width: 86%;
+      background: #D92553;
+      border-radius: 6rpx;
+      padding: 16rpx;
+      margin: 22rpx auto;
+    }
   }
   .weui-cells {
     position: inherit;

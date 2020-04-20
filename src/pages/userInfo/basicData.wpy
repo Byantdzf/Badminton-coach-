@@ -235,11 +235,12 @@
             console.log('注册成功')
             setTimeout(() => {
               vm.loadTitle = '成功'
+              wx.setStorageSync('token', data.token)
               vm.$apply()
             }, 1800)
             setTimeout(() => {
               vm.loadModal = false
-              vm.gotoTab('/pages/tabBar/home')
+              vm.$gotoTab('/pages/tabBar/home')
               vm.$apply()
             }, 2800)
           }

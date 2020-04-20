@@ -1,58 +1,37 @@
 <template>
   <view class="page-user">
-    <userTitle :user.sync="user"></userTitle>
-    <view class="bc_tab color-333">
-      <view  class="text-center flo_l mainF"
-            @tap="goto('/pages/users/friendlist?type=friend')">
-        <view class="bold font_32" >{{user.friend_count}}</view>
-        <view class="font_26">我的好友</view>
-      </view>
-      <view class="text-center flo_l mainFA "
-            @tap="goto('/pages/users/friendlist?type=attention')">
-        <view class="bold font_32" >{{user.follow_count}}</view>
-        <view class="font_26">我的关注</view>
-      </view>
-      <view class="text-center flo_l mainF" @tap="goto('/pages/users/friendlist?type=fans')">
-        <view class="bold font_32" >{{user.fans_count}}</view>
-        <view class="font_26">关注我的</view>
+    <view class="animation-slide-top">
+      <userTitle :user.sync="user"></userTitle>
+      <view class="bc_tab color-333">
+        <view  class="text-center flo_l mainF"
+               @tap="goto('/pages/users/friendlist?type=friend')">
+          <view class="bold font_32 text-shadow text-black" >{{user.friend_count}}</view>
+          <view class="font_26">我的好友</view>
+        </view>
+        <view class="text-center flo_l mainFA "
+              @tap="goto('/pages/users/friendlist?type=attention')">
+          <view class="bold font_32 text-shadow text-black" >{{user.follow_count}}</view>
+          <view class="font_26">我的关注</view>
+        </view>
+        <view class="text-center flo_l mainF" @tap="goto('/pages/users/friendlist?type=fans')">
+          <view class="bold font_32 text-shadow text-black" >{{user.fans_count}}</view>
+          <view class="font_26">关注我的</view>
+        </view>
       </view>
     </view>
-    <view class="_list" wx:for="{{list}}" wx:key="index" @tap="goto({{item.path}})">
-      <image src="{{item.icon}}" mode="widthFix" class="img flo_l"></image>
-      <span class="font_30 color-333">{{item.title}}</span>
-      <image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>
+    <view class="animation-slide-bottom">
+      <view class="_list" wx:for="{{list}}" wx:key="index" @tap="goto({{item.path}})">
+        <image src="{{item.icon}}" mode="widthFix" class="img flo_l"></image>
+        <span class="font_30 color-333">{{item.title}}</span>
+        <image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>
+        <view class="zf-tag font_20 flo_r bg-gradual-red padding radius text-center" wx:if="{{item.title == '推荐给好友'}}">领取会员</view>
+        <view class="font_24 flo_r zf-tag-text  text-shadow {{user.is_approved?'text-green':'red'}}" wx:if="{{item.title == '认证中心'}}">
+          <span wx:if="{{user.is_approved}}">已认证</span>
+          <span wx:else>未认证</span>
+        </view>
+      </view>
+      <view style="height: 160rpx"></view>
     </view>
-    <!--<view class="_list" @tap="goto('/pages/users/realName')">-->
-      <!--<image src="https://images.ufutx.com/202002/26/36d229ac60d08f68ae80d614387f64f3.png" mode="aspectFill" class="img flo_l"></image>-->
-      <!--<span class="font_30 color-333">认证中心</span>-->
-      <!--<image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>-->
-    <!--</view>-->
-    <!--<view class="_list"  @tap="goto('/pages/users/withdrawBlessing')">-->
-      <!--<image src="https://images.ufutx.com/202002/26/5a75208b028f61923d0799cf8acf8363.png" mode="aspectFill" class="img flo_l"></image>-->
-      <!--<span class="font_30 color-333">我的钱包</span>-->
-      <!--<image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>-->
-    <!--</view>-->
-    <!--<view class="_list" @tap="goto('/pages/users/upgradeVIP')">-->
-      <!--<image src="https://images.ufutx.com/202002/26/9afdeabd97cf4c69aa805d36e4a46528.png" mode="aspectFill" class="img flo_l"></image>-->
-      <!--<span class="font_30 color-333">会员中心</span>-->
-      <!--<image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>-->
-    <!--</view>-->
-    <!--<view class="_list _listV2" @tap="goto('/pages/users/visitor')">-->
-      <!--<image src="https://images.ufutx.com/202002/26/c0385d1447276a20160a8e5c5cce7724.png" mode="aspectFill" class="img flo_l"></image>-->
-      <!--<span class="font_30 color-333">访问记录</span>-->
-      <!--<image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>-->
-    <!--</view>-->
-    <!--<view class="_list _listV2" @tap="goto('/pages/users/myShare')">-->
-      <!--<image src="https://images.ufutx.com/202002/26/7a6550c4caf427111ee747f47302b236.png" mode="aspectFill" class="img flo_l"></image>-->
-      <!--<span class="font_30 color-333">推荐给好友</span>-->
-      <!--<image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>-->
-    <!--</view>-->
-    <!--<view class="_list _listV2" @tap="goto('/pages/users/setTing')">-->
-      <!--<image src="https://images.ufutx.com/202002/26/975b8a657710b588ffbff8a4023164a2.png" mode="aspectFill" class="img flo_l"></image>-->
-      <!--<span class="font_30 color-333">设置</span>-->
-      <!--<image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>-->
-    <!--</view>-->
-    <view style="height: 160rpx"></view>
     <view class="cu-modal {{modalName=='Modal'?'show':''}}">
       <view class="cu-dialog">
         <view class="cu-bar bg-white justify-end">
@@ -167,14 +146,7 @@
       return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
     }
 
-    onLoad(e) {
-      // let token =wx.getStorageSync('token')
-      // if (!token) {
-      //   this.$goto('/pages/userInfo/typeSelect')
-      //   return
-      // }
-      // this.getUid()
-    }
+    onLoad(e) {}
 
     onPullDownRefresh() {
       this.initPageData()
@@ -218,7 +190,7 @@
 
     // 初始化页面数据
     initPageData() {
-      this.$get({url: service.user}, {
+      this.$get({url: `${service.user}/v3`}, {
         success: ({code, data}) => {
           this.init = true
           this.user = data
@@ -232,15 +204,6 @@
       hideModal () {
         this.modalName = ''
         this.$apply()
-      },
-      gotofriends(item) {
-        let url = ''
-        if (item.type == 'single') {
-          url = '/pages/home/information?id=' + item.id
-        } else {
-          url = '/pages/home/introducer?id=' + item.id
-        }
-        wx.navigateTo({url: url})
       },
       goto(url) {
         if (url) {
@@ -291,6 +254,27 @@
       overflow: hidden;
       line-height: 100rpx;
       border-bottom: 2rpx solid #f6f6f6;
+      .zf-tag {
+        height: 36rpx;
+        line-height: 36rpx;
+        border-radius: 8rpx;
+        padding: 0 12rpx;
+        margin-top: 38rpx;
+        margin-right: 12rpx;
+        animation: zy 2.5s .15s linear infinite;
+        @keyframes zy{
+          10%{transform: rotate(8deg);}
+          20%{transform: rotate(-6deg);}
+          30%{transform: rotate(3deg);}
+          40%{transform: rotate(-3deg);}
+          50%,100%{transform: rotate(0deg);}
+        }
+      }
+      .zf-tag-text{
+        height: 36rpx;
+        margin-top: 5rpx;
+        margin-right: 12rpx;
+      }
       .img{
         width: 44rpx;
         height: auto;

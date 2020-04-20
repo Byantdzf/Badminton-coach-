@@ -101,7 +101,6 @@
           'root': 'pages/users',
           'pages': [
             'aboutLove',
-            'editPage',
             'userInfo',
             'ImageCropper',
             'ImageCropperV2',
@@ -140,7 +139,7 @@
             'intro',
             'unmarri',
             'unmarriV2',
-            'vipImage',
+            'identityPic',
             'sociability',
             'addFriendSet',
             'upgradeVIP',

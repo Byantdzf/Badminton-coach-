@@ -218,9 +218,9 @@
   <block wx:if="{{mylibs.id && mylibs.self !== 1}}">
     <view class="mainBtn">
       <view class="blurBox"></view>
-      <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" bindtap="getuserinfo"  wx:if="{{mylibs.is_friend == 0}}" @tap="showAddFriendFn">添加好友
+      <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top"  wx:if="{{mylibs.is_friend == 0}}" @tap="showAddFriendFn">添加好友
       </button>
-      <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" bindtap="getuserinfo" @tap="goto('/pages/home/chitchat?id={{mylibs.id}}&name={{mylibs.name}}&type={{mylibs.type}}')"  wx:else>找Ta聊天
+      <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" @tap="goto('/pages/home/chitchat?id={{mylibs.id}}&name={{mylibs.name}}&type={{mylibs.type}}')"  wx:else>找Ta聊天
       </button>
     </view>
   </block>

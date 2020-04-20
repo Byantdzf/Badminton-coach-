@@ -4,16 +4,6 @@
   <cuCustom  bgImage="https://images.ufutx.com/202004/09/9c88daa577e4e4148d15f316f0d55524.png" isCustom="{{true}}">
     <view slot="content">我的活动</view>
   </cuCustom>
-  <!--<view class="weui-panel weui-panel_access">-->
-    <!--<view class="weui-navbar">-->
-      <!--<view wx:for="{{tabs}}" wx:key="{{item.id}}" id="{{item.id}}" class="weui-navbar__item {{activeIndex == item.id ? 'weui-bar__item_on' : ''}}" @tap="tabClick">-->
-        <!--<view class="weui-navbar__title" >{{item.name}}</view>-->
-      <!--</view>-->
-      <!--<view class="weui-navbar__slider" style="width:{{sliderWidth}}px; left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>-->
-    <!--</view>-->
-    <!--<view style="width: 100%;height: 100rpx"></view>-->
-  <!--</view>-->
-  <!--<view style="width: 100%;height: 100rpx"></view>-->
   <view class="mainTab text-center font_30 ff">
     <view class="white itemText inline-block color-333 {{active == index?'active color-theme':''}}" wx:for="{{tabs}}"  @tap="tabClick({{index}})">{{item.name}}</view>
   </view>
@@ -30,8 +20,8 @@
           <view class="font_24">
             {{item.start_time}}
             <view class="_bc_item ff flo_r">
-              <view class="_bc_btn_warn font_24 flo_r warn" wx:if="{{item.is_deadline == 1}}">已过期</view>
-              <view class="_bc_btn_success font_24 flo_r primary" wx:else>已报名</view>
+              <view class="_bc_btn_warn font_24 flo_r bg-grey white" wx:if="{{item.is_deadline == 1}}">已过期</view>
+              <view class="_bc_btn_success font_24 flo_r bg-green" wx:else>已报名</view>
             </view>
           </view>
         </view>
@@ -328,12 +318,12 @@
     }
     ._bc_item{
       ._bc_btn_warn,._bc_btn_success{
-        padding: 2rpx 12rpx;
-        border: 1rpx solid #E64240;
-        border-radius: 4rpx;
+        padding: 0rpx 12rpx;
+        /*border: 1rpx solid #E64240;*/
+        border-radius: 6rpx;
       }
       ._bc_btn_success{
-        border: 1rpx solid #1AAC19;
+        /*border: 1rpx solid #1AAC19;*/
       }
     }
   }

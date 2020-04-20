@@ -1,90 +1,125 @@
 <template>
-  <!--<Loading :init.sync="init"></Loading>-->
   <view class="">
     <NavBarV2 rgba="#f4f5f9" bag="#b81f46" title_c="#ffffff" title="福恋"></NavBarV2>
     <view class="_bc-list">
       <block wx:if="{{list.length > 0}}">
-        <template is="userList" data="{{list, itemIndex, vanish, vanishV2, show, showV2}}"></template>
+        <template is="userList" data="{{list, cardCur, active, countDownList, is_approved, is_profile}}"></template>
       </block>
-      <view class="main-bc text-center">
-        <template is="mainBC" data="{{list, itemIndex, vanish, vanishV2, show, showV2}}"></template>
-      </view>
     </view>
-    <view class="main-fn text-center">
-      <view hover-class="btn_active" class="inline-block" @tap="nextFn()">
-        <image mode="widthFix" src="https://images.ufutx.com/202003/30/982d51fb107b78fb06274504042f214f.png"
-               class="icon"></image>
-      </view>
-      <view hover-class="btn_active" class="inline-block" @tap="gotoFn()">
-        <image mode="widthFix" src="https://images.ufutx.com/202003/30/89b4462220392cf7cc5de08ec5d79f1e.png"
-               class="image"></image>
-      </view>
-      <view hover-class="btn_active" class="inline-block" @tap="likeFn()">
-        <image mode="widthFix" src="https://images.ufutx.com/202004/13/aa85805db5dfe1abc6d743641f2531c1.png"
-               class="icon {{doudun ? 'doudun' : ''}}"></image>
-      </view>
-    </view>
-    <view style="height: 32vw;"></view>
   </view>
   <template name="userList">
-    <view class="item-avatar radius bg-white margin-top {{vanish?'animation-slide-left animation-reverse':''}} {{show?'animation-slide-up':''}} {{vanishV2?'animation-slide-right animation-reverse':''}} {{showV2?'animation-slide-up':''}}"
-          wx:for="{{list}}" wx:key="index"
-          wx:if="{{index == itemIndex}}" @tap="gotofriends({{item}},{{item.id}})">
-      <image src="https://images.ufutx.com/202003/28/d5e810272fab69fe6fe6119a0ffdab3b.png" wx:if="{{item.is_approved == 1}}" mode="widthFix" class="approved"></image>
-      <image src="{{item.photo}}" mode="aspectFill" class="image"></image>
-      <view class="font_28 _bc-center">
-        <view class="itemInfo">
-          <view class="color-333 ellipsis_1 font_32 bold flo_l name" style="max-width: 80%">{{item.name}}</view>
-          <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:if="{{item.sex=='2'}}" mode="aspectFill" class="flo_l icon"></image>
-          <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFill" wx:else class="flo_l icon" ></image>
-          <view class="flo_r city" style="margin-top: 10rpx">{{item.profile_courtship.city || ''}}</view>
-          <view class="clearfloat"></view>
-          <view class="font_24 info">
-            {{item.age? item.age + '岁' : ''}}
-            <span style="color: #f6f6f6" > | </span>
+    <swiper class="card-swiper" bindchange="cardSwiper" current="0">
+      <swiper-item wx:for="{{list}}" wx:key="index" class="{{cardCur==index?'cur':''}}" >
+        <view class="swiper-item radius shadow {{cardCur==index?'cur':''}}">
+          <view class="item-avatar radius bg-white" @tap="goto('/pages/home/information?id={{item.id}}')">
+            <image src="https://images.ufutx.com/202003/28/d5e810272fab69fe6fe6119a0ffdab3b.png"
+                   wx:if="{{item.is_approved == 1}}" mode="widthFix" class="approved"></image>
+            <image src="{{item.photo}}" mode="aspectFill" class="image animation-slide-right"></image>
+            <view class="font_28 _bc-center">
+              <view class="itemInfo">
+                <view class="color-333 ellipsis_1 font_32 bold flo_l name" style="max-width: 80%">{{item.nickname}}</view>
+                <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png"
+                       wx:if="{{item.sex=='2'}}" mode="aspectFill" class="flo_l icon"></image>
+                <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFill"
+                       wx:else class="flo_l icon"></image>
+                <view class="flo_r city" style="margin-top: 10rpx">{{item.profile.city || ''}}</view>
+                <view class="clearfloat"></view>
+                <view class="font_24 info">
+                  {{item.profile.age? item.profile.age + '岁' : ''}}
+                  <span style="color: #f6f6f6"> | </span>
 
-            {{item.profile_courtship.stature? item.profile_courtship.stature +'cm': ''}}
-            <span style="color: #f6f6f6" > | </span>
-            {{item.profile_courtship.state? item.profile_courtship.state: ''}}
+                  {{item.profile.stature? item.profile.stature +'cm': ''}}
+                  <span style="color: #f6f6f6"> | </span>
+                  {{item.profile.state? item.profile.state: ''}}
+                </view>
+              </view>
+              <view class="itemLabel">
+                <view class="itemBox flo_l ellipsis_1">职业：{{item.industry_sub}}</view>
+                <view class="itemBox flo_l ellipsis_1">信仰：{{item.profile.belief}}</view>
+                <view class="clearfloat"></view>
+              </view>
+            </view>
+          </view>
+          <view class="_bcimage text-center">
+            <image mode="widthFix" src="https://images.ufutx.com/202003/30/3b670683a97770e262b5cc17b853117e.png"></image>
           </view>
         </view>
-        <view class="itemLabel">
-          <view class="itemBox flo_l">职业：{{item.industry_sub}}</view>
-          <view class="itemBox flo_l">信仰：{{item.belief}}</view>
-          <view class="clearfloat"></view>
+      </swiper-item>
+      <swiper-item>
+        <view class="swiper-item radius shadow {{cardCur==8?'cur':''}}">
+          <view class="item-avatar radius bg-white">
+            <view class="image">
+              <view class="_time text-center">
+                <view class="text-center">
+                  距离下一次匹配剩余 <span class="color-theme">{{countDownList}}</span>
+                </view>
+              </view>
+              <view class="_time" style="top: 130rpx;">
+                <view class="text-center">
+                  每日中午 <span class="color-theme">10点
+                  <button class="text-center btn-box white radius shadow inline-block font_26 bg_theme" style="margin-bottom: -12rpx;" @tap="getList()" wx:if="{{refresh}}">刷新</button>
+                  <span wx:else="">刷新</span>
+                </span> 智能推荐用户
+                </view>
+              </view>
+              <block wx:if="{{!is_profile || !is_approved}}">
+                <view class="_time" style="top: 210rpx;">
+                  <view class="text-center font_22 color-333">由于您未满足个性化推送要求，</view>
+                  <view class="text-center font_22 color-333">请完善以下信息!</view>
+                </view>
+                <view class="_time" style="top: 380rpx;">
+                  <view class="text-center" style="margin: auto;">
+                    <view style="width: 52vw;margin: auto;">
+                      <span class="font_26 flo_l">通过实名认证</span>
+                      <view class=" text-center btn-box white radius shadow flo_r font_26 bg_theme" wx:if="{{is_approved}}">去认证</view>
+                      <button class="text-center btn-box white radius shadow flo_r font_26 bg-gradual-green" wx:else>已认证</button>
+                    </view>
+                  </view>
+                </view>
+                <view class="_time" style="top: 460rpx;">
+                  <view class="text-center" style="margin: auto;">
+                    <view style="width: 52vw;margin: auto;">
+                      <span class="font_26 flo_l">完善你的资料</span>
+                      <view class=" text-center btn-box white radius shadow flo_r font_26 bg_theme" wx:if="{{is_profile}}">去完善</view>
+                      <view class="text-center btn-box white radius shadow  bg-gradual-green flo_r font_26 " wx:else>已完善</view>
+                    </view>
+                  </view>
+                </view>
+              </block>
+              <block wx:else>
+                <view class="_time" style="top: 280rpx;">
+                  <view style="width: 72%;margin: auto;" class="bold text-center font_30 color-333 ">
+                    福恋每天10点为你精心智能匹配7位优质的单身，如果有心仪的，千万不要错过哦！
+                  </view>
+                </view>
+              </block>
+              <view class="_time" style="top: 600rpx;">
+                <view class="text-center" style="margin: auto;">
+                  <image src="https://images.ufutx.com/202004/19/0b8e6c53183b5952b58f69a347f703df.png" mode="widthFix" style="width: 220rpx;margin: auto;"></image>
+                </view>
+              </view>
+            </view>
+            <view class="font_28 _bc-center">
+              <view class="itemInfo">
+                <view class="color-333 ellipsis_1 font_32 bold flo_l name" style="max-width: 80%"></view>
+                <view class="flo_r city" style="margin-top: 10rpx"></view>
+                <view class="clearfloat"></view>
+                <view class="font_24 info">
+                </view>
+              </view>
+              <view class="itemLabel">
+                <view class="itemBox flo_l ellipsis_1 ff"></view>
+                <view class="itemBox flo_l ellipsis_1 ff"></view>
+                <view class="clearfloat"></view>
+              </view>
+            </view>
+          </view>
+          <view class="_bcimage text-center">
+            <image mode="widthFix" src="https://images.ufutx.com/202003/30/3b670683a97770e262b5cc17b853117e.png"></image>
+          </view>
         </view>
-      </view>
-    </view>
-  </template>
-  <template name="mainBC">
-    <view class="item-avatar _mainBC radius">
-      <image src="https://images.ufutx.com/202003/31/8708b241ff1b362f6c45da920d82d428.png" mode="aspectFill" class="image"></image>
-      <view class="font_28 _bc-center">
-        <view class="itemInfo">
-          <view class="color-333 ellipsis_1 font_32 bold flo_l name"></view>
-          <view class="flo_r city" style="margin-top: 10rpx"></view>
-          <view class="clearfloat"></view>
-          <view class="font_24 info"></view>
-        </view>
-        <view class="itemLabel">
-          <view class="itemBox flo_l"></view>
-          <view class="clearfloat"></view>
-        </view>
-      </view>
-    </view>
-    <!--<view class="_mainBC radius">-->
-      <!--<view class="image"></view>-->
-      <!--<view class="font_28 _bc-center">-->
-        <!--<view class="itemInfo">-->
-          <!--<view class="_bcItem"></view>-->
-          <!--<view class="_bcItemSub"></view>-->
-        <!--</view>-->
-        <!--<view class="_bcItemLabel"></view>-->
-      <!--</view>-->
-    <!--</view>-->
-    <view class="_bcimage">
-      <image mode="widthFix" src="https://images.ufutx.com/202003/30/3b670683a97770e262b5cc17b853117e.png"></image>
-    </view>
+      </swiper-item>
+    </swiper>
   </template>
 </template>
 
@@ -117,38 +152,20 @@
     data = {
       list: [],
       id: '',
-      itemIndex: 0,
+      cardCur: 0,
+      active: true,
       throttle: true, // 节流
-      vanish: false, // 消失
-      vanishV2: false,
-      showV2: true,
-      doudun: false,
-      show: true
+      countDownList: '00天00时00分00秒',
+      actEndTime: '2020-4-19 18:50:00',
+      is_profile: '',  // 资料是否完善
+      is_approved: '', // 是否认证
+      refresh: false // 是否刷新
     }
 
     computed = {}
 
-    async onLoad(e) {
-      // if (e.share_user_id) {
-      //   wx.setStorageSync('share_user_id', e.share_user_id)
-      // }
-      // console.log(e)
-      // this.id = wx.getStorageSync('user_id')
-      // this.userType = wx.getStorageSync('type')
-      // this.page = 1
-      // this.$apply()
-      console.log(this.itemIndex)
-    }
-    onShow() {
+    onLoad(e) {
       let vm = this
-      // let token = wx.getStorageSync('token')
-      // if (!token) {
-      //   this.$goto('/pages/userInfo/typeSelect')
-      //   return
-      // }
-      vm.userType = wx.getStorageSync('type')
-      vm.page = 1
-      vm.$apply()
       if (wx.getStorageSync('token') == '') {
         wepy.login({
           success: (res) => {
@@ -166,17 +183,12 @@
                   wx.setStorageSync('user_id', data.user.id)
                   wx.setStorageSync('type', data.user.type)
                 }
-                if (!data.token) {
-                  vm.initialize = true
-                  vm.$apply()
-                  // wx.navigateTo({url: '/pages/users/registerV2?from_openid=' + wx.getStorageSync('from_openid')})
-                } else {
-                  // vm.getNewCount()
+                if (data.token) {
                   vm.page = 1
                   vm.$apply()
                   vm.upDate()
-                  vm.getLikers()
-                  vm.getTempMember()
+                  vm.getList()
+                  vm.countDown()
                 }
               }
             })
@@ -188,24 +200,60 @@
       } else {
         vm.page = 1
         vm.$apply()
-        // vm.getNewCount()
         vm.upDate()
-        vm.getLikers()
-        vm.getTempMember()
+        vm.getList()
+        vm.countDown()
       }
-      if (vm.watchLocation) {
-        wx.getSetting({
-          success(res) {
-            if (!res.authSetting['scope.userLocation']) {
-              if (!wx.getStorageSync('myLong')) {
-                vm.hide = false
-                vm.$apply()
-              }
-            }
-          }
-        })
-      }
+    }
+
+    onShow() {
+      let vm = this
       vm.$parent.getTracker(vm.$root.$name, vm.config.navigationBarTitleText)
+    }
+
+    timeFormat(param) {
+      return param < 10 ? '0' + param : param
+    }
+
+    countDown(it) {
+      let day3 = new Date(),
+        vm = this
+      day3.setTime(day3.getTime() + 24 * 60 * 60 * 1000)
+      var s3 = `${day3.getFullYear()}-${(day3.getMonth() + 1)}-${day3.getDate()} 11:20:00`
+      var interval = setInterval(() => { // 获取当前时间，同时得到活动结束时间数组
+        let newTime = new Date().getTime() // 对结束时间进行处理渲染到页面
+        let endTime = new Date(s3).getTime()
+        let obj = null // 如果活动未结束，对时间进行处理
+        if (endTime - newTime > 0) {
+          let time = (endTime - newTime) / 1000 // 获取天、时、分、秒
+          let day = parseInt(time / (60 * 60 * 24))
+          let hou = parseInt(time % (60 * 60 * 24) / 3600)
+          let min = parseInt(time % (60 * 60 * 24) % 3600 / 60)
+          let sec = parseInt(time % (60 * 60 * 24) % 3600 % 60)
+          obj = {
+            day: vm.timeFormat(day),
+            hou: vm.timeFormat(hou),
+            min: vm.timeFormat(min),
+            sec: vm.timeFormat(sec)
+          }
+        } else { // 活动已结束，全部设置为'00'
+          obj = {
+            day: '00',
+            hou: '00',
+            min: '00',
+            sec: '00'
+          }
+          clearInterval(interval)
+        }
+        if (obj.hou == '00' & obj.min == '00' & obj.sec == '00') { // 一周期
+          vm.refresh = true
+          vm.$apply()
+        } else {
+          vm.countDownList = obj.hou + '时' + obj.min + '分' + obj.sec + '秒'
+          vm.$apply()
+        }
+        // console.log(vm.countDownList)
+      }, 1000)
     }
 
     onShareAppMessage(res) {
@@ -234,208 +282,51 @@
       }
     }
 
-    // getNewCount() {
-    //   this.$get({url: `${service.host}/new/message/count`}, {
-    //     success: ({code, data}) => {
-    //       let {new_count} = data
-    //       if (new_count > 0) {
-    //         wx.setTabBarBadge({
-    //           index: 2,
-    //           text: `${new_count}`
-    //         })
-    //       } else {
-    //         wx.removeTabBarBadge({
-    //           index: 2
-    //         })
-    //       }
-    //     }
-    //   })
-    // }
-
-    // onPullDownRefresh() {
-    //   this.page = 1
-    //   this.upDate()
-    //   this.getLikers()
-    // }
-
-    // onReachBottom() {
-    //   this.getLikers()
-    // }
-
-    getLikers() {
+    getList() {   // 获取用户数据
       let vm = this
-      let data = {
-        page: vm.page
-      }
+      vm.list = []
+      vm.$apply()
+      vm.$showLoading('加载中')
       vm.$get({
-        url: `${service.host}/home/likers`, data
+        url: `${service.host}/home/v3`
       }, {
         success: ({code, data}) => {
-          if (data == null) {
-            return
-          }
-          // if (data.data.length == 0 && data.last_page == 1) {
-          //   _this.noMore = true
-          //   _this.loading = false
-          //   return
-          // }
-          // if (data.current_page > data.last_page) {
-          //   _this.noMore = true
-          //   _this.loading = false
-          //   return
-          // }
-          data = data.data.map(function (item, index) {
-            return item.other_user
-          })
-          if (this.isArray(data) && data.length === 0) {
-            vm.noMore = true
-            vm.loading = false
-            vm.list = []
-            return
-          }
-          if (vm.list.length === 0 || vm.page === 1) {
-            vm.list = data
-            vm.loading = false
-            vm.itemIndex = 0
-            vm.$apply()
-          } else {
-            data.map(function (item, index) {
-              vm.list.push(item)
-              setTimeout(() => {
-                vm.loading = false
-              }, 500)
-            })
-          }
-          vm.noMore = true
-          vm.page += 1
+          vm.list = data
           vm.$apply()
-        },
-        fail: ({code, data}) => {
-        },
-        complete: () => {
-          vm.loading = false
-          vm.init = true
-          vm.initialize = true
+          return
           wx.hideLoading()
         }
       })
     }
 
     upDate() {
-      let _this = this
-      _this.myLong = wx.getStorageSync('myLong')
-      _this.myLat = wx.getStorageSync('myLat')
-      if (!_this.myLat) {
-        return _this.init = true
-      }
-      _this.loading = true
-      _this.noMore = true
-      let url = `${service.host}/home/v2`,
-        data = {
-          location_latitude: _this.myLat,
-          location_longitude: _this.myLong
-        }
-      _this.$get({
-        url: url, data
+      let vm = this
+      let url = `${service.host}/user/v3`
+      vm.$get({
+        url: url
       }, {
         success: ({code, data}) => {
-          if (JSON.stringify(_this.address) == '{}') {
-            _this.locationSubmit()
-          }
-          let {match_profile} = data
-          wx.setStorageSync('match_profile', match_profile)
-          _this.shareUser = data.sideSingles
-          _this.person = data.users
-          _this.announcements = data.announcements
-          _this.noMore = false
-          _this.$apply()
+          vm.is_approved = data.is_approved
+          vm.is_profile = data.is_profile
+          vm.$apply()
         },
         fail: ({code, data}) => {
         },
         complete: () => {
-          _this.loading = false
-          _this.init = true
           wx.hideLoading()
         }
       })
     }
 
-    getTempMember() {
-      let _this = this
-      let url = `${service.host}/can/get/temp/member`
-      _this.$get({
-        url: url
-      }, {
-        success: ({code, data}) => {
-          _this.showVip = data.can_get_temp_member == 0 ? false : true
-          _this.showMoney = data.can_get_red_packet == 0 ? false : true
-          _this.$apply()
-        },
-        fail: ({code, data}) => {
-        },
-        complete: () => {
-        }
-      })
-    }
-
-    gotoApp(item) {
-      console.log(encodeURIComponent(item))
-      wx.navigateTo({url: '/pages/books/bookDetail?url=' + encodeURIComponent(item)})
-    }
-
     methods = {
-      nextFn() {  // 下一个
-        this.throttle = false
-        this.vanish = true
-        this.show = false
+      cardSwiper(e) {
+        this.cardCur = e.detail.current
         this.$apply()
-        setTimeout(() => {
-          this.itemIndex ++
-          this.vanish = false
-          this.show = true
-          this.$apply()
-        }, 800)
-        console.log('换一个')
-        console.log(this.vanish)
-      },
-      likeFn() {  //  心仪对象
-        console.log('心仪')
-        this.throttle = false
-        this.vanishV2 = true
-        this.showV2 = false
-        this.doudun = true
-        this.$apply()
-        setTimeout(() => {
-          this.itemIndex ++
-          this.vanishV2 = false
-          this.showV2 = true
-          this.doudun = false
-          this.$apply()
-        }, 800)
-        console.log('换一个')
-        console.log(this.vanish)
-      },
-      gotofriends(item, id) {
-        let url = '',
-          user_id = item.id
-        if (id) user_id = id
-        if (item.type == 'single') {
-          url = '/pages/home/information?id=' + user_id
-        } else {
-          url = '/pages/home/introducer?id=' + user_id
-        }
-        if (!item.type) {
-          url = '/pages/home/information?id=' + user_id
-        }
-        wx.navigateTo({url: url})
+        console.log(this.cardCur, 'this.cardCur')
       },
       goto(url) {
-        wx.navigateTo({url: url})
-      },
-      gotoFn() {
-        console.log(this.list[this.itemIndex].id)
-        let url = `/pages/home/information?id=${this.list[this.itemIndex].id}`
-        wx.navigateTo({url: url})
+        console.log(url)
+        this.$goto(url)
       }
     }
   }
@@ -452,8 +343,6 @@
         width: 100vw;
         position: absolute;
         top: -2.8vw;
-        /*left: 10vw;*/
-        /*z-index: 999999;*/
       }
     }
     .main-fn{
@@ -472,9 +361,20 @@
         margin-bottom: 12px;
       }
     }
+    .card-swiper{
+      height: 88vh !important;
+      .swiper-item{
+        /*border-radius: 14rpx;*/
+        padding: 0;
+        /*overflow: hidden;*/
+      }
+      .cur{
+        transform: scale(1);
+      }
+    }
     .item-avatar {
-      width: 688rpx;
-      margin: 22rpx 32rpx 0rpx 32rpx;
+      width: 100%;
+      /*margin: 22rpx 32rpx 0rpx 32rpx;*/
       border-radius: 16rpx;
       overflow: hidden;
       position: relative;
@@ -490,7 +390,7 @@
       }
       .image {
         width: 100%;
-        height: 91.7vw;
+        height: 58vh;
         margin-bottom: -32rpx;
       }
       ._bc-center {
@@ -510,6 +410,7 @@
           padding: 6rpx;
           margin-top: 12rpx;
           .itemBox{
+            max-width: 240rpx;
             height: 46rpx;
             line-height: 46rpx;
             padding: 0 16rpx;
@@ -537,12 +438,23 @@
           }
         }
       }
+      ._time{
+        position: absolute;
+        left: 0;
+        top: 55rpx;
+        width: 100%;
+        .btn-box{
+          border-radius: 6rpx;
+          padding: 0 12rpx;
+          line-height: 46rpx;
+        }
+      }
     }
     ._mainBC {
       z-index: 99;
       .image {
         width: 100%;
-        height: 91.7vw;
+        height: 58vh;
         margin-bottom: -32rpx;
       }
       ._bc-center {
@@ -578,7 +490,7 @@
     ._bcimage{
       margin-top: -16rpx;
       image{
-        width: 90%;
+        width: 99%;
         z-index: -99999;
       }
     }

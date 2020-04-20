@@ -1,11 +1,22 @@
 <template>
-  <view class="container">
+  <view class="progress">
+    <view class="cu-progress progressBox round sm striped active">
+      <view class="bg_theme" style="width:{{loading?'60%':'79%'}};"></view>
+    </view>
+    <text class="font_28 flo_r _num">79%</text>
+    <view class="font_24 color-666 prompt">资料完善度大于80%，即可获得24小时 <span class="color-theme bold">超级VIP卡</span>！
+      <image src="https://images.ufutx.com/202004/20/559390481117d73227a7fa2866b43c6b.png" mode="widthFix" class="image flo_r"></image>
+    </view>
+  </view>
+  <view style="height: 72rpx;"></view>
+  <view class="container animation-slide-top">
     <view class="mainInfo">
       <view class="uploadBox text-center" @tap="choosePic()">
         <view class="_bc"></view>
         <image src="https://images.ufutx.com/202004/13/bef9600dda1bc32934d950aa7ac499c5.png" mode="aspectFit" class="uploadIcon"></image>
       </view>
-      <image  src="{{mylibs.avatar}}" class="active_user" mode="aspectFill"/>
+      <!--<open-data type="userAvatarUrl" wx:if="{{!mylibs.photo}}"  mode="aspectFit" class="active_user flo_l"></open-data>-->
+      <image  src="{{mylibs.photo}}"  class="active_user" mode="aspectFill"/>
       <view class="mainTitle"  @tap="goto('/pages/users/unmarri')">
         <view class="_title font_30 bold flo_l">基础资料 <span class="font_22 color-theme">（*必填）</span></view>
         <image  src="https://images.ufutx.com/202004/13/c9505127b21e909aae5a609987f5ac66.png" class="icon flo_r" mode="widthFix"/>
@@ -16,39 +27,40 @@
         <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFill" wx:else class="flo_l icon" ></image>
         <view class="clearfloat"></view>
         <view class="font_22">
-          <span style="margin-right: 12rpx;" wx:if="{{mylibs.age}}">{{mylibs.age + '岁' || ''}}</span>
-          <span style="margin-right: 12rpx;" wx:if="{{mylibs.stature}}">{{mylibs.stature || ''}}</span>
-          <span style="margin-right: 12rpx;" wx:if="{{mylibs.state}}">{{mylibs.state || ''}}</span>
-          <span style="margin-right: 12rpx;" wx:if="{{mylibs.city}}">{{mylibs.city || ''}}</span>
+          <span style="margin-right: 12rpx;" wx:if="{{mylibs.age}}">{{mylibs.age || '--'}}岁</span>
+          <span style="margin-right: 12rpx;">{{mylibs.stature || '--'}}cm</span>
+          <span style="margin-right: 12rpx;">{{mylibs.state || '--'}}</span>
+          <span style="margin-right: 12rpx;">{{mylibs.city || '--'}}</span>
         </view>
       </view>
       <view class="itemLabel font_26">
-        <view class="itemBox flo_l" >学历：{{mylibs.degree}}</view>
-        <view class="itemBox flo_l" >职业：{{mylibs.industry_sub}}</view>
+        <view class="itemBox flo_l" >学历：{{mylibs.degree || '--'}}</view>
+        <view class="itemBox flo_l" >职业：{{mylibs.industry_sub || '--'}}</view>
       </view>
     </view>
   </view>
-  <view class="container">
+  <view class="container animation-slide-bottom">
     <view class="mainInfo">
       <view class="mainTitle">
         <view class="_title font_30 bold flo_l">个人相册 <span class="font_22 color-theme">（*长按可删除）</span></view>
       </view>
       <view class="mainPhoto">
-        <image class="flo_l" src="https://images.ufutx.com/202004/13/433af0dcef9beee34b3c48a3cdb8f0e4.png" mode="aspectFit" @tap="chooseimage"></image>
-        <view class="flo_l" wx:for="{{photos}}" wx:key="{{index}}" @tap="previewImage({{item.photo}},{{photos}})" >
-          <image src="{{item.photo}}" mode="aspectFill" class="imge"  @longpress="deleteImage({{index}},{{item.id}})"/>
+        <image class="flo_l image" src="https://images.ufutx.com/202004/13/433af0dcef9beee34b3c48a3cdb8f0e4.png" mode="aspectFit" @tap="chooseimage"></image>
+        <view class="flo_l" wx:for="{{photos}}" wx:key="index" @tap="previewImage({{item.photo}}, {{photos}})" >
+          <image src="{{item.photo}}" mode="aspectFill" class="image"  @longpress="deleteImage({{index}}, {{item.id}})"/>
         </view>
       </view>
     </view>
   </view>
-  <view class="container">
+  <view class="container animation-slide-bottom">
     <view class="mainInfo">
       <view class="mainTitle">
         <view class="_title font_30 bold flo_l">关于我的 <span class="font_22 color-theme">（*必填）</span></view>
-        <image  src="https://images.ufutx.com/202004/13/c9505127b21e909aae5a609987f5ac66.png" class="icon flo_r" mode="widthFix"/>
+        <image  src="https://images.ufutx.com/202004/13/c9505127b21e909aae5a609987f5ac66.png" class="icon flo_r" mode="widthFix"  @tap="showModal('introduction','个人介绍','个人介绍（家庭情况，兴趣爱好，自我评价）')"/>
       </view>
       <view class="mainPhoto">
-        <view>{{mylibs.introduction}}</view>
+        <view wx:if="{{mylibs.introduction}}" class="color-333">{{mylibs.introduction}}</view>
+        <view wx:else class="color-bbb">个人介绍（家庭情况，兴趣爱好，自我评价）</view>
       </view>
     </view>
   </view>
@@ -56,21 +68,24 @@
     <view class="mainInfo">
       <view class="mainTitle">
         <view class="_title font_30 bold flo_l">兴趣爱好 <span class="font_22 color-theme">（*选填）</span></view>
-        <image  src="https://images.ufutx.com/202004/13/c9505127b21e909aae5a609987f5ac66.png" class="icon flo_r" mode="widthFix"/>
+        <image  src="https://images.ufutx.com/202004/13/c9505127b21e909aae5a609987f5ac66.png" class="icon flo_r" mode="widthFix" @tap="showModal('interest_hobby','兴趣爱好','日常生活你有什么爱好？可以写一下')"/>
       </view>
       <view class="mainPhoto">
-        <view>{{mylibs.introduction}}</view>
+        <view wx:if="{{mylibs.interest_hobby}}" class="color-333">{{mylibs.interest_hobby}}</view>
+        <view wx:else class="color-bbb">日常生活你有什么爱好？可以写一下</view>
+        <!--<view>{{mylibs.introduction}}</view>-->
       </view>
     </view>
   </view>
-  <view class="container">
+  <view class="container animation-slide-bottom">
     <view class="mainInfo">
       <view class="mainTitle">
         <view class="_title font_30 bold flo_l">择偶标准 <span class="font_22 color-theme">（*必填）</span></view>
-        <image  src="https://images.ufutx.com/202004/13/c9505127b21e909aae5a609987f5ac66.png" class="icon flo_r" mode="widthFix"/>
+        <image  src="https://images.ufutx.com/202004/13/c9505127b21e909aae5a609987f5ac66.png" class="icon flo_r" mode="widthFix" @tap="showModal('ideal_mate','择偶标准','写下你心中理想的对象')"/>
       </view>
       <view class="mainPhoto">
-        <view>{{mylibs.ideal_mate}}</view>
+        <view wx:if="{{mylibs.ideal_mate}}" class="color-333">{{mylibs.ideal_mate}}</view>
+        <view wx:else class="color-bbb">写下你心中理想的对象</view>
       </view>
     </view>
   </view>
@@ -78,11 +93,28 @@
     <view class="mainInfo">
       <view class="mainTitle">
         <view class="_title font_30 bold flo_l">认证中心 <span class="font_22 color-theme">（*未认证）</span></view>
-        <image  src="https://images.ufutx.com/202004/13/e65d524c117c3bf8813714a314dcc048.png" class="icon flo_r" mode="widthFix"/>
+        <image  src="https://images.ufutx.com/202004/13/e65d524c117c3bf8813714a314dcc048.png" class="icon flo_r" mode="widthFix" @tap="goto('/pages/users/realName')"/>
       </view>
       <view class="mainPhoto">
         <view class="font_28 color-333 bold flo_l">身份认证</view>
-        <view class="font_24 color-666 flo_r">未认证</view>
+        <view class="font_24 color-bbb flo_r" style="margin-right: 18rpx;" wx:if="{{!user.is_approved}}">未认证</view>
+        <image src="https://images.ufutx.com/202004/18/40a12f3095bc197efebcdfc8f2f6b9e4.png" mode="widthFix" class="flo_r" style="width: 150rpx;height: auto; margin-top: 12rpx;" wx:else></image>
+        <!--<view class="font_24 color-green flo_r" style="margin-right: 18rpx;">已认证</view>-->
+      </view>
+    </view>
+  </view>
+  <view class="cu-modal {{modalName=='Modal'?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content bold">{{editText}}</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl text-left" style="padding-top: 20rpx;">
+        <textarea class="textareaStyle" @input="typing" @blur="typing" adjust-position="true" value="{{user[editType]}}" placeholder="{{placeText}}"/>
+        <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top send"  @tap="submitFn">确定
+        </button>
       </view>
     </view>
   </view>
@@ -94,15 +126,11 @@
   import base from '../../mixins/base'
   import user from '../../mixins/user'
   import ShareMessage from '../../mixins/ShareMessage'
-  import NavBar from '../../components/NavBar'
-  import Loading from '../../components/loading'
-  import selectCity1 from '../../components/selectCity'
-  import selectCity from '../../components/selectCity'
   import uploadImages from '../../components/uploadImages'
 
   export default class Unmarried extends wepy.page {
     mixins = [base, http, user, ShareMessage]
-    components = {NavBar, Loading, selectCity1, selectCity, uploadImages}
+    components = {uploadImages}
     config = {
       navigationBarTitleText: '编辑资料',
       enablePullDownRefresh: false,
@@ -112,6 +140,11 @@
       init: false,
       photos: [],
       mylibs: {},
+      user: {},
+      modalName: '',
+      editType: '',
+      editText: '',
+      placeText: '',
       tempMember: 0 // 是否有可领取会员
     }
 
@@ -123,7 +156,7 @@
     getuser() {
       let that = this
       this.loading = true
-      this.$get({url: service.profile}, {
+      this.$get({url: `${service.profile}/v2`}, {
         success: ({code, data}) => {
           that.init = true
           let result = data
@@ -138,9 +171,55 @@
       })
     }
     methods = {
+      typing(e) {
+        console.log(e.detail.value)
+        this.user[this.editType] = e.detail.value
+        // this.mylibs[this.editType] = e.detail.value
+        this.$apply()
+      },
+      submitFn() {
+        if (!this.user[this.editType]) {
+          this.$showToast('请输入内容')
+          return
+        }
+        console.log(this.editType, 'editType')
+        console.log(this.user[this.editType], 'editType1')
+        console.log(this.user, '///')
+        this.mylibs[this.editType] = this.user[this.editType]
+        this.modalName = ''
+        this.$apply()
+        let data = {
+          introduction: this.mylibs.introduction,
+          ideal_mate: this.mylibs.ideal_mate,
+          interest_hobby: this.mylibs.interest_hobby
+        }
+        this.$put({url: `${service.host}/profile/v2`, data}, {
+          success: ({code, data}) => {
+            console.log('参数保存成功！')
+          },
+          fail: ({code, data}) => {
+          },
+          complete: () => {
+          }
+        })
+      },
+      hideModal () {
+        this.user[this.editType] = this.mylibs[this.editType]
+        this.modalName = ''
+        this.$apply()
+        console.log(this.mylibs[this.editType])
+      },
+      showModal (key, text, placeText) {
+        console.log(key)
+        this.user[key] = this.mylibs[key]
+        this.editType = key
+        this.editText = text
+        this.placeText = placeText
+        this.modalName = 'Modal'
+        this.$apply()
+      },
       choosePic() {  // 头像
         this.$goto(`/pages/users/ImageCropper?src=${this.avatar}`)
-        // this.$invoke('uploadImage', 'chooseimage')
       },
       goto(url) {
         this.$goto(url)
@@ -236,6 +315,31 @@
   page{
     background: #F3F6F8;
   }
+  .progress{
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    background: #F3F6F8;
+    padding: 2vw 0 4vw 0;
+    .progressBox{
+      width: 76vw;
+      margin-left: 5vw;
+    }
+    ._num{
+      margin-right: 5vw;
+      margin-top: 10rpx;
+    }
+    .prompt{
+      width: 88vw;
+      margin-left: 5vw;
+    }
+    image{
+      width: 68rpx;
+      height: auto;
+      margin-top: 12rpx;
+    }
+  }
   .container{
     width: 92vw;
     margin: 34rpx auto;
@@ -299,7 +403,7 @@
         padding: 8rpx 24rpx;
         margin: 8rpx 0;
         overflow: hidden;
-        image{
+        .image{
           width: 118rpx;
           height: 118rpx;
           margin-right: 18rpx;
@@ -338,5 +442,18 @@
         }
       }
     }
+  }
+  .textareaStyle{
+    background: white;
+    padding: 22rpx;
+  }
+  .btn-box{
+    width: 80%;
+    background: #D92553;
+    border-radius: 6rpx;
+    padding: 16rpx;
+    margin: 28rpx auto;
+    margin-bottom: -28rpx;
+    letter-spacing: 8rpx;
   }
 </style>
