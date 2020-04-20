@@ -4,11 +4,12 @@
       <view class="bg_theme" style="width:{{loading?'60%':'79%'}};"></view>
     </view>
     <text class="font_28 flo_r _num">79%</text>
-    <view class="font_24 color-666 prompt">资料完善度大于80%，即可获得24小时 <span class="color-theme bold">超级VIP卡</span>！
+    <view class="font_24 color-666 prompt" wx:if="{{isVIP}}">资料完善度大于80%，即可获得24小时 <text class="bold text-shadow text-yellow">超级VIP卡</text>！
       <image src="https://images.ufutx.com/202004/20/559390481117d73227a7fa2866b43c6b.png" mode="widthFix" class="image flo_r radius shadow"></image>
     </view>
+    <view class="font_24 color-666 prompt" wx:else>资料完善度越高，才能精心为你智能推荐心仪的另一伴 ！</view>
   </view>
-  <view style="height: 72rpx;"></view>
+  <view style="height: 120rpx;"></view>
   <view class="container animation-slide-top">
     <view class="mainInfo">
       <view class="uploadBox text-center" @tap="choosePic()">
@@ -339,7 +340,7 @@
       width: 68rpx;
       height: auto;
       animation: zy 2.5s .15s linear infinite;
-      box-shadow: 4rpx 4rpx 6rpx #ffd478;
+      box-shadow: 0rpx 0rpx 6rpx #ffd478;
       @keyframes zy{
         10%{transform: rotate(8deg);}
         20%{transform: rotate(-6deg);}

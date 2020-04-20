@@ -15,7 +15,7 @@
         <view class="picker">
           <span class="font_26 color-333 bold">性别</span>
           <span class="color-theme font_22 bold">（不可修改）</span>
-          <text class="text">{{sex[sexIndex]}}</text>
+          <text class="text color-999">{{sex[sexIndex]}}</text>
         </view>
       </view>
       <view  class="section list">
@@ -23,7 +23,11 @@
           <view class="picker">
             <span class="font_26 color-333 bold">身高</span>
             <span class="color-theme"> *</span>
-            <text class="text">{{statureList[statureIndex]}}</text>
+            <view class="text">
+              <span wx:if="{{statureIndex>-1}}">{{statureList[statureIndex]}}</span>
+              <span wx:else class="color-999">请选择</span>
+              <text class="cuIcon-right lg text-gray"></text>
+            </view>
           </view>
         </picker>
       </view>
@@ -32,7 +36,11 @@
           <view class="picker color-333 bold">
             <span class="font_26">体重</span>
             <span class="color-theme"> *</span>
-            <text class="text">{{weightList[weightIndex]}}</text>
+            <view class="text">
+              <span wx:if="{{weightIndex>-1}}">{{weightList[weightIndex]}}</span>
+              <span wx:else class="color-999">请选择</span>
+              <text class="cuIcon-right lg text-gray"></text>
+            </view>
           </view>
         </picker>
       </view>
@@ -41,17 +49,25 @@
           <span class="font_26">常居地</span>
           <span class="color-theme"> *</span>
           <selectCity :itemIndex.sync="CITY_INDEX" class="flo_r">
-            <text class="text" slot="Input">{{region[1]}} / {{region[2]}}</text>
+            <view class="text" slot="Input">
+              <span wx:if="{{region[2]}}">{{region[1]}} / {{region[2]}}</span>
+              <span wx:else class="color-999">请选择</span>
+              <text class="cuIcon-right lg text-gray"></text>
+            </view>
           </selectCity>
         </view>
       </view>
       <view class="mainTitle bold font_28 color-theme">个人资料</view>
       <view class="section list">
-        <picker mode="date"  value="{{birthday}}" end="{{endDate}}"  @change="typing('birthday')">
+        <picker mode="date"  value="1990-01-01" end="{{endDate}}"  @change="typing('birthday')">
           <view class="picker color-333 bold">
             <span class="font_26">出生日期</span>
             <span class="color-theme"> *</span>
-            <text class="text">{{birthday}}</text>
+            <view class="text">
+              <span wx:if="{{birthday}}">{{birthday}}</span>
+              <span wx:else class="color-999">请选择</span>
+              <text class="cuIcon-right lg text-gray"></text>
+            </view>
           </view>
         </picker>
       </view>
@@ -176,9 +192,9 @@
       sexIndex: 0,
       state: ['从未结婚', '离异', '丧偶'],
       statureList: [], // 身高list
-      statureIndex: 20, // 默认160cm
+      statureIndex: -1, // 默认160cm
       weightList: [], // 体重list
-      weightIndex: 20, // 默认160cm
+      weightIndex: -1, // 默认160cm
       stateIndex: 0,
       residentIndex: 0,
       degree: ['小学', '初中', '高中', '中专', '大专', '本科', '硕士', '博士', '其他'],
@@ -195,12 +211,12 @@
       carIndex: 0,
       housing: ['无', '有'],
       housingIndex: 0,
-      region: ['国', '省', '市'],
+      region: ['', '', ''],
       region_id: ['省', '市', '区'],
       CITY_INDEX: 0,
       photos: [],
       CITY_INDEX1: 1,
-      birthday: '1990-01-01',
+      birthday: '',
       name: '',
       age: '',
       weight: '',
@@ -678,5 +694,12 @@
     font-size: 28rpx;
     margin: 0 32rpx;
     border-bottom: 2rpx solid #f4f5f9;
+    overflow: hidden;
+    .icon{
+      width: 32rpx;
+      height: 32rpx;
+      vertical-align: middle;
+      margin-bottom: 1vw;
+    }
   }
 </style>

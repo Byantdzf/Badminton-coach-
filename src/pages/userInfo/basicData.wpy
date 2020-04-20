@@ -181,6 +181,7 @@
       defaultBirthday: '1990-01-01', // 默认生日
       endDate: '2002-12-30', // 截止时间
       userInfo: {},
+      openid: '',
       unionid: ''
     }
 
@@ -218,7 +219,7 @@
         console.log(vm.loadModal)
         let data = {
           nickname: vm.name,
-          sex: vm.sex,
+          sex: vm.sex == '男' ? 1 : 2,
           belief: vm.belief,
           country: vm.address.country,
           province: vm.address.province,
@@ -227,7 +228,8 @@
           mobile: vm.mobile,
           userInfo: vm.userInfo,
           unionid: vm.unionid,
-          type: vm.type
+          type: vm.type,
+          openid: vm.openid
         }
         console.log(data)
         vm.$post({url: `${service.host}/wechat/register/v3`, data}, {
@@ -236,6 +238,8 @@
             setTimeout(() => {
               vm.loadTitle = '成功'
               wx.setStorageSync('token', data.token)
+              wx.setStorageSync('user_id', data.user.id)
+              wx.setStorageSync('type', data.user.type)
               vm.$apply()
             }, 1800)
             setTimeout(() => {
@@ -259,7 +263,7 @@
             console.log(res)
             vm.getAddress(res.latitude, res.longitude)
             wx.setStorageSync('myLong', res.longitude)
-            wx.setStorageSync('myLat', res.latitude)
+            wx.setStorageSync('myLat', res.user.id)
           },
           fail: function () {
             vm.hide = false
@@ -306,9 +310,10 @@
             vm.$showLoading('手机号获取中...')
             vm.$post({url: `${service.host}/wechat/mobile/v2`, data}, {
               success: ({code, data}) => {
-                let {phoneNumber, unionid} = data
+                let {phoneNumber, unionid, openid} = data
                 vm.mobile = phoneNumber
                 vm.unionid = unionid
+                vm.openid = openid
                 vm.$apply()
                 wx.setStorageSync('openid', data.openid)
                 wx.hideLoading()
