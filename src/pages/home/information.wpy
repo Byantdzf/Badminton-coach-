@@ -51,18 +51,20 @@
           {{mylibs.profile_courtship.stature || ''}}
           <span style="color: #d2d4db" > | </span>
           {{mylibs.profile_courtship.state || ''}}
-          <view class="color-theme flo_r font_24  bold text-right" wx:if="{{mylibs.distance}}">
-            {{mylibs.distance}}<span class="font_28  bold">km</span>
-          </view>
+          <!--<view class="color-theme flo_r font_24  bold text-right" wx:if="{{mylibs.distance}}">-->
+            <!--{{mylibs.distance}}<span class="font_28  bold">km</span>-->
+          <!--</view>-->
         </view>
       </view>
       <view class="itemLabel font_26">
         <view class="itemBox flo_l"  wx:if="{{profile_courtship.degree}}">学历：{{mylibs.profile_courtship.degree}}</view>
         <view class="itemBox flo_l"  wx:if="{{profile_courtship.graduate_school}}">毕业于：{{mylibs.profile_courtship.graduate_school}}</view>
         <view class="itemBox flo_l"  wx:if="{{profile_courtship.city && profile_courtship.city != '区'}}">常居地：{{mylibs.profile_courtship.city}}</view>
-        <view class="itemBox flo_l"  wx:if="{{profile_courtship.resident_province && profile_courtship.resident_province != '区'}}">成长地：{{mylibs.profile_courtship.resident_city}}</view>
+        <view class="itemBox flo_l"  wx:if="{{profile_courtship.resident_city && profile_courtship.resident_city != '区'}}">籍贯：{{mylibs.profile_courtship.resident_city}}</view>
         <!--<view class="itemBox flo_l"  wx:if="{{profile_courtship.company && profile_courtship.resident_province != '区'}}">公司：{{mylibs.profile_courtship.company}}</view>-->
         <view class="itemBox flo_l" wx:if="{{profile_courtship.industry}}">职业：{{mylibs.profile_courtship.industry}} - {{mylibs.profile_courtship.industry_sub}}</view>
+        <view class="itemBox flo_l" wx:if="{{profile_courtship.income}}">年收入：{{mylibs.profile_courtship.income}} - {{mylibs.profile_courtship.income}}</view>
+
         <!--<view class="itemBox flo_l"  wx:if="{{profile_courtship.post}}">职位：{{mylibs.profile_courtship.post}}</view>-->
         <view class="itemBox flo_l" wx:if="{{profile_courtship.belief}}">信仰：{{mylibs.profile_courtship.belief}}</view>
         <view class="clearfloat"></view>
@@ -79,10 +81,12 @@
     <view class="font_26 color-333">
       {{profile_courtship.ideal_mate}}
     </view>
-    <view class="_title bold font_32 color-333">兴趣爱好</view>
-    <view class="font_26 color-333">
-      {{profile_courtship.introduction}}
-    </view>
+    <block wx:if="{{profile_courtship.interest_hobby}}">
+      <view class="_title bold font_32 color-333">兴趣爱好</view>
+      <view class="font_26 color-333">
+        {{profile_courtship.interest_hobby}}
+      </view>
+    </block>
   </view>
   <view class="navbar borrow" >
     <view class="page__bd">

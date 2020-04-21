@@ -11,9 +11,10 @@
       <view  class="font_26 flo_r ellipsis_1 " style="margin-left: 12rpx;">{{item.created_at}}</view>
       <view class="font_28 flo_l color-333 ellipsis_1 bold" style="width: 60%;">{{item.goods}}</view>
       <view class="clearfloat"></view>
-      <view  class="font_28 flo_l ellipsis_1" style="color: #4cb455;">
+      <view  class="font_28 flo_r ellipsis_1" style="color: #4cb455;">
         -￥{{item.num * item.price}}元
       </view>
+      <view  class="font_26 flo_l ellipsis_1 color-333">NO:{{item.trade_no}} <text class="copyStyle text-center font_22 color-333" @tap="copyFn({{item.trade_no}})">复制</text></view>
       <view class="weui-cell__ft weui-cell__ft_in-access" wx:if="{{item.info}}"></view>
       <view wx:if="{{item.other_openid && item.type == 'other_rank'}}" style="width: 20%;height: 200rpx;position: absolute;left: -5%;top: -5%;" class="text-center">
         <image style="width: 120rpx; height: 120rpx;" mode="aspectFit" src="http://images.ufutx.com/201807/26/2c167f2b853b4efbbe43a363deebb63a.png"></image>
@@ -219,6 +220,15 @@
     }
 
     methods = {
+      copyFn(data) {
+        let vm = this
+        wx.setClipboardData({
+          data: data,
+          success(res) {
+            vm.$showToast('已复制订单号')
+          }
+        })
+      },
       activeFn(index) {
         this.active = index
         this.$apply()
@@ -403,5 +413,14 @@ page{
   }
   .weui-loadmore__tips{
     background: #F6F6F6;
+  }
+  .copyStyle{
+    width: 62rpx;
+    height: 34rpx;
+    height: 34rpx;
+    border: 1rpx solid #b4b4b4;
+    border-radius: 6rpx;
+    vertical-align: middle;
+    margin-bottom: 6 rpx;
   }
 </style>

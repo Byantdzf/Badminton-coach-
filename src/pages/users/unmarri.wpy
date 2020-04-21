@@ -76,7 +76,11 @@
           <view class="picker color-333 bold">
             <span class="font_26">单身状态</span>
             <span class="color-theme"> *</span>
-            <text class="text">{{state[stateIndex]}}</text>
+            <view class="text">
+              <span wx:if="{{stateIndex>-1}}">{{state[stateIndex]}}</span>
+              <span wx:else class="color-999">请选择</span>
+              <text class="cuIcon-right lg text-gray"></text>
+            </view>
           </view>
         </picker>
       </view>
@@ -85,7 +89,11 @@
           <view class="picker color-333 bold">
             <span class="font_26">最高学历</span>
             <span class="color-theme"> *</span>
-            <text class="text" >{{degree[degreeIndex]}}</text>
+            <view class="text">
+              <span wx:if="{{degreeIndex>-1}}">{{degree[degreeIndex]}}</span>
+              <span wx:else class="color-999">请选择</span>
+              <text class="cuIcon-right lg text-gray"></text>
+            </view>
           </view>
         </picker>
       </view>
@@ -101,7 +109,11 @@
           <span class="font_26">籍贯</span>
           <span class="color-theme">*</span>
           <selectCity1 :itemIndex.sync="CITY_INDEX1" class="flo_r">
-            <text class="text" slot="Input">{{region_id[1]}} / {{region_id[2]}}</text>
+            <view class="text" slot="Input">
+              <span wx:if="{{region_id[2]}}">{{region_id[1]}} / {{region_id[2]}}</span>
+              <span wx:else class="color-999">请选择</span>
+              <text class="cuIcon-right lg text-gray"></text>
+            </view>
           </selectCity1>
         </view>
       </view>
@@ -110,8 +122,16 @@
           <view class="picker color-333 bold">
             <span class="font_26">职业</span>
             <span class="color-theme"> *</span>
-            <text class="text ellipsis_1 flo_r text-right" style="width: 80%" wx:if="{{show && industry}}"> {{industry}} / {{industry_sub}}</text>
-            <text class="text ellipsis_1 flo_r text-right" style="width: 80%" wx:else>{{objectMultiArray[0][multiIndex2[0]]}} - {{objectMultiArray[1][multiIndex2[1]]}}</text>
+            <block wx:if="{{show}}">
+              <view class="text">
+                <span wx:if="{{industry}}">{{industry}} / {{industry_sub}}</span>
+                <span wx:else class="color-999">请选择</span>
+                <text class="cuIcon-right lg text-gray"></text>
+              </view>
+            </block>
+            <block wx:else>
+              <text class="text ellipsis_1 flo_r text-right" style="width: 80%">{{objectMultiArray[0][multiIndex2[0]]}} - {{objectMultiArray[1][multiIndex2[1]]}}</text>
+            </block>
           </view>
         </picker>
       </view>
@@ -120,7 +140,11 @@
           <view class="picker color-333 bold">
             <span class="font_26">年收入</span>
             <span class="color-theme"> *</span>
-            <text class="text">{{incomeList[incomeIndex]}}</text>
+            <view class="text">
+              <span wx:if="{{incomeIndex>-1}}">{{incomeList[incomeIndex]}}</span>
+              <span wx:else class="color-999">请选择</span>
+              <text class="cuIcon-right lg text-gray"></text>
+            </view>
           </view>
         </picker>
       </view>
@@ -129,7 +153,11 @@
           <view class="picker color-333 bold">
             <span class="font_26">信仰</span>
             <span class="color-theme"> *</span>
-            <text class="text">{{belief[beliefIndex]}}</text>
+            <view class="text">
+              <span wx:if="{{beliefIndex>-1}}">{{belief[beliefIndex]}}</span>
+              <span wx:else class="color-999">请选择</span>
+              <text class="cuIcon-right lg text-gray"></text>
+            </view>
           </view>
         </picker>
       </view>
@@ -195,24 +223,20 @@
       statureIndex: -1, // 默认160cm
       weightList: [], // 体重list
       weightIndex: -1, // 默认160cm
-      stateIndex: 0,
+      stateIndex: -1,
       residentIndex: 0,
       degree: ['小学', '初中', '高中', '中专', '大专', '本科', '硕士', '博士', '其他'],
-      degreeIndex: 0,
-      work_sort: ['事业单位', '公务员', '央企', '国企', '私企', '外企'],
-      work_sortIndex: 0,
+      degreeIndex: -1,
+      // work_sort: ['事业单位', '公务员', '央企', '国企', '私企', '外企'],
+      // work_sortIndex: 0,
       incomeList: ['5~10w', '15~30w', '30~50w', '50~100w', '100~500w', '500以上'],
-      incomeIndex: 0,
+      incomeIndex: -1,
       belief: ['基督教', '佛教', '伊斯兰教', '其他'],
-      beliefIndex: 0,
+      beliefIndex: -1,
       salary: [],
       salaryIndex: 0,
-      car: ['无', '有'],
-      carIndex: 0,
-      housing: ['无', '有'],
-      housingIndex: 0,
       region: ['', '', ''],
-      region_id: ['省', '市', '区'],
+      region_id: ['', '', ''],
       CITY_INDEX: 0,
       photos: [],
       CITY_INDEX1: 1,
@@ -253,11 +277,11 @@
       this.getStatureList() // 身高数据
       this.getWeightList() // 体重数据
 
-      let timestamp = Date.parse(new Date());
+      let timestamp = Date.parse(new Date())
       let date = new Date(timestamp)
-      let Y =date.getFullYear()
-      let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
-      let D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+      let Y = date.getFullYear()
+      let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1)
+      let D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
       this.endDate = `${Y}-${M}-${D}`
       this.$apply()
     }
@@ -271,9 +295,9 @@
       for (let num = 139; num < 202; num++) {
         if (num < 140) {
           list.push(`${num}cm以下`)
-        }else if (num == 201) {
+        } else if (num == 201) {
           list.push(`${num}cm以上`)
-        }else{
+        } else {
           list.push(`${num}cm`)
         }
       }
@@ -322,7 +346,7 @@
     getuser() {
       let that = this
       this.loading = true
-      this.$get({url: service.profile}, {
+      this.$get({url: `${service.profile}/v2`}, {
         success: ({code, data}) => {
           that.init = true
           let result = data
@@ -341,15 +365,15 @@
           that.DegreeText = result.degree
           that.statureList.map((item, index) => {
             console.log(item)
-            if (item == result.stature) {
+            if (parseInt(item) == result.stature) {
               that.statureIndex = index
               that.$apply()
               console.log(index)
             }
           })
           that.weightList.map((item, index) => {
-            console.log(item)
-            if (item == result.weight) {
+            console.log(parseInt(item))
+            if (parseInt(item) == result.weight) {
               that.weightIndex = index
               that.$apply()
               console.log(index)
@@ -363,24 +387,13 @@
             that.region[1] = result.province
             that.region[2] = result.city
           }
-          if (result.resident_dist) {
+          if (result.resident_city) {
             that.region_id[1] = result.resident_province
             that.region_id[2] = result.resident_city
           }
           that.degree.forEach((item, index, arr) => {
             if (result.degree == arr[index]) {
               that.degreeIndex = index
-            }
-          })
-          that.work_sort.forEach((item, index, arr) => {
-            console.log(arr[index])
-            if (result.work_sort == arr[index]) {
-              that.work_sortIndex = index
-            }
-          })
-          that.sex.forEach((item, index, arr) => {
-            if (result.sex == index + 1) {
-              that.sexIndex = index
             }
           })
           that.belief.forEach((item, index, arr) => {
@@ -414,6 +427,7 @@
       this.$put({url: `${service.host}/profile/v2`, data}, {
         success: ({code, data}) => {
           console.log('参数保存成功！')
+          this.$gotoBack(1)
         },
         fail: ({code, data}) => {
         },

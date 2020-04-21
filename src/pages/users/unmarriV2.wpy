@@ -1,20 +1,27 @@
 <template>
   <view class="progress">
     <view class="cu-progress progressBox round sm striped active">
-      <view class="bg_theme" style="width:{{loading?'60%':'79%'}};"></view>
+      <view class="bg_theme" style="width:{{mylibs.profile_count/mylibs.profile_total_count*100}}%;"></view>
     </view>
-    <text class="font_28 flo_r _num">79%</text>
-    <view class="font_24 color-666 prompt" wx:if="{{isVIP}}">资料完善度大于80%，即可获得24小时 <text class="bold text-shadow text-yellow">超级VIP卡</text>！
-      <image src="https://images.ufutx.com/202004/20/559390481117d73227a7fa2866b43c6b.png" mode="widthFix" class="image flo_r radius shadow"></image>
+    <view class="flo_r _num font_28">完善度 <text class="font_28 bold">{{mylibs.profile_count/mylibs.profile_total_count*100}}%</text></view>
+    <view class="font_24 color-666 prompt" wx:if="{{mylibs.can_get_daily_rank}}">资料完善度大于80%，即可获得24小时
+      <text class="bold text-shadow text-yellow" @tap="getDailyVip">超级VIP卡</text>！
+      <image src="https://images.ufutx.com/202004/20/559390481117d73227a7fa2866b43c6b.png" mode="widthFix" class="image flo_r radius shadow" @tap="getDailyVip"></image>
     </view>
     <view class="font_24 color-666 prompt" wx:else>资料完善度越高，才能精心为你智能推荐心仪的另一伴 ！</view>
   </view>
   <view style="height: 120rpx;"></view>
   <view class="container animation-slide-top">
     <view class="mainInfo">
-      <view class="uploadBox text-center" @tap="choosePic()">
+      <view class="uploadBox text-center" @tap="choosePic({{mylibs.photo}})" >
         <view class="_bc"></view>
-        <image src="https://images.ufutx.com/202004/13/bef9600dda1bc32934d950aa7ac499c5.png" mode="aspectFit" class="uploadIcon"></image>
+        <block wx:if="{{mylibs.is_qualified_photo}}">
+          <image src="https://images.ufutx.com/202004/13/bef9600dda1bc32934d950aa7ac499c5.png" mode="aspectFit" class="uploadIcon"></image>
+        </block>
+        <block wx:else>
+          <view class="white uploadIcon " style="width:100%;position: relative">形象照审核未通过，请修改后重新提交</view>
+          <view class="white editPicStyle">修改形象照</view>
+        </block>
       </view>
       <!--<open-data type="userAvatarUrl" wx:if="{{!mylibs.photo}}"  mode="aspectFit" class="active_user flo_l"></open-data>-->
       <image  src="{{mylibs.photo}}"  class="active_user" mode="aspectFill"/>
@@ -219,8 +226,8 @@
         this.modalName = 'Modal'
         this.$apply()
       },
-      choosePic() {  // 头像
-        this.$goto(`/pages/users/ImageCropper?src=${this.avatar}`)
+      choosePic(photo) {  // 头像
+        this.$goto(`/pages/users/ImageCropper?src=${photo}`)
       },
       goto(url) {
         this.$goto(url)
@@ -250,6 +257,20 @@
             } else if (res.cancel) {
               console.log('用户点击取消')
             }
+          }
+        })
+      },
+      getDailyVip() {
+        let vm = this
+        vm.$showLoading('抢占中...')
+        this.$post({url: `${service.host}/get/daily/super/rank`}, {
+          success: ({code, data}) => {
+            console.log('更新成功')
+            wx.hideLoading()
+          },
+          fail: ({code, data}) => {
+          },
+          complete: () => {
           }
         })
       },
@@ -324,7 +345,7 @@
     background: #F3F6F8;
     padding: 2vw 0 4vw 0;
     .progressBox{
-      width: 76vw;
+      width: 66vw;
       margin-left: 5vw;
     }
     ._num{
@@ -378,6 +399,13 @@
           width: 100rpx;
           height: 100rpx;
           margin-top: 300rpx;
+        }
+        .editPicStyle{
+          border: 1rpx solid #fff;
+          width: 200rpx;
+          position: relative;
+          margin: auto;
+          border-radius: 6rpx;
         }
       }
       .active_user{
