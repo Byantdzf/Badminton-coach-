@@ -63,8 +63,7 @@
         <view class="itemBox flo_l"  wx:if="{{profile_courtship.resident_city && profile_courtship.resident_city != '区'}}">籍贯：{{mylibs.profile_courtship.resident_city}}</view>
         <!--<view class="itemBox flo_l"  wx:if="{{profile_courtship.company && profile_courtship.resident_province != '区'}}">公司：{{mylibs.profile_courtship.company}}</view>-->
         <view class="itemBox flo_l" wx:if="{{profile_courtship.industry}}">职业：{{mylibs.profile_courtship.industry}} - {{mylibs.profile_courtship.industry_sub}}</view>
-        <view class="itemBox flo_l" wx:if="{{profile_courtship.income}}">年收入：{{mylibs.profile_courtship.income}} - {{mylibs.profile_courtship.income}}</view>
-
+        <view class="itemBox flo_l" wx:if="{{profile_courtship.income}}">年收入：{{mylibs.profile_courtship.income}}</view>
         <!--<view class="itemBox flo_l"  wx:if="{{profile_courtship.post}}">职位：{{mylibs.profile_courtship.post}}</view>-->
         <view class="itemBox flo_l" wx:if="{{profile_courtship.belief}}">信仰：{{mylibs.profile_courtship.belief}}</view>
         <view class="clearfloat"></view>
@@ -493,9 +492,12 @@
         vm.modalName = ''
         vm.$apply()
         console.log(this.message)
-        vm.$post({url: `${service.addFriend}/${vm.id}`}, {
+        let data = {
+          message: vm.message
+        }
+        vm.$post({url: `${service.addFriend}/${vm.id}`, data}, {
           success: ({code, data}) => {
-            vm.modalName=='Modal_add'
+            vm.modalName = 'Modal_add'
             vm.$apply()
           },
           fail: ({code, data}) => {},

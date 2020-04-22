@@ -2,7 +2,7 @@
   <loading :init.sync="init"></loading>
   <view class="_bc-party">
     <view class="_bc-image" >
-      <image src="{{detail.poster}}"   mode="widthFix" @tap="previewImage({{detail.poster}})"></image>
+      <image src="{{detail.poster}}"   mode="aspectFill" @tap="previewImage({{detail.poster}})"></image>
     </view>
     <view class="_bc-center">
       <view class="font_32 bold _bc-title ellipsis_2 text-left">
@@ -21,11 +21,11 @@
         <span class="color-333">{{detail.address != null? detail.address : '全国'}}</span>
       </view>
     </view>
+    <!--@tap="goto('/pages/party/member?party_id={{party_id}}')"-->
     <block wx:if="{{members.length > 5}}">
       <view class="_bc-wx ">
-        <view class="_wx-title font_28" @tap="goto('/pages/party/member?party_id={{party_id}}')">
+        <view class="_wx-title font_28">
           报名成员
-          <image src="http://images.ufutx.com/201812/17/38f1fee1f088f1c9c047d654c157b0dc.png"  mode="aspectFit" class="flo_r"></image>
           <span class="flo_r">
           <span class="bold color-theme">{{members.length}}</span>人
         </span>
@@ -441,8 +441,8 @@
         margin: 22rpx;
         image{
           width: 690rpx;
-          height: 408rpx;
-          border-radius: 32rpx;
+          height: 388rpx;
+          border-radius: 12rpx;
         }
       }
       ._bc-center{

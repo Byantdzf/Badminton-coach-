@@ -16,9 +16,13 @@
       </view>
     </view>
     <view style="background: #f8f8f8;height: 22rpx;"></view>
+    <view class="_bc-title " hover-class="weui-cell_active"  @tap="goto('/pages/users/feedback')">
+      <span class="font_28">使用反馈</span>
+      <image class="image flo_r" mode="aspectFit" src="http://images.ufutx.com/201901/11/4276017b1691e5b0ad57ed6da88f681b.png"></image>
+    </view>
     <view class="_bc-title">
       <span class="font_28">隐身访问</span>
-      <switch checked="{{user.hidden}}" bindchange="hiddenChange" color="#d92553" class="flo_r" style="margin-right: -22rpx;margin-top: -6rpx;"/>
+      <switch checked="{{user.hidden}}" bindchange="hiddenChange" color="#d92553" class="flo_r" style="margin-right: -2rpx;margin-top: -6rpx;"/>
     </view>
     <view class="_bc-title " hover-class="weui-cell_active"  @tap="goto('/pages/users/blacklist')">
       <span class="font_28">黑名单</span>
@@ -590,7 +594,7 @@
   }
   ._bc-title{
     border-bottom: 3rpx solid #f3f3f3;
-    margin: 0 32rpx;
+    margin: 0 12rpx;
     padding: 22rpx 22rpx;
     .image{
       width: 32rpx;

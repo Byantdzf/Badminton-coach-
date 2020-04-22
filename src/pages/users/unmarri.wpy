@@ -164,6 +164,7 @@
       <view  class="list color-333">
         <view class="picker color-333 bold flo_l">
           <span class="font_26">微信号</span>
+          <span class="color-theme"> *</span>
         </view>
         <input type="text" placeholder="微信号" class="Inp"  @blur="typing('wechat_id')"  value="{{wechat_id}}" cursor-spacing="50"/>
       </view>

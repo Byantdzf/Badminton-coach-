@@ -1,20 +1,19 @@
 <template>
   <Loading :init.sync="init"></Loading>
   <view class="wrapper font_28">
-    <view class="head bold">关闭资料你的个人信息将不会被展示，他人无法再看到你的个人信息，请谨慎考虑。</view>
-    <view class="head font_24 orange">请选择关闭资料的原因</view>
+    <view class="head bold text-shadow text-black">关闭资料你的个人信息将不会被展示，他人无法再看到你的个人信息，请谨慎考虑。</view>
+    <view class="head font_28 text-shadow text-red">请选择关闭资料的原因</view>
     <view class="container">
       <radio-group class="radio-group"  >
         <view class="radio" wx:for="{{items}}" wx:key="{{index}}" @tap="radioChange({{index}})" hover-class="weui-cell_active">
-          <radio value="{{item.value}}" color="#d92557" checked="{{item.checked}}" />
-          {{item.value}}
+          <radio value="{{item.value}}" color="#d92557" class="itemRadio flo_l red" checked="{{item.checked}}" />
+          <view class="flo_l _text">{{item.value}}</view>
         </view>
       </radio-group>
     </view>
     <view class="text-center">
-      <view class="btn btn-theme white text-center closeBtn"  hover-class="btn_active" @tap="logout">
-        关闭资料
-      </view>
+      <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top send"  hover-class="btn_active"  @tap="logout">关闭资料
+      </button>
     </view>
   </view>
 </template>
@@ -83,6 +82,11 @@
       },
       logout() {
         let vm = this
+        console.log(vm.value)
+        if (!vm.value) {
+          vm.$showToast('请选择你想要关闭资料的原因')
+          return
+        }
         vm.$post({url: `${service.host}/feedback`,
           data: {
             content: vm.value
@@ -119,6 +123,31 @@
   @import "../../styles/custom/fn.less";
   page{
     background: white;
+    .wrapper{
+      padding: 22rpx;
+      .radio-group{
+        width: 100%;
+        .radio{
+          overflow: hidden;
+        }
+        .itemRadio{
+          transform: scale(.8);
+        }
+        ._text{
+          margin-left: 12rpx;
+          margin-top: 6rpx;
+        }
+      }
+      .btn-box{
+        width:88%;
+        background: #D92553;
+        border-radius: 6rpx;
+        padding: 16rpx;
+        margin: 42rpx auto;
+        margin-bottom: -28rpx;
+        letter-spacing: 8rpx;
+      }
+    }
     .head{
       padding: 22rpx 22rpx 0 22rpx;
     }

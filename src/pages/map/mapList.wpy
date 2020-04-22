@@ -3,54 +3,35 @@
     <view class="page__bd">
       <view class="weui-tab">
           <view class="weui-tab__content ff" >
-            <!--<view style="position:fixed;left: 0;top: 0; width: 100%;" class="ff">-->
-              <!--<view class="weui-cells__title">-->
-                <!--<view class="weui-search-bar__box text-left flo_l" style="width: 74%">-->
-                  <!--<icon class="weui-icon-search_in-box" type="search" size="14"></icon>-->
-                  <!--<input type="text" class="weui-search-bar__input" placeholder="搜索TA的名字和地址" confirm-type="search" value="{{inputVal}}" focus="{{inputShowed}}" @confirm="inputTyping" />-->
-                <!--</view>-->
-                <!--<view class="flo_l _bc-list">-->
-                  <!--<image src="http://images.ufutx.com/201812/06/1222126e6c582af0af0dccf557510e8b.png" mode="aspectFit" class="flo_l" @tap="goto('/pages/map/index')"></image>-->
-                  <!--<view class="flo_r _bc-message" @tap="gotoTab('/pages/tabBar/news')">-->
-                    <!--<image src="http://images.ufutx.com/201812/06/85f92d47c50d8c84a26a4f08c4454b63.png" mode="aspectFit"></image>-->
-                    <!--<view class="dost white" wx:if="{{message_count !== 0}}">{{message_count}}</view>-->
-                  <!--</view>-->
-                <!--</view>-->
-                <!--<view class="clearfloat"></view>-->
-              <!--</view>-->
-            <tabSearchV2 title="搜索昵称" BColor="#fff"></tabSearchV2>
-
-            <Search :title.sync="title" :type.sync="type"></Search>
-            <!--</view>-->
-            <!--<view style="height: 200rpx;"></view>-->
+            <view class="cu-bar bg-white search _tab__content bc_BoxTab ">
+              <view class="search-form round">
+                <text class="cuIcon-search"></text>
+                <input type="text"  placeholder="搜索昵称" confirm-type="search" value="{{inputVal}}" focus="{{inputShowed}}" @confirm="inputTyping" ></input>
+              </view>
+              <view @tap="showModal"><image src="https://images.ufutx.com/202004/22/09e80c2f90ab723c1dc37b5deae81f6e.jpeg" mode="aspectFill" class="icon"></image></view>
+            </view>
+            <view style="height: {{bc_height}}"></view>
             <view class="page__bd "  wx:for="{{list}}" wx:key="*this" style="position: relative;">
               <view class="borrowlist" @tap="gotofriends({{item}})">
                 <view >
-                  <image src="{{item.avatar}}" mode="aspectFill"   style="width: 100%;height: 600rpx;"></image>
-                  <view class="is_approved font_26 white" wx:if="{{item.is_approved == 1}}">
-                    <image src="http://images.ufutx.com/201901/17/32f90bdb6e67589a042ffa6536c97997.png" mode="aspectFit" style="width: 30rpx;height: 20rpx;"></image>
-                    已认证
-                  </view>
-                  <view class="is_approved font_26 white" wx:else>
-                    <image src="http://images.ufutx.com/201901/17/32f90bdb6e67589a042ffa6536c97997.png" mode="aspectFit" style="width: 30rpx;height: 20rpx;"></image>
-                    未认证
-                  </view>
+                  <image src="{{item.photo || item.avatar}}" mode="aspectFill"  style="width: 100%;height: 100vw;"></image>
+                  <image src="https://images.ufutx.com/202003/28/d5e810272fab69fe6fe6119a0ffdab3b.png"
+                         wx:if="{{item.is_approved == 1}}" mode="widthFix" class="approved"></image>
                 </view>
                 <view style="width: 100%;padding: 12rpx 32rpx 22rpx 32rpx;">
-                  <view class="flo_l">
-                    <view  class="font_32 flo_l orange ellipsis_1">
+                  <view>
+                    <view  class="font_32 flo_l color-333 ellipsis_1">
                       <span class="bold">{{item.name}}</span>
-                      <span class="font_26"> · {{item.type == 'single'? '单身':'介绍人'}}</span>
                     </view>
                     <view  class="font_28 flo_l" style="margin-left: 6rpx;">
-                      <image src="http://images.ufutx.com/201902/21/a309744e67082c4bd46db0df504c32c5.png" mode="aspectFit" wx:if="{{item.sex == '1'}}" style="width: 38rpx;height: 38rpx;margin-bottom: -12rpx;"></image>
-                      <image src="http://images.ufutx.com/201902/21/7b3892dcf60fabda05add35abfa9aec3.png" mode="aspectFit" wx:else   style="width: 38rpx;height: 38rpx;margin-bottom: -12rpx;"></image>
+                      <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFit" wx:if="{{item.sex == '1'}}" style="width: 38rpx;height: 38rpx;margin-bottom: -12rpx;"></image>
+                      <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" mode="aspectFit" wx:else   style="width: 38rpx;height: 38rpx;margin-bottom: -12rpx;"></image>
                     </view>
+                    <span class="flo_r color-666">{{item.city || '--'}}</span>
                   </view>
                   <view class="clearfloat"></view>
                   <view class="font_26 text-left color-666">
-                    <span class="text-left">{{item.age}}{{item.type == 'single'?' · '+item.stature:''}}</span>
-                    <span class="flo_r">{{item.distance}}km</span>
+                    <span class="text-left">{{item.age || '--'}}{{item.type == 'single'?' · '+item.stature:''}}</span>
                   </view>
                 </view>
                 <!--<image src="http://images.ufutx.com/201811/12/7c1df79371975f2e40994e6924319853.png" mode="aspectFit" class="flo_r date" @tap.stop="appointment({{item.id}})"></image>-->
@@ -60,6 +41,33 @@
             </view>
           </view>
         </view>
+      </view>
+    </view>
+    <view class="cu-modal drawer-modal justify-end {{modalName=='DrawerModalR'?'show':''}}" style="z-index: 9999">
+      <!--catchtap="hideModal"-->
+      <view class="cu-dialog basis-lg"  style="top:{{CustomBar}}px;height:calc(100vh - {{CustomBar}}px)">
+        <view class="cu-list menu text-left">
+          <view class="searchStyle">
+            <view class="bold font_28">性别</view>
+          </view>
+          <radio-group class="block" bindchange="radioChange('sex')">
+            <view class="cu-form-group" wx:for="{{sexList}}" wx:key="index">
+              <view class="title">{{item.title}}</view>
+              <radio class="radio red" value="{{item.value}}" checked="{{item.active}}"></radio>
+            </view>
+          </radio-group>
+          <view class="searchStyle">
+            <view class="bold font_28">年龄</view>
+          </view>
+          <radio-group class="block" bindchange="radioChange('age')">
+            <view class="cu-form-group" wx:for="{{searchList}}" wx:key="index">
+              <view class="title">{{item.title}}</view>
+              <radio class="radio red" value="{{item.value}}" checked="{{item.active}}"></radio>
+            </view>
+          </radio-group>
+        </view>
+        <view class="cancel inline-block" catchtap="hideModal">取消</view>
+        <view class="cancel inline-block bg_theme no-border" catchtap="searchFn">确定</view>
       </view>
     </view>
     <pageScroll></pageScroll>
@@ -83,18 +91,18 @@
   import http from '../../mixins/http'
   import base from '../../mixins/base'
   import user from '../../mixins/user'
-  import ShareMessage from '../../mixins/ShareMessage'
-  import Search from '../../components/search'
-  import tabSearchV2 from '../../components/tabSearchV2'
+  // import ShareMessage from '../../mixins/ShareMessage'
+  // import Search from '../../components/search'
   import pageScroll from '../../components/pageScroll'
+  import {getElement_WH} from '../../utils/fn'
 
   export default class mapList extends wepy.page {
-    mixins = [base, http, user, ShareMessage]
+    mixins = [base, http, user]
     config = {
-      navigationBarTitleText: '地图列表'
+      navigationBarTitleText: '用户列表'
     }
     components = {
-      Search, pageScroll, tabSearchV2
+      pageScroll
     }
     data = {
       loaded: false,
@@ -104,29 +112,46 @@
       noMore: false,
       loading: false,
       inputShowed: false,
+      modalName: '',
       inputVal: '',
       active_click: true, // 何时触发点击
-      search_title: [
-        {title: '90后', active: true},
-        {title: '80后', active: false},
-        {title: '70后', active: false},
-        {title: '60后', active: false}
+      sexList: [
+        {title: '不限', value: '0', active: true},
+        {title: '只看男', value: '1', active: false},
+        {title: '只看女', value: '2', active: false},
+      ],
+      searchList: [
+        {title: '不限', value: '不限', active: true},
+        {title: '90后', value: '90后', active: false},
+        {title: '80后', value: '80后', active: false},
+        {title: '70后', value: '70后', active: false},
+        {title: '60后', value: '60后', active: false}
       ],
       title: '',
       message_count: 0,
       parameter: {},
-      type: '不限'
+      bc_height: '',
+      age: 0,
+      sex: 0,
+      sexText: '',
+      type: 'single'
     }
     computed = {}
-    onShareAppMessage(res) {
-      return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
-    }
+    // // onShareAppMessage(res) {
+    // //   return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
+    // }
     async onLoad(e) {
       if (e.title) {
         this.title = e.title
         this.type = e.type
         this.$apply()
       }
+      getElement_WH('.bc_BoxTab').then((value) => {
+        this.bc_height = value.height + 'px'
+        this.$apply()
+      }).catch((error) => {
+        console.log(error)
+      })
     }
     onShow() {
       this.getLibraries()
@@ -145,21 +170,18 @@
       }, 200)
     }
     getLibraries(keyword) {
-      let _this = this,
-        myLong = wx.getStorageSync('myLong'),
-        myLat = wx.getStorageSync('myLat'),
-        address = wx.getStorageSync('address')
+      let _this = this
+        // myLong = wx.getStorageSync('myLong'),
+        // myLat = wx.getStorageSync('myLat'),
+        // address = wx.getStorageSync('address')
       _this.loading = true
       _this.active_click = false
+      _this.$showLoading('加载中')
       let url = `${service.users}/v2?keyword=${this.inputVal}&page=${this.page}`,
         data = {
           page: this.page,
-          location_latitude: myLat,
-          location_longitude: myLong,
-          province: address.province,
-          city: address.city,
-          age: '不限',
-          type: _this.type
+          age: this.age ? this.age : '不限',
+          type: this.sexText? this.sexText: '不限'
         }
       if (JSON.stringify(_this.parameter) != '{}') {
         data = _this.parameter
@@ -170,6 +192,7 @@
       }, {
         success: ({code, data}) => {
 //          _this.loading = true
+          wx.hideLoading()
           _this.message_count = data.message_count
           if (data.users.data.length == 0 && data.users.data.last_page == 1) {
             _this.loading = false
@@ -214,35 +237,69 @@
       this.$broadcast('showBackTopBtn', show)
     }
     methods = {
-      gotoTab(url) {
-        this.$gotoTab(url)
+      radioChange(title, e) {
+        console.log(title)
+        if (title == 'sex') {
+          for (let item of this.sexList) {
+            if (item.value == e.detail.value) {
+              item.active = true
+              this.sex = item.value
+              this.$apply()
+            }
+          }
+        } else {
+          for (let item of this.searchList) {
+            if (item.value == e.detail.value) {
+              item.active = true
+              this.age = item.value
+              this.$apply()
+            }
+          }
+        }
       },
-      // 约见
-      appointment(id) {
-        this.$post({
-          url: `${service.host}/appoint/plan/with/users/${id}`
-        }, {
-          success: ({code, data}) => {
-            wx.showModal({
-              title: '申请成功',
-              content: '请留意对方的信息！'
-            })
-          },
-          fail: ({code, data}) => {},
-          complete: () => {}
+      searchFn() {
+        console.log(this.sex, this.age)
+        let vm = this
+        this.list = []
+        this.modalName = ''
+        if (this.sex == 0) {
+          this.sexText = ''
+          this.$apply()
+        } else if (this.sex == 1) {
+          this.sexText = 'single_man'
+          this.$apply()
+        } else {
+          this.sexText = 'single_woman'
+          this.$apply()
+        }
+        this.page = 1
+        this.$apply()
+        setTimeout(() => {
+          vm.getLibraries()
         })
       },
-      searchTitle(index) {
-        if (this.active_click) {
-          this.page = 1
-          this.search_title[index].active = true
-          this.getLibraries()
-          this.search_title.forEach((item, idx) => {
-            if (idx !== index) {
-              this.search_title[idx].active = false
-            }
-          })
+      hideModal(e) {
+        for (let item of this.sexList) {
+          item.active = false
+          this.$apply()
         }
+        this.sexList[0].active = true
+        this.sex = this.sexList[0].value
+        for (let item of this.searchList) {
+          item.active = false
+          this.$apply()
+        }
+        this.searchList[0].active = true
+        this.age = this.searchList[0].value
+        this.modalName = ''
+        this.$apply()
+      },
+      showModal() {
+        this.modalName = 'DrawerModalR'
+        this.$apply()
+      },
+      gotoTab(url) {
+        this.$gotoTab(url)
       },
       showInput () {
         this.inputShowed = true
@@ -291,14 +348,13 @@
   @import "../../styles/custom/fn.less";
   page{
     background: #ffffff;
-    .is_approved{
+    .approved{
       position: absolute;
-      left: 8%;
-      top: 6%;
-      background: rgba(0,0,0,0.5);
-      padding: 4rpx 22rpx;
-      border-radius: 32rpx;
-      display: inline-block;
+      left: 54rpx;
+      top: 22rpx;
+      width: 140rpx;
+      height: auto;
+      z-index: 999;
     }
   }
   .borrow{
@@ -345,35 +401,6 @@
       margin-right: 5px;
     }
   }
-  .list{
-    padding: 22rpx;
-    /*background: red;*/
-    box-shadow: 1rpx 1rpx 12rpx #d3d3d3;
-  }
-  .inline-block {display: inline-block}
-  .flo_l {float: left}
-  .flo_r {float: right}
-  .font_26 {font-size: 26rpx}
-  .font_28 {font-size: 28rpx}
-  .bold{font-weight: bold}
-  .clearfloat {clear:both}
-  .white {background: white}
-  .ellipsis_2 {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-  .ellipsis_1 {
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    overflow:hidden;
-  }
-
-  .imagebox{
-    width: 33%;
-  }
   .borrowlist{
     width: 92%;
     box-shadow: 1rpx 1rpx 18rpx #d3d3d3;
@@ -382,70 +409,32 @@
     background: white;
     overflow: hidden;
   }
-  .weui-cell__ft {
-    margin-top: 10%;
-  }
-  .search_title{
-    min-width: 80rpx;
-    padding: 2rpx 14rpx;
-    background: #ffffff;
-    border-radius: 28rpx;
-    margin-left: 32rpx;
-  }
-  .active{
-    background: #ffbf58;
-    color: white;
-  }
-  .date{
-    width: 80rpx;height: 80rpx;
-    margin-top: -22rpx;
-    margin-right: 32rpx;
-    box-shadow: 1rpx 1rpx 12rpx #d3d3d3;
-    border-radius: 12rpx;
-  }
-  .weui-navbar__slider {
-    background-color: #c66584;
-  }
-  .weui-navbar__item.weui-bar__item_on {
-    color:#c66584;
-  }
-  .weui-cells__title{
-    padding: 12rpx 30rpx 4rpx 30rpx;
-    border-bottom: 2rpx solid #e6e6e6;
-    .weui-search-bar__box{
-      background: #f2f2f2;
-      padding: 2rpx 60rpx;
-      border-radius: 4rpx;
-      .weui-icon-search_in-box {
-        top: 18rpx;
-      }
+  ._tab__content{
+    width: 100%;
+    position: fixed;
+    left: 0%;
+    z-index: 9999;
+    .search-form{
+      width: 82vw;
+      flex: initial;
+      margin-right: 8rpx;
     }
-    ._bc-list{
-      image{
-        width: 60rpx;
-        height: 60rpx;
-        margin-left: 22rpx;
-      }
-      ._bc-message{
-        position: relative;
-        margin-left: 22rpx;
-        image{
-          width: 48rpx;
-          height: 48rpx;
-          margin-top: 4rpx;
-        }
-        .dost{
-          height: 32rpx;
-          min-width: 32rpx;
-          text-align: center;
-          font-size: 20rpx;
-          position: absolute;
-          right: -8rpx;
-          top: 0;
-          border-radius: 50%;
-          background: red;
-        }
-      }
+    .icon{
+      width: 68rpx;
+      height: 68rpx;
+      margin-right: 30rpx;
+      margin-top: 16rpx;
     }
+  }
+  .searchStyle{
+    padding: 22rpx;
+  }
+  .cancel{
+    width: 180rpx;
+    line-height: 60rpx;
+    height: 60rpx;
+    border: 2rpx solid #d0d0d0;
+    border-radius: 32rpx;
+    margin: 42rpx 22rpx;
   }
 </style>

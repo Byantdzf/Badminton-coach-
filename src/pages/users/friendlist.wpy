@@ -12,7 +12,7 @@
     <view wx:for="{{list}}" wx:key="*this">
       <view class="borrowlist" @tap="gotoFriendPage({{item}})">
         <view class="flo_l" >
-          <image src="{{item.photo}}" mode="aspectFill" class="flo_l photo"></image>
+          <image src="{{item.photo || item.circle_avatar}}" mode="aspectFill" class="flo_l photo"></image>
         </view>
         <view class="flo_l" style="width: 84%;">
           <view  class="font_28 flo_l color-333 ellipsis_1 bold" style="margin-left: 20rpx;max-width: 40%;">

@@ -9,7 +9,7 @@
               <view class="page__bd "  wx:for="{{list}}" wx:key="*this" >
                 <view class="flo_l borrowlist" @tap="gototype('{{item}}')">
                   <view class="flo_l weui-cell__hd" >
-                    <image src="{{item.other_user.photo}}" mode="aspectFit"   class="flo_l bc_acatar"></image>
+                    <image src="{{item.other_user.photo || item.other_user.circle_avatar}}" mode="aspectFill"   class="flo_l bc_acatar"></image>
                   </view>
                   <view class="flo_l" style="width: 78%;">
                     <view  class="font_28 flo_l black_6 ellipsis_1 bold" style="margin-left: 12rpx;">
@@ -17,8 +17,8 @@
                     </view>
                     <view class="font_26 flo_r time">{{item.created_at}}</view>
                     <view  class="font_28 flo_l ellipsis_1" style="margin-left: 6rpx;">
-                      <image src="http://images.ufutx.com/201902/21/a309744e67082c4bd46db0df504c32c5.png" mode="aspectFit" wx:if="{{item.other_user.sex == 1}}" style="width: 38rpx;height: 38rpx;" class="flo_l"></image>
-                      <image src="http://images.ufutx.com/201902/21/7b3892dcf60fabda05add35abfa9aec3.png" mode="aspectFit" wx:else   style="width: 38rpx;height: 38rpx;" class="flo_l"></image>
+                      <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFit" wx:if="{{item.other_user.sex == 1}}" style="width: 38rpx;height: 38rpx;" class="flo_l"></image>
+                      <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" mode="aspectFit" wx:else   style="width: 38rpx;height: 38rpx;" class="flo_l"></image>
                     </view>
                   </view>
                   <view class="font_26 flo_l color-666 ellipsis_1" style="margin-left: 16rpx;max-width: 88%;">{{item.content}}</view>
@@ -44,6 +44,26 @@
         </view>
       </view>
     </view>
+  <view class="cu-modal {{modalName=='DialogModal'?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">Modal标题</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl">
+        Modal 内容。
+      </view>
+      <view class="cu-bar bg-white justify-end">
+        <view class="action">
+          <button class="cu-btn line-green text-green" bindtap="hideModal">取消</button>
+          <button class="cu-btn bg-green margin-left" bindtap="hideModal">确定</button>
+
+        </view>
+      </view>
+    </view>
+  </view>
   <pageScroll></pageScroll>
   <block wx:if="{{loading}}">
       <view class="weui-loadmore">
@@ -93,6 +113,7 @@
       noMore: false,
       loading: false,
       inputShowed: false,
+      modalName: 'DialogModal',
       inputVal: ''
     }
 
@@ -207,6 +228,10 @@
     }
 
     methods = {
+      hideModal() {
+        this.modalName = ''
+        this.$apply()
+      },
       showInput() {
         this.inputShowed = true
       },
@@ -253,6 +278,9 @@
           url = '/pages/users/examineWeChat?id=' + item.id
         } else if (item.type == 'friend') {
           url = '/pages/users/auditFriend?id=' + item.id
+          this.modalName = 'DialogModal'
+          this.$apply()
+          return
         } else if (item.type == 'temp') {
           url = '/pages/users/tempMember'
         } else if (item.type == 'moment') {
@@ -272,14 +300,10 @@
     background: white;
   }
   .borrowlist{
-    width: 94%;
-    /*box-shadow: 1rpx 1rpx 18rpx #d3d3d3;*/
-    /*margin-top: 18rpx;*/
-    /*border-radius: 6rpx;*/
-    /*margin-left: 4%;*/
+    width: 100%;
     position: relative;
-    padding: 26rpx 22rpx;
-    border-bottom: 8rpx solid #f9f9f9;
+    padding: 22rpx 32rpx;
+    border-bottom: 2rpx solid #f6f6f6;
     .bc_acatar{
       width: 100rpx;
       height: 100rpx;

@@ -24,7 +24,9 @@
         <image src="{{item}}"   mode="aspectFill" class="upLoadImage" @tap="previewImages({{item}},{{informImages}})" @longpress="deletePic({{index}})"></image>
       </block>
     </view>
-    <button class=" infromBtn font_28  flo_r white" @tap="save">提交</button>
+    <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top send"  hover-class="btn_active"  @tap="save">提交
+    </button>
+    <!--<button class=" infromBtn font_28  flo_r white" @tap="save">提交</button>-->
     <view class="clearfloat"></view>
   </view>
 </template>
@@ -138,7 +140,7 @@
           success: ({code, data}) => {
             wx.showModal({
               title: '反馈成功！',
-              content: '非常感谢您的反馈！',
+              content: '非常感谢您的反馈！我们将以最快速度处理您的反馈。',
               success(res) {
                 if (res.confirm) {
                   vm.$gotoBack(1)
@@ -167,7 +169,7 @@
   page{
     background: #f8f9f9;
     .wrapper{
-      padding-top: 12rpx;
+      padding: 26rpx 12rpx;
       .section,.themes{
         overflow: hidden;
         padding: 16rpx 26rpx;
@@ -189,8 +191,8 @@
           margin-right: 36rpx;
         }
         .upLoadImage{
-          width: 200rpx;
-          height: 200rpx;
+          width: 180rpx;
+          height: 180rpx;
           margin-right: 22rpx;
           border: 1rpx solid #d3d3d3;
         }
@@ -202,5 +204,14 @@
         background: #D92553;
       }
     }
+  }
+  .btn-box{
+    width:88%;
+    background: #D92553;
+    border-radius: 6rpx;
+    padding: 16rpx;
+    margin: 42rpx auto;
+    margin-bottom: 28rpx;
+    letter-spacing: 8rpx;
   }
 </style>

@@ -10,7 +10,7 @@
     <view style="margin: 0 30rpx;margin-top: -22rpx;">
       <text class="font_24 color-666">1、当有新用户（此前未授权登录过福恋）通过您的分享进入福恋并授权登录，系统将记录您已分享给一位好友</text>
       <text class="font_24 color-666">2、当您的累计分享人数达到指定人数，系统将发放对应的会员时长可兑换，请注意查收；</text>
-      <view class="font_24 color-666">3、如有其它疑问，请联系客服<span class="color-theme">0755-121321</span>咨询</view>
+      <view class="font_24 color-666">3、如有其它疑问，请联系客服<span class="color-theme" @tap="callPhone('4000401707')">4000401707</span>咨询</view>
     </view>
     <view class="bold color-333 mainRule">已成功分享{{total_count}}个好友 <span class="font_24 color-theme">(剩余可兑换{{remain_count}}位)</span> </view>
     <view class="cu-timeline" wx:if="{{shareData.fourth.enable}}">
@@ -203,6 +203,9 @@
     }
 
     methods = {
+      callPhone (phone) {
+        this.$callPhone(phone)
+      },
       getVIPFn(val) {
         console.log(val)
         let vm = this

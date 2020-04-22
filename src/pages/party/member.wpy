@@ -24,15 +24,15 @@
             <view class="page__bd "  wx:for="{{list}}" wx:key="*this" >
               <view class="flo_l borrowlist" @tap="gotoFriendPage({{item.type}}, {{item.user_id}})">
                 <view class="flo_l weui-cell__hd" >
-                  <image src="{{item.avatar}}" mode="aspectFill"   style="width: 120rpx;height: 120rpx;border-radius: 12rpx" class="flo_l"></image>
+                  <image src="{{item.avatar}}" mode="aspectFill"   style="width: 120rpx;height: 120rpx;border-radius: 50%" class="flo_l"></image>
                 </view>
                 <view class="flo_l" style="width: 78%;">
-                  <view  class="font_32 flo_l orange ellipsis_1 bold" style="margin-left: 12rpx;">
+                  <view  class="font_32 flo_l color-333 ellipsis_1 bold" style="margin-left: 12rpx;">
                     {{item.name}}
                   </view>
                   <view  class="font_28 flo_l ellipsis_1" style="margin-left: 12rpx;">
-                    <image src="http://images.ufutx.com/201902/21/a309744e67082c4bd46db0df504c32c5.png" mode="aspectFit" wx:if="{{item.sex == '1'}}" style="width: 38rpx;height: 38rpx;" class="flo_l"></image>
-                    <image src="http://images.ufutx.com/201902/21/7b3892dcf60fabda05add35abfa9aec3.png" mode="aspectFit" wx:else   style="width: 38rpx;height: 38rpx;" class="flo_l"></image>
+                    <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFit" wx:if="{{item.sex == '1'}}" style="width: 38rpx;height: 38rpx;margin-top: 4rpx;" class="flo_l"></image>
+                    <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" mode="aspectFit" wx:else   style="width: 38rpx;height: 38rpx;margin-top: 4rpx;" class="flo_l"></image>
                   </view>
                 </view>
                 <view class="font_26 flo_l black_6 ellipsis_1" style="margin-left: 14rpx;margin-top: 20rpx;">报名时间：{{item.created_at}}</view>
@@ -307,7 +307,7 @@
   @import "../../styles/weui/base/fn.wxss";
   @import "../../styles/custom/fn.less";
   page{
-    background: #f6f6f6;
+    background: #ffffff;
   }
   .borrow{
     .page__bd{
@@ -319,7 +319,7 @@
     .weui-tab__content{
       padding-top: 0px;
       text-align: center;
-      background: #f4f5f9;
+      background: #ffffff;
     }
     text-align: center;
     background: #f4f4f4;
@@ -383,13 +383,14 @@
     width: 33%;
   }
   .borrowlist{
-    width: 86%;
-    box-shadow: 1rpx 1rpx 18rpx #d3d3d3;
+    width: 92%;
+    /*box-shadow: 1rpx 1rpx 18rpx #d3d3d3;*/
     margin-top: 18rpx;
     border-radius: 6rpx;
     margin-left: 4%;
     padding: 22rpx;
     background: white;
+    border-bottom: 2rpx solid #f6f6f6;
     /*position: relative*/
   }
   .weui-cell__ft {

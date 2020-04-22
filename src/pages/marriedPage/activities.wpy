@@ -31,6 +31,27 @@
     </view>
   </view>
   <pageScroll></pageScroll>
+  <view class="cu-bar tabbar Df-tabbar bg-white">
+    <view class="action"  @tap="redirectTo('/pages/marriedPage/home')">
+      <view class="cuIcon-cu-image">
+        <image src="../../images/tabbar/home.png"></image>
+      </view>
+      <view class="text-gray">单身</view>
+    </view>
+    <view class="action">
+      <view class="cuIcon-cu-image">
+        <image src="../../images/tabbar/attentionActive.png"></image>
+      </view>
+      <view class="color-theme ">活动</view>
+    </view>
+    <view class="action" @tap="redirectTo('/pages/marriedPage/user')">
+      <view class="cuIcon-cu-image">
+        <image src="../../images/tabbar/my.png"></image>
+        <!--<view class="cu-tag badge">99</view>-->
+      </view>
+      <view class="text-gray">我的</view>
+    </view>
+  </view>
   <block wx:if="{{loading}}">
     <view class="weui-loadmore">
       <view class="weui-loading"></view>
@@ -218,6 +239,10 @@
     }
 
     methods = {
+      redirectTo(url) {
+        console.log(url)
+        this.$redirectTo(url)
+      },
       hideModal () {
         this.modalName = ''
         this.$apply()
@@ -271,6 +296,13 @@
   @import "../../styles/custom/fn.less";
   page{
     background: white;
+    .Df-tabbar{
+      position: fixed;
+      width: 100vw;
+      bottom: 0rpx;
+      z-index: 9999;
+      border-top: 2rpx solid #d0d0d0;
+    }
     .mainTabbar{
       position: fixed;left: 0px;
     }

@@ -43,6 +43,7 @@
       windowHeight: 812,
       totalTopHeight: 68,
       statusBarHeight: 20,
+      token: wx.getStorageSync('token'),
       titleBarHeight: 48
     }
     components = {}
@@ -114,6 +115,10 @@
       },
         // 到搜索
       backSearch() {
+        if (!this.token) {
+          this.$emit('modalValue', 'ModalLogin')
+          return
+        }
         wx.navigateTo({url: '/pages/map/mapList'})
       },
       goto(url) {

@@ -31,11 +31,11 @@
       <view class="page-box text-center">
         <view class="inputBox animation-slide-bottom" style="animation-delay: 0.1s;">
           <view class="font_28 color-theme textStyle bold">姓名</view>
-          <input type="text" class="inputStyle font_32" placeholder="请填写你的真实姓名" value="{{user.is_approved == 1?user.name:''}}" disabled="{{user.is_approved == 1}}" @input="typing('name')" />
+          <input type="text" class="inputStyle font_32" placeholder="请填写你的真实姓名"  @input="typing('name')" />
         </view>
         <view class="inputBox color-333 animation-slide-bottom" style="animation-delay: 0.2s;">
           <view class="font_28 color-theme textStyle bold">身份证号码</view>
-          <input type="idcard" class="inputStyle font_32" placeholder="请填写你的身份证号码" value="{{user.is_approved == 1?user.card_num:''}}" disabled="{{user.is_approved == 1}}" @input="typing('card_num')" />
+          <input type="idcard" class="inputStyle font_32" placeholder="请填写你的身份证号码" @input="typing('card_num')" />
         </view>
         <view class="_listItem animation-slide-bottom noBorder" style="animation-delay: 0.3s;margin-top: 100rpx;">
           <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" @tap="approve" wx:if="{{user.approve_time > 0}}">自动认证</button>

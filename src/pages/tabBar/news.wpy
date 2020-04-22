@@ -25,7 +25,7 @@
           <!--<view class="cu-tag round bg-orange sm">战士</view>-->
         </view>
         <view class="text-gray text-sm flex">
-          <text class="text-cut" style="height: 34rpx;">{{item.message.content}}</text>
+          <text class="text-cut" style="height: 34rpx;">{{item.message.content || '暂无消息'}}</text>
         </view>
       </view>
       <view class="action">
@@ -77,6 +77,20 @@
         <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot" style="background: #f4f5f9"></view>
       </view>
     </block>
+  <view class="cu-modal {{modalName=='ModalLogin'?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">提示</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl text-left">
+        你还没登录呢！请先
+        <button class="text-center btn-box white radius shadow inline-block font_26 bg_theme" style="margin-bottom: -12rpx;line-height: 46rpx;" @tap="gotoPage('/pages/userInfo/typeSelect')">登录</button>
+      </view>
+    </view>
+  </view>
   <!--</view>-->
 </template>
 
@@ -85,13 +99,12 @@
   import http from '../../mixins/http'
   import base from '../../mixins/base'
   import user from '../../mixins/user'
-  import ShareMessage from '../../mixins/ShareMessage'
   import Loading from '../../components/loading'
   import {service} from '../../config.js'
   import cuCustom from '../../components/cu-custom'
 
   export default class news extends wepy.page {
-    mixins = [base, http, user, ShareMessage]
+    mixins = [base, http, user]
     config = {
       navigationBarTitleText: '我的消息',
       enablePullDownRefresh: true,
@@ -134,29 +147,62 @@
       typeList: [],
       ListTouchStart: '',
       ListTouchDirection: '',
+      token: wx.getStorageSync('token'),
       modalName: ''
     }
     onShow() {
       this.page = 1
       this.list = []
+      this.token = wx.getStorageSync('token')
       this.$apply()
-      this.initPageData()
-      this.getNewCount()
+      if (this.token) {
+        this.initPageData()
+        this.getNewCount()
+      }
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
 
     onLoad(e) {
     }
+    onShareAppMessage(res) {
+      let that = this
+      let openid = wx.getStorageSync('openid')
+      let url = `/pages/tabBar/welcome?from_openid=${openid}&share_user_id=${that.id}`
+      console.log(url)
+      return {
+        title: '我在福恋为你找对象',
+        path: url,
+        imageUrl: 'https://images.ufutx.com/201908/28/494a44b3d04fb9f4278a684dd83d1fe3.jpeg',
+        success: function(res) {
+          wx.showToast({
+            title: '转发成功',
+            icon: 'success',
+            duration: 1500
+          })
+          var shareTickets = res.shareTickets
+          if (shareTickets.length == 0) {
+            return false
+          }
+        },
+        fail: function(res) {
+          // 转发失败
+        }
+      }
+    }
 
     onPullDownRefresh() {
-      this.page = 1
-      this.list = []
-      this.initPageData()
-      this.$apply()
+      if (this.token) {
+        this.page = 1
+        this.list = []
+        this.initPageData()
+        this.$apply()
+      }
     }
 
     onReachBottom() {
-      this.initPageData()
+      if (this.token) {
+        this.initPageData()
+      }
     }
     getNewCount() {
       this.$get({url: `${service.host}/new/message/count`}, {
@@ -379,6 +425,15 @@
     }
 
     methods = {
+      hideModal () {
+        this.modalName = ''
+        this.$apply()
+      },
+      gotoPage(url) {
+        this.modalName = ''
+        this.$apply()
+        this.$goto(url)
+      },
       deleteFn (id, index) {
         console.log(index)
         this.$delete({
@@ -428,6 +483,11 @@
       },
       goto(index, path) {
         console.log(index, path)
+        if (!this.token) {
+          this.modalName = 'ModalLogin'
+          this.$apply()
+          return
+        }
         let url = ''
         // if (item.type) {
         //   if (item.type == 'gift') {

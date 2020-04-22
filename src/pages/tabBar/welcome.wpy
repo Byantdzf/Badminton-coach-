@@ -29,12 +29,16 @@
       hideBtn: false,
       time: 3,
       token: '',
-      startImage: ''
+      setIntervalFn: '',
+      startImage: '',
+      type: ''
     }
 
     computed = {}
 
     onShow() {
+      this.type = wx.getStorageSync('type')
+      this.$apply()
       this.changeWallpaper()
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
@@ -45,13 +49,17 @@
         this.startImage = wx.getStorageSync('startImage')
         this.$apply()
       }
-      let fn = setInterval(() => {
+      this.setIntervalFn = setInterval(() => {
         this.time--
         this.$apply()
         if (this.time === 0) {
-          clearInterval(fn)
+          clearInterval(this.setIntervalFn)
           if (this.token) {
-            this.$gotoTab('/pages/tabBar/home')
+            if (this.type == 'marriage') {
+              this.$goto('/pages/marriedPage/home')
+            } else {
+              this.$gotoTab('/pages/tabBar/home')
+            }
           } else {
             this.$goto('/pages/userInfo/typeSelect')
           }
@@ -96,9 +104,15 @@
                 wx.setStorageSync('userInfo', userInfo)
                 wx.setStorageSync('user_id', data.user.id)
                 wx.setStorageSync('type', data.user.type)
+                that.type = data.user.type
+                that.$apply()
                 if (this.time == 0) {
                   setTimeout(() => {
-                    this.$gotoTab('/pages/tabBar/home')
+                    if (that.type == 'marriage') {
+                      this.$goto('/pages/marriedPage/home')
+                    } else {
+                      that.$gotoTab('/pages/tabBar/home')
+                    }
                   }, 800)
                 }
               } else {
@@ -119,8 +133,13 @@
 
     methods = {
       jump() {
+        clearInterval(this.setIntervalFn)
         if (this.token) {
-          this.$gotoTab('/pages/tabBar/home')
+          if (this.type == 'marriage') {
+            this.$goto('/pages/marriedPage/home')
+          } else {
+            this.$gotoTab('/pages/tabBar/home')
+          }
         } else {
           this.$goto('/pages/userInfo/typeSelect')
         }

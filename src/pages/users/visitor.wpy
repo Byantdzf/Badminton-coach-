@@ -15,7 +15,7 @@
           </view>
           <view class="vessel_text flo_l color666">
             <view class="flo_l" style="width: 50%;">
-              <view  class="bold font_28 ellipsis_1 flo_l" style="max-width: 80%;margin-right: 12rpx;">{{item.other_user.name}}</view>
+              <view  class="bold font_28 ellipsis_1 flo_l" style="max-width: 80%;margin-right: 12rpx;">{{item.other_user.nickname}}</view>
               <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" wx:if="{{item.other_user.sex == 1}}" mode="aspectFit" style="width: 32rpx;height: 32rpx;margin-top: 4rpx;"></image>
               <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:else mode="aspectFit" style="width: 32rpx;height: 32rpx;margin-top: 4rpx;"></image>
               <view class="font_24 color-333">{{item.other_user.age + '岁'}} 广东深圳</view>
@@ -25,14 +25,15 @@
           </view>
           <view class="clearfloat"></view>
         </view>
-        <image mode="widthFix" src="https://images.ufutx.com/202004/11/7379bf2b22b647e335a7e6df5b5e97ad.png" style="width: 100%;" wx:if="{{list.length > 2}}"></image>
-        <view wx:for="{{list}}" wx:key="index" class="ff vessel" @tap="gotofriends({{item}}, {{index}})" wx:if="{{index > 1}}" style="filter:blur(4px) contrast(.8)">
+        <image mode="widthFix" src="https://images.ufutx.com/202004/11/7379bf2b22b647e335a7e6df5b5e97ad.png" style="width: 100%;"
+               wx:if="{{user.rank_id == 0}}"></image>
+        <view wx:for="{{list}}" wx:key="index" class="ff vessel" @tap="gotofriends({{item}}, {{index}})" wx:if="{{index > 1}}" style="{{user.rank_id == 0?'filter:blur(4px) contrast(.8)':''}}">
           <view class="vessel_image flo_l">
             <image src="{{item.other_user.photo || photo}}" mode="aspectFill" class="avatar"></image>
           </view>
           <view class="vessel_text flo_l color666">
             <view class="flo_l" style="width: 50%;">
-              <view  class="bold font_28 ellipsis_1 flo_l" style="max-width: 80%;margin-right: 12rpx;">{{item.other_user.name}}</view>
+              <view  class="bold font_28 ellipsis_1 flo_l" style="max-width: 80%;margin-right: 12rpx;">{{item.other_user.nickname}}</view>
               <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" wx:if="{{item.other_user.sex == 1}}" mode="aspectFit" style="width: 32rpx;height: 32rpx;margin-top: 4rpx;"></image>
               <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:else mode="aspectFit" style="width: 32rpx;height: 32rpx;margin-top: 4rpx;"></image>
               <view class="font_24 color-333">{{item.other_user.age + '岁'}} 广东深圳</view>
@@ -104,6 +105,7 @@
       photo: 'https://images.ufutx.com/202004/11/54578611656798245210940077c32ced.png',
       init: false,
       list: [],
+      user: {},
       noMore: false,
       page: 1,
       loading: true,
@@ -120,6 +122,7 @@
     }
 
     onLoad() {
+      this.initUserData()
     }
 
     onPullDownRefresh() {
@@ -130,7 +133,14 @@
     onReachBottom() {
       this.initPageData()
     }
-
+    initUserData() {
+      this.$get({url: `${service.user}/v3`}, {
+        success: ({code, data}) => {
+          this.user = data
+          this.$apply()
+        }
+      })
+    }
     // 初始化页面数据
     initPageData() {
       let _this = this,

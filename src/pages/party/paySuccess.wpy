@@ -48,6 +48,7 @@
       theme: '',
       thumbnail_poster: '',
       is_complete: 1,
+      type: '',
       trade_no: '',
       orderData: {}
     }
@@ -64,6 +65,8 @@
     }
 
     onShow () {
+      this.type = wx.getStorageSync('type')
+      this.$apply()
       this.getTempId()
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
@@ -123,26 +126,6 @@
       })
     }
 
-    onShareAppMessage(res) {
-      let that = this,
-        url = that.getCurrentPageUrlWithArgs()
-      console.log(url)
-      return {
-        title: that.theme,
-        path: url,
-        imageUrl: that.thumbnail_poster,
-        success: function (res) {
-          let shareTickets = res.shareTickets
-          if (!shareTickets) {
-            return false
-          }
-          console.log('转发成功')
-        },
-        fail: function (res) {
-          console.log('转发成功')
-        }
-      }
-    }
 
     // 初始化页面数据
     initPageData () {
@@ -173,6 +156,10 @@
         wx.navigateTo({url: url})
       },
       gotoTab (url) {
+        if (this.type == 'marriage') {
+          this.$redirectTo('/pages/marriedPage/activities')
+          return
+        }
         wx.switchTab({url: url})
       },
       redirectTo (url) {

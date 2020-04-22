@@ -18,7 +18,7 @@
       </view>
       <view class="main-btn text-center animation-slide-bottom">
         <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top"
-                open-type="getUserInfo" @getuserinfo="getuserinfo">确定
+                @tap="getuserinfo">确定
         </button>
       </view>
     </view>
@@ -270,21 +270,34 @@
         type = this.list[index].type
         this.type = type
         this.$apply()
-        wx.setStorageSync('type', type)
         console.log(this.list)
       },
       getuserinfo(e) {
-        if (e.detail.userInfo) {
-          this.encryptedData = e.detail.encryptedData
-          this.iv = e.detail.iv
-          this.userInfo = e.detail.userInfo
-          this.$apply()
-          this.$gotoTab('/pages/tabBar/home')
-          console.log(this.userInfo)
-          console.log('用户按了允许授权按钮')
-        } else {
-          console.log('用户按了拒绝按钮')
+        console.log(this.list)
+        let vm = this
+        for (let item of this.list) {
+          if (item.active == 'true') {
+            console.log(item.title == '男')
+            let sex = item.title == '男' ? '1' : '2'
+            wx.setStorageSync('touristsSex', sex)
+            setTimeout(() => {
+              vm.$gotoTab(`/pages/tabBar/home`)
+            })
+            return
+          }
         }
+        vm.$showToast('请选择你的性别')
+        // if (e.detail.userInfo) {
+        //   this.encryptedData = e.detail.encryptedData
+        //   this.iv = e.detail.iv
+        //   this.userInfo = e.detail.userInfo
+        //   this.$apply()
+        //   this.$gotoTab('/pages/tabBar/home')
+        //   console.log(this.userInfo)
+        //   console.log('用户按了允许授权按钮')
+        // } else {
+        //   console.log('用户按了拒绝按钮')
+        // }
       },
       goto(url) {
         wx.navigateTo({url: url})

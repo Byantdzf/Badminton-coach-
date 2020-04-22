@@ -73,6 +73,10 @@
 
     methods = {
       BtnFun(item) {
+        if (!wx.getStorageSync('token')) {
+          this.$emit('modalValue', 'ModalLogin')
+          return
+        }
         console.log(item)
         if (item.type == 'MP') {
           if (item.path.includes('tabBar')) {

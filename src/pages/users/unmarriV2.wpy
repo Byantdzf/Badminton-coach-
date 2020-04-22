@@ -1,10 +1,10 @@
 <template>
   <view class="progress">
     <view class="cu-progress progressBox round sm striped active">
-      <view class="bg_theme" style="width:{{mylibs.profile_count/mylibs.profile_total_count*100}}%;"></view>
+      <view class="bg_theme" style="width:{{profile_count}}%;"></view>
     </view>
-    <view class="flo_r _num font_28">完善度 <text class="font_28 bold">{{mylibs.profile_count/mylibs.profile_total_count*100}}%</text></view>
-    <view class="font_24 color-666 prompt" wx:if="{{mylibs.can_get_daily_rank}}">资料完善度大于80%，即可获得24小时
+    <view class="flo_r _num font_28">完善度 <text class="font_28 bold">{{profile_count}}%</text></view>
+    <view class="font_24 color-666 prompt" wx:if="{{!mylibs.has_get_daily_rank}}">资料完善度达到100%，即可获得24小时
       <text class="bold text-shadow text-yellow" @tap="getDailyVip">超级VIP卡</text>！
       <image src="https://images.ufutx.com/202004/20/559390481117d73227a7fa2866b43c6b.png" mode="widthFix" class="image flo_r radius shadow" @tap="getDailyVip"></image>
     </view>
@@ -75,7 +75,7 @@
   <view class="container">
     <view class="mainInfo">
       <view class="mainTitle">
-        <view class="_title font_30 bold flo_l">兴趣爱好 <span class="font_22 color-theme">（*选填）</span></view>
+        <view class="_title font_30 bold flo_l">兴趣爱好 <span class="font_22 color-theme">（*必填）</span></view>
         <image  src="https://images.ufutx.com/202004/13/c9505127b21e909aae5a609987f5ac66.png" class="icon flo_r" mode="widthFix" @tap="showModal('interest_hobby','兴趣爱好','日常生活你有什么爱好？可以写一下')"/>
       </view>
       <view class="mainPhoto">
@@ -100,12 +100,15 @@
   <view class="container">
     <view class="mainInfo">
       <view class="mainTitle">
-        <view class="_title font_30 bold flo_l">认证中心 <span class="font_22 color-theme">（*未认证）</span></view>
+        <view class="_title font_30 bold flo_l">认证中心
+          <span class="font_22 color-theme" wx:if="{{!mylibs.is_approved}}">（*未认证）</span>
+          <span class="font_22 text-green text-shadow" wx:else>（*已认证）</span>
+        </view>
         <image  src="https://images.ufutx.com/202004/13/e65d524c117c3bf8813714a314dcc048.png" class="icon flo_r" mode="widthFix" @tap="goto('/pages/users/realName')"/>
       </view>
       <view class="mainPhoto">
         <view class="font_28 color-333 bold flo_l">身份认证</view>
-        <view class="font_24 color-bbb flo_r" style="margin-right: 18rpx;" wx:if="{{!user.is_approved}}">未认证</view>
+        <view class="font_24 color-bbb flo_r" style="margin-right: 18rpx;" wx:if="{{!mylibs.is_approved}}">未认证</view>
         <image src="https://images.ufutx.com/202004/18/40a12f3095bc197efebcdfc8f2f6b9e4.png" mode="widthFix" class="flo_r" style="width: 150rpx;height: auto; margin-top: 12rpx;" wx:else></image>
         <!--<view class="font_24 color-green flo_r" style="margin-right: 18rpx;">已认证</view>-->
       </view>
@@ -123,6 +126,32 @@
         <textarea class="textareaStyle" @input="typing" @blur="typing" adjust-position="true" value="{{user[editType]}}" placeholder="{{placeText}}"/>
         <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top send"  @tap="submitFn">确定
         </button>
+      </view>
+    </view>
+  </view>
+  <view class="cu-modal {{modalName=='prompt'?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content bold">提示</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl text-left">
+        你的资料还未完善呢！请先完善资料后来领取！
+      </view>
+    </view>
+  </view>
+  <view class="cu-modal {{modalName=='successful'?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content bold">提示</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl text-left">
+        领取成功！您已获得24小时超级会员的体验权限！赶紧去体验吧。
       </view>
     </view>
   </view>
@@ -153,6 +182,7 @@
       editType: '',
       editText: '',
       placeText: '',
+      profile_count: '',
       tempMember: 0 // 是否有可领取会员
     }
 
@@ -170,6 +200,7 @@
           let result = data
           that.mylibs = result
           that.photos = result.photos
+          that.profile_count = Math.round(result.profile_count/result.profile_total_count*100)
           that.$apply()
           console.log(that.photos)
         },
@@ -204,6 +235,7 @@
         this.$put({url: `${service.host}/profile/v2`, data}, {
           success: ({code, data}) => {
             console.log('参数保存成功！')
+            this.getuser()
           },
           fail: ({code, data}) => {
           },
@@ -230,6 +262,8 @@
         this.$goto(`/pages/users/ImageCropper?src=${photo}`)
       },
       goto(url) {
+        this.modalName = ''
+        this.$apply()
         this.$goto(url)
       },
       deleteImage(index,id) { // 删除
@@ -260,12 +294,20 @@
           }
         })
       },
-      getDailyVip() {
+      getDailyVip() {  // 领取24小时VIP
         let vm = this
-        vm.$showLoading('抢占中...')
+        if (!vm.mylibs.can_get_daily_rank) {
+          vm.modalName = 'prompt'
+          vm.$apply()
+          return
+        }
+        vm.$showLoading('领取中...')
         this.$post({url: `${service.host}/get/daily/super/rank`}, {
           success: ({code, data}) => {
-            console.log('更新成功')
+            console.log('领取成功')
+            vm.modalName = 'successful'
+            vm.mylibs.has_get_daily_rank = 1
+            vm.$apply()
             wx.hideLoading()
           },
           fail: ({code, data}) => {
@@ -493,5 +535,10 @@
     margin: 28rpx auto;
     margin-bottom: -28rpx;
     letter-spacing: 8rpx;
+  }
+  ._btn-box{
+    border-radius: 6rpx;
+    padding: 0 12rpx;
+    line-height: 46rpx;
   }
 </style>

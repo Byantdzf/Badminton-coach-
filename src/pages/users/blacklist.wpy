@@ -5,8 +5,8 @@
     <view class="page__bd">
       <view class="weui-tab">
           <view class="weui-tab__content" >
-            <view class="weui-search-bar" style="background: #d92553;border-top: none">
-              <view class="weui-search-bar__form">
+            <view class="weui-search-bar" style="background: #ffffff;border-top: none">
+              <view class="weui-search-bar__form" style="background: #F6F6F6">
                 <view class="weui-search-bar__box">
                   <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
                   <input type="text" class="weui-search-bar__input" placeholder="搜索黑名单" confirm-type="search" value="{{inputVal}}" focus="{{inputShowed}}" @confirm="inputTyping" />
@@ -19,7 +19,7 @@
                   <view class="weui-search-bar__text">搜索黑名单</view>
                 </label>
               </view>
-              <view class="weui-search-bar__cancel-btn" style="color: white" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
+              <view class="weui-search-bar__cancel-btn color-999" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
             </view>
             <view class="weui-cells__title"></view>
             <view class="font_22 red flo_r" style="margin-right: 32rpx;">*长按移除黑名单</view>
@@ -334,8 +334,9 @@
     margin-top: 10%;
   }
   .weui-search-bar__form, .weui-search-bar__label{
-    background: #ffffff !important;
+    background: #f6f6f6 !important;
     border-radius: 42rpx!important;
     color: @darkgray;
+    border: 2rpx solid #f0f0f0;
   }
 </style>

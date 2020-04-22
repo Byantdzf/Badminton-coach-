@@ -5,17 +5,13 @@
       <view class="bc_tab color-333">
         <view  class="text-center flo_l mainF"
                @tap="goto('/pages/users/friendlist?type=friend')">
-          <view class="bold font_32 text-shadow text-black" >{{user.friend_count}}</view>
-          <view class="font_26">我的好友</view>
+          <view class="bold font_32 text-shadow text-black" >{{user.invite_count}}</view>
+          <view class="font_26">已分享/次</view>
         </view>
         <view class="text-center flo_l mainFA "
               @tap="goto('/pages/users/friendlist?type=attention')">
-          <view class="bold font_32 text-shadow text-black" >{{user.follow_count}}</view>
-          <view class="font_26">我的关注</view>
-        </view>
-        <view class="text-center flo_l mainF" @tap="goto('/pages/users/friendlist?type=fans')">
-          <view class="bold font_32 text-shadow text-black" >{{user.fans_count}}</view>
-          <view class="font_26">关注我的</view>
+          <view class="bold font_32 text-shadow text-black" >{{user.invite_register_count}}</view>
+          <view class="font_26">成功注册</view>
         </view>
       </view>
     </view>
@@ -24,7 +20,7 @@
         <image src="{{item.icon}}" mode="widthFix" class="img flo_l"></image>
         <span class="font_30 color-333">{{item.title}}</span>
         <image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>
-        <view class="zf-tag font_20 flo_r bg-gradual-red padding radius text-center" wx:if="{{item.title == '推荐给好友'}}">领取会员</view>
+        <view class="font_24 flo_r zf-tag-text  text-shadow text-red" wx:if="{{item.title == '我的分享'}}">{{user.invite_count}}次</view>
         <view class="font_24 flo_r zf-tag-text  text-shadow {{user.is_approved?'text-green':'red'}}" wx:if="{{item.title == '认证中心'}}">
           <span wx:if="{{user.is_approved}}">已认证</span>
           <span wx:else>未认证</span>
@@ -44,6 +40,27 @@
           你还没登录呢！请先
           <button class="text-center btn-box white radius shadow inline-block font_26 bg_theme" style="margin-bottom: -12rpx;line-height: 46rpx;" @tap="gotoPage('/pages/userInfo/typeSelect')">登录</button>
         </view>
+      </view>
+    </view>
+    <view class="cu-bar tabbar Df-tabbar bg-white">
+      <view class="action"  @tap="redirectTo('/pages/marriedPage/home')">
+        <view class="cuIcon-cu-image">
+          <image src="../../images/tabbar/home.png"></image>
+        </view>
+        <view class="text-gray">单身</view>
+      </view>
+      <view class="action" @tap="redirectTo('/pages/marriedPage/activities')">
+        <view class="cuIcon-cu-image">
+          <image src="../../images/tabbar/attention.png"></image>
+        </view>
+        <view class="text-gray">活动</view>
+      </view>
+      <view class="action" >
+        <view class="cuIcon-cu-image">
+          <image src="../../images/tabbar/myActive.png"></image>
+          <!--<view class="cu-tag badge">99</view>-->
+        </view>
+        <view class="color-theme">我的</view>
       </view>
     </view>
     <view class="cu-modal {{modalName=='Modal'?'show':''}}">
@@ -69,7 +86,7 @@
   import base from '../../mixins/base'
   import user from '../../mixins/user'
   import {service} from '../../config.js'
-  import userTitle from '../../components/userTitle'
+  import userTitle from '../../components/userTitleV2'
   import Loading from '../../components/loading'
 
   // const innerAudioContext = wx.createInnerAudioContext()
@@ -99,10 +116,10 @@
           path: '/pages/users/realName'
         },
         {
-          icon: 'https://images.ufutx.com/202003/31/01c07e1193e4fa4e1ab88728bf08e1f6.png',
-          title: '会员中心',
+          icon: 'https://images.ufutx.com/202003/31/7a6550c4caf427111ee747f47302b236.png',
+          title: '我的分享',
           type: 'navigateTo',
-          path: '/pages/users/upgradeVIP'
+          path: '/pages/users/myActivity'
         },
         {
           icon: 'https://images.ufutx.com/202003/31/d818cf51568200f390e2f15897c1e624.png',
@@ -111,28 +128,16 @@
           path: ''
         },
         {
-          icon: 'https://images.ufutx.com/202003/31/639d18a3c5883e90c200fe99910ccab1.png',
-          title: '我的订单',
-          type: 'navigateTo',
-          path: '/pages/users/myOrderList'
-        },
-        {
           icon: 'https://images.ufutx.com/202003/31/a70ff1e938748c2ee4821c2c19b4c537.png',
           title: '我的活动',
           type: 'navigateTo',
           path: '/pages/users/myActivity'
         },
         {
-          icon: 'https://images.ufutx.com/202003/31/7a6550c4caf427111ee747f47302b236.png',
-          title: '推荐给好友',
+          icon: 'https://images.ufutx.com/202004/22/d978d2c94ba3171f1e208deb6588cc7a.png',
+          title: '意见反馈',
           type: 'navigateTo',
-          path: '/pages/users/myShare'
-        },
-        {
-          icon: 'https://images.ufutx.com/202004/22/975b8a657710b588ffbff8a4023164a2.png',
-          title: '通用设置',
-          type: 'navigateTo',
-          path: '/pages/users/setTing'
+          path: '/pages/users/feedback'
         },
         {
           icon: 'https://images.ufutx.com/202003/31/ee0a4f2e9bd9cb6e81dc5def6f08bf3a.png',
@@ -150,7 +155,6 @@
       this.$apply()
       if (this.token) {
         // this.$goto('/pages/userInfo/typeSelect')
-        this.getNewCount()
         this.initPageData()
         // return
       }
@@ -209,23 +213,6 @@
       })
     }
 
-    getNewCount() {
-      this.$get({url: `${service.host}/new/message/count`}, {
-        success: ({code, data}) => {
-          let {new_count} = data
-          if (new_count > 0) {
-            wx.setTabBarBadge({
-              index: 2,
-              text: `${new_count}`
-            })
-          } else {
-            wx.removeTabBarBadge({
-              index: 2
-            })
-          }
-        }
-      })
-    }
 
     // 初始化页面数据
     initPageData() {
@@ -240,6 +227,10 @@
     }
 
     methods = {
+      redirectTo(url) {
+        console.log(url)
+        this.$redirectTo(url)
+      },
       hideModal () {
         this.modalName = ''
         this.$apply()
@@ -278,6 +269,13 @@
 
   page {
     background: #f4f5f9;
+    .Df-tabbar{
+      position: fixed;
+      width: 100vw;
+      bottom: 0rpx;
+      z-index: 9999;
+      border-top: 2rpx solid #d0d0d0;
+    }
     .bc_tab{
       width: 100%;
       height: 120rpx;
@@ -286,12 +284,12 @@
       padding-top: 16rpx;
       margin-bottom: 22rpx;
       .mainF, .mainFA{
-        width: 33%;
+        width: 50%;
         height: 100%;
       }
       .mainFA{
         position: relative;
-        &:after,&:before{
+        &:after{
           content: " ";
           position: absolute;
           top: 16rpx;
@@ -300,7 +298,7 @@
           background: #f6f6f6;
         }
         &:after{left: 0;}
-        &:before{right: 0;}
+        /*&:before{right: 0;}*/
       }
     }
     ._list{
