@@ -4,12 +4,12 @@
       <userTitle :user.sync="user"></userTitle>
       <view class="bc_tab color-333">
         <view  class="text-center flo_l mainF"
-               @tap="goto('/pages/users/friendlist?type=friend')">
+               @tap="">
           <view class="bold font_32 text-shadow text-black" >{{user.invite_count}}</view>
-          <view class="font_26">已分享/次</view>
+          <view class="font_26">点了你的分享/次</view>
         </view>
         <view class="text-center flo_l mainFA "
-              @tap="goto('/pages/users/friendlist?type=attention')">
+              @tap="goto('/pages/marriedPage/shareList')">
           <view class="bold font_32 text-shadow text-black" >{{user.invite_register_count}}</view>
           <view class="font_26">成功注册</view>
         </view>
@@ -119,7 +119,7 @@
           icon: 'https://images.ufutx.com/202003/31/7a6550c4caf427111ee747f47302b236.png',
           title: '我的分享',
           type: 'navigateTo',
-          path: '/pages/users/myActivity'
+          path: '/pages/marriedPage/shareList'
         },
         {
           icon: 'https://images.ufutx.com/202003/31/d818cf51568200f390e2f15897c1e624.png',

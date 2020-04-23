@@ -47,18 +47,18 @@
   <view class="cu-modal {{modalName=='DialogModal'?'show':''}}">
     <view class="cu-dialog">
       <view class="cu-bar bg-white justify-end">
-        <view class="content">Modal标题</view>
+        <view class="content">这是{{name}}的打招呼信息</view>
         <view class="action" bindtap="hideModal">
           <text class="cuIcon-close text-red"></text>
         </view>
       </view>
       <view class="padding-xl">
-        Modal 内容。
+        {{message || 'hi'}}
       </view>
       <view class="cu-bar bg-white justify-end">
         <view class="action">
-          <button class="cu-btn line-green text-green" bindtap="hideModal">取消</button>
-          <button class="cu-btn bg-green margin-left" bindtap="hideModal">确定</button>
+          <button class="cu-btn bg-green bg_theme" bindtap="reject">拒绝</button>
+          <button class="cu-btn bg-green margin-left" bindtap="consent">同意</button>
 
         </view>
       </view>
@@ -108,12 +108,14 @@
       sliderOffset: 0,
       sliderLeft: 0,
       sliderWidth: 180,
+      message: '',
+      name: '',
       screenWidth: 360,
       page: 1,
       noMore: false,
       loading: false,
       inputShowed: false,
-      modalName: 'DialogModal',
+      modalName: '',
       inputVal: ''
     }
 
@@ -228,6 +230,50 @@
     }
 
     methods = {
+      reject() {
+        var self = this,
+          data = {
+            status: -1
+          }
+        self.$post({url: service.friendrequest + '/' + self.id, data}, {
+          success: ({code, data}) => {
+            wx.showToast({
+              title: '已拒绝',
+              icon: 'none',
+              duration: 1000
+            })
+            this.modalName = ''
+            this.$apply()
+          },
+          fail: ({code, data}) => {
+          },
+          complete: () => {
+            self.loaded = false
+          }
+        })
+      },
+      consent() {
+        var self = this,
+          data = {
+            status: 1
+          }
+        self.$post({url: service.friendrequest + '/' + self.id, data}, {
+          success: ({code, data}) => {
+            wx.showToast({
+              title: '已添加为好友',
+              icon: 'success',
+              duration: 1000
+            })
+            this.modalName = ''
+            this.$apply()
+          },
+          fail: ({code, data}) => {
+          },
+          complete: () => {
+            self.loaded = false
+          }
+        })
+      },
       hideModal() {
         this.modalName = ''
         this.$apply()
@@ -279,6 +325,9 @@
         } else if (item.type == 'friend') {
           url = '/pages/users/auditFriend?id=' + item.id
           this.modalName = 'DialogModal'
+          this.message = item.message
+          this.name = item.other_user.name
+          this.id = item.id
           this.$apply()
           return
         } else if (item.type == 'temp') {

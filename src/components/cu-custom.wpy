@@ -88,6 +88,7 @@
         this.$apply()
       },
       BackPage() {
+        console.log(this.prevPage)
         if (this.prevPage) {
           wx.navigateBack({
             delta: 1

@@ -1,18 +1,19 @@
 <template>
   <!--<NavBar rgba="#ffffff" bag="#ffffff" :title.sync="title"></NavBar>-->
   <!--<Loading :init.sync="init"></Loading>-->
+
   <cuCustom  bgImage="https://images.ufutx.com/202004/09/9c88daa577e4e4148d15f316f0d55524.png"  isBack="{{true}}">
     <view slot="backText">返回</view>
-    <view slot="content">{{title}}</view>
+    <view slot="content">我的分享</view>
   </cuCustom>
   <view class="borrow animation-fade">
     <view class="text-left radius bg-white">
       <tabSearchV2 title="搜索好友列表" BColor="#fff"></tabSearchV2>
     </view>
     <view wx:for="{{list}}" wx:key="*this">
-      <view class="borrowlist" @tap="gotoFriendPage({{item}})">
+      <view class="borrowlist" >
         <view class="flo_l" >
-          <image src="{{item.photo || item.circle_avatar}}" mode="aspectFill" class="flo_l photo"></image>
+          <image src="{{item.photo || 'https://images.ufutx.com/202004/23/1877fe7252e0c899fd125f8968f8907f.png'}}" mode="aspectFill" class="flo_l photo"></image>
         </view>
         <view class="flo_l" style="width: 84%;">
           <view  class="font_28 flo_l color-333 ellipsis_1 bold" style="margin-left: 20rpx;max-width: 40%;">
@@ -22,9 +23,12 @@
             <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFit" wx:if="{{item.sex == 1}}" style="width: 38rpx;height: 38rpx;" class="flo_l"></image>
             <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" mode="aspectFit" wx:else   style="width: 38rpx;height: 38rpx;" class="flo_l"></image>
           </view>
-          <view class="font_26 flo_r color-666" style="margin-left: 14rpx;">{{item.updated_at}}</view>
+          <view class="font_26 flo_r color-666" style="margin-left: 14rpx;">{{item.created_at}}</view>
         </view>
-        <view class="font_26 flo_l color-666 ellipsis_1" style="margin-left: 14rpx;margin-top: 8rpx;">{{item.age}}岁   {{item.profile.province || ''}} {{item.profile.city || ''}}</view>
+        <view class="font_26 flo_l color-666 ellipsis_1" style="margin-left: 14rpx;margin-top: 8rpx;">通过你的分享注册了
+          <span wx:if="{{item.type == 'single'}}" class="text-shadow text-green">单身</span>
+          <span wx:else class="text-shadow text-red">介绍人</span>
+        </view>
       </view>
     </view>
     <view wx:if="{{noMore && list.length < 0}}" class="color-999 text-center margin-top">
@@ -55,10 +59,10 @@
   import cuCustom from '../../components/cu-custom'
   import tabSearchV2 from '../../components/tabSearchV2'
 
-  export default class friendlist extends wepy.page {
+  export default class shareList extends wepy.page {
     mixins = [base, http, user]
     config = {
-      navigationBarTitleText: '好友',
+      navigationBarTitleText: '分享列表',
       enablePullDownRefresh: true,
       navigationStyle: 'custom'
     }
@@ -91,13 +95,6 @@
         that = this
       that.type = e.type
       that.list = []
-      if (type == 'fans') {
-        that.title = '关注我的'
-      } else if (type == 'friend') {
-        that.title = '我的好友'
-      } else {
-        that.title = '我的关注'
-      }
       // wx.setNavigationBarTitle({
       //   title: that.title
       // })
@@ -127,14 +124,7 @@
     getLibraries(keyword) {
       let _this = this
       _this.loading = true
-      let url = service.libraries
-      if (_this.type == 'fans') {
-        url = service.followers
-      } else if (_this.type == 'friend') {
-        url = service.friends
-      } else {
-        url = service.followings
-      }
+      let url = `${service.host}/user/invite/histories/v2`
       this.$get({
         url: url,
         data: {

@@ -8,7 +8,8 @@
                 <text class="cuIcon-search"></text>
                 <input type="text"  placeholder="搜索昵称" confirm-type="search" value="{{inputVal}}" focus="{{inputShowed}}" @confirm="inputTyping" ></input>
               </view>
-              <view @tap="showModal"><image src="https://images.ufutx.com/202004/22/09e80c2f90ab723c1dc37b5deae81f6e.jpeg" mode="aspectFill" class="icon"></image></view>
+              <view @tap="goto('/pages/map/index')"><image src="https://images.ufutx.com/202004/23/979df2c84f559ed94372b28d8b38ac73.jpeg" mode="aspectFill" class="icon" style="margin-right: 8rpx;margin-left: 8rpx;"></image></view>
+              <view @tap="showModal"><image src="https://images.ufutx.com/202004/23/f7014493b4801e0217c9464cdcd74b6a.jpeg" mode="aspectFill" class="icon"></image></view>
             </view>
             <view style="height: {{bc_height}}"></view>
             <view class="page__bd "  wx:for="{{list}}" wx:key="*this" style="position: relative;">
@@ -431,8 +432,8 @@
   }
   .cancel{
     width: 180rpx;
-    line-height: 60rpx;
-    height: 60rpx;
+    line-height: 64rpx;
+    height: 68rpx;
     border: 2rpx solid #d0d0d0;
     border-radius: 32rpx;
     margin: 42rpx 22rpx;

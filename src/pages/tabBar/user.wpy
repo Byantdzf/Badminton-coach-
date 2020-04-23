@@ -229,7 +229,10 @@
 
     // 初始化页面数据
     initPageData() {
-      this.$get({url: `${service.user}/v3`}, {
+      let data = {
+        type: 'single'
+      }
+      this.$get({url: `${service.user}/v3`, data}, {
         success: ({code, data}) => {
           this.init = true
           this.user = data

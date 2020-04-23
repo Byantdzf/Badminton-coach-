@@ -2,25 +2,25 @@
   <NavBar bag="#ffffff"></NavBar>
   <!--<Loading :init.sync="init"></Loading>-->
   <view class="map">
-    <view id="SearchMap">
-      <view class="weui-cells__title" style="padding-top: 12rpx;">
-        <view class="weui-search-bar__box text-left flo_l" style="width: 74%" @tap="goto('/pages/map/mapList')">
-          <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-          <input type="text" class="weui-search-bar__input" disabled placeholder="搜索TA的名字和地址" confirm-type="search" value="{{inputVal}}" focus="{{inputShowed}}" @confirm="inputTyping" />
-        </view>
-        <view class="flo_l _bc-list">
-          <image src="http://images.ufutx.com/201812/06/6fdcbf47683b4bb79f5e35cad98b61e9.png" mode="aspectFit" class="flo_l" @tap="goto('/pages/map/mapList')"></image>
-          <view class="flo_r _bc-message" @tap="goto('/pages/users/myMessage')">
-            <image src="http://images.ufutx.com/201812/06/85f92d47c50d8c84a26a4f08c4454b63.png" mode="aspectFit"></image>
-            <view class="dost white"  wx:if="{{message_count !== 0}}">{{message_count}}</view>
-          </view>
-        </view>
-        <view class="clearfloat"></view>
-      </view>
-      <Search :title.sync="title"></Search>
-    </view>
+    <!--<view id="SearchMap">-->
+      <!--<view class="weui-cells__title" style="padding-top: 12rpx;">-->
+        <!--<view class="weui-search-bar__box text-left flo_l" style="width: 74%" @tap="goto('/pages/map/mapList')">-->
+          <!--<icon class="weui-icon-search_in-box" type="search" size="14"></icon>-->
+          <!--<input type="text" class="weui-search-bar__input" disabled placeholder="搜索TA的名字和地址" confirm-type="search" value="{{inputVal}}" focus="{{inputShowed}}" @confirm="inputTyping" />-->
+        <!--</view>-->
+        <!--<view class="flo_l _bc-list">-->
+          <!--<image src="http://images.ufutx.com/201812/06/6fdcbf47683b4bb79f5e35cad98b61e9.png" mode="aspectFit" class="flo_l" @tap="goto('/pages/map/mapList')"></image>-->
+          <!--<view class="flo_r _bc-message" @tap="goto('/pages/users/myMessage')">-->
+            <!--<image src="http://images.ufutx.com/201812/06/85f92d47c50d8c84a26a4f08c4454b63.png" mode="aspectFit"></image>-->
+            <!--<view class="dost white"  wx:if="{{message_count !== 0}}">{{message_count}}</view>-->
+          <!--</view>-->
+        <!--</view>-->
+        <!--<view class="clearfloat"></view>-->
+      <!--</view>-->
+      <!--<Search :title.sync="title"></Search>-->
+    <!--</view>-->
     <map id="map" longitude="{{myLong}}" latitude="{{myLat}}" scale="{{scale}}" markers="{{markers}}" @markertap="markertap_click"
-         @regionchange="regionchange" show-location enable-3D wx:if="{{showMap}}" style="width: 100%; height: {{height}};" >
+         @regionchange="regionchange" show-location enable-3D wx:if="{{showMap}}" style="width: 100%; height: 100vh;" >
       <cover-view class="loading-box" wx:if="{{!hideLoading}}"></cover-view>
       <cover-view class="loading-image animate" wx:if="{{!hideLoading}}">
         <cover-image src="http://images.ufutx.com/201901/14/259575c362189d548ef7b9946bbe899e.png" mode="widthFix" class="loading-icon" style="width: 100%;height: auto;"></cover-image>
@@ -28,18 +28,13 @@
       <cover-view class="ToLocation">
         <cover-image src='http://images.ufutx.com/201812/06/dc53b1da1610de84456cf5b2dfa33049.png' @tap="moveToLocation" class=' flo_l'></cover-image>
       </cover-view>
-      <cover-view class="btn CardBox" wx:if="{{showfriend}}" @tap="gotofriends({{friends}})">
+      <cover-view class="btn CardBox animation-slide-bottom"  wx:if="{{showfriend}}" @tap="gotofriends({{friends}})">
         <cover-view class="_bcBox">
           <cover-image src='{{friends.circle_avatar}}' class='_bcAvater flo_l'></cover-image>
-          <cover-image src='http://images.ufutx.com/201902/21/a309744e67082c4bd46db0df504c32c5.png' wx:if="{{friends.sex  == '1'}}" class='_bcIcon flo_l'></cover-image>
-          <cover-image src='http://images.ufutx.com/201902/21/7b3892dcf60fabda05add35abfa9aec3.png' wx:else class='_bcIcon flo_l'></cover-image>
-          <cover-view class="font_32 orange bold flo_l ellipsis_1 _bcName">{{friends.name}}</cover-view>
-          <cover-view class="font_26 black_6 bold flo_l _bcDistance ellipsis_1" style="max-width: 220rpx;">距离{{friends.distance}}千米</cover-view>
+          <cover-view class="font_28 color-333 bold flo_l ellipsis_1 _bcName" style="margin-top: 6rpx;margin-right: 4rpx;">{{friends.name}}</cover-view>
+          <cover-image src='https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png' wx:if="{{friends.sex  == '1'}}" class='_bcIcon flo_l'></cover-image>
+          <cover-image src='https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png' wx:else class='_bcIcon flo_l'></cover-image>
           <cover-view class="font_26 black_6 bold flo_r _bcRecommend">
-            <block wx:if="{{friends.match_weight}}">
-              推荐值：
-              <cover-view  class="orange text-right bold font_28 _bcWeight" >{{friends.match_weight}}</cover-view>
-            </block>
           </cover-view>
           <cover-view class="clearfloat"></cover-view>
           <cover-view  class="flo_l _bcPic">
@@ -51,7 +46,7 @@
               </cover-view>
             </block>
             <block wx:else>
-              <cover-view  class="btn black_6 font_24">
+              <cover-view  class="btn black_6 font_24" style="margin-top: 12rpx;">
                 暂无照片
               </cover-view>
             </block>

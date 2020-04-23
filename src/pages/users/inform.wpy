@@ -23,7 +23,9 @@
         <image src="{{item}}"   mode="aspectFill" class="upLoadImage" @tap="previewImages({{item}},{{informImages}})" @longpress="deletePic({{index}})"></image>
       </block>
     </view>
-    <button class="infromBtn font_28 bc_primary flo_r white" @tap="save">提交</button>
+    <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top send"  hover-class="btn_active"  @tap="save">提交
+    </button>
+    <!--<button class="infromBtn font_28 bc_primary flo_r white" @tap="save">提交</button>-->
     <view class="clearfloat"></view>
   </view>
 </template>
@@ -167,9 +169,9 @@
   page{
     background: #f8f9f9;
     .wrapper{
-      margin-top: 12rpx;
+      padding: 26rpx 12rpx;
       .section,.themes{
-        padding: 16rpx 26rpx;
+        padding: 22rpx 26rpx;
         border-bottom: 1rpx solid #ededed;
       }
       .themes{
@@ -197,6 +199,15 @@
         /*padding: 2rpx 32rpx 42rpx 12rpx;*/
         margin: 32rpx;
       }
+    }
+    .btn-box{
+      width:88%;
+      background: #D92553;
+      border-radius: 6rpx;
+      padding: 16rpx;
+      margin: 42rpx auto;
+      margin-bottom: 28rpx;
+      letter-spacing: 8rpx;
     }
   }
 </style>

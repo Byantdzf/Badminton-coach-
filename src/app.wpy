@@ -78,7 +78,8 @@
             'home',
             'activities',
             'user',
-            'basicData'
+            'basicData',
+            'shareList'
           ]
         },
 

@@ -18,10 +18,10 @@
               <view  class="bold font_28 ellipsis_1 flo_l" style="max-width: 80%;margin-right: 12rpx;">{{item.other_user.nickname}}</view>
               <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" wx:if="{{item.other_user.sex == 1}}" mode="aspectFit" style="width: 32rpx;height: 32rpx;margin-top: 4rpx;"></image>
               <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:else mode="aspectFit" style="width: 32rpx;height: 32rpx;margin-top: 4rpx;"></image>
-              <view class="font_24 color-333">{{item.other_user.age + '岁'}} 广东深圳</view>
+              <view class="font_24 color-333">{{item.other_user.age + '岁'}} {{item.other_user.city || ''}}</view>
               <view class="font_24 color-333">悄悄访问了你的主页</view>
             </view>
-            <view class="font_24 color-666 flo_r">{{item.created_at}}</view>
+            <view class="font_24 color-666 flo_r">{{item.updated_at}}</view>
           </view>
           <view class="clearfloat"></view>
         </view>
@@ -36,10 +36,10 @@
               <view  class="bold font_28 ellipsis_1 flo_l" style="max-width: 80%;margin-right: 12rpx;">{{item.other_user.nickname}}</view>
               <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" wx:if="{{item.other_user.sex == 1}}" mode="aspectFit" style="width: 32rpx;height: 32rpx;margin-top: 4rpx;"></image>
               <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:else mode="aspectFit" style="width: 32rpx;height: 32rpx;margin-top: 4rpx;"></image>
-              <view class="font_24 color-333">{{item.other_user.age + '岁'}} 广东深圳</view>
+              <view class="font_24 color-333">{{item.other_user.age + '岁'}} {{item.other_user.city || ''}}</view>
               <view class="font_24 color-333">悄悄访问了你的主页</view>
             </view>
-            <view class="font_24 color-666 flo_r">{{item.created_at}}</view>
+            <view class="font_24 color-666 flo_r">{{item.updated_at}}</view>
           </view>
           <view class="clearfloat"></view>
         </view>
@@ -123,6 +123,7 @@
 
     onLoad() {
       this.initUserData()
+      this.initUserData()
     }
 
     onPullDownRefresh() {
@@ -199,7 +200,7 @@
         wx.navigateTo({url: url})
       },
       gotofriends(item, index) {
-        if (index > 1) {
+        if (index > 1 && this.user.rank_id == 0) {
           this.modalName = 'Modal'
           this.$apply()
           return

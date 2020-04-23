@@ -124,7 +124,7 @@
       list: [],
       listV2: [
         {
-          icon: 'https://images.ufutx.com/202004/08/dbe9d52c044d4fb0801f45214ffef3fc.png',
+          icon: 'https://images.ufutx.com/202004/23/a77e388f3d5597985c3bbcfff8be0be5.png',
           title: '福恋小助手',
           message: {},
           path: `/pages/home/chitchat?id=1&name=福恋小助手&type=chat`
@@ -228,7 +228,7 @@
         this.getLibraries()
         return
       }
-      this.$get({url: `${service.host}/message/linkmen/v2`, data: {page: this.page}}, {
+      this.$get({url: `${service.host}/message/linkmen/v2`, data: {page: this.page, type: 'single'}}, {
         success: ({code, data}) => {
           this.init = true
           console.log(data)
@@ -331,7 +331,8 @@
       this.$get({
         url: service.notices,
         data: {
-          page: this.page
+          page: this.page,
+          type: 'single'
         }
       }, {
         success: ({code, data}) => {
