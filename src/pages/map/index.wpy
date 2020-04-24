@@ -233,7 +233,7 @@
             location_longitude: wx.getStorageSync('myLong'),
             nopage: 1,
             age: that.parameter.age,
-            type: that.type
+            type: 'single'
           }
           console.log(data)
           that.$get({
