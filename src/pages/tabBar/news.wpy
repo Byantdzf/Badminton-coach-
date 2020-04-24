@@ -278,7 +278,7 @@
               for (let item of data) {
                 this.list.push({
                   icon: item.other_user.circle_avatar?item.other_user.circle_avatar:item.other_user.photo,
-                  title: item.other_user.name,
+                  title: item.other_user.nickname?item.other_user.nickname:item.other_user.name,
                   message: {
                     content_type: item.last_message ? item.last_message.content_type : '',
                     content: item.last_message ? item.last_message.content : '',
@@ -300,7 +300,7 @@
             for (let item of linkmen.data) {
               items.push({
                 icon: item.other_user.circle_avatar,
-                title: item.other_user.name,
+                title: item.other_user.nickname?item.other_user.nickname:item.other_user.name,
                 message: {
                   content_type: item.last_message ? item.last_message.content_type : '',
                   content: item.last_message ? item.last_message.content : '',
@@ -363,7 +363,7 @@
               for (let item of data) {
                 this.list.push({
                   icon: item.other_user.circle_avatar ? item.other_user.circle_avatar:item.other_user.photo,
-                  title: item.other_user.name,
+                  title: item.other_user.nickname?item.other_user.nickname:item.other_user.name,
                   type: item.type,
                   id: item.id,
                   message: {
@@ -386,7 +386,7 @@
             for (let item of data) {
               items.push({
                 icon: item.other_user.circle_avatar ? item.other_user.circle_avatar:item.other_user.photo,
-                title: item.other_user.name,
+                title: item.other_user.nickname?item.other_user.nickname:item.other_user.name,
                 type: item.type,
                 id: item.id,
                 message: {

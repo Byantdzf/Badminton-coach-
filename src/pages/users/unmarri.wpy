@@ -230,7 +230,7 @@
       degreeIndex: -1,
       // work_sort: ['事业单位', '公务员', '央企', '国企', '私企', '外企'],
       // work_sortIndex: 0,
-      incomeList: ['5~10w', '15~30w', '30~50w', '50~100w', '100~500w', '500以上'],
+      incomeList: ['5~10w', '15~30w', '30~50w', '50~100w', '100~500w', '500w以上'],
       incomeIndex: -1,
       belief: ['基督教', '佛教', '伊斯兰教', '其他'],
       beliefIndex: -1,

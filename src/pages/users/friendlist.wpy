@@ -16,7 +16,7 @@
         </view>
         <view class="flo_l" style="width: 84%;">
           <view  class="font_28 flo_l color-333 ellipsis_1 bold" style="margin-left: 20rpx;max-width: 40%;">
-            {{item.name}}
+            {{item.nickname}}
           </view>
           <view  class="font_28 flo_l ellipsis_1" style="margin-left: 6rpx;margin-top: 2rpx;">
             <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFit" wx:if="{{item.sex == 1}}" style="width: 38rpx;height: 38rpx;" class="flo_l"></image>

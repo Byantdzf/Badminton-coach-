@@ -467,6 +467,7 @@
       .icon{
         width: 24rpx;
         height: 42rpx;
+        vertical-align: middle;
       }
     }
     .userinfo-avatar {

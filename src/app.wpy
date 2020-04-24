@@ -267,8 +267,25 @@
       if (options.scene && arguments.length !== 0) {
         wx.setStorageSync('scene', options.scene)
       }
+
       console.log(options.scene)
       this.startWebSocket()
+      let vm = this
+      wx.getSystemInfo({
+        success(res) {
+          vm.globalData.windowHeight = res.windowHeight
+          vm.globalData.windowWidth = res.windowWidth
+          vm.globalData.StatusBar = res.statusBarHeight
+          let capsule = wx.getMenuButtonBoundingClientRect()
+          if (capsule) {
+            vm.globalData.Custom = capsule
+            vm.globalData.CustomBar = capsule.bottom + capsule.top - res.statusBarHeight
+          } else {
+            vm.globalData.CustomBar = res.statusBarHeight + 50
+          }
+          console.log(vm.globalData)
+        }
+      })
       UpdateManager
       if (options.scene == 1037 && arguments.length !== 0) {
         if (options.referrerInfo.extraData) {

@@ -12,7 +12,7 @@
       </swiper>
       <view class="realName white font_26 bold" wx:if="{{mylibs.is_approved !== 0}}" ></view>
       <!--关注 投诉-->
-      <block wx:if="{{mylibs.self != 1}}">
+      <block wx:if="{{mylibs.self != 1 && type != 'marriage'}}">
         <view class="flo_r text-center likeBtn" hover-class="btn_active" @tap="attention">
           <image src="http://images.ufutx.com/201902/18/876cc10bb46069d097d06368bbb2c8fa.png" wx:if="{{!is_love}}" mode="aspectFit" style="width: 62rpx;height: 62rpx;margin-top: 22rpx"></image>
           <image src="http://images.ufutx.com/201902/18/116ca324b9d0a6de38b0263ce080c06d.png" wx:else mode="aspectFit" style="width: 62rpx;height: 62rpx;margin-top: 22rpx"></image>
@@ -37,7 +37,7 @@
     </view>
     <view class="font_28 _bc-center">
       <view class="itemInfo">
-        <view class="color-333 ellipsis_1 font_32 bold flo_l" style="max-width: 80%">{{mylibs.name}}</view>
+        <view class="color-333 ellipsis_1 font_32 bold flo_l" style="max-width: 80%">{{mylibs.nickname || mylibs.name}}</view>
         <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:if="{{mylibs.sex=='2'}}" mode="aspectFill" class="flo_l icon"></image>
         <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFill" wx:else class="flo_l icon" ></image>
         <view class="flo_r ">
@@ -57,33 +57,50 @@
         </view>
       </view>
       <view class="itemLabel font_26">
-        <view class="itemBox flo_l"  wx:if="{{profile_courtship.degree}}">学历：{{mylibs.profile_courtship.degree}}</view>
-        <view class="itemBox flo_l"  wx:if="{{profile_courtship.graduate_school}}">毕业于：{{mylibs.profile_courtship.graduate_school}}</view>
-        <view class="itemBox flo_l"  wx:if="{{profile_courtship.city && profile_courtship.city != '区'}}">常居地：{{mylibs.profile_courtship.city}}</view>
-        <view class="itemBox flo_l"  wx:if="{{profile_courtship.resident_city && profile_courtship.resident_city != '区'}}">籍贯：{{mylibs.profile_courtship.resident_city}}</view>
-        <!--<view class="itemBox flo_l"  wx:if="{{profile_courtship.company && profile_courtship.resident_province != '区'}}">公司：{{mylibs.profile_courtship.company}}</view>-->
-        <view class="itemBox flo_l" wx:if="{{profile_courtship.industry}}">职业：{{mylibs.profile_courtship.industry}} - {{mylibs.profile_courtship.industry_sub}}</view>
-        <view class="itemBox flo_l" wx:if="{{profile_courtship.income}}">年收入：{{mylibs.profile_courtship.income}}</view>
-        <!--<view class="itemBox flo_l"  wx:if="{{profile_courtship.post}}">职位：{{mylibs.profile_courtship.post}}</view>-->
-        <view class="itemBox flo_l" wx:if="{{profile_courtship.belief}}">信仰：{{mylibs.profile_courtship.belief}}</view>
-        <view class="clearfloat"></view>
+        <block wx:if="{{profile_courtship && init}}">
+          <view class="itemBox flo_l"  wx:if="{{profile_courtship.degree}}">学历：{{mylibs.profile_courtship.degree}}</view>
+          <view class="itemBox flo_l"  wx:if="{{profile_courtship.graduate_school}}">毕业于：{{mylibs.profile_courtship.graduate_school}}</view>
+          <view class="itemBox flo_l"  wx:if="{{profile_courtship.city && profile_courtship.city != '区'}}">常居地：{{mylibs.profile_courtship.city}}</view>
+          <view class="itemBox flo_l"  wx:if="{{profile_courtship.resident_city && profile_courtship.resident_city != '区'}}">籍贯：{{mylibs.profile_courtship.resident_city}}</view>
+          <!--<view class="itemBox flo_l"  wx:if="{{profile_courtship.company && profile_courtship.resident_province != '区'}}">公司：{{mylibs.profile_courtship.company}}</view>-->
+          <view class="itemBox flo_l" wx:if="{{profile_courtship.industry}}">职业：{{mylibs.profile_courtship.industry}} - {{mylibs.profile_courtship.industry_sub}}</view>
+          <view class="itemBox flo_l" wx:if="{{profile_courtship.income}}">年收入：{{mylibs.profile_courtship.income}}</view>
+          <!--<view class="itemBox flo_l"  wx:if="{{profile_courtship.post}}">职位：{{mylibs.profile_courtship.post}}</view>-->
+          <view class="itemBox flo_l" wx:if="{{profile_courtship.belief}}">信仰：{{mylibs.profile_courtship.belief}}</view>
+          <view class="clearfloat"></view>
+        </block>
+        <block wx:else>
+          <view class="bc_bg" wx:for="{{4}}" wx:key="index" style="width:{{100/index}}%"></view>
+        </block>
       </view>
     </view>
   </view>
   <view class="mainBox mainInfo">
-    <view class="_title bold font_32 color-333">关于我</view>
-    <view class="font_26 color-333">
-      {{profile_courtship.introduction}}
-
-    </view>
-    <view class="_title bold font_32 color-333">择偶标准</view>
-    <view class="font_26 color-333">
-      {{profile_courtship.ideal_mate}}
-    </view>
+    <block wx:if="{{profile_courtship}}">
+      <view class="_title bold font_32 color-333">关于我</view>
+      <view class="font_26 color-333" wx:if="{{profile_courtship.introduction}}">
+        {{profile_courtship.introduction}}
+      </view>
+      <view wx:else>
+        <view class="bc_bg" wx:for="{{4}}" wx:key="index" style="width:{{100/index}}%"></view>
+      </view>
+    </block>
+    <block wx:if="{{profile_courtship}}">
+      <view class="_title bold font_32 color-333">择偶标准</view>
+      <view class="font_26 color-333" wx:if="{{profile_courtship.ideal_mate}}">
+        {{profile_courtship.ideal_mate}}
+      </view>
+      <view wx:else>
+        <view class="bc_bg" wx:for="{{4}}" wx:key="index" style="width:{{100/index}}%"></view>
+      </view>
+    </block>
     <block wx:if="{{profile_courtship.interest_hobby}}">
       <view class="_title bold font_32 color-333">兴趣爱好</view>
-      <view class="font_26 color-333">
+      <view class="font_26 color-333" wx:if="{{profile_courtship.interest_hobby}}">
         {{profile_courtship.interest_hobby}}
+      </view>
+      <view wx:else>
+        <view class="bc_bg" wx:for="{{4}}" wx:key="index" style="width:{{100/index}}%"></view>
       </view>
     </block>
   </view>
@@ -220,11 +237,17 @@
   </view>
   <block wx:if="{{mylibs.id && mylibs.self !== 1}}">
     <view class="mainBtn">
-      <view class="blurBox"></view>
-      <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top"  wx:if="{{mylibs.is_friend == 0}}" @tap="showAddFriendFn">添加好友
-      </button>
-      <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" @tap="goto('/pages/home/chitchat?id={{mylibs.id}}&name={{mylibs.name}}&type={{mylibs.type}}')"  wx:else>找Ta聊天
-      </button>
+      <block wx:if="{{type != 'marriage'}}">
+        <view class="blurBox"></view>
+        <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top"  wx:if="{{mylibs.is_friend == 0}}" @tap="showAddFriendFn">添加好友
+        </button>
+        <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" @tap="goto('/pages/home/chitchat?id={{mylibs.id}}&name={{mylibs.name}}&type={{mylibs.type}}')"  wx:else>找Ta聊天
+        </button>
+      </block>
+      <block wx:else>
+        <view class="blurBox"></view>
+        <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" open-type="share">分享给好友</button>
+      </block>
     </view>
   </block>
   <!--<block wx:if="{{mylibs.self !== 1}}">-->
@@ -289,10 +312,10 @@
   import ShareMessage from '../../mixins/ShareMessage'
   import Loading from '../../components/loading'
 
-  export default class information extends wepy.page {
+  export default class introducer extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
-      navigationBarTitleText: '个人介绍',
+      navigationBarTitleText: 'Ta的个人信息',
       navigationBarBackgroundColor: '#F3F6F8'
     }
     components = {
@@ -363,6 +386,7 @@
       showAdvantages: true,
       userType: '',
       character: {},
+      type: '',
       login_time: '潜水中...'
     }
 
@@ -381,6 +405,8 @@
     }
 
     onShow() {
+      this.type = wx.getStorageSync('type')
+      this.$apply()
       this.getMessage()
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
@@ -398,6 +424,12 @@
         success: ({code, data}) => {
           self.init = true
           self.mylibs = data
+          if (data.avatar) {
+            self.mylibs.profile_photos.unshift({
+              id: 0,
+              photo: data.avatar
+            })
+          }
           self.title = data.name
           wx.setNavigationBarTitle({
             title: self.title
@@ -414,9 +446,9 @@
           }
           // self.character = data.character
           // let text = '前活跃'
-          // if (data.is_friend == 0) {
-          //   self.setList = ['举报']
-          // }
+          if (data.is_friend == 0) {
+            self.setList = ['举报']
+          }
           // if (data.login_time) {
           //   if (data.login_time.day) {
           //     return self.login_time = data.login_time.day + '天' + text
@@ -492,9 +524,12 @@
         vm.modalName = ''
         vm.$apply()
         console.log(this.message)
-        vm.$post({url: `${service.addFriend}/${vm.id}`}, {
+        let data = {
+          message: vm.message
+        }
+        vm.$post({url: `${service.addFriend}/${vm.id}`, data}, {
           success: ({code, data}) => {
-            vm.modalName=='Modal_add'
+            vm.modalName = 'Modal_add'
             vm.$apply()
           },
           fail: ({code, data}) => {},
@@ -1096,5 +1131,11 @@
         }
       }
     }
+  }
+  .bc_bg{
+    height: 34rpx;
+    background: #F6F6F6;
+    border-radius: 6rpx;
+    margin-top: 8rpx;
   }
 </style>

@@ -22,7 +22,7 @@
                 <view style="width: 100%;padding: 12rpx 32rpx 22rpx 32rpx;">
                   <view>
                     <view  class="font_32 flo_l color-333 ellipsis_1">
-                      <span class="bold">{{item.name}}</span>
+                      <span class="bold">{{item.nickname || item.name}}</span>
                     </view>
                     <view  class="font_28 flo_l" style="margin-left: 6rpx;">
                       <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFit" wx:if="{{item.sex == '1'}}" style="width: 38rpx;height: 38rpx;margin-bottom: -12rpx;"></image>
