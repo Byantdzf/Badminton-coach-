@@ -3,7 +3,7 @@
     <view slot="backText">返回</view>
     <view slot="content">会员中心</view>
   </cuCustom>
-  <view class="_bc-user">
+  <view class="_bc-user animation-slide-top">
     <view class="mainTab text-center font_30">
       <view class="white itemText inline-block {{active == 0?'active':''}}" @tap="activeFn('0')">超级会员</view>
       <view class="white itemText inline-block {{active == 1?'active':''}}" @tap="activeFn('1')">会员套餐</view>
@@ -32,7 +32,7 @@
       </swiper-item>
     </swiper>
   </view>
-  <view class="mainWrapper">
+  <view class="mainWrapper animation-slide-bottom">
     <view class="font_30 bold color-333 title">会员套餐权益：</view>
     <view class="scroll-wrapper">
       <scroll-view scroll-x="{{true}}" scroll-with-animation style="height: 264rpx;">
@@ -242,11 +242,11 @@
   import NavBar from '../../components/NavBar'
   import modalUp from '../../components/modal-up'
   import cuCustom from '../../components/cu-custom'
-  import ShareMessage from '../../mixins/ShareMessage'
+  // import ShareMessage from '../../mixins/ShareMessage'
   import { service } from '../../config.js'
 
   export default class upgradeVIP extends wepy.page {
-    mixins = [base, http, ShareMessage]
+    mixins = [base, http]
     config = {
       navigationBarTitleText: 'VIP服务',
       enablePullDownRefresh: false,
@@ -291,9 +291,9 @@
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
 
-    onShareAppMessage(res) {
-      return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
-    }
+    // onShareAppMessage(res) {
+    //   return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
+    // }
 
     onLoad() {}
 

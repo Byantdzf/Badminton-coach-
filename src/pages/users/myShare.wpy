@@ -142,6 +142,11 @@
 
     onShow () {
       // 初始化页面数据
+      if (wx.getStorageSync('type') != 'single') {
+        return wx.reLaunch({
+          url: '/pages/tabBar/welcome'
+        })
+      }
       this.initPageData()
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }

@@ -1,5 +1,5 @@
 <template>
-  <cuCustom  bgImage="https://images.ufutx.com/202004/09/9c88daa577e4e4148d15f316f0d55524.png" isCustom="{{true}}">
+  <cuCustom  bgImage="https://images.ufutx.com/202004/29/2bd9abf27267b92d94003761288a4549.png" isCustom="{{true}}">
     <view slot="content">我的订单</view>
   </cuCustom>
   <view class="mainTab text-center font_30 ff">
@@ -11,6 +11,7 @@
       <view  class="font_26 flo_r ellipsis_1 " style="margin-left: 12rpx;">{{item.created_at}}</view>
       <view class="font_28 flo_l color-333 ellipsis_1 bold" style="width: 60%;">{{item.goods}}</view>
       <view class="clearfloat"></view>
+
       <view  class="font_28 flo_r ellipsis_1" style="color: #4cb455;">
         -￥{{item.num * item.price}}元
       </view>
@@ -98,7 +99,7 @@
   import http from '../../mixins/http'
   import base from '../../mixins/base'
   import user from '../../mixins/user'
-  import ShareMessage from '../../mixins/ShareMessage'
+  // import ShareMessage from '../../mixins/ShareMessage'
   import NavBar from '../../components/NavBar'
   import Loading from '../../components/loading'
   import { service } from '../../config.js'
@@ -106,7 +107,7 @@
   import cuCustom from '../../components/cu-custom'
 
   export default class myOrderList extends wepy.page {
-    mixins = [base, http, user, ShareMessage]
+    mixins = [base, http, user]
     config = {
       navigationBarTitleText: '我的订单',
       enablePullDownRefresh: true,
@@ -154,9 +155,9 @@
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
 
-    onShareAppMessage (res) {
-      return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
-    }
+    // onShareAppMessage (res) {
+    //   return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
+    // }
 
     onLoad () {
 
@@ -398,7 +399,7 @@ page{
     border-radius: 6rpx;
     background: white;
     padding: 22rpx 30rpx;
-    border-bottom: 1rpx solid #f6f6f6;
+    border-bottom: 2rpx solid #f6f6f6;
   }
   .weui-cell__ft {
     margin-top: 10%;
@@ -421,6 +422,6 @@ page{
     border: 1rpx solid #b4b4b4;
     border-radius: 6rpx;
     vertical-align: middle;
-    margin-bottom: 6 rpx;
+    margin-bottom: 6rpx;
   }
 </style>

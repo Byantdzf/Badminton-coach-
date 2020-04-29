@@ -59,7 +59,7 @@
         <view class="cu-tag round bg-red sm" wx:if="{{item.message.new_count}}">{{item.message.new_count}}</view>
       </view>
       <view class="move">
-        <view class="bg-red" @tap="deleteFn({{item.message.magId}},{{index}})">删除 {{item.id}}</view>
+        <view class="bg-red" @tap.stop="deleteFn({{item.message.magId}},{{index}})">删除 {{item.id}}</view>
       </view>
     </view>
     <button class="btn service" hover-class="btn_active" open-type="contact">
@@ -170,9 +170,9 @@
       let url = `/pages/tabBar/welcome?from_openid=${openid}&share_user_id=${that.id}`
       console.log(url)
       return {
-        title: '我在福恋为你找对象',
+        title: '向你推荐《福恋》',
         path: url,
-        imageUrl: 'https://images.ufutx.com/201908/28/494a44b3d04fb9f4278a684dd83d1fe3.jpeg',
+        imageUrl: 'https://images.ufutx.com/202004/29/baac955e5878e0cb03c17eef0c92f473.jpeg',
         success: function(res) {
           wx.showToast({
             title: '转发成功',

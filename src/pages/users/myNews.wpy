@@ -13,7 +13,7 @@
                   </view>
                   <view class="flo_l" style="width: 78%;">
                     <view  class="font_28 flo_l black_6 ellipsis_1 bold" style="margin-left: 12rpx;">
-                      {{item.other_user.name}}
+                      {{item.other_user.nickname}}
                     </view>
                     <view class="font_26 flo_r time">{{item.created_at}}</view>
                     <view  class="font_28 flo_l ellipsis_1" style="margin-left: 6rpx;">
@@ -86,14 +86,14 @@
   import http from '../../mixins/http'
   import base from '../../mixins/base'
   import user from '../../mixins/user'
-  import ShareMessage from '../../mixins/ShareMessage'
+  // import ShareMessage from '../../mixins/ShareMessage'
   import NavBar from '../../components/NavBar'
   import Loading from '../../components/loading'
   import pageScroll from '../../components/pageScroll'
   import goHome from '../../components/goHome'
 
   export default class myNews extends wepy.page {
-    mixins = [base, http, user, ShareMessage]
+    mixins = [base, http, user]
     config = {
       navigationBarTitleText: '通知列表'
     }
@@ -121,9 +121,9 @@
 
     computed = {}
 
-    onShareAppMessage(res) {
-      return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
-    }
+    // onShareAppMessage(res) {
+    //   return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
+    // }
 
     async onLoad(e) {
       // let _this = this

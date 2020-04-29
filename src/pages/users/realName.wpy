@@ -1,7 +1,7 @@
 <template>
-  <cuCustom bgImage="https://images.ufutx.com/202004/09/9c88daa577e4e4148d15f316f0d55524.png"  isCustom="{{true}}">
+  <cuCustom bgImage="https://images.ufutx.com/202004/29/2bd9abf27267b92d94003761288a4549.png"  isCustom="{{true}}">
     <!--<view slot="content">-->
-      <!--<image src="https://images.ufutx.com/202004/09/9c88daa577e4e4148d15f316f0d55524.png" mode="widthFix"></image>-->
+      <!--<image src="https://images.ufutx.com/202004/29/2bd9abf27267b92d94003761288a4549.png" mode="widthFix"></image>-->
     <!--</view>-->
     <view slot="backText">返回</view>
     <view slot="content">实名认证</view>

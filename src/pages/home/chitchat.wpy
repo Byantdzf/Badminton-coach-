@@ -86,12 +86,12 @@
   import base from '../../mixins/base'
   import user from '../../mixins/user'
   //  import util from '../../utils/util'
-  import ShareMessage from '../../mixins/ShareMessage'
+  // import ShareMessage from '../../mixins/ShareMessage'
 
   var util = require('../../utils/util')
 
   export default class chitchat extends wepy.page {
-    mixins = [base, http, user, ShareMessage]
+    mixins = [base, http, user]
     config = {
       navigationBarTitleText: '聊天',
       enablePullDownRefresh: true
@@ -126,9 +126,9 @@
 
     computed = {}
 
-    onShareAppMessage (res) {
-      return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
-    }
+    // onShareAppMessage (res) {
+    //   return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
+    // }
 
     async onLoad (e) {
       let that = this

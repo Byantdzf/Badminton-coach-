@@ -90,6 +90,7 @@
       },
       modalName: '',
       is_vip: false,
+      title: '向你推荐《福恋》',
       token: wx.getStorageSync('token'),
       list: [
         {
@@ -163,9 +164,9 @@
       let url = `/pages/tabBar/welcome?from_openid=${openid}&share_user_id=${that.id}`
       console.log(url)
       return {
-        title: '我在福恋为你找对象',
+        title: that.title,
         path: url,
-        imageUrl: 'https://images.ufutx.com/201908/28/494a44b3d04fb9f4278a684dd83d1fe3.jpeg',
+        // imageUrl: 'https://images.ufutx.com/202004/29/baac955e5878e0cb03c17eef0c92f473.jpeg',
         success: function(res) {
           wx.showToast({
             title: '转发成功',
@@ -236,6 +237,7 @@
         success: ({code, data}) => {
           this.init = true
           this.user = data
+          this.title = `我是"${data.nickname}"，这是我的小程序卡片`
           this.$apply()
           wx.setStorageSync('type', data.type)
         }

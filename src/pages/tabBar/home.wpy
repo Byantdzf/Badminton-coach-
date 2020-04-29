@@ -58,7 +58,7 @@
                 <view class="text-center">
                   每日中午 <span class="color-theme">10点
                   <button class="text-center btn-box white radius shadow inline-block font_26 bg_theme" style="margin-bottom: -12rpx;" @tap="getList()" wx:if="{{refresh}}">刷新</button>
-                  <span wx:else="">刷新</span>
+                  <span wx:else>刷新</span>
                 </span> 智能推荐用户
                 </view>
               </view>
@@ -184,6 +184,7 @@
       token: wx.getStorageSync('token'),
       modalName: '',
       throttle: true, // 节流
+      day: '',
       countDownList: '00天00时00分00秒',
       actEndTime: '2020-4-19 18:50:00',
       is_profile: '',  // 资料是否完善
@@ -200,6 +201,7 @@
       let vm = this
       vm.cardCur = 0
       vm.token = wx.getStorageSync('token')
+      vm.day = new Date()
       vm.$apply()
       if (wx.getStorageSync('touristsSex')){
         vm.touristsSex = wx.getStorageSync('touristsSex')
@@ -252,11 +254,10 @@
     }
 
     countDown(it) {
-      let day3 = new Date(),
-        vm = this
-      day3.setTime(day3.getTime() + 24 * 60 * 60 * 1000)
-      var s3 = `${day3.getFullYear()}-${(day3.getMonth() + 1)}-${day3.getDate()} 10:00:00`
-      var interval = setInterval(() => { // 获取当前时间，同时得到活动结束时间数组
+      let vm = this
+      vm.day.setTime(vm.day.getTime() + 24 * 60 * 60 * 1000)
+      let s3 = `${vm.day.getFullYear()}-${(vm.day.getMonth() + 1)}-${vm.day.getDate()} 10:00:00`
+      let interval = setInterval(() => { // 获取当前时间，同时得到活动结束时间数组
         let newTime = new Date().getTime() // 对结束时间进行处理渲染到页面
         let endTime = new Date(s3).getTime()
         let obj = null // 如果活动未结束，对时间进行处理
@@ -284,7 +285,7 @@
         if (obj.hou == '00' & obj.min == '00' & obj.sec == '00') { // 一周期
           vm.refresh = true
           vm.$apply()
-          console.log(vm.refresh,'asasassssss')
+          console.log(vm.refresh, 'asasassssss')
         } else {
           vm.countDownList = obj.hou + '时' + obj.min + '分' + obj.sec + '秒'
           vm.$apply()
@@ -298,9 +299,9 @@
       let url = `/pages/tabBar/welcome?from_openid=${openid}&share_user_id=${that.id}`
       console.log(url)
       return {
-        title: '我在福恋为你找对象',
+        title: '向你推荐《福恋》',
         path: url,
-        imageUrl: 'https://images.ufutx.com/201908/28/494a44b3d04fb9f4278a684dd83d1fe3.jpeg',
+        imageUrl: 'https://images.ufutx.com/202004/29/baac955e5878e0cb03c17eef0c92f473.jpeg',
         success: function(res) {
           wx.showToast({
             title: '转发成功',

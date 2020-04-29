@@ -1,7 +1,7 @@
 <template>
   <!--<NavBar rgba="#ffffff" bag="#ffffff" :title.sync="title"></NavBar>-->
   <!--<Loading :init.sync="init"></Loading>-->
-  <cuCustom  bgImage="https://images.ufutx.com/202004/09/9c88daa577e4e4148d15f316f0d55524.png"  isBack="{{true}}">
+  <cuCustom  bgImage="https://images.ufutx.com/202004/29/2bd9abf27267b92d94003761288a4549.png"  isBack="{{true}}">
     <view slot="backText">返回</view>
     <view slot="content">{{title}}</view>
   </cuCustom>
@@ -12,7 +12,7 @@
     <view wx:for="{{list}}" wx:key="*this">
       <view class="borrowlist" @tap="gotoFriendPage({{item}})">
         <view class="flo_l" >
-          <image src="{{item.photo || item.circle_avatar}}" mode="aspectFill" class="flo_l photo"></image>
+          <image src="{{item.circle_avatar || item.photo}}" mode="aspectFill" class="flo_l photo"></image>
         </view>
         <view class="flo_l" style="width: 84%;">
           <view  class="font_28 flo_l color-333 ellipsis_1 bold" style="margin-left: 20rpx;max-width: 40%;">
