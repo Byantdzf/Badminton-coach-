@@ -38,9 +38,12 @@
     <view class="font_28 _bc-center">
       <view class="itemInfo">
         <view class="color-333 ellipsis_1 font_32 bold flo_l" style="max-width: 80%">{{mylibs.nickname || mylibs.name}}</view>
-        <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:if="{{mylibs.sex=='2'}}" mode="aspectFill" class="flo_l icon"></image>
-        <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFill" wx:else class="flo_l icon" ></image>
-        <view class="flo_r ">
+        <block wx:if="{{mylibs.sex}}">
+          <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:if="{{mylibs.sex=='2'}}" mode="aspectFill" class="flo_l icon"></image>
+          <image src
+                   ="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFill" wx:else class="flo_l icon" ></image>
+        </block>
+          <view class="flo_r ">
           <view class="flo_r" style="margin-top: 10rpx">{{mylibs.profile_courtship.city || ''}}</view>
           <view class="clearfloat"></view>
         </view>
@@ -430,7 +433,7 @@
               photo: data.avatar
             })
           }
-          self.title = data.name
+          self.title = data.nickname ? data.nickname : data.name
           wx.setNavigationBarTitle({
             title: self.title
           })

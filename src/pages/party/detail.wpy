@@ -57,7 +57,7 @@
     </view>
     <view style="height: 120rpx;"></view>
     <view class="_bc-Tab ff">
-      <view class="_bc-item text-center flo_l" @tap="gotoTab('/pages/tabBar/home')">
+      <view class="_bc-item text-center flo_l" @tap="goto('/pages/tabBar/welcome')">
         <image src="https://images.ufutx.com/202002/27/44641052ec087246a15e8551df3adfac.png"   mode="aspectFit"></image>
         <view class="font_26 color-666">主页</view>
       </view>

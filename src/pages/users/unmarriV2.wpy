@@ -114,7 +114,7 @@
       </view>
     </view>
   </view>
-  <view class="cu-modal {{modalName=='Modal'?'show':''}}">
+  <view class="cu-modal {{modalName=='Modal'?'show':''}}" catchtouchmove='true'>
     <view class="cu-dialog">
       <view class="cu-bar bg-white justify-end">
         <view class="content bold">{{editText}}</view>
@@ -129,7 +129,7 @@
       </view>
     </view>
   </view>
-  <view class="cu-modal {{modalName=='prompt'?'show':''}}">
+  <view class="cu-modal {{modalName=='prompt'?'show':''}}" catchtouchmove='true'>
     <view class="cu-dialog">
       <view class="cu-bar bg-white justify-end">
         <view class="content bold">提示</view>
@@ -142,7 +142,7 @@
       </view>
     </view>
   </view>
-  <view class="cu-modal {{modalName=='successful'?'show':''}}">
+  <view class="cu-modal {{modalName=='successful'?'show':''}}" catchtouchmove='true'>
     <view class="cu-dialog">
       <view class="cu-bar bg-white justify-end">
         <view class="content bold">提示</view>

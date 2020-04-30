@@ -21,7 +21,22 @@
                       <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" mode="aspectFit" wx:else   style="width: 38rpx;height: 38rpx;" class="flo_l"></image>
                     </view>
                   </view>
-                  <view class="font_26 flo_l color-666 ellipsis_1" style="margin-left: 16rpx;max-width: 88%;">{{item.content}}</view>
+                  <block wx:if="{{item.type != 'friend'}}">
+                    <view class="font_26 flo_l color-666 ellipsis_1" style="margin-left: 16rpx;max-width: 88%;">{{item.content}}</view>
+                  </block>
+                  <block wx:else>
+                    <block wx:if="{{item.status != '1'}}">
+                      <view class="font_26 flo_l color-666 ellipsis_1" style="margin-left: 16rpx;max-width: 88%;">{{item.content}}</view>
+                    </block>
+                    <block wx:else>
+                      <block wx:if="{{item.deal_status == '1'}}">
+                        <view class="font_26 flo_l ellipsis_1  text-shadow {{item.deal_status == '1'?'text-green':'red'}}" style="margin-left: 16rpx;max-width: 88%;" >已同意</view>
+                      </block>
+                      <block wx:else>
+                        <view class="font_26 flo_l ellipsis_1  text-shadow {{item.deal_status == '1'?'text-green':'red'}}" style="margin-left: 16rpx;max-width: 88%;">已拒绝</view>
+                      </block>
+                    </block>
+                  </block>
                   <!--<view class="weui-cell__ft weui-cell__ft_in-access">-->
                   <view class="dist flo_r" wx:if="{{item.status == 0}}"></view>
                   <!--<view class="bc_right flo_r">-->
@@ -155,6 +170,17 @@
 //        this.$apply()
       }, 200)
     }
+    watch = {
+      list() {
+        console.log(this.list, 'asdad')
+        for (let item of this.list) {
+          console.log(item.type)
+          if (item.type == 'friend') {
+
+          }
+        }
+      }
+    }
 
     getMessage() {
       var isNew = wx.getStorageSync('is_new')
@@ -218,8 +244,7 @@
           }
           _this.noMore = true
           _this.page += 1
-
-          //          _this.libs = data.data
+          _this.$apply()
         },
         fail: ({code, data}) => {
         },
@@ -323,10 +348,14 @@
         } else if (item.type == 'wechat') {
           url = '/pages/users/examineWeChat?id=' + item.id
         } else if (item.type == 'friend') {
-          url = '/pages/users/auditFriend?id=' + item.id
+          if (item.status == '1') {
+            url = '/pages/home/information?id=' + item.other_user.id
+            wx.navigateTo({url: url})
+            return
+          }
           this.modalName = 'DialogModal'
           this.message = item.message
-          this.name = item.other_user.name
+          this.name = item.other_user.nickname
           this.id = item.id
           this.$apply()
           return

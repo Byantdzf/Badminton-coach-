@@ -21,7 +21,7 @@
               <view class="font_24 color-333">{{item.other_user.age + '岁'}} {{item.other_user.city || ''}}</view>
               <view class="font_24 color-333">悄悄访问了你的主页</view>
             </view>
-            <view class="font_24 color-666 flo_r">{{item.updated_at}}</view>
+            <view class="font_24 color-666 flo_r">{{item.preview_time}}</view>
           </view>
           <view class="clearfloat"></view>
         </view>
@@ -39,7 +39,7 @@
               <view class="font_24 color-333">{{item.other_user.age + '岁'}} {{item.other_user.city || ''}}</view>
               <view class="font_24 color-333">悄悄访问了你的主页</view>
             </view>
-            <view class="font_24 color-666 flo_r">{{item.updated_at}}</view>
+            <view class="font_24 color-666 flo_r">{{item.preview_time}}</view>
           </view>
           <view class="clearfloat"></view>
         </view>
