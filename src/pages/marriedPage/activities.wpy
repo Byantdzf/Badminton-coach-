@@ -171,10 +171,10 @@
       }
     }
     onReachBottom() {
-      if (this.token) {
-        this.page = 1
+      // if (this.token) {
+      //   this.page = 1
         this.update()
-      }
+      // }
     }
     update() {
       let vm = this

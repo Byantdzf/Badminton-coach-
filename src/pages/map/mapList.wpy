@@ -6,7 +6,7 @@
             <view class="cu-bar bg-white search _tab__content bc_BoxTab ">
               <view class="search-form round">
                 <text class="cuIcon-search"></text>
-                <input type="text"  placeholder="搜索昵称" confirm-type="search" value="{{inputVal}}" focus="{{inputShowed}}" @confirm="inputTyping" ></input>
+                <input type="text"  placeholder="搜索昵称" class="text-left" confirm-type="search" value="{{inputVal}}" focus="{{inputShowed}}" @confirm="inputTyping" ></input>
               </view>
               <view @tap="goto('/pages/map/index')"><image src="https://images.ufutx.com/202004/23/979df2c84f559ed94372b28d8b38ac73.jpeg" mode="aspectFill" class="icon" style="margin-right: 8rpx;margin-left: 8rpx;"></image></view>
               <view @tap="showModal"><image src="https://images.ufutx.com/202004/23/f7014493b4801e0217c9464cdcd74b6a.jpeg" mode="aspectFill" class="icon"></image></view>

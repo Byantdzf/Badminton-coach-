@@ -1,18 +1,18 @@
 <template>
-  <view class="page-index" wx:for="{{list}}" wx:key="index" @tap="goto('/pages/party/detail?party_id={{item.id}}')">
+  <view class="page-index radius shadow-warp bg-white" wx:for="{{list}}" wx:key="index" @tap="goto('/pages/party/detail?party_id={{item.id}}')">
     <view class="_bc-party">
+      <view class="color-theme font_24 bold series">##勇敢系列</view>
       <view class="flo_l" style="width: 40%">
         <image src="{{item.poster}}" mode="aspectFill" class="photo"></image>
       </view>
       <view style="width: 60%" class="flo_l">
         <view class="font_26 bold _bc-title ellipsis_2 text-left color-666">
-          <image src="https://images.ufutx.com/202002/22/6816a6847e2308b8637e392d38789b86.png" mode="widthFix"
+          <image src="https://images.ufutx.com/202005/19/6816a6847e2308b8637e392d38789b86.png" mode="widthFix"
                  wx:if="{{item.is_top > 0}}"></image>
           {{item.theme}}
         </view>
-        <view style="position: absolute;bottom: 22rpx;right: 22rpx;width: 58%;">
+        <view style="position: absolute;bottom: 4rpx;right: 22rpx;width: 58%;">
           <view class="font_22 ellipsis_2 text-left" style="color: #ababab; margin-left: 22rpx;">
-<!--            <span>{{item.time}}</span>-->
             <view class="flo_r bc_fee font_32" style="margin-top: -12rpx;" wx:if="{{item.is_deadline == 0}}">
               ￥{{item.fee}}
             </view>
@@ -30,26 +30,32 @@
                   style="margin-top: -12rpx;text-decoration:line-through" wx:else>￥{{item.fee || '免费'}}
             </view>
           </view>
-<!--          <block wx:if="{{item.is_deadline == 0}}">-->
-<!--            <view class="font_22 flo_r _bc-btn"  wx:if="{{item.activity_member_count > 0}}" style="border: none;color: #04be02">已报名</view>-->
-<!--            <view class="font_22 flo_r _bc-btn"  wx:if="{{item.activity_member_count == 0}}">立即报名</view>-->
-<!--          </block>-->
-<!--          <block wx:else>-->
-<!--            <view class="font_22 flo_r _bc-btn color-bbb" style="border-color: #bbbbbb">已结束</view>-->
-<!--          </block>-->
+          <block wx:if="{{item.is_deadline == 0}}">
+            <view class="font_22 flo_r _bc-btn"  wx:if="{{item.activity_member_count > 0}}">
+              <image src="https://images.ufutx.com/202005/18/185b2ce88d83208298489cabdba11b43.png" mode="widthFix" class="successIcon"></image>
+            </view>
+          </block>
+          <block wx:else>
+            <view class="font_22 flo_r _bc-btn">
+              <image src="https://images.ufutx.com/202005/18/3125898be98857af5885af8a58c3c73f.png" mode="widthFix" class="successIcon"></image>
+            </view>
+          </block>
         </view>
-<!--        <image src="https://images.ufutx.com/202001/03/471c8d80f4d4806c3d6f89358109925d.png" mode="aspectFill" class="successIcon" wx:if="{{item.activity_member_count > 0}}"></image>-->
       </view>
       <view class="clearfloat"></view>
     </view>
     <view class="mainState">
-      <block wx:if="{{item.is_deadline == 0}}">
-        <view class="font_22 flo_r _bc-btn bold"  wx:if="{{item.activity_member_count > 0}}" style="border: none;color: #333333;margin-right: 4rpx;">已报名</view>
-        <view class="font_22 flo_r _bc-btn participateStyle color-theme"  wx:if="{{item.activity_member_count == 0}}">立即报名</view>
-      </block>
-      <block wx:else>
-        <view class="font_22 flo_r _bc-btn color-bbb" style="border-color: #bbbbbb">已结束</view>
-      </block>
+      <view class="flo_l text-shadow text-black font_26 color-666">
+        <image src="https://images.ufutx.com/202005/18/ccfe3df9695a3012fd6f928b479113ea.png" class="icon" mode="aspectFit"></image>
+        {{item.time}}
+      </view>
+      <!--<block wx:if="{{item.is_deadline == 0}}">-->
+        <!--<view class="font_22 flo_r _bc-btn bold"  wx:if="{{item.activity_member_count > 0}}" style="border: none;color: #333333;margin-right: 4rpx;">已报名</view>-->
+        <!--<view class="font_22 flo_r _bc-btn participateStyle color-theme"  wx:if="{{item.activity_member_count == 0}}">立即报名</view>-->
+      <!--</block>-->
+      <!--<block wx:else>-->
+        <!--<view class="font_22 flo_r _bc-btn color-bbb" style="border-color: #bbbbbb">已结束</view>-->
+      <!--</block>-->
     </view>
   </view>
 </template>
@@ -72,6 +78,23 @@
       }
     }
     data = {}
+    watch = {
+      list() {
+        for (let item of this.list) {
+          item.start_time = item.start_time.split(':', 2).join(':')
+          item.end_time = item.end_time.split(':', 2).join(':')
+          item.time = `${item.start_time} 至 ${item.end_time}`
+          if (item.start_time.split(' ')[0] == item.end_time.split(' ')[0]) {
+            item.time = item.start_time.split(' ')[0] + ' ' + item.start_time.split(' ')[1] + ' ~ ' + item.end_time.split(' ')[1]
+            this.$apply()
+          }
+          if (item.start_time.split(' ')[1] == '00:00' && item.end_time.split(' ')[1] == '00:00') {
+            item.time = item.start_time.split(' ')[0] + ' ~ ' + item.end_time.split(' ')[0]
+            this.$apply()
+          }
+        }
+      }
+    }
 //    computed = {
 //    }
     methods = {
@@ -85,15 +108,25 @@
 <style type="less">
   @import "../styles/custom/fn.less";
   .page-index{
+    width: 92vw;
+    background: white;
+    margin: 28rpx auto;
+    overflow: hidden;
+    padding: 20rpx;
+    border-radius: 12rpx;
+    padding-bottom: 8rpx;
     .bc_fee{
       color: @theme;
       font-weight: 500;
     }
     ._bc-party{
-      margin: 26rpx 32rpx 10rpx 32rpx ;
       background: white;
-      border-bottom: 2rpx solid #eeeded;
       position: relative;
+      .series{
+        padding-bottom: 12rpx;
+        margin-bottom: 20rpx;
+        border-bottom: 1rpx solid #d9d9d9;
+      }
       .photo{
         width: 268rpx;
         height: 150rpx;
@@ -109,7 +142,7 @@
       ._bc-title{
         margin-left: 22rpx;
         image{
-          width: 58rpx;
+          width: 66rpx;
           vertical-align: middle;
           margin-bottom: 4rpx;
           height: auto;
@@ -126,16 +159,25 @@
       }
       .successIcon{
         position: absolute;
-        right: 0;
-        top: 0;
-        width: 100rpx;
-        height: 100rpx;
+        right: -20rpx;
+        top: -60rpx;
+        width: 200rpx;
+        height: auto;
+        z-index: 9999;
       }
     }
     .mainState{
-      padding: 12rpx 32rpx;
+      /*padding: 12rpx 32rpx;*/
+      margin-top: 12rpx;
+      border-top: 1rpx solid #d9d9d9;
       overflow: hidden;
-      border-bottom: 12rpx solid #f4f5f9;
+      padding-top: 12rpx;
+      .icon{
+        width: 32rpx;
+        height: 32rpx;
+        vertical-align: middle;
+        margin-bottom: 8rpx;
+      }
     }
     .over{
       width: 160rpx;

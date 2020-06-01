@@ -90,7 +90,9 @@
     <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" @tap="ShareFn">推荐给好友</button>
   </view>
   <!--<sharePic :pic.sync="invite_pic" :shareImage.sync="shareImage"></sharePic>-->
-  <shareComponent :hide.sync="hide" :shareImage.sync="invite_pic"></shareComponent>
+  <block wx:if="{{!hide}}">
+    <shareComponent :hide.sync="hide" :shareImage.sync="invite_pic"></shareComponent>
+  </block>
 </template>
 
 <script>

@@ -29,12 +29,12 @@
                   <image src="{{item.linking_user.avatar}}" mode="aspectFill"   style="width: 120rpx;height: 120rpx;border-radius: 12rpx;" class="flo_l"></image>
                 </view>
                 <view class="flo_l" style="width: 78%;">
-                  <view  class="font_28 flo_l orange ellipsis_1 bold" style="margin-left: 20rpx;">
+                  <view  class="font_28 flo_l color-666 ellipsis_1 bold" style="margin-left: 20rpx;">
                     {{item.linking_user.name}}
                   </view>
                   <view  class="font_28 flo_l ellipsis_1" style="margin-left: 6rpx;margin-top: 2rpx;">
-                    <image src="http://images.ufutx.com/201902/21/a309744e67082c4bd46db0df504c32c5.png" mode="aspectFit" wx:if="{{item.linking_user.sex == 1}}" style="width: 38rpx;height: 38rpx;" class="flo_l"></image>
-                    <image src="http://images.ufutx.com/201902/21/7b3892dcf60fabda05add35abfa9aec3.png" mode="aspectFit" wx:else   style="width: 38rpx;height: 38rpx;" class="flo_l"></image>
+                    <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFit" wx:if="{{item.linking_user.sex == 1}}" style="width: 38rpx;height: 38rpx;" class="flo_l"></image>
+                    <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" mode="aspectFit" wx:else   style="width: 38rpx;height: 38rpx;" class="flo_l"></image>
                   </view>
                 </view>
                 <!--<view class="font_26 flo_l black_6 ellipsis_1" style="margin-left: 14rpx">{{item.linking_user.message}}</view>-->
@@ -322,13 +322,12 @@
     width: 33%;
   }
   .borrowlist{
-    width: 86%;
-    box-shadow: 1rpx 1rpx 18rpx #d3d3d3;
+    width: 92%;
+    box-shadow: 1rpx 1rpx 18rpx #dbdbdb;
     margin-top: 18rpx;
     border-radius: 6rpx;
     margin-left: 4%;
     padding: 22rpx;
-    /*position: relative*/
   }
   .weui-cell__ft {
     margin-top: 10%;

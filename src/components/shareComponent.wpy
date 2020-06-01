@@ -1,5 +1,5 @@
 <template>
-  <view class="cu-modal {{!hide?'show':''}}">
+  <view class="cu-modal {{hide?'':'show'}}">
     <view class="cu-dialog">
       <view class="cu-bar bg-white justify-end">
         <view class="content">提示</view>
@@ -28,7 +28,7 @@
       <view class="cu-dialog">
         <view class="cu-bar bg-white justify-end">
           <view class="content">分享海报</view>
-          <view class="action" bindtap="hideModal">
+          <view class="action" bindtap="listenerCancel">
             <text class="cuIcon-close text-red"></text>
           </view>
         </view>
@@ -49,7 +49,7 @@
     <view class="cu-dialog">
       <view class="cu-bar bg-white justify-end">
         <view class="content">温馨提示</view>
-        <view class="action" bindtap="hideModal">
+        <view class="action" bindtap="hideOpenSet">
           <text class="cuIcon-close text-red"></text>
         </view>
       </view>

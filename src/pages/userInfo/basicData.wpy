@@ -215,6 +215,24 @@
       },
       getuserinfo(e) {
         let vm = this
+        if (!vm.name) {
+          return vm.$showToast('请输入昵称')
+        }
+        if (!vm.mobile) {
+          return vm.$showToast('请先获取手机号')
+        }
+        if (!vm.sex) {
+          return vm.$showToast('请选择你的性别')
+        }
+        if (!vm.birthday) {
+          return vm.$showToast('请选择你的生日')
+        }
+        if (!vm.address.city) {
+          return vm.$showToast('请选择所在城市')
+        }
+        if (!vm.belief) {
+          return vm.$showToast('请选择你的信仰')
+        }
         vm.loadModal = true
         vm.$apply()
         console.log(vm.loadModal)

@@ -23,7 +23,10 @@
             <!--</block>-->
           <!--</view>-->
           <view class="userinfo-info text-center" >
-            <span wx:if="{{user.nickname}}" class="font_28 bold white">{{ user.nickname }}</span>
+            <view wx:if="{{user.nickname}}" class="font_28 white">
+              <span class="bold">{{ user.nickname }}</span>
+              <span class="text-shadow text-white font_24">「介绍人」</span>
+            </view>
             <span wx:else  class="font_30 bold white" @tap.stop="gotoTab">点击登录</span>
           </view>
           <!--<view class="editInfo" @tap.stop="goto('/pages/marriedPage/basicData')">-->

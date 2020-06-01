@@ -3,7 +3,7 @@
     <view class="cu-progress progressBox round sm striped active">
       <view class="bg_theme" style="width:{{profile_count}}%;"></view>
     </view>
-    <view class="flo_r _num font_28">完善度 <text class="font_28 bold">{{profile_count}}%</text></view>
+    <view class="flo_r _num font_28 text-shadow text-black">完善度 <text class="font_28 bold">{{profile_count}}%</text></view>
     <view class="font_24 color-666 prompt" wx:if="{{!mylibs.has_get_daily_rank}}">资料完善度达到100%，即可获得24小时
       <text class="bold text-shadow text-yellow" @tap="getDailyVip">超级VIP卡</text>！
       <image src="https://images.ufutx.com/202004/20/559390481117d73227a7fa2866b43c6b.png" mode="widthFix" class="image flo_r radius shadow" @tap="getDailyVip"></image>
@@ -30,7 +30,7 @@
         <image  src="https://images.ufutx.com/202004/13/c9505127b21e909aae5a609987f5ac66.png" class="icon flo_r" mode="widthFix"/>
       </view>
       <view class="itemInfo">
-        <view class="color-333 ellipsis_1 font_32 flo_l" style="max-width: 80%">{{mylibs.nickname}}</view>
+        <view class="color-333 ellipsis_1 font_32 flo_l  text-shadow text-black" style="max-width: 80%">{{mylibs.nickname}}</view>
         <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:if="{{mylibs.sex=='2'}}" mode="aspectFill" class="flo_l icon"></image>
         <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFill" wx:else class="flo_l icon" ></image>
         <view class="clearfloat"></view>
@@ -114,6 +114,7 @@
       </view>
     </view>
   </view>
+  <view style="height: 12vw"></view>
   <view class="cu-modal {{modalName=='Modal'?'show':''}}" catchtouchmove='true'>
     <view class="cu-dialog">
       <view class="cu-bar bg-white justify-end">

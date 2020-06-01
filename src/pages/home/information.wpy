@@ -283,7 +283,7 @@
       <view class="padding-xl text-left" style="padding-top: 20rpx;">
         <view class="bold color-theme">say hello!</view>
         <input type="text" placeholder="输入打招呼内容" class="inputStyle"  @input="typing"/>
-        <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top send" bindtap="getuserinfo" @tap="addFriend">发送
+        <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top send"  @tap="addFriend">发送
         </button>
       </view>
       </view>

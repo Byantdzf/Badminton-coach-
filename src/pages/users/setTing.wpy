@@ -29,7 +29,7 @@
       <image class="image flo_r" mode="aspectFit" src="http://images.ufutx.com/201901/11/4276017b1691e5b0ad57ed6da88f681b.png"></image>
     </view>
     <view style="background: #f8f8f8;height: 22rpx;"></view>
-    <view class="_bc-title " hover-class="weui-cell_active"  @tap="gotoH5('https://mp.weixin.qq.com/s/-V_iAHAb-IjKY1gYgnsmHA')">
+    <view class="_bc-title " hover-class="weui-cell_active"  @tap="gotoH5('https://mp.weixin.qq.com/s/zlnzX6ZuNMg0BV_0tc3wMQ')">
       <span class="font_28">如何使用？</span>
       <image class="image flo_r" mode="aspectFit" src="http://images.ufutx.com/201901/11/4276017b1691e5b0ad57ed6da88f681b.png"></image>
     </view>

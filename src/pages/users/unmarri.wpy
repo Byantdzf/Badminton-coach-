@@ -12,11 +12,26 @@
         </view>
       </view>
       <view class="section list">
-        <view class="picker">
-          <span class="font_26 color-333 bold">性别</span>
-          <span class="color-theme font_22 bold">（不可修改）</span>
-          <text class="text color-999">{{sex[sexIndex]}}</text>
-        </view>
+        <block wx:if="{{!selectSex}}">
+          <view class="picker">
+            <span class="font_26 color-333 bold">性别</span>
+            <span class="color-theme font_22 bold">（不可修改）</span>
+            <text class="text color-999">{{sex[sexIndex]}}</text>
+          </view>
+        </block>
+        <block wx:else>
+          <picker  value="{{sexIndex}}" range="{{sex}}"  bindchange="sexChange" >
+            <view class="picker">
+              <span class="font_26 color-333 bold">性别</span>
+              <span class="color-theme"> *</span>
+              <view class="text">
+                <span wx:if="{{sexIndex>-1}}">{{sex[sexIndex]}}</span>
+                <span wx:else class="color-999">请选择</span>
+                <text class="cuIcon-right lg text-gray"></text>
+              </view>
+            </view>
+          </picker>
+        </block>
       </view>
       <view  class="section list">
         <picker  value="{{statureIndex}}" range="{{statureList}}"  bindchange="statureChange" >
@@ -218,7 +233,8 @@
     data = {
       init: false,
       sex: ['男', '女'],
-      sexIndex: 0,
+      sexIndex: -1,
+      selectSex: false,
       state: ['从未结婚', '离异', '丧偶'],
       statureList: [], // 身高list
       statureIndex: -1, // 默认160cm
@@ -364,20 +380,31 @@
           that.ideal_mate = result.ideal_mate
           that.work_text = result.work_sort
           that.DegreeText = result.degree
+          console.log(data.sex, 'sex');
+          if (data.sex == 1) {
+            that.sexIndex = 0
+            that.$apply()
+          } else if (data.sex == 2) {
+            that.sexIndex = 1
+            that.$apply()
+          } else {
+            that.selectSex = true
+            that.$apply()
+          }
           that.statureList.map((item, index) => {
-            console.log(item)
+            // console.log(item)
             if (parseInt(item) == result.stature) {
               that.statureIndex = index
               that.$apply()
-              console.log(index)
+              // console.log(index)
             }
           })
           that.weightList.map((item, index) => {
-            console.log(parseInt(item))
+            // console.log(parseInt(item))
             if (parseInt(item) == result.weight) {
               that.weightIndex = index
               that.$apply()
-              console.log(index)
+              // console.log(index)
             }
           })
           if (result.birthday) {
@@ -458,6 +485,9 @@
           industry_sub: !vm.show ? vm.objectMultiArray[1][vm.multiIndex2[1]] : vm.industry_sub,
           belief: vm.belief[vm.beliefIndex],
           income: vm.incomeList[vm.incomeIndex]
+        }
+        if (vm.sexIndex > -1) {
+          data.sex = vm.sexIndex == 0 ? 1 : 2
         }
         console.log(data)
         this.ensureData(data)
@@ -544,6 +574,11 @@
         this.stateIndex = e.detail.value
         this.$apply()
         console.log(this.state[this.stateIndex])
+      },
+      sexChange(e) { // 性别
+        this.sexIndex = e.detail.value
+        this.$apply()
+        console.log(this.sexIndex)
       },
       statureChange(e) { // 身高
         this.statureIndex = e.detail.value

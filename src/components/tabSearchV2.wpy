@@ -1,5 +1,5 @@
 <template>
-  <view class="cu-bar bg-white search _tab__content bc_BoxTab ">
+  <view class="cu-bar search _tab__content bc_BoxTab ">
     <view class="search-form round">
       <text class="cuIcon-search"></text>
       <input type="text"  placeholder="{{title}}" confirm-type="search" value="{{inputVal}}" focus="{{inputShowed}}" @confirm="inputTyping" ></input>
@@ -113,5 +113,9 @@
     position: fixed;
     left: 0%;
     z-index: 9999;
+    background: white;
+    /*background-image: url("https://images.ufutx.com/202005/18/6414327d32bfc37345dafec4410854b5.png");*/
+    /*background-size: cover;*/
+    /*background-repeat: no-repeat;*/
   }
 </style>

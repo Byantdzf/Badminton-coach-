@@ -25,16 +25,14 @@
                     <view class="font_26 flo_l color-666 ellipsis_1" style="margin-left: 16rpx;max-width: 88%;">{{item.content}}</view>
                   </block>
                   <block wx:else>
-                    <block wx:if="{{item.status != '1'}}">
+                    <block wx:if="{{item.deal_status == 0}}">
                       <view class="font_26 flo_l color-666 ellipsis_1" style="margin-left: 16rpx;max-width: 88%;">{{item.content}}</view>
                     </block>
-                    <block wx:else>
-                      <block wx:if="{{item.deal_status == '1'}}">
-                        <view class="font_26 flo_l ellipsis_1  text-shadow {{item.deal_status == '1'?'text-green':'red'}}" style="margin-left: 16rpx;max-width: 88%;" >已同意</view>
-                      </block>
-                      <block wx:else>
-                        <view class="font_26 flo_l ellipsis_1  text-shadow {{item.deal_status == '1'?'text-green':'red'}}" style="margin-left: 16rpx;max-width: 88%;">已拒绝</view>
-                      </block>
+                    <block wx:if="{{item.deal_status == 1}}">
+                      <view class="font_26 flo_l ellipsis_1  text-shadow {{item.deal_status == '1'?'text-green':'red'}}" style="margin-left: 16rpx;max-width: 88%;" >已同意</view>
+                    </block>
+                    <block wx:if="{{item.deal_status == '-1'}}">
+                      <view class="font_26 flo_l ellipsis_1  text-shadow {{item.deal_status == '1'?'text-green':'red'}}" style="margin-left: 16rpx;max-width: 88%;">已拒绝</view>
                     </block>
                   </block>
                   <!--<view class="weui-cell__ft weui-cell__ft_in-access">-->
@@ -63,7 +61,7 @@
     <view class="cu-dialog">
       <view class="cu-bar bg-white justify-end">
         <view class="content">这是{{name}}的打招呼信息</view>
-        <view class="action" bindtap="hideModal">
+        <view class="action" @tap.stop="hideModal">
           <text class="cuIcon-close text-red"></text>
         </view>
       </view>
@@ -72,8 +70,8 @@
       </view>
       <view class="cu-bar bg-white justify-end">
         <view class="action">
-          <button class="cu-btn bg-green bg_theme" bindtap="reject">拒绝</button>
-          <button class="cu-btn bg-green margin-left" bindtap="consent">同意</button>
+          <button class="cu-btn bg-green bg_theme" @tap.stop="reject">拒绝</button>
+          <button class="cu-btn bg-green margin-left" @tap.stop="consent">同意</button>
 
         </view>
       </view>
@@ -267,8 +265,9 @@
               icon: 'none',
               duration: 1000
             })
-            this.modalName = ''
-            this.$apply()
+            self.modalName = ''
+            self.$apply()
+            self.getLibraries()
           },
           fail: ({code, data}) => {
           },
@@ -289,8 +288,9 @@
               icon: 'success',
               duration: 1000
             })
-            this.modalName = ''
-            this.$apply()
+            self.modalName = ''
+            self.$apply()
+            self.getLibraries()
           },
           fail: ({code, data}) => {
           },
@@ -348,7 +348,7 @@
         } else if (item.type == 'wechat') {
           url = '/pages/users/examineWeChat?id=' + item.id
         } else if (item.type == 'friend') {
-          if (item.status == '1') {
+          if (item.deal_status == '1') {
             url = '/pages/home/information?id=' + item.other_user.id
             wx.navigateTo({url: url})
             return

@@ -9,18 +9,21 @@
         {{detail.theme}}
       </view>
       <view class="mainFee">
-        <view class="font_36 bold color-theme" wx:if="{{detail.is_deadline == 0}}">￥{{detail.fee}}</view>
-        <view class="color-theme bold font_36" style="text-decoration:line-through" wx:else>￥{{detail.fee}}</view>
-      </view>
-      <view class="font_28 text-left _bc-time">
-        <image src="https://images.ufutx.com/202002/27/2024e9d4e75e92a551bf8f56d475c0eb.png"   mode="aspectFit"></image>
-        <span class="color-333">{{detail.time}}</span>
-      </view>
-      <view class="font_28 text-left _bc-address" @tap="getlocation">
-        <image src="https://images.ufutx.com/202002/27/ccfe3df9695a3012fd6f928b479113ea.png" mode="aspectFit"></image>
-        <span class="color-333">{{detail.address != null? detail.address : '全国'}}</span>
+        <span class="color-999 font_30">费用：</span>
+        <view class="font_36 bold color-theme inline-block" wx:if="{{detail.is_deadline == 0}}">￥{{detail.fee}}</view>
+        <view class="color-theme bold font_36 inline-block" style="text-decoration:line-through" wx:else>￥{{detail.fee}}</view>
       </view>
     </view>
+    <!--、、、、-->
+    <!--<view class="font_28 text-left _bc-time">-->
+      <!--<image src="https://images.ufutx.com/202002/27/2024e9d4e75e92a551bf8f56d475c0eb.png"   mode="aspectFit"></image>-->
+      <!--<span class="color-333">{{detail.time}}</span>-->
+    <!--</view>-->
+    <!--<view class="font_28 text-left _bc-address" @tap="getlocation">-->
+      <!--<image src="https://images.ufutx.com/202002/27/ccfe3df9695a3012fd6f928b479113ea.png" mode="aspectFit"></image>-->
+      <!--<span class="color-333">{{detail.address != null? detail.address : '全国'}}</span>-->
+    <!--</view>-->
+    <!--=========-->
     <!--@tap="goto('/pages/party/member?party_id={{party_id}}')"-->
     <block wx:if="{{members.length > 5}}">
       <view class="_bc-wx ">
@@ -42,8 +45,36 @@
         <!--<image src="http://images.ufutx.com/201812/17/38f1fee1f088f1c9c047d654c157b0dc.png"  mode="aspectFit" class="flo_r"></image>-->
       <!--</view>-->
     <!--</view>-->
-    <view class="_wx-info font_28 bold color-666" style="padding-bottom: 0;margin-bottom: -12rpx;">活动详情</view>
-    <view class="_bc-wx _wx-info text-wrapper font_28" wx:if="{{detail.detail}}">{{detail.detail}}</view>
+    <view class="_wx-info font_28 bold color-333 _title" wx:if="{{detail.detail}}">
+      活动介绍
+    </view>
+    <view class="_bc-wx text-wrapper font_28" wx:if="{{detail.detail}}">{{detail.detail}}</view>
+    <view class="_wx-info font_28 bold color-333 _title">
+      时间地点
+    </view>
+    <view class="_bc-wx text-wrapper font_28 _bc-center _detail">
+      <view class="font_28 text-left _bc-time">
+        <!--<image src="https://images.ufutx.com/202002/27/2024e9d4e75e92a551bf8f56d475c0eb.png" mode="aspectFit"></image>-->
+        <span class="color-333">{{detail.time}}</span>
+      </view>
+      <view class="font_28 text-left _bc-address" @tap="getlocation">
+        <!--<image src="https://images.ufutx.com/202002/27/ccfe3df9695a3012fd6f928b479113ea.png" mode="aspectFit"></image>-->
+        <span class="color-333">{{detail.address != null? detail.address : '全国'}}</span>
+      </view>
+    </view>
+    <view class="_wx-info font_28 bold color-333 _title">
+      活动详情
+    </view>
+    <!--<view class="_bc-wx text-wrapper font_28 _bc-center _detail">-->
+      <!--<view class="font_28 text-left _bc-time">-->
+        <!--&lt;!&ndash;<image src="https://images.ufutx.com/202002/27/2024e9d4e75e92a551bf8f56d475c0eb.png" mode="aspectFit"></image>&ndash;&gt;-->
+        <!--<span class="color-333">{{detail.time}}</span>-->
+      <!--</view>-->
+      <!--<view class="font_28 text-left _bc-address" @tap="getlocation">-->
+        <!--&lt;!&ndash;<image src="https://images.ufutx.com/202002/27/ccfe3df9695a3012fd6f928b479113ea.png" mode="aspectFit"></image>&ndash;&gt;-->
+        <!--<span class="color-333">{{detail.address != null? detail.address : '全国'}}</span>-->
+      <!--</view>-->
+    <!--</view>-->
     <view class=" _wx-more text-center">
       <block wx:for="{{detail.detail_pic}}" wx:key="index" wx:if="{{detail.detail_pic.length>0}}">
         <image src="{{item}}" mode="widthFix" style="width: 100%;" @tap="previewImages({{item}},{{detail.detail_pic}})"></image>
@@ -98,7 +129,9 @@
           <span>加载中...</span>
         </view>
       </block>
-      <shareComponent :hide.sync="hide" :shareImage.sync="pic"></shareComponent>
+      <block wx:if="{{!hide}}">
+        <shareComponent :hide.sync="hide" :shareImage.sync="pic"></shareComponent>
+      </block>
     </view>
   </view>
 </template>
@@ -452,6 +485,7 @@
           margin: 22rpx 0;
         }
         ._bc-time{
+          width: 100%;
           image{
             width: 36rpx;
             height: 36rpx;
@@ -473,8 +507,30 @@
       .number{
         border-top: 12rpx solid #f6f6f6;
       }
+      ._title{
+        padding-bottom: 0;
+        position: relative;
+        &:before {
+          width: 82rpx;
+          height: 10rpx;
+          background: #d92553;
+          border-radius: 14rpx;
+          position:absolute;
+          content: ' ';
+          left: 5.2vw;
+          bottom: 4rpx;
+        }
+      }
+      .text-wrapper {
+        padding: 8rpx 22rpx 18rpx 32rpx;
+      }
+      ._detail{
+        margin: 8rpx 32rpx 0 32rpx;
+        border-bottom: 1rpx solid #d9d9d9;
+        padding: 0 0 30rpx 0;
+      }
       ._bc-wx{
-        border-bottom: 12rpx solid #f6f6f6;
+        /*border-bottom: 12rpx solid #f6f6f6;*/
         ._wx-title{
           padding: 22rpx 22rpx 22rpx 0;
           margin-left: 32rpx;
@@ -498,7 +554,7 @@
         }
       }
       ._wx-info{
-        padding: 22rpx 22rpx 22rpx 32rpx;
+        padding: 20rpx 22rpx 12rpx 32rpx;
       }
       ._wx-more{
         padding: 22rpx;

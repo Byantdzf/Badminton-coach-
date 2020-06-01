@@ -157,7 +157,7 @@ export default class baseMixin extends wepy.mixin {
       showCancel: false
     }, param))
   }
-  //跳转链接
+  // 跳转链接
   $goto(url) {
     wx.navigateTo({url: url})
   }
