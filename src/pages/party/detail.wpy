@@ -10,91 +10,59 @@
       </view>
       <view class="mainFee">
         <span class="color-999 font_30">费用：</span>
-        <view class="font_36 bold color-theme inline-block" wx:if="{{detail.is_deadline == 0}}">￥{{detail.fee}}</view>
-        <view class="color-theme bold font_36 inline-block" style="text-decoration:line-through" wx:else>￥{{detail.fee}}</view>
+        <view class="font_36 bold color-theme inline-block" wx:if="{{detail.is_deadline == 0}}">￥{{detail.price_range}}</view>
+        <view class="color-theme bold font_36 inline-block" style="text-decoration:line-through" wx:else>￥{{detail.price_range}}</view>
       </view>
+      <notification class="notificationStyle flo_l" wx:if="{{members.length > 5}}">
+        <view slot="wrapper">
+          <block wx:for="{{members}}" wx:key="key">
+            <swiper-item>
+              <view class="_wx_member">
+                <image src="{{item.avatar}}" mode="aspectFill" class="flo_l" @tap="gotoFriendPage({{item.type}}, {{item.user_id}})"></image>
+                <view class="flo_l font_26 white ellipsis_1 _text">{{item.name}}</view>
+                <span class="font_26 white flo_l"> 报名了</span>
+              </view>
+            </swiper-item>
+          </block>
+        </view>
+      </notification>
+      <view class="flo_r font_26 bold color-333" style="margin-top: 12rpx;">{{members.length}}人已报名</view>
+      <view class="clearfloat"></view>
     </view>
-    <!--、、、、-->
-    <!--<view class="font_28 text-left _bc-time">-->
-      <!--<image src="https://images.ufutx.com/202002/27/2024e9d4e75e92a551bf8f56d475c0eb.png"   mode="aspectFit"></image>-->
-      <!--<span class="color-333">{{detail.time}}</span>-->
-    <!--</view>-->
-    <!--<view class="font_28 text-left _bc-address" @tap="getlocation">-->
-      <!--<image src="https://images.ufutx.com/202002/27/ccfe3df9695a3012fd6f928b479113ea.png" mode="aspectFit"></image>-->
-      <!--<span class="color-333">{{detail.address != null? detail.address : '全国'}}</span>-->
-    <!--</view>-->
-    <!--=========-->
-    <!--@tap="goto('/pages/party/member?party_id={{party_id}}')"-->
-    <block wx:if="{{members.length > 5}}">
-      <view class="_bc-wx ">
-        <view class="_wx-title font_28">
-          报名成员
-          <span class="flo_r">
-          <span class="bold color-theme">{{members.length}}</span>人
-        </span>
-        </view>
-        <view class="_wx_member">
-          <image src="{{item.avatar}}" mode="aspectFill" class="flo_l" wx:for="{{members}}" wx:key="{{index}}" wx:if="{{index < 7}}"  @tap="gotoFriendPage({{item.type}}, {{item.user_id}})"></image>
-          <view class="clearfloat"></view>
-        </view>
-      </view>
-    </block>
-    <!--<view class="_bc-wx" @tap="gotoApp({{detail.detail_path}})" wx:if="{{detail.detail_path}}">-->
-      <!--<view class="_wx-title font_28 color-theme" style="border: none;">-->
-        <!--活动详情-->
-        <!--<image src="http://images.ufutx.com/201812/17/38f1fee1f088f1c9c047d654c157b0dc.png"  mode="aspectFit" class="flo_r"></image>-->
-      <!--</view>-->
-    <!--</view>-->
     <view class="_wx-info font_28 bold color-333 _title" wx:if="{{detail.detail}}">
       活动介绍
     </view>
-    <view class="_bc-wx text-wrapper font_28" wx:if="{{detail.detail}}">{{detail.detail}}</view>
+    <view class="_bc-wx text-wrapper font_28" wx:if="{{detail.detail}}">
+      <rich-text nodes="{{detail.detail}}"></rich-text>
+    </view>
     <view class="_wx-info font_28 bold color-333 _title">
       时间地点
     </view>
     <view class="_bc-wx text-wrapper font_28 _bc-center _detail">
       <view class="font_28 text-left _bc-time">
-        <!--<image src="https://images.ufutx.com/202002/27/2024e9d4e75e92a551bf8f56d475c0eb.png" mode="aspectFit"></image>-->
         <span class="color-333">{{detail.time}}</span>
       </view>
       <view class="font_28 text-left _bc-address" @tap="getlocation">
-        <!--<image src="https://images.ufutx.com/202002/27/ccfe3df9695a3012fd6f928b479113ea.png" mode="aspectFit"></image>-->
         <span class="color-333">{{detail.address != null? detail.address : '全国'}}</span>
       </view>
     </view>
     <view class="_wx-info font_28 bold color-333 _title">
       活动详情
     </view>
-    <!--<view class="_bc-wx text-wrapper font_28 _bc-center _detail">-->
-      <!--<view class="font_28 text-left _bc-time">-->
-        <!--&lt;!&ndash;<image src="https://images.ufutx.com/202002/27/2024e9d4e75e92a551bf8f56d475c0eb.png" mode="aspectFit"></image>&ndash;&gt;-->
-        <!--<span class="color-333">{{detail.time}}</span>-->
-      <!--</view>-->
-      <!--<view class="font_28 text-left _bc-address" @tap="getlocation">-->
-        <!--&lt;!&ndash;<image src="https://images.ufutx.com/202002/27/ccfe3df9695a3012fd6f928b479113ea.png" mode="aspectFit"></image>&ndash;&gt;-->
-        <!--<span class="color-333">{{detail.address != null? detail.address : '全国'}}</span>-->
-      <!--</view>-->
-    <!--</view>-->
-    <view class=" _wx-more text-center">
+    <view class=" _wx-more text-wrapper">
+      <rich-text nodes="{{detail.content}}" wx:if="{{detail.content}}"></rich-text>
       <block wx:for="{{detail.detail_pic}}" wx:key="index" wx:if="{{detail.detail_pic.length>0}}">
         <image src="{{item}}" mode="widthFix" style="width: 100%;" @tap="previewImages({{item}},{{detail.detail_pic}})"></image>
       </block>
-      <block wx:if="{{detail.detail_path}}" >
-        <view class="text-center orange font_28"  @tap="gotoApp({{detail.detail_path}})">更多详情...</view>
-        <!--<view class="text-center">-->
-          <!--<image src="http://images.ufutx.com/201812/17/33b972b2370a52d38f1a7a6ccb780ac8.png"  mode="aspectFit"></image>-->
-        <!--</view>-->
-      </block>
+      <view wx:if="{{detail.detail_path}}" class="text-right">
+        <image src="https://images.ufutx.com/202006/12/b3789f5bbcf076d4507d8a440317419b.gif" mode="widthFix" class="detail_icon"></image>
+        <view class=" font_28 bold detail_text text-center" @tap="gotoApp({{detail.detail_path}})">阅读原文<image src="https://images.ufutx.com/202006/12/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="widthFix" class="icon"></image></view>
+      </view>
     </view>
     <view style="height: 120rpx;"></view>
     <view class="_bc-Tab ff">
-      <view class="_bc-item text-center flo_l" @tap="goto('/pages/tabBar/welcome')">
-        <image src="https://images.ufutx.com/202002/27/44641052ec087246a15e8551df3adfac.png"   mode="aspectFit"></image>
-        <view class="font_26 color-666">主页</view>
-      </view>
       <button class="btn _bc-item text-center flo_l" open-type="getUserInfo" @getuserinfo="getuserinfo" >
         <image src="https://images.ufutx.com/202002/27/bd5901f59fad2756e4a270c412b61fbc.png"   mode="aspectFit"></image>
-        <view class="font_26 color-666">分享</view>
       </button>
       <block wx:if="{{detail}}">
         <block wx:if="{{detail.is_deadline == 1}}">
@@ -109,17 +77,10 @@
             </view>
           </block>
           <block wx:else>
-            <!--<block >-->
-              <!--<view class="_bc-btn text-center flo_r white font_32 btn-theme" @tap="pay">-->
-                <!--免费报名-->
-              <!--</view>-->
-            <!--</block>-->
-            <!--<block wx:else>-->
-              <view class="_bc-btn text-center flo_r white font_32 btn-theme" @tap="apply('/pages/party/trade?party_id={{detail.id}}')">
-                <block wx:if="{{detail.fee == 0.00}}">免费报名</block>
-                <block wx:else>立即报名</block>
-              </view>
-            <!--</block>-->
+            <view class="_bc-btn text-center flo_r white font_32 btn-theme" @tap="showSku()">
+              <block wx:if="{{detail.fee == 0.00}}">免费报名</block>
+              <block wx:else>立即报名</block>
+            </view>
           </block>
         </block>
       </block>
@@ -134,6 +95,35 @@
       </block>
     </view>
   </view>
+  <view class="cu-modal bottom-modal {{modalName=='bottomModal'?'show':''}}" catchtouchmove='true'>
+    <view class="cu-dialog D-dialog"  style="background: none">
+      <!--<view class="cu-bar bg-white">-->
+        <!--<view class="action color-999" bindtap="hideModal">取消</view>-->
+        <!--<view class="action color-theme">确定</view>-->
+      <!--</view>-->
+      <view class="D-dialog-box ff">
+        <view class="close text-right" @tap="hideModal">
+          <image src="https://images.ufutx.com/202006/04/3bded8a5a19cc6d5b46425b6dc944df6.png" mode="aspectFill" class="closeBtn" ></image>
+        </view>
+        <view class="D_pop-up">
+          <image src="{{detail.poster}}" mode="widthFix" class="poster flo_l" ></image>
+          <text class="font_30 color-333 bold theme text-left ellipsis_2" style="height: 92rpx;">{{detail.theme}}</text>
+          <text class="font_26 color-666 text-left theme">规格：{{skuName || '-- --'}}</text>
+          <text class="font_28 color-theme bold theme text-left">￥{{price}}</text>
+        </view>
+      </view>
+      <view class="ff text-left specification font_30 bold color-333">规格</view>
+      <view class="ff text-left specification" style="padding-top: 0;">
+        <block wx:for="{{skus}}" wx:key="index">
+          <view class="item inline-block {{item.active?'itemActive':''}}" @tap="skuFn({{index}})">{{item.name}}</view>
+        </block>
+      </view>
+      <view class="ff specificationBtn">
+        <view class="D-dot"></view>
+        <view class="btn-theme" @tap="apply()">确定</view>
+      </view>
+    </view>
+  </view>
 </template>
 <script>
 
@@ -146,9 +136,11 @@
   import getFormId from '../../mixins/getFormId'
   import loading from '../../components/loading'
   import shareComponent from '../../components/shareComponent'
+  import notification from '../../components/notification'
 
   export default class detailParty extends wepy.page {
     mixins = [base, http, user, getFormId]
+    components = {loading, shareComponent, notification}
     config = {
       navigationBarTitleText: '加载详情中...',
       enablePullDownRefresh: true
@@ -164,11 +156,14 @@
       userInfo: {},
       trade_no: '',
       members: [],
-      pic: ''
+      modalName: '',
+      pic: '',
+      price: 0,
+      skus: [],
+      skuName: ''
     }
 
     onLoad(e) {
-      // this.config.navigationBarTitleText =' 1222222222'
       this.party_id = e.party_id
       this.$recordFrom_platform(e)
       setTimeout(() => {
@@ -219,6 +214,8 @@
     }
 
     onShow() {
+      this.skus = []
+      this.$apply()
       this.update()
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
@@ -229,7 +226,17 @@
         success: ({code, data}) => {
           this.noMoreList = false
           this.detail = data.activity
-          this.detail.detail_pic = JSON.parse(this.detail.detail_pic)
+          this.price = data.activity.price_range
+          let {skus} = data.activity
+          if (skus.length) {
+            for (let item of skus) {
+              item.active = false
+              this.skus.push(item)
+              this.$apply()
+            }
+          }
+          console.log(this.skus)
+          this.skuName = ''
           let {start_time, end_time} = this.detail
           console.log(start_time, end_time)
           if (start_time.split(' ')[1] == '00:00') {
@@ -282,6 +289,19 @@
       })
     }
     methods = {
+      skuFn(index) {
+        for (let item of this.skus) {
+          item.active = false
+        }
+        this.price = this.skus[index].price
+        this.skuName = this.skus[index].name
+        this.skus[index].active = true
+        this.$apply()
+      },
+      hideModal(e) {
+        this.modalName = null
+        this.$apply()
+      },
       previewImage(image) { // 预览单图
         this.$previewImage(image)
       },
@@ -360,8 +380,23 @@
       gotoApp(item) {
         wx.navigateTo({url: '/pages/books/bookDetail?url=' + encodeURIComponent(item)})
       },
-      apply(url) {
+      showSku() {
+        this.modalName = 'bottomModal'
+        this.$apply()
+      },
+      apply() {
         let that = this
+        let sku_id = ''
+        if (!this.skuName) {
+          that.$showToast('请选择规格')
+          return
+        }
+        for (let item of this.skus) {
+          console.log(item.active)
+          if (item.active) {
+            sku_id = item.sku_id
+          }
+        }
         if (!wx.getStorageSync('token')) {
           that.$showLoading('登录中...')
           wepy.login({
@@ -384,7 +419,7 @@
             }
           })
         } else {
-          that.$goto(url)
+          that.$goto(`/pages/party/trade?party_id=${that.detail.id}&sku_id=${sku_id}`)
         }
       },
       getuserinfo(e) {
@@ -450,7 +485,6 @@
         })
       }
     }
-    components = {loading, shareComponent}
     events = {
       'hideShare': (type) => {
         console.log(type)
@@ -508,7 +542,7 @@
         border-top: 12rpx solid #f6f6f6;
       }
       ._title{
-        padding-bottom: 0;
+        padding-bottom: 12rpx;
         position: relative;
         &:before {
           width: 82rpx;
@@ -517,8 +551,8 @@
           border-radius: 14rpx;
           position:absolute;
           content: ' ';
-          left: 5.2vw;
-          bottom: 4rpx;
+          left: 5vw;
+          bottom: 2rpx;
         }
       }
       .text-wrapper {
@@ -541,17 +575,6 @@
             margin-top: 6rpx;
           }
         }
-        ._wx_member{
-          padding: 22rpx 22rpx 22rpx 0;
-          margin-left: 32rpx;
-          image{
-            width: 80rpx;
-            height: 80rpx;
-            border-radius: 50%;
-            margin-left: 12rpx;
-            box-shadow: 1rpx 1rpx 12rpx #d3d3d3;
-          }
-        }
       }
       ._wx-info{
         padding: 20rpx 22rpx 12rpx 32rpx;
@@ -562,34 +585,132 @@
           width: 30rpx;
           height: 30rpx;
         }
+        .detail_icon{
+          width: 64vw;
+          height: auto;
+        }
+        .detail_text{
+          color: #474746;
+          letter-spacing: 6rpx;
+          margin-bottom: 42rpx;
+          .icon{
+            width: 28rpx;vertical-align: middle;margin-left: 4rpx
+          }
+        }
       }
       ._bc-Tab{
         position: fixed;
         left: 0;
         bottom: 0;
-        height: 120rpx;
-        box-shadow: 0 -1rpx 12rpx #e4e4e4;
+        height: 140rpx;
+        box-shadow: 0 -1rpx 12rpx #eeeeee;
+        padding-top: 6rpx;
         width: 100%;
         ._bc-item{
-          margin-left: 10%;
-          padding: 12rpx;
-          margin-top: 6rpx;
+          width: 18vw;
+          padding-top: 20rpx;
+          /*background: red;*/
+          /*margin-left: 10%;*/
+          /*padding: 12rpx;*/
+          /*margin-top: 6rpx;*/
           image{
-            width: 50rpx;
-            height: 50rpx;
+            width: 90rpx;
+            height: 90rpx;
+            padding: 10rpx;
+            box-shadow: 2rpx 2rpx 12rpx #d0d0d0;
+            border-radius: 50%;
+            margin-left: 26rpx;
           }
           view{
             margin-top: -12rpx;
           }
         }
         ._bc-btn{
-          width: 50%;
-          margin: 16rpx;
-          height: 90rpx;
+          width: 74%;
+          margin: 22rpx;
+          height: 86rpx;
           color: white;
           border-radius: 8rpx;
           line-height: 90rpx;
         }
+      }
+    }
+
+    .notificationStyle {
+      width: 320rpx;
+      height: 60rpx;
+      line-height: 60rpx;
+      background: rgba(94, 94, 94, 1);
+      border-radius: 42rpx;
+      ._wx_member{
+        overflow: hidden;
+        margin-left: 22rpx;
+        ._text{max-width: 120rpx;margin-right: 4rpx;}
+        image{
+          width: 42rpx;
+          height: 42rpx;
+          border-radius: 50%;
+          margin-top: 8rpx;
+          margin-right: 10rpx;
+          border: 1rpx solid #ffffff;
+        }
+      }
+    }
+
+    .D-dialog {
+      .close{
+        width: 100%;
+        height: 100%;
+        margin-top: 2rpx;
+        .closeBtn{
+          width: 46rpx;
+          height: 46rpx;
+        }
+      }
+      .padding-xl{
+        border-top-right-radius: 22rpx;
+        border-top-left-radius: 22rpx;
+        overflow: hidden;
+      }
+      .D-dialog-box{
+        padding: 26rpx;
+        border-top-right-radius: 22rpx;
+        border-top-left-radius: 22rpx;
+        .D_pop-up{
+          overflow: hidden;
+          margin-top: 12rpx;
+          .poster {
+            width: 304rpx;
+            height: auto;
+            border-radius: 8rpx;
+            margin-right: 2vw;
+          }
+          .theme{
+            width: 50vw;
+            margin-bottom: 12rpx;
+          }
+        }
+      }
+      .specification{
+        padding: 0 26rpx 46rpx 26rpx;
+        .item{
+          padding: 6rpx 28rpx;
+          background: #F6F6F6;
+          border-radius: 10rpx;
+          margin-right: 24rpx;
+          border: 1rpx solid #F6F6F6;
+        }
+      }
+      .D-dot{
+        border-top: 2rpx solid #d9d9d9;
+        padding: 40rpx 0 0rpx 0;
+      }
+      .specificationBtn{
+        padding: 14rpx 26rpx 40rpx 26rpx;
+      }
+      .itemActive{
+        color: #ffffff !important;
+        background: #d92557 !important;
       }
     }
   }

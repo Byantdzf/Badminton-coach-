@@ -205,7 +205,7 @@
       if (vm.loading || vm.noMoreList) return
       vm.loading = true
       this.$get({
-        url: `${service.host}/activities`,
+        url: `${service.host}/activities/v2`,
         data: {
           type: vm.type,  // 状态
           price: vm.price, // 价钱

@@ -3,12 +3,14 @@
                         小程序配置文件
 ======================================================== */
 // 域名
-    var host = 'https://love.ufutx.com/api',
-// var host = 'http://love.hankin.ufutx.cn/api',
-// var host = 'http://wlj.test/api',
-    book = 'https://christ.data.ufutx.com/api',
-    party = 'https://party.ufutx.com/api'
-    // party= 'http://party.hankin.ufutx.cn/api'
+console.log('dasdasdddddddddd', _NODE_)
+var book = 'https://christ.data.ufutx.com/api',
+  party = 'https://party.ufutx.com/api'
+if (_NODE_) {
+  var host = 'https://love.ufutx.com/api' // 测试环境
+} else {
+  var host = 'http://alpha.ufutx.net/api'  // 线上环境
+}
 export const service = {
     // 登录接口
     login: `${host}/login/wechat`,

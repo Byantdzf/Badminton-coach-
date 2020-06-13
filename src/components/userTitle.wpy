@@ -7,6 +7,7 @@
           <view  @tap.stop="goto('/pages/users/unmarriV2')" class="text-center" @longpress="longPress">
             <image class="userinfo-avatar ff" src="{{Image}}" mode="aspectFill" />
           </view>
+
           <view class="mainVip text-center"  @tap="goto('/pages/users/upgradeVIP')">
             <block wx:if="{{user.rank_id > 0}}">
               <view class="text-center vipBox">

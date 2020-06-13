@@ -1,7 +1,7 @@
 <template>
   <view class="page-index radius shadow-warp bg-white" wx:for="{{list}}" wx:key="index" @tap="goto('/pages/party/detail?party_id={{item.id}}')">
     <view class="_bc-party">
-      <view class="color-theme font_24 bold series">##勇敢系列</view>
+      <view class="color-theme font_24 bold series">## {{item.class.title || ''}}</view>
       <view class="flo_l" style="width: 40%">
         <image src="{{item.poster}}" mode="aspectFill" class="photo"></image>
       </view>

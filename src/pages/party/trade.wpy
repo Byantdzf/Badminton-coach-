@@ -1,72 +1,58 @@
 <template>
   <Loading :init.sync="init"/>
-  <view class="container">
-    <view class="ff shop animation-slide-top">
-      <block wx:if="{{detail}}">
-        <image src="{{detail.poster}}" mode="widthFix" class="goods_image flo_l"></image>
-        <view class="font_28 flo_l color-333 ellipsis_2 bold" style="width: 60%;">{{detail.theme}}</view>
-        <view class="font_26 address">
-          <view class="address font_32">
-            <span class="bold font_28" style="color: #42B44F" wx:if="{{detail.fee == '0.00'}}">免费</span>
-            <span class="color-theme bold" wx:else>￥{{detail.fee}}</span>
-          </view>
-        </view>
-      </block>
-      <block wx:else>
-        <view class="goods_image flo_l" style="background: #F5F5F5;height: 120rpx;"></view>
-        <view class="flo_l" style="width: 60%;background: #F5F5F5;height: 40rpx;"></view>
-        <view class="font_26 address flo_l" style="background: #F5F5F5;height: 40rpx;width: 50%;margin-top: 16rpx;"></view>
-      </block>
+  <view class="d_container">
+    <view class="font_26 color-666 title">报名人信息</view>
+    <view class="listMsg ff animation-slide-top" wx:for="{{msgList}}" wx:key="index">
+      <view class="itemMsg">
+        <span class="font_28 color-333 bold flo_l">姓名</span>
+        <input type="text" placeholder="请输入你的姓名" value="{{item.name}}"  class="itemInput flo_l font_28" />
+      </view>
+      <view class="itemMsg">
+        <span class="font_28 color-333 bold flo_l">手机</span>
+        <input type="text" placeholder="请输入你的手机号" value="{{item.mobile}}"  class="itemInput flo_l font_28" />
+      </view>
+    </view>
+    <view class="msgBtn ff color-theme text-center animation-slide-top" @tap="addMsg" wx:if="{{skuNum > 1 && msgList.length < skuNum}}">
+      <image src="https://images.ufutx.com/202006/05/f631121a99d0013fa4e55b13407594dc.png" mode="aspectFit" class="image"></image>
+      <span class="bold font_26">添加报名人信息({{msgList.length}}/{{skuNum}})</span>
+    </view>
+    <view class="tradeInfo ff animation-slide-top">
+      <image src="{{detail.poster}}" mode="widthFix" class="posterImage flo_l"></image>
+      <view class="font_28 flo_l color-333 ellipsis_2 bold" style="width: 51%;padding-left: 22rpx;height: 92rpx;">{{detail.theme}}</view>
+      <view class="flo_l " style="padding-left: 22rpx;margin-top: 14rpx;">
+        <!--<view class="font_22 color-666">规格：{{skuName}}</view>-->
+        <view class="font_22 color-666">{{detail.city}}  {{detail.dist}}</view>
+        <view class="font_24 color-666">{{detail.time}}</view>
+      </view>
       <view class="clearfloat"></view>
+      <view class="feeStyle" style="margin-top: 22rpx;">
+        <span class="font_28 color-333 bold">规格</span>
+        <span class="color-theme bold font_28 flo_r">{{skuName}}</span>
+      </view>
+      <view class="feeStyle">
+        <span class="font_28 color-333 bold">价格</span>
+        <span class="bold font_28 color-theme flo_r" wx:if="{{skuPrice == '0.00'}}">￥0.00</span>
+        <span class="color-theme bold font_28 flo_r" wx:else>￥{{skuPrice}}</span>
+      </view>
+      <view class="font_30 bold color-333 feeStyle" style="margin-bottom: 12rpx;">说明</view>
+      <view class="font_22 color-333">1.本活动一经售出，不接受退款</view>
+      <view class="font_22 color-333">2.最终解释权归福恋智能所有</view>
     </view>
-    <view class="_list">
-      <view class="_listItem animation-slide-bottom" style="animation-delay: 0.1s;">
-        <view class="font_28 color-333 bold">手机号</view>
-        <input type="number" class="font_30 color-666 text" placeholder="请填写手机号" style="margin-bottom: 12rpx;" @change="typeing('mobile')" value="{{mobile}}"/>
-      </view>
-      <view class="_listItem animation-slide-bottom" style="animation-delay: 0.2s;">
-        <view class="font_28 color-333 bold">姓名</view>
-        <input type="text" class="font_30 color-666 text" placeholder="请填写昵称" style="margin-bottom: 12rpx;" @change="typeing('name')" value="{{name}}"/>
-      </view>
-      <view class="_listItem animation-slide-bottom" style="animation-delay: 0.3s;">
-        <view class="font_28 color-333 bold">微信 <span class="font_24 color-theme">(方便客服联系您！)</span></view>
-        <input type="text" class="font_30 color-666 text" placeholder="请填写微信号" style="margin-bottom: 12rpx;" @change="typeing('wechat')" value="{{wechat}}" />
-      </view>
-      <view class="_listItem animation-slide-bottom" style="animation-delay: 0.4s;">
-        <view class="font_28 color-333 bold">备注信息 <span class="font_24 color-theme">({{remark.length}}/120)</span></view>
-        <textarea class="font_30 color-666 text textareaStyle" maxlength="120" @input="typeing('remark')" @blur="typeing('remark')" adjust-position="true" value="{{remark}}" placeholder="请输入备注信息"/>
-      </view>
-      <view class="_listItem animation-slide-bottom noBorder" style="animation-delay: 0.5s;margin-top: 54rpx;">
-        <view @tap="activeFn">
-          <image model="aspectFit" src="https://images.ufutx.com/202004/07/efb2e8d6671e9aa7a9c4e1831aab20fc.png" class="icon" wx:if="{{Iconactive}}"></image>
-          <image model="aspectFit" src="https://images.ufutx.com/202004/07/abcbbbe4b7f862905ce9ab25c0724c0c.png" class="icon" wx:else></image>
-          <span class="font_24">同意 <span class="color-theme">《服务协议》</span>和<span class="color-theme">《隐私协议》</span></span>
-        </view>
-        <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" @tap="payFn" >
-          <span  wx:if="{{detail.fee == '0.00'}}">免费报名</span>
-          <span wx:else>确认支付</span>
-        </button>
-      </view>
-    </view>
-    <!--<view class="ff font_28 shop price">-->
-      <!--<view class="title flo_l">{{user.name}}</view>-->
-      <!--<view class="flo_r color-666">{{user.mobile}}</view>-->
-      <!--<view class="clearfloat"></view>-->
-    <!--</view>-->
-    <!--<template is="BuyBar" data="{{detail}}"/>-->
-    <!--<template name="BuyBar">-->
-      <!--<view class="buy-bar-box ff">-->
-          <!--<view class="btn-buy flo_r text-center font_32 white" @tap="pay">-->
-            <!--<i class="weui-loading" wx:if="{{showload=='show'}}"></i>-->
-            <!--<span  wx:if="{{detail.fee == '0.00'}}">免费报名</span>-->
-            <!--<span wx:else>确认支付</span>-->
-          <!--</view>-->
-        <!--<view class="flo_l font_32">-->
-          <!--<span class="bold muney orange">合计:  <span class="font_36">{{detail.fee}}</span>元</span>-->
-        <!--</view>-->
-      <!--</view>-->
-    <!--</template>-->
   </view>
+  <view class="payStyle ff animation-slide-bottom">
+    <span class="bold font_36  flo_l color-theme" wx:if="{{skuPrice == '0.00'}}">￥0.00</span>
+    <span class=" bold font_36 flo_l color-theme" wx:else>￥{{skuPrice}}</span>
+    <view class="btn-theme flo_r" style="width: 264rpx;margin-top: 3.4vw;" @tap="payFn">
+      立即支付
+    </view>
+    <view class="clearfloat"></view>
+  </view>
+  <!--<view class="_listItem animation-slide-bottom noBorder" style="animation-delay: 0.5s;margin-top: 54rpx;">-->
+    <!--<button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" @tap="payFn" >-->
+      <!--<span  wx:if="{{detail.fee == '0.00'}}">免费报名</span>-->
+      <!--<span wx:else>确认支付</span>-->
+    <!--</button>-->
+  <!--</view>-->
 </template>
 
 <script>
@@ -83,7 +69,8 @@
     mixins = [base, http, user, ShareMessage]
     config = {
       navigationBarTitleText: '确认订单',
-      enablePullDownRefresh: false
+      enablePullDownRefresh: false,
+      navigationBarBackgroundColor: '#f6f6f6'
     }
     components = {
       Loading
@@ -91,7 +78,11 @@
     data = {
       loaded: false,
       address: {},
-      detail: {},
+      detail: {
+        poster: 'https://images.ufutx.com/202004/19/0b8e6c53183b5952b58f69a347f703df.png',
+        time: ' '
+      },
+      msgList: [{name: '', mobile: ''}],
       user: {},
       list: [],
       page: 1,
@@ -121,6 +112,10 @@
       wechat: '', // 微信
       tempId: [], // 模板id
       Iconactive: true,
+      sku_id: '',
+      skuNum: 1,
+      skuPrice: '',
+      skuName: '',
       total: {
         radioIndex: 1
       }
@@ -142,7 +137,9 @@
 
     async onLoad (e) {
       this.id = e.party_id
+      this.sku_id = e.sku_id
       this.$apply()
+      console.log(this.sku_id)
     }
 
     onShow () {
@@ -198,15 +195,51 @@
       self.$apply()
     }
 
+    toDecimal2 = (x) => { // 保留2位小数
+      let f = parseFloat(x)
+      f = Math.round(x * 100) / 100
+      let s = f.toString()
+      let rs = s.indexOf('.')
+      if (rs < 0) {
+        rs = s.length
+        s += '.'
+      }
+      while (s.length <= rs + 2) {
+        s += '0'
+      }
+      return s
+    }
     // 初始化页面数据
     initPageData () {
       let self = this
       self.$get({url: `${service.host}/pay/activities/${self.id}`}, {
         success: ({code, data}) => {
           self.detail = data.activity
+          let {start_time, end_time} = self.detail
+          start_time = start_time.split(' ')[0]
+          end_time = end_time.split(' ')[0]
+          self.detail.time = `${start_time} 至 ${end_time}`
+          if (start_time.split(' ')[0] == end_time.split(' ')[0]) {
+            self.detail.time = start_time.split(' ')[0]
+            self.$apply()
+          }
+          let {skus} = data.activity
+          if (skus.length) {
+            for (let item of skus) {
+              if (item.sku_id == self.sku_id){
+                console.log(item.num)
+                self.skuNum = item.num
+                self.skuName = item.name
+                self.skuPrice = this.toDecimal2(item.price)
+                self.$apply()
+              }
+            }
+          }
           self.user = data.user
           console.log(self.detail)
           console.log(self.user)
+          self.msgList[0].name = self.user.nickname
+          self.msgList[0].mobile = self.user.mobile
           self.name = self.user.name
           self.mobile = self.user.mobile
           self.wechat = self.user.profile_courtship ? self.user.profile_courtship.wechat_id : ''
@@ -218,6 +251,13 @@
     }
 
     methods = {
+      addMsg() {
+        this.msgList.push({
+          name: '',
+          mobile: ''
+        })
+        this.$apply()
+      },
       activeFn () {
         this.Iconactive = !this.Iconactive
         this.$apply()
@@ -244,20 +284,18 @@
       payFn () {
         let that = this
         let data = {
-          name: this.name,
-          mobile: this.mobile,
-          remark: this.remark, // 备注
-          wechat_id: this.wechat // 微信
+          linkmen: this.msgList
         }
-        if (!this.name) {
-          return that.$showToast('请填写昵称')
-        }
-        if (!this.mobile) {
-          return that.$showToast('请填写手机号')
-        }
+        console.log(this.msgList, 'saddddddd')
+        // if (!this.name) {
+        //   return that.$showToast('请填写昵称')
+        // }
+        // if (!this.mobile) {
+        //   return that.$showToast('请填写手机号')
+        // }
         console.log(data)
         getsubscription(this.tempId).then((res) => {
-          this.$post({url: `${service.host}/join/activities/${that.id}/v2`, data}, {
+          this.$post({url: `${service.host}/join/activities/${that.id}/sku/${that.sku_id}`, data}, {
             success: ({code, data}) => {
               that.trade_no = data.trade_no
               that.$apply()
@@ -369,9 +407,77 @@
   @import "../../styles/weui/base/fn.wxss";
   @import "../../styles/custom/fn.less";
   page{
-    background: #ffffff;
+    background: #F6F6F6;
     line-height: 1.6;
-    font: 14px/1.5 "Helvetica Neue",Helvetica,Arial,"Microsoft Yahei","Hiragino Sans GB","Heiti SC","WenQuanYi Micro Hei",sans-serif;
+    .d_container{
+      padding: 0 28rpx;
+      .title {
+        margin-top: 12rpx;
+        margin-left: 24rpx;
+        margin-bottom: 14rpx;
+      }
+      .listMsg{
+        width: 100%;
+        border-radius: 12rpx;
+        padding: 40rpx 28rpx 18rpx 28rpx;
+        margin-bottom: 28rpx;
+        box-shadow: 1rpx 1rpx 18rpx #ededed;
+        .itemInput{margin-left: 74rpx;}
+        .itemMsg{
+          overflow: hidden;
+          border-bottom: 1rpx solid #d9d9d9;
+          padding: 0 8rpx;
+          padding-bottom: 22rpx;
+          margin-bottom: 28rpx;
+        }
+      }
+
+      .msgBtn {
+        width: 100%;
+        border-radius: 12rpx;
+        padding: 28rpx;
+        margin-bottom: 28rpx;
+        box-shadow: 1rpx 1rpx 18rpx #ededed;
+        span {
+          letter-spacing: 4rpx;
+        }
+        .image{
+          width: 46rpx;
+          height: 46rpx;
+          vertical-align: middle;
+          margin-bottom: 8rpx;
+          margin-right: 18rpx;
+        }
+      }
+
+      .tradeInfo {
+        width: 100%;
+        border-radius: 12rpx;
+        padding: 28rpx;
+        margin-bottom: 28rpx;
+        box-shadow: 1rpx 1rpx 18rpx #ededed;
+        overflow: auto;
+        .posterImage{
+          width: 308rpx;
+          height: auto;
+          border-radius: 10rpx;
+        }
+        .feeStyle{
+          padding: 20rpx 12rpx 20rpx 0rpx;
+
+          /*margin-bottom: 22rpx;*/
+          border-top: 1rpx solid #d9d9d9;
+          /*border-bottom: 1rpx solid #d9d9d9;*/
+        }
+      }
+    }
+    .payStyle{
+      padding: 0 28rpx;
+      line-height: 140rpx;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
     .container{
       .shop{
         padding: 26rpx 68rpx;

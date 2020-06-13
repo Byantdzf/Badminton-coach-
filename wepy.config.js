@@ -27,7 +27,10 @@ module.exports = {
       plugins: [
         'transform-decorators-legacy',
         'transform-export-extensions',
-        'syntax-export-extensions'
+        'syntax-export-extensions',
+        ['global-define', {
+          _NODE_: prod
+        }]
       ]
     }
   },

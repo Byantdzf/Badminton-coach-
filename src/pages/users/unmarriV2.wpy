@@ -124,7 +124,7 @@
         </view>
       </view>
       <view class="padding-xl text-left" style="padding-top: 20rpx;">
-        <textarea class="textareaStyle" wx:if="{{modalName=='Modal'}}" @input="typing" @blur="typing" adjust-position="true" value="{{user[editType]}}" placeholder="{{placeText}}"/>
+        <textarea class="textareaStyle" wx:if="{{modalName=='Modal'}}" maxlength="-1" @input="typing" @blur="typing" adjust-position="true" value="{{user[editType]}}" placeholder="{{placeText}}"/>
         <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top send"  @tap="submitFn">确定
         </button>
       </view>
