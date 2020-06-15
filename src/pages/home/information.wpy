@@ -239,6 +239,9 @@
   </view>
   <block wx:if="{{mylibs.id && mylibs.self !== 1}}">
     <view class="mainBtn">
+      <block>
+        <image src="https://images.ufutx.com/202006/13/a27454644b8bc26035020c68c5e4df6e.png" mode="aspectFit" class="matchIcon" @tap="goto('/pages/home/matchPage?id={{mylibs.id}}')"></image>
+      </block>
       <block wx:if="{{type != 'marriage'}}">
         <view class="blurBox"></view>
         <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top"  wx:if="{{mylibs.is_friend == 0}}" @tap="showAddFriendFn">添加好友
@@ -941,6 +944,13 @@
       position: relative;
       position: fixed;
       bottom: 0;
+      .matchIcon{
+        width: 160rpx;
+        height: 160rpx;
+        position: absolute;
+        right: 6vw;
+        bottom: 28vw;
+      }
       .blurBox {
         position: absolute;
         top: 0;

@@ -17,6 +17,7 @@
         this.showBackTopBtn = false
         wx.pageScrollTo({
           scrollTop: 0,
+
           duration: 400
         })
       },

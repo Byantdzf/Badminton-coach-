@@ -1,0 +1,280 @@
+<template>
+  <view class="weui-tab">
+    <!--<cuCustom  bgImage="https://images.ufutx.com/202004/29/2bd9abf27267b92d94003761288a4549.png"  isBack="{{true}}">-->
+      <!--<view slot="backText">返回</view>-->
+      <!--<view slot="content" class="bold ">为Ta匹配</view>-->
+    <!--</cuCustom>-->
+
+    <view  class="animation-slide-bottom">
+      <!--<partyList :list.sync="list" :hideMessage.sync="hideMessage"></partyList>-->
+      <view wx:if="{{!list.length}}" class="text-center">
+        <view class="font_28 bc_empty">
+          <image src="http://images.ufutx.com/201905/29/ea50e95b0b50c1fad3e3aec4827496dd.png" mode="widthFix"></image>
+        </view>
+      </view>
+    </view>
+  </view>
+  <pageScroll></pageScroll>
+  <block wx:if="{{loading}}">
+    <view class="weui-loadmore">
+      <view class="weui-loading"></view>
+      <view class="weui-loadmore__tips " style="background: #F5F5F5">正在加载</view>
+    </view>
+  </block>
+  <block wx:if="{{noMore}}">
+    <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+      <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot" style="background: #F5F5F5"></view>
+    </view>
+  </block>
+  <modalUp>
+    <view slot="wrapper" class="wrapper borderBottom">
+      <view>请根据以下筛选条件，过滤数据，为Ta匹配出最合适的那个Ta！</view>
+      <form>
+        <view class="cu-form-group ">
+          <view class="title">信仰</view>
+          <picker bindchange="PickerChange('beliefIndex')" value="{{beliefIndex}}" range="{{belief}}">
+            <view class="picker">
+              {{beliefIndex?belief[beliefIndex]:'请选择'}}
+            </view>
+          </picker>
+        </view>
+        <view class="cu-form-group ">
+          <view class="title">年龄</view>
+          <picker bindchange="PickerChange" value="{{index}}" range="{{picker}}">
+            <view class="picker">
+              {{index?picker[index]:'请选择'}}
+            </view>
+          </picker>
+        </view>
+        <view class="cu-form-group ">
+          <view class="title">身高</view>
+          <picker bindchange="PickerChange" value="{{index}}" range="{{picker}}">
+            <view class="picker">
+              {{index?picker[index]:'请选择'}}
+            </view>
+          </picker>
+        </view>
+        <view class="cu-form-group ">
+          <view class="title">学历</view>
+          <picker bindchange="PickerChange('degreeIndex')" value="{{degreeIndex}}" range="{{degree}}">
+            <view class="picker">
+              {{degreeIndex?degree[degreeIndex]:'请选择'}}
+            </view>
+          </picker>
+        </view>
+        <view class="cu-form-group">
+          <view class="title">性别</view>
+          <switch class="switch-sex green" checked></switch>
+        </view>
+        <view class="cu-form-group ">
+          <view class="title">是否认证</view>
+          <switch class="red sm" checked></switch>
+        </view>
+        <view class="cu-form-group ">
+          <view class="title">是否有孩子</view>
+          <switch class="red sm" checked></switch>
+        </view>
+        <view class="cu-form-group ">
+          <view class="title">工作城市</view>
+          <selectCity :itemIndex.sync="CITY_INDEX">
+            <view class="picker" slot="Input">
+              <view>{{region[1]?region[1]+' - '+region[2]:'请选择'}}</view>
+            </view>
+          </selectCity>
+        </view>
+        <view class="cu-form-group ">
+          <view class="title">婚姻状态</view>
+          <picker bindchange="PickerChange('stateIndex')" value="{{stateIndex}}" range="{{state}}">
+            <view class="picker">
+              {{stateIndex?state[stateIndex]:'请选择'}}
+            </view>
+          </picker>
+        </view>
+        <view class="btn-theme d_btn">确定</view>
+      </form>
+    </view>
+  </modalUp>
+  <view class="cu-modal {{modalName=='ModalLogin'?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">提示</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl text-left">
+        你还没登录呢！请先
+        <button class="text-center btn-box white radius shadow inline-block font_26 bg_theme" style="margin-bottom: -12rpx;line-height: 46rpx;" @tap="gotoPage('/pages/userInfo/typeSelect')">登录</button>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import { service } from '../../config.js'
+  import http from '../../mixins/http'
+  import base from '../../mixins/base'
+  import user from '../../mixins/user'
+  import partyList from '../../components/partyList'
+  import pageScroll from '../../components/pageScroll'
+  import cuCustom from '../../components/cu-custom'
+  import modalUp from '../../components/modal-up'
+  import selectCity from '../../components/selectCity'
+
+  export default class activities extends wepy.page {
+    mixins = [base, http, user]
+    config = {
+      navigationBarTitleText: '为Ta匹配'
+      // navigationStyle: 'custom'
+    }
+    components = {
+      partyList, pageScroll, cuCustom, modalUp, selectCity
+    }
+    data = {
+      beliefIndex: 0,
+      belief: ['基督教', '佛教', '伊斯兰教', '其他'],
+      degreeIndex: 0,
+      degree: ['小学', '初中', '高中', '中专', '大专', '本科', '硕士', '博士', '其他'],
+      stateIndex: 0,
+      state: ['从未结婚', '离异', '丧偶'],
+      region: ['', '', ''],
+      picker: ['喵喵喵', '汪汪汪', '哼唧哼唧'],
+      list: [],
+      tabs: ['进行中', '往期活动'],
+      page: 1,
+      noMore: false,
+      loading: false,
+      inputVal: '',
+      hidelist: false,
+      formId: '',
+      activities: [], // 通知
+      token: wx.getStorageSync('token'),
+      CustomBar: wepy.$instance.globalData.CustomBar,
+      type: '', // 状态
+      price: '', // 价钱
+      class_id: '', // 分类id
+      screen: '', // 筛选
+      classList: [],
+      modalName: ''
+    }
+
+    computed = {}
+
+    async onLoad(e) {
+      this.$invoke('modalUp', 'showModal')
+      this.page = 1
+    }
+
+    onPageScroll(res) { // 置顶事件
+      let top = res.scrollTop,
+        show = top > 380 ? true : false
+      this.$broadcast('showBackTopBtn', show)
+    }
+    onShow() {
+      this.token = wx.getStorageSync('token')
+      this.$apply()
+      if (this.token) {
+        this.page = 1
+        this.update()
+      }
+      this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
+    }
+    onPullDownRefresh() {
+      if (this.token) {
+        this.page = 1
+        this.update()
+      }
+    }
+    onReachBottom() {
+      this.update()
+    }
+    update() {
+      let vm = this
+      if (vm.loading || vm.noMoreList) return
+      vm.loading = true
+      this.$get({
+        url: `${service.host}/activities/v2`,
+        data: {
+          type: vm.type,  // 状态
+          price: vm.price, // 价钱
+          class_id: vm.class_id, // 分类id
+          screen: vm.screen, // 筛选
+          page: vm.page,
+          keyword: vm.inputVal
+        }
+      }, {
+        success: ({code, data}) => {
+          if (!data.data.length) {
+            return console.log('没有更多了')
+          }
+          if (vm.page == 1) {
+            vm.list = data.data
+            vm.$apply()
+            if (vm.list.length == 0) {
+              vm.message = true
+              vm.hideMessage = true
+              vm.$apply()
+            }
+          } else {
+            data.data.map(function (item, index) {
+              vm.list.push(item)
+              vm.$apply()
+            })
+          }
+          vm.page += 1
+          vm.$apply()
+        },
+        fail: ({code, data}) => {
+          // 失败了什么也不做
+        },
+        complete: () => {
+          vm.loading = false
+          vm.noMore = true
+        }
+      })
+    }
+    methods = {
+      PickerChange(index, e) {
+        this[index] = e.detail.value
+        this.$apply()
+      },
+      goto(url) {
+        wx.navigateTo({url: url})
+      }
+    }
+    events = {
+      'selectCity': (value, index) => {
+        console.log(value)
+        console.log(index)
+        if (index == 0) {
+          this.region = value
+        } else {
+          this.region_id = value
+        }
+        this.$apply()
+      }
+    }
+  }
+
+</script>
+
+<style lang="less">
+  @import "../../styles/weui/base/fn.wxss";
+  @import "../../styles/custom/fn.less";
+  page{
+    background: #F5F5F5;
+    .wrapper{
+      min-height: 100vh;
+      padding: 44rpx 22rpx 22rpx 22rpx;
+      .d_btn{
+        width: 94%;
+        position: absolute;
+        bottom: 22rpx;
+      }
+    }
+    .borderBottom{
+      border-bottom: 1rpx solid #f0f0f0;
+    }
+  }
+</style>
