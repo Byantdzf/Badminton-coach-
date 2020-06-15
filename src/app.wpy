@@ -258,7 +258,6 @@
           } else {
             vm.globalData.CustomBar = res.statusBarHeight + 50
           }
-      console.log(vm.globalData)
         }
       })
     }

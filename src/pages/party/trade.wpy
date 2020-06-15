@@ -17,7 +17,7 @@
       <span class="bold font_26">添加报名人信息({{msgList.length}}/{{skuNum}})</span>
     </view>
     <view class="tradeInfo ff animation-slide-top">
-      <image src="{{detail.poster}}" mode="widthFix" class="posterImage flo_l"></image>
+      <image src="{{detail.poster}}" mode="aspectFill" class="posterImage flo_l"></image>
       <view class="font_28 flo_l color-333 ellipsis_2 bold" style="width: 51%;padding-left: 22rpx;height: 92rpx;">{{detail.theme}}</view>
       <view class="flo_l " style="padding-left: 22rpx;margin-top: 14rpx;">
         <!--<view class="font_22 color-666">规格：{{skuName}}</view>-->
@@ -39,6 +39,7 @@
       <view class="font_22 color-333">2.最终解释权归福恋智能所有</view>
     </view>
   </view>
+  <view class="height160"></view>
   <view class="payStyle ff animation-slide-bottom">
     <span class="bold font_36  flo_l color-theme" wx:if="{{skuPrice == '0.00'}}">￥0.00</span>
     <span class=" bold font_36 flo_l color-theme" wx:else>￥{{skuPrice}}</span>
@@ -459,7 +460,7 @@
         overflow: auto;
         .posterImage{
           width: 308rpx;
-          height: auto;
+          height: 173rpx;
           border-radius: 10rpx;
         }
         .feeStyle{

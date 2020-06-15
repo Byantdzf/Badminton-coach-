@@ -22,6 +22,8 @@
                        wx:if="{{item.sex=='2'}}" mode="aspectFill" class="flo_l icon"></image>
                 <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFill"
                        wx:else class="flo_l icon"></image>
+                <image src="https://images.ufutx.com/202006/15/e9a028b8afc18aa175ea6701591dcf64.png" wx:if="{{item.isSuperRank=='1'}}" mode="widthFix" class="flo_l VIPIcon"></image>
+                <image src="https://images.ufutx.com/202006/15/77d91cced2e8e8b9815723f8e54554da.png" mode="widthFix" wx:else class="flo_l VIPIcon" ></image>
                 <view class="flo_r city" style="margin-top: 10rpx">{{item.profile.city || ''}}</view>
                 <view class="clearfloat"></view>
                 <view class="font_24 info">
@@ -495,6 +497,12 @@
             margin-top: 12rpx;
             margin-left: 4rpx;
           }
+          .VIPIcon{
+            width: 120rpx !important;
+            height: auto;
+            margin-top: 12rpx;
+            margin-left: 4rpx;
+          }
           .iconD{
             width: 30rpx;
             height: 30rpx;
@@ -581,4 +589,5 @@
       transform: scale(1) rotate(0)
     }
   }
+
 </style>

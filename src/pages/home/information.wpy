@@ -42,17 +42,19 @@
           <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:if="{{mylibs.sex=='2'}}" mode="aspectFill" class="flo_l icon"></image>
           <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFill" wx:else class="flo_l icon" ></image>
         </block>
+        <image src="https://images.ufutx.com/202006/15/e9a028b8afc18aa175ea6701591dcf64.png" wx:if="{{mylibs.isSuperRank=='1'}}" mode="widthFix" class="flo_l VIPIcon"></image>
+        <image src="https://images.ufutx.com/202006/15/77d91cced2e8e8b9815723f8e54554da.png" mode="widthFix" wx:else class="flo_l VIPIcon" ></image>
         <view class="flo_r ">
           <view class="flo_r" style="margin-top: 10rpx">{{mylibs.profile_courtship.city || ''}}</view>
           <view class="clearfloat"></view>
         </view>
         <view class="clearfloat"></view>
         <view class="font_24">
-          {{mylibs.age || ''}}
+          {{mylibs.age || '--'}}
           <span style="color: #d2d4db" > | </span>
-          {{mylibs.profile_courtship.stature || ''}}
+          {{mylibs.profile_courtship.stature || '--'}}
           <span style="color: #d2d4db" > | </span>
-          {{mylibs.profile_courtship.state || ''}}
+          {{mylibs.profile_courtship.state || '--'}}
           <!--<view class="color-theme flo_r font_24  bold text-right" wx:if="{{mylibs.distance}}">-->
             <!--{{mylibs.distance}}<span class="font_28  bold">km</span>-->
           <!--</view>-->
@@ -239,9 +241,9 @@
   </view>
   <block wx:if="{{mylibs.id && mylibs.self !== 1}}">
     <view class="mainBtn">
-      <block>
-        <image src="https://images.ufutx.com/202006/13/a27454644b8bc26035020c68c5e4df6e.png" mode="aspectFit" class="matchIcon" @tap="goto('/pages/home/matchPage?id={{mylibs.id}}')"></image>
-      </block>
+      <!--<block>-->
+        <!--<image src="https://images.ufutx.com/202006/13/a27454644b8bc26035020c68c5e4df6e.png" mode="aspectFit" class="matchIcon" @tap="goto('/pages/home/matchPage?id={{mylibs.id}}')"></image>-->
+      <!--</block>-->
       <block wx:if="{{type != 'marriage'}}">
         <view class="blurBox"></view>
         <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top"  wx:if="{{mylibs.is_friend == 0}}" @tap="showAddFriendFn">添加好友
@@ -1115,6 +1117,12 @@
       .icon{
         width: 32rpx;
         height: 32rpx;
+        margin-top: 12rpx;
+        margin-left: 4rpx;
+      }
+      .VIPIcon{
+        width: 120rpx;
+        height: auto;
         margin-top: 12rpx;
         margin-left: 4rpx;
       }
