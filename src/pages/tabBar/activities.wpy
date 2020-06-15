@@ -259,6 +259,10 @@
             console.log(item.title)
           }
           this.classList = data
+          this.classList.push({
+            id: 0,
+            title: '不限',
+          })
           this.$apply()
           console.log(this.MenuList[1].title_sub)
           // vm.activities = data
@@ -305,7 +309,7 @@
             resolve()
             break
         }
-      });
+      })
       return p
     }
 

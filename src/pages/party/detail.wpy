@@ -13,21 +13,23 @@
         <view class="font_36 bold color-theme inline-block" wx:if="{{detail.is_deadline == 0}}">￥{{detail.price_range}}</view>
         <view class="color-theme bold font_36 inline-block" style="text-decoration:line-through" wx:else>￥{{detail.price_range}}</view>
       </view>
-      <notification class="notificationStyle flo_l" wx:if="{{members.length > 5}}">
-        <view slot="wrapper">
-          <block wx:for="{{members}}" wx:key="key">
-            <swiper-item>
-              <view class="_wx_member">
-                <image src="{{item.avatar}}" mode="aspectFill" class="flo_l" @tap="gotoFriendPage({{item.type}}, {{item.user_id}})"></image>
-                <view class="flo_l font_26 white ellipsis_1 _text">{{item.name}}</view>
-                <span class="font_26 white flo_l"> 报名了</span>
-              </view>
-            </swiper-item>
-          </block>
-        </view>
-      </notification>
-      <view class="flo_r font_26 bold color-333" style="margin-top: 12rpx;">{{members.length}}人已报名</view>
-      <view class="clearfloat"></view>
+      <block wx:if="{{members.length > 5}}">
+        <notification class="notificationStyle flo_l">
+          <view slot="wrapper">
+            <block wx:for="{{members}}" wx:key="key">
+              <swiper-item>
+                <view class="_wx_member">
+                  <image src="{{item.avatar}}" mode="aspectFill" class="flo_l" @tap="gotoFriendPage({{item.type}}, {{item.user_id}})"></image>
+                  <view class="flo_l font_26 white ellipsis_1 _text">{{item.name}}</view>
+                  <span class="font_26 white flo_l"> 报名了</span>
+                </view>
+              </swiper-item>
+            </block>
+          </view>
+        </notification>
+        <view class="flo_r font_26 bold color-333" style="margin-top: 12rpx;">{{members.length}}人已报名</view>
+        <view class="clearfloat"></view>
+      </block>
     </view>
     <view class="_wx-info font_28 bold color-333 _title" wx:if="{{detail.detail}}">
       活动介绍
@@ -44,6 +46,7 @@
       </view>
       <view class="font_28 text-left _bc-address" @tap="getlocation">
         <span class="color-333">{{detail.address != null? detail.address : '全国'}}</span>
+        <image src="https://images.ufutx.com/202006/15/94d10fd15ff38fb0cdefa8fd3c7f5423.png" mode="widthFix" class=cityIcon" wx:if="{{detail.location_latitude}}"></image>
       </view>
     </view>
     <view class="_wx-info font_28 bold color-333 _title">
@@ -106,8 +109,8 @@
           <image src="https://images.ufutx.com/202006/04/3bded8a5a19cc6d5b46425b6dc944df6.png" mode="aspectFill" class="closeBtn" ></image>
         </view>
         <view class="D_pop-up">
-          <image src="{{detail.poster}}" mode="widthFix" class="poster flo_l" ></image>
-          <text class="font_30 color-333 bold theme text-left ellipsis_2" style="height: 92rpx;">{{detail.theme}}</text>
+          <image src="{{detail.poster}}" mode="aspectFill" class="poster flo_l" ></image>
+          <text class="font_28 color-333 bold theme text-left ellipsis_1" style="height: 56rpx;">{{detail.theme}}</text>
           <text class="font_26 color-666 text-left theme">规格：{{skuName || '-- --'}}</text>
           <text class="font_28 color-theme bold theme text-left">￥{{price}}</text>
         </view>
@@ -531,10 +534,13 @@
           margin-top: 12rpx;
           margin-bottom: 16rpx;
           image{
-            width: 36rpx;
-            height: 36rpx;
+            width: 32rpx;
+            height: auto;
             margin-bottom: -6rpx;
             margin-right: 10rpx;
+          }
+          .cityIcon{
+
           }
         }
       }
@@ -681,7 +687,7 @@
           margin-top: 12rpx;
           .poster {
             width: 304rpx;
-            height: auto;
+            height: 172rpx;
             border-radius: 8rpx;
             margin-right: 2vw;
           }

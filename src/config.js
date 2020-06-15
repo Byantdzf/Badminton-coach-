@@ -3,14 +3,13 @@
                         小程序配置文件
 ======================================================== */
 // 域名
-console.log('dasdasdddddddddd', _NODE_)
 var book = 'https://christ.data.ufutx.com/api',
   party = 'https://party.ufutx.com/api'
-// if (_NODE_) {
-//   var host = 'https://love.ufutx.com/api' // 测试环境
-// } else {
+if (_NODE_) {
+  var host = 'https://love.ufutx.com/api' // 测试环境
+} else {
   var host = 'http://alpha.ufutx.net/api'  // 线上环境
-// }
+}
 export const service = {
     // 登录接口
     login: `${host}/login/wechat`,

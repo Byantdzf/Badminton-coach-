@@ -4,9 +4,9 @@
     <view class="NavBar-statusBar" style="height:{{statusBarHeight}}px;"></view>
     <view class="NavBar-titlebar" style="height:{{titleBarHeight}}px">
       <view class="NavBar-content" >
-        <view class="NavBar-left NavBar-left-more" >
+        <view class="NavBar-left NavBar-left-more"  @tap="backSearch">
           <!--<image bindtap="handleBack" class="NavBar-BackIcon" mode="aspectFit"  src="https://images.ufutx.com/201908/20/6350303af03615789f87970e2006f242.png"></image>-->
-          <image @tap.stop="backSearch" class="NavBar-HomeIcon backToHome" mode="aspectFit"  src="https://images.ufutx.com/202002/20/1a455d1f652013b5c7ded630de49c7ae.png"></image>
+          <image class="NavBar-HomeIcon backToHome" mode="aspectFit"  src="https://images.ufutx.com/202002/20/1a455d1f652013b5c7ded630de49c7ae.png"></image>
         </view>
 <!--        <view class="NavBar-content-title" style="color:{{title_c}}">{{title}}</view>-->
         <image class="NavBar-content-title" src="https://images.ufutx.com/202002/20/72554ffb176f9c3e449205ea82f774f3.png" mode="aspectFit"></image>
