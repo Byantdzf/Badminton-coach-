@@ -222,10 +222,10 @@
       let vm = this
       vm.token = wx.getStorageSync('token')
       vm.$apply()
-      if (wx.getStorageSync('touristsSex')){
+      if (wx.getStorageSync('touristsSex')) {
         vm.touristsSex = wx.getStorageSync('touristsSex')
         vm.$apply()
-        console.log(vm.touristsSex,'touristsSex')
+        console.log(vm.touristsSex, 'touristsSex')
       }
       if (vm.token == '') {
         wepy.login({

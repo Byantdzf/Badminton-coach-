@@ -18,7 +18,7 @@
       <button class="bc_default btn text-center font_30 color-theme radius shadow-warp  margin-top" @tap="redirectTo('/pages/users/myActivity')">我的订单</button>
       <view class="font_24 color-999 textStyle">本地支付已经成功，详细信息进入我的订单查看</view>
     </view>
-    <shareComponent :hide.sync="hide" :shareImage.sync="pic"></shareComponent>
+    <!--<shareComponent :hide.sync="hide" :shareImage.sync="pic"></shareComponent>-->
   </view>
 </template>
 
@@ -125,7 +125,6 @@
         }
       })
     }
-
 
     // 初始化页面数据
     initPageData () {

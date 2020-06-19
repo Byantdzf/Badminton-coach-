@@ -16,10 +16,10 @@
   import base from '../../mixins/base'
   import user from '../../mixins/user'
   import ShareMessage from '../../mixins/ShareMessage'
-  import userTitle from '../../components/userTitle'
-  import NavBar from '../../components/NavBar'
-  import Loading from '../../components/loading'
-  import { service } from '../../config.js'
+  // import userTitle from '../../components/userTitle'
+  // import NavBar from '../../components/NavBar'
+  // import Loading from '../../components/loading'
+  // import { service } from '../../config.js'
 
   export default class addFriendSet extends wepy.page {
     mixins = [base, http, user, ShareMessage]

@@ -22,7 +22,7 @@
     mixins = [base, http, user]
 
     config = {
-      navigationBarTitleText: '设置',
+      navigationBarTitleText: '设置'
       // navigationBarBackgroundColor: '#EDEDED'
     }
 

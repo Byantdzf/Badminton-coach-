@@ -142,7 +142,7 @@
       </view>
       <view class="font_28 bold list_item">
         <span class="bold">会员原价：</span>
-        <span class="flo_r"style="text-decoration: line-through;" >{{price}}元</span>
+        <span class="flo_r" style="text-decoration: line-through;" >{{price}}元</span>
       </view>
       <view class="font_28 bold list_item">
         <span class="bold">订单支付：</span>
@@ -307,12 +307,14 @@
         }
       })
     }
+
     getsubscription() {
       console.log(this.tempId)
-      getsubscription(this.tempId).then((res)=>{
+      getsubscription(this.tempId).then((res) => {
         console.log(res)
       })
     }
+
     // 初始化页面数据
     initPageData() {
       let that = this,

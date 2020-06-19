@@ -44,6 +44,7 @@
     }
 
     onLoad(e) {
+      this.$showLoading('加载中')
       this.login()
       if (wx.getStorageSync('startImage')) {
         this.startImage = wx.getStorageSync('startImage')
@@ -83,6 +84,7 @@
       if (wx.getStorageSync('token')) {
         this.token = wx.getStorageSync('token')
         this.$apply()
+        wx.hideLoading()
         return
       }
       wepy.login({
@@ -119,6 +121,7 @@
                 that.hideBtn = true
                 that.$apply()
               }
+              wx.hideLoading()
             }
           })
         },

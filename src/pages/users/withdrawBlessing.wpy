@@ -95,7 +95,7 @@
     config = {
       navigationBarTitleText: '福分提现',
       onReachBottomDistance: 10,
-      enablePullDownRefresh: true,
+      enablePullDownRefresh: true
       // navigationStyle: 'custom'
     }
     components = {
@@ -120,15 +120,6 @@
     }
 
     async onLoad(e) {
-      let vm = this
-      vm.id = e.id
-      vm.name = e.name
-      vm.list = []
-      vm.page = 1
-      vm.getLibraries()
-      vm.$apply()
-    }
-    onLoad() {
       this.getmoney()
     }
     onShow() {
@@ -154,7 +145,7 @@
       }, {
         success: ({code, message}) => {
           console.log(message, '132')
-          _this.allScore = message.allScore,
+          _this.allScore = message.allScore
           _this.cashScore = message.cashScore
           if (message == null) {
             return
@@ -236,17 +227,17 @@
         this.showMoney = false
         this.$apply()
       },
-      //显示对话框
+      // 显示对话框
       showModal () {
         // 显示遮罩层
         var animation = wx.createAnimation({
           duration: 200,
-          timingFunction: "linear",
+          timingFunction: 'linear',
           delay: 0
         })
         this.animation = animation
         animation.translateY(300).step()
-        this.animationData = animation.export(), // export 方法每次调用后会清掉之前的动画操作。
+        this.animationData = animation.export() // export 方法每次调用后会清掉之前的动画操作。
         this.showShopPopup = true
         this.$apply()
         setTimeout(function () {
@@ -255,19 +246,19 @@
           this.$apply()
         }.bind(this), 200)
       },
-      hideModal () {
+      hideModal() {
         // 隐藏遮罩层
         var animation = wx.createAnimation({
           duration: 200,
-          timingFunction: "linear",
+          timingFunction: 'linear',
           delay: 0
         })
         this.animation = animation
         animation.translateY(300).step()
-        this.animationData = animation.export(),
+        this.animationData = animation.export()
         setTimeout(function () {
           animation.translateY(0).step()
-          this.animationData = animation.export(),
+          this.animationData = animation.export()
           this.showShopPopup = false
           this.$apply()
         }.bind(this), 200)

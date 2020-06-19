@@ -100,7 +100,8 @@
         <view class="clearfloat"></view>
       </view>
       <view class="subnav" style="" wx:if="{{item.talent_title}}">
-        <view class="otherName font_22" style=" width: 100vw;font-size: 18rpx;margin-top: -24rpx;margin-bottom: 24rpx;color: red;">
+        <view class="otherName font_22"
+              style=" width: 100vw;font-size: 18rpx;margin-top: -24rpx;margin-bottom: 24rpx;color: red;">
           {{item.talent_title?item.talent_title :item.user.name}}
         </view>
       </view>
@@ -108,8 +109,10 @@
             @tap.stop="autoplayFn({{item.talent_title}},{{item.talent_name}},{{item.answer_url}})">
         <view class="playBox white">
           <view class="mainBoxPlay flo_l">
-            <image src="https://images.ufutx.com/201911/26/a87cc4ff86103edf52724cde5699eb2c.png" wx:if={{!autoplayActive}} model="aspectFit"></image>
-            <image src="https://images.ufutx.com/201911/26/80a04a650ef3d32f28f40b87828a0cb5.gif" model="aspectFit" wx:else></image>
+            <image src="https://images.ufutx.com/201911/26/a87cc4ff86103edf52724cde5699eb2c.png" mode="aspectFit"
+                   wx:if="{{!autoplayActive}}" ></image>
+            <image src="https://images.ufutx.com/201911/26/80a04a650ef3d32f28f40b87828a0cb5.gif" mode="aspectFit"
+                   wx:else></image>
           </view>
           <span>点击播放</span>
         </view>

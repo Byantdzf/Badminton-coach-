@@ -95,6 +95,7 @@
         that = this
       that.type = e.type
       that.list = []
+      console.log(type)
       // wx.setNavigationBarTitle({
       //   title: that.title
       // })

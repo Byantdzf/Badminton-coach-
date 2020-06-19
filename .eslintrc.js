@@ -34,7 +34,13 @@ module.exports = {
     'no-unused-expressions': 0,
     "no-unneeded-ternary": 0,
     "no-undef": 0,
-    'space-before-function-paren': 0
+    'space-before-function-paren': 0,
+    "no-unused-vars": [0, {
+      // 允许声明未使用变量
+      "vars": "local",
+      // 参数不检查
+      "args": "none"
+    }],
   },
   globals: {
     wx: true

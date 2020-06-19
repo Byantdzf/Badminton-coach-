@@ -167,14 +167,15 @@
         }
       })
     }
+
     getsubscription() {
       console.log(this.tempId)
-      getsubscription(this.tempId).then((res)=>{
+      getsubscription(this.tempId).then((res) => {
         console.log(res)
       })
     }
 
-    onPullDownRefresh () {
+    onPullDownRefresh() {
       this.inputVal = ''
       this.page = 1
       this.initPageData()
@@ -227,7 +228,7 @@
           let {skus} = data.activity
           if (skus.length) {
             for (let item of skus) {
-              if (item.sku_id == self.sku_id){
+              if (item.sku_id == self.sku_id) {
                 console.log(item.num)
                 self.skuNum = item.num
                 self.skuName = item.name
@@ -282,12 +283,11 @@
         this.$apply()
         console.log(this.showload)
       },
-      payFn () {
+      payFn() {
         let that = this
         let data = {
           linkmen: this.msgList
         }
-        console.log(this.msgList, 'saddddddd')
         // if (!this.name) {
         //   return that.$showToast('请填写昵称')
         // }
@@ -302,7 +302,7 @@
               that.$apply()
               if (data.wx_pay.length == 0) {
                 setTimeout(() => {
-                  wx.redirectTo({url: `/pages/party/paySuccess?party_id=${that.id}&trade_no=${data.trade_no}`})
+                  wx.redirectTo({url: `/pages/party/paySuccess?party_id=${that.id}&trade_no=${that.trade_no}`})
                 }, 500)
               } else {
                 let wxconfig = data.wx_pay.config
@@ -318,7 +318,7 @@
                     that.$post({url: service.orderpay + '/' + that.trade_no}, {
                       success: ({code, data}) => {
                         setTimeout(() => {
-                          wx.redirectTo({url: `/pages/party/paySuccess?party_id=${that.id}&trade_no=${data.trade_no}`})
+                          wx.redirectTo({url: `/pages/party/paySuccess?party_id=${that.id}&trade_no=${that.trade_no}`})
                         }, 500)
                       },
                       fail: ({code, data}) => {
@@ -353,7 +353,7 @@
               that.$apply()
               if (data.wx_pay.length == 0) {
                 setTimeout(() => {
-                  wx.redirectTo({url: `/pages/party/paySuccess?party_id=${that.id}&trade_no=${data.trade_no}`})
+                  wx.redirectTo({url: `/pages/party/paySuccess?party_id=${that.id}&trade_no=${that.trade_no}`})
                 }, 500)
               } else {
                 let wxconfig = data.wx_pay.config
@@ -369,7 +369,7 @@
                     that.$post({url: service.orderpay + '/' + that.trade_no}, {
                       success: ({code, data}) => {
                         setTimeout(() => {
-                          wx.redirectTo({url: `/pages/party/paySuccess?party_id=${that.id}&trade_no=${data.trade_no}`})
+                          wx.redirectTo({url: `/pages/party/paySuccess?party_id=${that.id}&trade_no=${that.trade_no}`})
                         }, 500)
                       },
                       fail: ({code, data}) => {

@@ -107,7 +107,7 @@
             icon: 'success',
             duration: 1500
           })
-          let shareTickets = res.shareTickets
+          // let shareTickets = res.shareTickets
           // if (shareTickets.length == 0) {
           //   return false
           // }
@@ -151,7 +151,7 @@
           if (data.card_num && data.is_approved) {
             this.user.card_num = this.interceptAndReplace(data.card_num, 5, 2, '*')
           }
-          if (data.name  && data.is_approved) {
+          if (data.name && data.is_approved) {
             this.user.name = this.interceptAndReplace(data.name, 1, 0, '*')
           }
           this.invite_pic = data.my_share
@@ -164,11 +164,11 @@
     // 指定下标更换   ***
     interceptAndReplace(str, frontLen, endLen, symbol) {
       var len = str.length - frontLen - endLen
-      var xing = '';
+      var xing = ''
       for (var i = 0; i < len; i++) {
         xing += symbol
       }
-      return str.substring(0, frontLen) + xing + str.substring(str.length - endLen);
+      return str.substring(0, frontLen) + xing + str.substring(str.length - endLen)
     }
 
     methods = {

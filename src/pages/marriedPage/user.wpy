@@ -134,6 +134,12 @@
           path: '/pages/users/myActivity'
         },
         {
+          icon: 'https://images.ufutx.com/202003/31/7a6550c4caf427111ee747f47302b236.png',
+          title: '推荐给好友',
+          type: 'navigateTo',
+          path: '/pages/marriedPage/myShare'
+        },
+        {
           icon: 'https://images.ufutx.com/202004/22/d978d2c94ba3171f1e208deb6588cc7a.png',
           title: '意见反馈',
           type: 'navigateTo',
@@ -212,7 +218,6 @@
         }
       })
     }
-
 
     // 初始化页面数据
     initPageData() {

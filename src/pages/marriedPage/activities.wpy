@@ -170,12 +170,14 @@
         this.update()
       }
     }
+
     onReachBottom() {
       // if (this.token) {
       //   this.page = 1
-        this.update()
+      this.update()
       // }
     }
+
     update() {
       let vm = this
       if (vm.loading || vm.noMoreList) return

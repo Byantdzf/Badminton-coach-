@@ -3,7 +3,7 @@
   <Loading :init.sync="init"></Loading>
   <view class="wrapper">
     <view class="mainTitle">
-      <input type="text" class="font_28" placeholder="好的标题会获得更多人的帮助哦" @input="typing('informTitle')" @blur="typing('informTitle')" value="{{informTitle}}">
+      <input type="text" class="font_28" placeholder="好的标题会获得更多人的帮助哦" @input="typing('informTitle')" @blur="typing('informTitle')" value="{{informTitle}}" />
     </view>
     <view class="themes">
       <textarea class="textarea font_26 color-666 text-left"   placeholder="请尽可能详细的描述你的问题，以便我们为你详细的解答" @input="typing('informValue')" @blur="typing('informValue')"  adjust-position="true"  value="{{informValue}}" />

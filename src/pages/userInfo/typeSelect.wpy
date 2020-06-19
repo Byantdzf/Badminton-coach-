@@ -47,7 +47,7 @@
   import base from '../../mixins/base'
   import user from '../../mixins/user'
   import ShareMessage from '../../mixins/ShareMessage'
-  import {wx_login } from '../../utils/fn'
+  // import {wx_login} from '../../utils/fn'
   import cuCustom from '../../components/cu-custom'
 
   export default class typeSelect extends wepy.page {
