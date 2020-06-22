@@ -119,7 +119,7 @@
       sexList: [
         {title: '不限', value: '0', active: true},
         {title: '只看男', value: '1', active: false},
-        {title: '只看女', value: '2', active: false},
+        {title: '只看女', value: '2', active: false}
       ],
       searchList: [
         {title: '不限', value: '不限', active: true},
@@ -182,7 +182,7 @@
         data = {
           page: this.page,
           age: this.age ? this.age : '不限',
-          type: this.sexText? this.sexText: '不限'
+          type: this.sexText ? this.sexText : '不限'
         }
       if (JSON.stringify(_this.parameter) != '{}') {
         data = _this.parameter

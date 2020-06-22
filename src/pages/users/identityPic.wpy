@@ -70,8 +70,7 @@
       navigationBarTitleText: '人工审核'
     }
     data = {
-      user: {
-      },
+      user: {},
       pic1: 'https://images.ufutx.com/202004/17/93103ccd2353eeba488cbaa0ea293539.png',
       pic2: 'https://images.ufutx.com/202004/17/b6f8df8ad040ff1faed1d1d363f345ed.png',
       Index: 0,
@@ -80,10 +79,12 @@
       tempFilePaths: '',
       photosList: []
     }
-    components = { modal, uploadImages}
+    components = {modal, uploadImages}
+
     onLoad(e) {
       this.initPageData()
     }
+
     onPullDownRefresh() {
       this.page = 1
       this.initPageData()
@@ -99,7 +100,7 @@
           this.user = data
           this.photosList = data.identification_photos
           this.$apply()
-          console.log(this.photosList);
+          console.log(this.photosList)
         }
       })
     }

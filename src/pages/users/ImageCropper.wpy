@@ -127,7 +127,7 @@
         // })
       },
       saveCut(e) {
-        console.log(e.url,'1212') // 点击上传图片
+        console.log(e.url, '1212') // 点击上传图片
         console.log(e) // 点击上传图片
         if (this.src == e.url) {
           this.$gotoBack(1)

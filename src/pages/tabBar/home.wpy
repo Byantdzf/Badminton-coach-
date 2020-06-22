@@ -61,7 +61,7 @@
                   每日中午 <span class="color-theme">10点
                   <button class="text-center btn-box white radius shadow inline-block font_26 bg_theme" style="margin-bottom: -12rpx;" @tap="getList()" wx:if="{{refresh}}">刷新</button>
                   <span wx:else>刷新</span>
-                </span> 智能推荐用户
+                </span> 智能推荐用户{{day}}
                 </view>
               </view>
               <block wx:if="{{!is_profile || !is_approved}}">
@@ -162,7 +162,7 @@
   import Loading from '../../components/loading'
   import pageScroll from '../../components/pageScroll'
   import NavBarV2 from '../../components/NavBarV2'
-
+  let date = new Date()
   export default class home extends wepy.page {
     mixins = [base, http, user]
     config = {
@@ -186,7 +186,7 @@
       token: wx.getStorageSync('token'),
       modalName: '',
       throttle: true, // 节流
-      day: '',
+      day: date,
       countDownList: '00天00时00分00秒',
       actEndTime: '2020-4-19 18:50:00',
       is_profile: '',  // 资料是否完善
@@ -196,19 +196,19 @@
 
     computed = {}
 
-    onLoad(e) {
+    async onLoad(e) {
+      this.countDown()
     }
 
     onShow() {
       let vm = this
       vm.cardCur = 0
       vm.token = wx.getStorageSync('token')
-      vm.day = new Date()
       vm.$apply()
-      if (wx.getStorageSync('touristsSex')){
+      if (wx.getStorageSync('touristsSex')) {
         vm.touristsSex = wx.getStorageSync('touristsSex')
         vm.$apply()
-        console.log(vm.touristsSex,'touristsSex')
+        console.log(vm.touristsSex, 'touristsSex')
       }
       if (vm.token == '') {
         wepy.login({
@@ -235,7 +235,7 @@
               }
             })
             vm.getList()
-            vm.countDown()
+            // vm.countDown()
           },
           fail: (res) => {
             console.log('wepy.login.fail:', res)
@@ -245,7 +245,7 @@
         vm.page = 1
         vm.$apply()
         vm.getList()
-        vm.countDown()
+        // vm.countDown()
         vm.upDate()
       }
       vm.$parent.getTracker(vm.$root.$name, vm.config.navigationBarTitleText)
@@ -258,7 +258,7 @@
     countDown(it) {
       let vm = this
       vm.day.setTime(vm.day.getTime() + 24 * 60 * 60 * 1000)
-      let s3 = `${vm.day.getFullYear()}-${(vm.day.getMonth() + 1)}-${vm.day.getDate()} 10:00:00`
+      let s3 = `${vm.day.getFullYear()}-${(vm.day.getMonth() + 1)}-${vm.day.getDate()} 10:00:00`.replace(/-/g, '/')
       let interval = setInterval(() => { // 获取当前时间，同时得到活动结束时间数组
         let newTime = new Date().getTime() // 对结束时间进行处理渲染到页面
         let endTime = new Date(s3).getTime()

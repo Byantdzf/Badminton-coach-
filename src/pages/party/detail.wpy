@@ -44,10 +44,17 @@
       <view class="font_28 text-left _bc-time">
         <span class="color-333">{{detail.time}}</span>
       </view>
-      <view class="font_28 text-left _bc-address" @tap="getlocation">
-        <span class="color-333">{{detail.address != null? detail.address : '全国'}}</span>
-        <image src="https://images.ufutx.com/202006/15/94d10fd15ff38fb0cdefa8fd3c7f5423.png" mode="widthFix" class=cityIcon" wx:if="{{detail.location_latitude}}"></image>
-      </view>
+      <block wx:if="{{detail.location_latitude}}">
+        <view class="font_28 text-left _bc-address" @tap="getlocation">
+          <span class="color-333">{{detail.address != null? detail.address : '全国'}}</span>
+          <image src="https://images.ufutx.com/202006/15/94d10fd15ff38fb0cdefa8fd3c7f5423.png"  mode="widthFix" class="cityIcon" ></image>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="font_28 text-left _bc-address">
+          <span class="color-333">{{detail.address != null? detail.address : '全国'}}</span>
+        </view>
+      </block>
     </view>
     <view class="_wx-info font_28 bold color-333 _title">
       活动详情
@@ -173,6 +180,9 @@
         this.init = true
         this.$apply()
       }, 500)
+      this.skus = []
+      this.$apply()
+      this.update()
     }
 
     getCurrentPageUrlWithArgs() {
@@ -213,13 +223,12 @@
     }
 
     onPullDownRefresh() {
+      this.skus = []
+      this.$apply()
       this.update()
     }
 
     onShow() {
-      this.skus = []
-      this.$apply()
-      this.update()
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
     update() {
@@ -250,7 +259,7 @@
           }
           this.detail.time = `${start_time} 至 ${end_time}`
           if (start_time.split(' ')[0] == end_time.split(' ')[0]) {
-            this.detail.time = start_time.split(' ')[0] +' '+ start_time.split(' ')[1]+' ~ '+end_time.split(' ')[1]
+            this.detail.time = start_time.split(' ')[0] + ' ' + start_time.split(' ')[1] + ' ~ ' + end_time.split(' ')[1]
             this.$apply()
           }
           this.members = data.members

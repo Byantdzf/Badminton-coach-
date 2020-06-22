@@ -52,7 +52,7 @@
   import base from '../../mixins/base'
   import user from '../../mixins/user'
   import ShareMessage from '../../mixins/ShareMessage'
-  import {wx_login } from '../../utils/fn'
+  import {wx_login} from '../../utils/fn'
 
   export default class Register extends wepy.page {
     mixins = [base, http, user, ShareMessage]
@@ -161,7 +161,7 @@
       wx.setStorageSync('type', vm.type)
       wx.checkSession({
         success () {
-          //session_key 未过期，并且在本生命周期一直有效
+          // session_key 未过期，并且在本生命周期一直有效
           if (e.detail.iv) {
             let data = {
               openid: vm.openid,
@@ -289,7 +289,7 @@
       gotoTab(url) {
         this.$gotoTab(url)
       },
-      showToast(){
+      showToast() {
         this.$showToast('请选择类型')
       },
       showIssue() {

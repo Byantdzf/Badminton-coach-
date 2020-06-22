@@ -251,7 +251,7 @@
     onLoad(e) {
       let age = [...Array(100).keys()]
       for (let item of age) {
-        if (17 < item && item < 70) {
+        if (item > 17 && item < 70) {
           this.AgeList.push(item)
         }
       }

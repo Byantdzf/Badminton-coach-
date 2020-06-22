@@ -80,7 +80,8 @@
             'activities',
             'user',
             'basicData',
-            'shareList'
+            'shareList',
+            'myShare'
           ]
         },
 

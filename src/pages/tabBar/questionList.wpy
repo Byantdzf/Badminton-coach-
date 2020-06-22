@@ -400,7 +400,6 @@
         this.page = 1
         this.type = value
         this.$apply()
-        console.log(this.type);
         this.getLibraries()
       },
       'search': (value) => { // 搜索返回值

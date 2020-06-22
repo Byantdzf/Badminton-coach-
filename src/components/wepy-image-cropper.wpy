@@ -1045,20 +1045,20 @@
       if (!this.limit_move) return
       let left = this._img_left
       let top = this._img_top
-      var scale = scale || this.scale
+      var scaleV2 = scale || this.scale
       let img_width = this.img_width
       let img_height = this.img_height
       if (this.angle / 90 % 2) {
         img_width = this.img_height
         img_height = this.img_width
       }
-      left = this.cut_left + img_width * scale / 2 >= left ? left : this.cut_left + img_width * scale / 2
-      left = this.cut_left + this.width - img_width * scale / 2 <= left ? left : this.cut_left + this.width - img_width * scale / 2
-      top = this.cut_top + img_height * scale / 2 >= top ? top : this.cut_top + img_height * scale / 2
-      top = this.cut_top + this.height - img_height * scale / 2 <= top ? top : this.cut_top + this.height - img_height * scale / 2
+      left = this.cut_left + img_width * scaleV2 / 2 >= left ? left : this.cut_left + img_width * scaleV2 / 2
+      left = this.cut_left + this.width - img_width * scaleV2 / 2 <= left ? left : this.cut_left + this.width - img_width * scaleV2 / 2
+      top = this.cut_top + img_height * scaleV2 / 2 >= top ? top : this.cut_top + img_height * scaleV2 / 2
+      top = this.cut_top + this.height - img_height * scaleV2 / 2 <= top ? top : this.cut_top + this.height - img_height * scaleV2 / 2
       this._img_left = left
       this._img_top = top
-      this.scale = scale
+      this.scale = scaleV2
       this.$apply()
     }
     /**

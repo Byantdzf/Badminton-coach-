@@ -162,7 +162,6 @@
       })
     }
 
-
     // onHide() {
     //   this.$invoke('modal', 'hideModal')
     //   this.$invoke('modalUp', 'hideModal')
@@ -231,7 +230,7 @@
       },
       chooseimage() {
         this.onPauseMusic()
-        console.log(this.$getCurrentPageUrl(),'asda')
+        console.log(this.$getCurrentPageUrl(), 'asda')
         this.$goto(`/pages/users/ImageCropper?src=${this.Image}`)
         // this.$invoke('uploadImage', 'chooseimage')
       },

@@ -1,0 +1,347 @@
+<template>
+  <cuCustom  bgImage="https://images.ufutx.com/202004/29/2bd9abf27267b92d94003761288a4549.png"  isCustom="{{true}}">
+    <view slot="content">推荐给好友</view>
+  </cuCustom>
+  <!--<cuCustom  bgColor="bg-black" isCustom="{{true}}" class="">-->
+    <!--<view slot="content">推荐给好友</view>-->
+  <!--</cuCustom>-->
+  <view>
+    <view class="videoStyle">
+      <video
+        id="myVideo"
+        src="https://images.ufutx.com/202006/10/6ad7503752c7944c17a7578229be084b.mp4"
+        binderror="videoErrorCallback"
+        show-center-play-btn='{{false}}'
+        show-play-btn="{{true}}"
+        autoplay="autoplay"
+        muted
+        loop
+        controls
+        enable-play-gesture
+        picture-in-picture-mode="{{['push', 'pop']}}"
+        bindenterpictureinpicture='bindVideoEnterPictureInPicture'
+        bindleavepictureinpicture='bindVideoLeavePictureInPicture'
+      ></video>
+    </view>
+    <view class="mainShare">
+      <image src="https://images.ufutx.com/202004/11/fd60fcb6fe2f7df813c73d903fc5a7cf.png" mode="widthFix" class="image"></image>
+    </view>
+
+    <!--<view class="font_32 bold mainRule color-333">活动规则</view>-->
+    <!--<view style="margin: 0 30rpx;margin-top: -22rpx;">-->
+      <!--<text class="font_24 color-666">1、当有新用户（此前未授权登录过福恋）通过您的分享进入福恋并授权登录，系统将记录您已分享给一位好友</text>-->
+      <!--<text class="font_24 color-666">2、当您的累计分享人数达到指定人数，系统将发放对应的会员时长可兑换，请注意查收；</text>-->
+      <!--<view class="font_24 color-666">3、如有其它疑问，请联系客服<span class="color-theme" @tap="callPhone('4000401707')">4000401707</span>咨询</view>-->
+    <!--</view>-->
+    <!--<view class="bold color-333 mainRule">已成功分享{{total_count}}个好友 <span class="font_24 color-theme">(剩余可兑换{{remain_count}}位)</span> </view>-->
+    <view class="cu-timeline" wx:if="{{shareData.fourth.enable}}">
+      <view class="cu-time">{{shareData.fourth.register_date}}</view>
+      <view class="cu-item cur cuIcon-noticefill">
+        <view class="content bg-green shadow-blur">
+          <text>{{shareData.fourth.register_time}}</text> 可兑换{{shareData.fourth.num}}位好友！获得超级会员{{shareData.fourth.day}}天体验
+          <button class="btn text-center font_26 _btn white radius shadow bg-white inline-block color-theme flo_r bold"
+                  hover-class="btn_active" @tap="getVIPFn('fourth')">兑换</button>
+        </view>
+      </view>
+    </view>
+    <!--<view class="cu-timeline" wx:if="{{shareData.third.enable}}">-->
+      <!--<view class="cu-time">{{shareData.third.register_date}}</view>-->
+      <!--<view class="cu-item cur cuIcon-noticefill">-->
+        <!--<view class="content bg-brown shadow-blur">-->
+          <!--<text>{{shareData.third.register_time}}</text> 可兑换{{shareData.third.num}}位好友！获得超级会员{{shareData.third.day}}天体验-->
+          <!--<button class="btn text-center font_26 _btn white radius shadow bg-white inline-block color-theme flo_r bold"-->
+                  <!--hover-class="btn_active" @tap="getVIPFn('third')">兑换</button>-->
+        <!--</view>-->
+      <!--</view>-->
+    <!--</view>-->
+    <!--<view class="cu-timeline" wx:if="{{shareData.second.enable}}">-->
+      <!--<view class="cu-time">{{shareData.second.register_date}}</view>-->
+      <!--<view class="cu-item cur cuIcon-noticefill">-->
+        <!--<view class="content bg-orange shadow-blur">-->
+          <!--<text>{{shareData.second.register_time}}</text> 可兑换{{shareData.second.num}}位好友！获得超级会员{{shareData.second.day}}天体验-->
+          <!--<button class="btn text-center font_26 _btn white radius shadow bg-white inline-block color-theme flo_r bold"-->
+                  <!--hover-class="btn_active" @tap="getVIPFn('second')">兑换</button>-->
+        <!--</view>-->
+      <!--</view>-->
+    <!--</view>-->
+    <!--<view class="cu-timeline" wx:if="{{shareData.first.enable}}">-->
+      <!--<view class="cu-time">{{shareData.first.register_date}}</view>-->
+      <!--<view class="cu-item cur cuIcon-noticefill">-->
+        <!--<view class="content bg-purple shadow-blur">-->
+          <!--<text>{{shareData.first.register_time}}</text> 可兑换{{shareData.first.num}}位好友！获得超级会员{{shareData.first.day}}天体验-->
+          <!--<button class="btn text-center font_26 _btn white radius shadow bg-white inline-block color-theme flo_r bold"-->
+                  <!--hover-class="btn_active" @tap="getVIPFn('first')">兑换</button>-->
+        <!--</view>-->
+      <!--</view>-->
+    <!--</view>-->
+    <view class="cu-timeline">
+      <view class="cu-time">{{register_date}}</view>
+      <view class="cu-item">
+        <view class="content bg-grey shadow-blur">
+          <text>{{register_time}}</text> 成功注册了福恋！
+        </view>
+      </view>
+    </view>
+  </view>
+  <!--<view class="ruleStyle shadow-blur">-->
+    <!--<view class="table">-->
+      <!--<view class="color-theme font_26 inline-block title bold text-center">累计人数</view>-->
+      <!--<view class="color-theme font_26 inline-block value bold">赠送会员时长</view>-->
+    <!--</view>-->
+    <!--<view class="table">-->
+      <!--<view class="font_26 inline-block title text-center ">{{shareData.first.num}}人</view>-->
+      <!--<view class="font_26 inline-block value ">获得{{shareData.first.day}}天超级会员</view>-->
+    <!--</view>-->
+    <!--<view class="table">-->
+      <!--<view class="font_26 inline-block title text-center ">{{shareData.second.num}}人</view>-->
+      <!--<view class="font_26 inline-block value ">获得{{shareData.second.day}}天超级会员</view>-->
+    <!--</view>-->
+    <!--<view class="table">-->
+      <!--<view class="font_26 inline-block title text-center ">{{shareData.third.num}}人</view>-->
+      <!--<view class="font_26 inline-block value ">获得{{shareData.third.day}}天超级会员</view>-->
+    <!--</view>-->
+    <!--<view class="table">-->
+      <!--<view class="font_26 inline-block title text-center ">{{shareData.fourth.num}}人</view>-->
+      <!--<view class="font_26 inline-block value ">获得{{shareData.fourth.day}}天超级会员</view>-->
+    <!--</view>-->
+  <!--</view>-->
+  <view style="height: 22vw;"></view>
+  <view class="main-btn text-center animation-slide-bottom">
+    <view class="blurBox"></view>
+    <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" @tap="ShareFn">推荐给好友</button>
+  </view>
+  <!--<sharePic :pic.sync="invite_pic" :shareImage.sync="shareImage"></sharePic>-->
+  <block wx:if="{{!hide}}">
+    <shareComponent :hide.sync="hide" :shareImage.sync="invite_pic"></shareComponent>
+  </block>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import http from '../../mixins/http'
+  import base from '../../mixins/base'
+  import user from '../../mixins/user'
+  //  import ShareMessage from '../../mixins/ShareMessage'
+  import { service } from '../../config.js'
+  import shareComponent from '../../components/shareComponent'
+  // import NavBar from '../../components/NavBarV2'
+  // import Loading from '../../components/loading'
+  import cuCustom from '../../components/cu-custom'
+
+  export default class myShare extends wepy.page {
+    mixins = [base, http, user]
+    components = {
+      shareComponent,
+      cuCustom
+    }
+    config = {
+      navigationBarTitleText: '推荐给好友',
+      // navigationBarBackgroundColor: '#ffebee',
+      enablePullDownRefresh: false,
+      navigationStyle: 'custom'
+    }
+    data = {
+      list: [],
+      hide: true,
+      init: false,
+      loading: false,
+      shareImage: true,
+      goods: {},
+      invite_pic: '',
+      from_openid: '',
+      message: {},
+      register_date: '', // 注册日期
+      register_time: '', // 注册时间
+      total_count: '',
+      remain_count: '',
+      shareData: {}
+    }
+
+    computed = {
+      nickName () {
+        return (user && user.wechat && user.wechat.nickname) ? user.wechat.nickname : '未授权用户'
+      }
+    }
+
+    onShow () {
+      // 初始化页面数据
+      this.initPageData()
+      this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
+    }
+
+    onShareAppMessage (res) {
+      let url = 'pages/tabBar/welcome?from_openid=' + this.from_openid
+      console.log(url)
+      return {
+        title: '推荐福恋：婚恋家庭幸福平台!',
+        path: url, // 设置转发image，不设默认当前截图
+//        imageUrl: '',
+        success: function (res) {
+          wx.showToast({
+            title: '转发成功',
+            icon: 'success',
+            duration: 1500
+          })
+          var shareTickets = res.shareTickets
+          if (shareTickets.length == 0) {
+            return false
+          }
+        },
+        fail: function (res) {
+          // 转发失败
+        }
+      }
+    }
+
+    onLoad () {
+      this.from_openid = wx.getStorageSync('openid')
+//      this.initPageData()
+    }
+
+    // 初始化页面数据
+    initPageData () {
+      let vm = this
+      vm.$get({url: `${service.host}/user/invite/remain/count`}, {
+        success: ({code, data}) => {
+          vm.shareData = data.data
+          for (let item in vm.shareData) {
+            if (vm.shareData[item].created_at) {
+              vm.shareData[item].register_date = vm.shareData[item].created_at.split(' ')[0]
+              vm.shareData[item].register_time = vm.shareData[item].created_at.split(' ')[1]
+              vm.$apply()
+            }
+          }
+          vm.register_date = data.register_time.split(' ')[0]
+          vm.register_time = data.register_time.split(' ')[1]
+          vm.total_count = data.total_count
+          vm.remain_count = data.remain_count
+          vm.$apply()
+          console.log(vm.shareData)
+        },
+        fail: ({code, data}) => {
+        },
+        complete: () => {
+        }
+      })
+    }
+
+    methods = {
+      bindVideoEnterPictureInPicture() {
+        console.log('进入小窗模式')
+      },
+
+      bindVideoLeavePictureInPicture() {
+        console.log('退出小窗模式')
+      },
+
+      callPhone(phone) {
+        this.$callPhone(phone)
+      },
+      getVIPFn(val) {
+        console.log(val)
+        let vm = this
+        vm.$showLoading('加载海报中...')
+        vm.$post({url: `${service.host}/user/add/invite/super/rank/${val}`}, {
+          success: ({code, data}) => {
+            wx.hideLoading()
+            vm.$Toast_success('领取成功！')
+            vm.initPageData()
+          },
+          fail: ({code, data}) => {
+          },
+          complete: () => {
+          }
+        })
+      },
+      ShareFn() {
+        let vm = this
+        vm.$showLoading('加载海报中...')
+        vm.$get({url: service.user_share}, {
+          success: ({code, data}) => {
+            if (!data.pic) {
+              return
+            }
+            vm.invite_pic = data.pic
+            vm.hide = false
+            vm.$apply()
+            wx.hideLoading()
+          },
+          fail: ({code, data}) => {
+          },
+          complete: () => {
+          }
+        })
+      },
+      goto (url) {
+        wx.navigateTo({url: url})
+      }
+    }
+    events = {
+      'hideShare': (type) => {
+        console.log(type)
+        this.hide = type
+        this.$apply()
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+  @import "../../styles/custom/fn.less";
+  @import "../../styles/custom/reset.less";
+  page{
+    background: #ffffff;
+    .mainShare,.mainRule{
+      .image{
+        width: 100%;
+        height: auto;
+      }
+    }
+    .videoStyle{
+      width: 100vw;
+      #myVideo{
+        width: 100vw;
+        height: 56vw;
+      }
+    }
+    .mainRule{
+      padding: 22rpx 30rpx;
+    }
+    ._btn{
+      background: white;
+      padding: 0 20rpx;
+      border-radius: 32rpx;
+      margin-top: 12rpx;
+      /*box-shadow: 1rpx 1rpx 12rpx #dedede;*/
+    }
+    .ruleStyle{
+      width: 92%;
+      margin: 60rpx auto;
+      background: #f1f1f1;
+      padding: 40rpx 2rpx;
+      border-radius: 10rpx;
+      .table{
+        .title{width: 32%;}
+        .value{width: 60%;}
+      }
+    }
+    .main-btn{
+      width: 100%;
+      position: fixed;
+      bottom: 0;
+      padding: 4vw 7vw;
+      background: white;
+      box-shadow: 1rpx 1rpx 12rpx #f3f3f3;
+      .btn-box{
+        width: 86vw;
+        background: #D92553;
+        border-radius: 6rpx;
+        padding: 16rpx;
+        margin: 12rpx auto;
+      }
+    }
+  }
+  .cu-timeline .cu-time {
+    width: 160rpx !important;
+  }
+</style>

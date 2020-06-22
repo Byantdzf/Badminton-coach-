@@ -97,10 +97,18 @@
           <span class="title color-666">实付款：</span>
           <span class="value flo_r color-theme bold">{{payData.monay}}元</span>
         </view>
+        <view class="text-left font_26 color-666" style="margin-top: 22rpx;margin-bottom: -22rpx" @tap="activeFnV2">
+          <image src="https://images.ufutx.com/202006/18/e252dce5e007333ccd6b86a149c14a40.png" mode="aspectFit" class="iconV2" wx:if="{{activeV2}}"></image>
+          <image src="https://images.ufutx.com/202006/18/2b234f0a7d8c1b7f97e98ee597a1f2c1.png" mode="aspectFit" class="iconV2" wx:else></image>
+          <span class="title">同意并已详细阅读<span class="color-theme" @tap.stop="gotoApp({{payData.title}})">《福恋服务协议》</span></span>
+        </view>
       </view>
       <view class="cu-bar bg-white">
         <view class="action margin-0 flex-sub solid-left" bindtap="hideModal">取消</view>
-        <view class="action margin-0 flex-sub text-green " bindtap="conversion">
+        <view class="action margin-0 flex-sub text-green " bindtap="conversion" wx:if="{{activeV2}}">
+          <text class="cuIcon-moneybag"></text>微信支付
+        </view>
+        <view class="action margin-0 flex-sub text-gray " wx:else bindtap="showTost">
           <text class="cuIcon-moneybag"></text>微信支付
         </view>
         <!--<view class="action margin-0 flex-sub  solid-left" bindtap="hideModal">确定</view>-->
@@ -261,6 +269,7 @@
       init: false,
       date: 0,
       active: 0,
+      activeV2: false,
       swiperList: [],
       cardCur: 0,
       specialVIP: [],
@@ -282,12 +291,6 @@
 
     onShow() {
       // 初始化页面数据
-      this.rankList = []
-      this.system = wx.getStorageSync('system')
-      this.$apply()
-      console.log(this.system)
-      this.getPageData()
-      this.getUserData()
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
 
@@ -295,7 +298,14 @@
     //   return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
     // }
 
-    onLoad() {}
+    onLoad() {
+      this.rankList = []
+      this.system = wx.getStorageSync('system')
+      this.$apply()
+      console.log(this.system)
+      this.getPageData()
+      this.getUserData()
+    }
 
     onPullDownRefresh() {}
 
@@ -354,7 +364,7 @@
           that.payData.discount_price = `${that.rankList[0].discount_price}`
           that.$apply()
           wx.hideLoading()
-          console.log(that.rankList,'rankList')
+          console.log(that.rankList, 'rankList')
         },
         fail: ({code, data}) => {
         },
@@ -380,6 +390,14 @@
       }
     }
     methods = {
+      gotoApp(item) {
+        let URL = `https://love.ufutx.com/mobile/#/serviceAgreement?title=${item}`
+        wx.navigateTo({url: '/pages/books/bookDetail?url=' + encodeURIComponent(URL)})
+      },
+      activeFnV2() {
+        this.activeV2 = !this.activeV2
+        this.$apply()
+      },
       cardSwiper(e) {
         this.cardCur = e.detail.current
         this.$apply()
@@ -428,6 +446,9 @@
       },
       goto(url) {
         wx.navigateTo({url: url})
+      },
+      showTost() {
+        this.$showToast('请同意《福恋服务协议》')
       },
       conversion(item) {
         console.log(this.payData.payId)
@@ -611,6 +632,13 @@
       .swiper-item{
         border-radius: 14rpx;
       }
+    }
+    .iconV2{
+      height: 36rpx;
+      width: 36rpx;
+      margin-right: 6rpx;
+      vertical-align: middle;
+      margin-bottom: 8rpx;
     }
   }
 </style>

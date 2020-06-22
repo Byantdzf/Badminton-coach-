@@ -74,25 +74,18 @@
       noMore: false,
       record: [],
       date: '',
-      time: '',
+      time: ''
     }
 
     computed = {}
 
     onShareAppMessage(res) {
     }
+
     async onLoad(e) {
-      let vm = this
-      vm.id = e.id
-      vm.name = e.name
-      vm.list = []
-      vm.page = 1
-      vm.getLibraries()
-      vm.$apply()
-    }
-    onLoad(e) {
       this.getlist()
     }
+
     onShow() {
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }

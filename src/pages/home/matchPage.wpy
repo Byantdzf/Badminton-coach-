@@ -1,12 +1,66 @@
 <template>
-  <view class="weui-tab">
-    <!--<cuCustom  bgImage="https://images.ufutx.com/202004/29/2bd9abf27267b92d94003761288a4549.png"  isBack="{{true}}">-->
-      <!--<view slot="backText">返回</view>-->
-      <!--<view slot="content" class="bold ">为Ta匹配</view>-->
-    <!--</cuCustom>-->
-
-    <view  class="animation-slide-bottom">
-      <!--<partyList :list.sync="list" :hideMessage.sync="hideMessage"></partyList>-->
+  <view class="">
+    <view  class="">
+      <view class="d_main ff" wx:if="{{!showSearch}}">
+        <view class="">
+          <view class="flo_l">筛选条件：</view>
+          <view class="d_btnV2 flo_r white font_26 text-center" @tap="searchFn">重新筛选</view>
+          <view class="clearfloat"></view>
+        </view>
+        <!--let data = {-->
+        <!--belief: vm.beliefIndex ? vm.belief[vm.beliefIndex] : '',-->
+        <!--max_age: vm.ageIndex[1] ? vm.ageArray[1][vm.ageIndex[1]] : '',-->
+        <!--min_age: vm.ageIndex[0] ? vm.ageArray[0][vm.ageIndex[0]] : '',-->
+        <!--province: vm.region[1] ? vm.region[1] : '',-->
+        <!--city: vm.region[2] ? vm.region[2] : '',-->
+        <!--min_stature: vm.statureIndex[0] ? vm.statureArray[0][vm.statureIndex[0]] : '',-->
+        <!--max_stature: vm.statureIndex[1] ? vm.statureArray[1][vm.statureIndex[1]] : '',-->
+        <!--degree: vm.degreeIndex ? vm.degree[vm.degreeIndex] : '',-->
+        <!--is_approved: vm.is_approved ? '1' : '0',-->
+        <!--state: vm.stateIndex ? vm.state[vm.stateIndex] : '',-->
+        <!--has_child: vm.has_child ? '有' : '无',-->
+        <!--sex: vm.sex ? '1' : '2'-->
+        <!--}-->
+        <view class=" bg-white solid-bottom" style="padding: 12rpx 2rpx 24rpx 2rpx;">
+          <view class="cu-tag round" wx:if="{{beliefIndex}}">信仰：{{beliefIndex?belief[beliefIndex]:''}}</view>
+          <view class="cu-tag round" wx:if="{{ageIndex[0] || ageIndex[1]}}">年龄：{{ageArray[0][ageIndex[0]]}} ~ {{ageArray[1][ageIndex[1]]}}</view>
+          <view class="cu-tag round" wx:if="{{statureIndex[0] || statureIndex[1]}}">身高：{{statureArray[0][ageIndex[0]]}} ~ {{statureArray[1][statureIndex[1]]}}</view>
+          <view class="cu-tag round" wx:if="{{degreeIndex}}">学历：{{degree[degreeIndex]}}</view>
+          <view class="cu-tag round">性别：{{sex?'男':'女'}}</view>
+          <view class="cu-tag round">是否认证：{{is_approved?'是':'否'}}</view>
+          <view class="cu-tag round">是否有孩子：{{has_child?'有':'无'}}</view>
+          <view class="cu-tag round" wx:if="{{region[1]}}">工作城市：{{region[1]?region[1]+' - '+region[2]:''}}</view>
+          <view class="cu-tag round" wx:if="{{stateIndex}}">婚姻状态：{{state[stateIndex]}}</view>
+        </view>
+      </view>
+      <!--<view class="height160"></view>-->
+      <!--<view class="height160"></view>-->
+      <view class="page__bd animation-slide-bottom"  wx:for="{{list}}" wx:key="*this" style="position: relative;">
+        <view class="borrowlist" @tap="gotofriends({{item}})">
+          <view >
+            <image src="{{item.user.photo || item.user.circle_avatar}}" mode="aspectFill"  style="width: 100%;height: 100vw;"></image>
+            <image src="https://images.ufutx.com/202003/28/d5e810272fab69fe6fe6119a0ffdab3b.png"
+                   wx:if="{{item.is_approved == 1}}" mode="widthFix" class="approved"></image>
+          </view>
+          <view style="width: 100%;padding: 12rpx 32rpx 22rpx 32rpx;">
+            <view>
+              <view  class="font_32 flo_l color-333 ellipsis_1">
+                <span class="bold">{{item.nickname || item.name}}</span>
+              </view>
+              <view  class="font_28 flo_l" style="margin-left: 6rpx;">
+                <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFit" wx:if="{{item.sex == '男'}}" style="width: 38rpx;height: 38rpx;margin-bottom: -12rpx;"></image>
+                <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" mode="aspectFit" wx:else   style="width: 38rpx;height: 38rpx;margin-bottom: -12rpx;"></image>
+              </view>
+              <span class="flo_r color-666">{{item.city || '--'}}</span>
+            </view>
+            <view class="clearfloat"></view>
+            <view class="font_26 text-left color-666">
+              <span class="text-left">{{item.age + '岁' || '--'}}{{item.type == 'single'?' · '+item.stature:''}}{{item.belief || '--'}}</span>
+            </view>
+          </view>
+          <view class="clearfloat"></view>
+        </view>
+      </view>
       <view wx:if="{{!list.length}}" class="text-center">
         <view class="font_28 bc_empty">
           <image src="http://images.ufutx.com/201905/29/ea50e95b0b50c1fad3e3aec4827496dd.png" mode="widthFix"></image>
@@ -14,7 +68,6 @@
       </view>
     </view>
   </view>
-  <pageScroll></pageScroll>
   <block wx:if="{{loading}}">
     <view class="weui-loadmore">
       <view class="weui-loading"></view>
@@ -27,7 +80,7 @@
     </view>
   </block>
   <modalUp>
-    <view slot="wrapper" class="wrapper borderBottom">
+    <view slot="wrapper" class="wrapper borderBottom" catchtouchmove='true'>
       <view>请根据以下筛选条件，过滤数据，为Ta匹配出最合适的那个Ta！</view>
       <form>
         <view class="cu-form-group ">
@@ -40,17 +93,25 @@
         </view>
         <view class="cu-form-group ">
           <view class="title">年龄</view>
-          <picker bindchange="PickerChange" value="{{index}}" range="{{picker}}">
-            <view class="picker">
-              {{index?picker[index]:'请选择'}}
+          <picker mode="multiSelector"  value="{{ageIndex}}"
+                  range="{{ageArray}}" @change="pickerChangeFn('ageIndex')">
+            <view class="picker" wx:if="{{ageIndex[0]||ageIndex[1]}}">
+              {{ageArray[0][ageIndex[0]]}} ~ {{ageArray[1][ageIndex[1]]}}
+            </view>
+            <view class="picker" wx:else>
+              请选择
             </view>
           </picker>
         </view>
         <view class="cu-form-group ">
           <view class="title">身高</view>
-          <picker bindchange="PickerChange" value="{{index}}" range="{{picker}}">
-            <view class="picker">
-              {{index?picker[index]:'请选择'}}
+          <picker mode="multiSelector"  value="{{ageIndex}}"
+                  range="{{statureArray}}" @change="pickerChangeFn('statureIndex')">
+            <view class="picker" wx:if="{{statureIndex[0]||statureIndex[1]}}">
+              {{statureArray[0][statureIndex[0]]}} ~ {{statureArray[1][statureIndex[1]]}}
+            </view>
+            <view class="picker" wx:else>
+              请选择
             </view>
           </picker>
         </view>
@@ -64,15 +125,15 @@
         </view>
         <view class="cu-form-group">
           <view class="title">性别</view>
-          <switch class="switch-sex green" checked></switch>
+          <switch class="switch-sex green" checked="{{sex}}" @change="switchChange('sex')"></switch>
         </view>
         <view class="cu-form-group ">
           <view class="title">是否认证</view>
-          <switch class="red sm" checked></switch>
+          <switch class="red sm" checked="{{is_approved}}" @change="switchChange('is_approved')"></switch>
         </view>
         <view class="cu-form-group ">
           <view class="title">是否有孩子</view>
-          <switch class="red sm" checked></switch>
+          <switch class="red sm" checked="{{has_child}}" @change="switchChange('has_child')"></switch>
         </view>
         <view class="cu-form-group ">
           <view class="title">工作城市</view>
@@ -90,7 +151,7 @@
             </view>
           </picker>
         </view>
-        <view class="btn-theme d_btn">确定</view>
+        <view class="btn-theme d_btn" @tap="submitFn">确定</view>
       </form>
     </view>
   </modalUp>
@@ -132,6 +193,7 @@
       partyList, pageScroll, cuCustom, modalUp, selectCity
     }
     data = {
+      showSearch: false,
       beliefIndex: 0,
       belief: ['基督教', '佛教', '伊斯兰教', '其他'],
       degreeIndex: 0,
@@ -140,8 +202,14 @@
       state: ['从未结婚', '离异', '丧偶'],
       region: ['', '', ''],
       picker: ['喵喵喵', '汪汪汪', '哼唧哼唧'],
+      ageArray: [[], []],
+      ageIndex: [0, 0],
+      statureArray: [[], []],
+      statureIndex: [0, 0],
+      sex: false,
+      is_approved: false,
+      has_child: false,
       list: [],
-      tabs: ['进行中', '往期活动'],
       page: 1,
       noMore: false,
       loading: false,
@@ -156,14 +224,22 @@
       class_id: '', // 分类id
       screen: '', // 筛选
       classList: [],
+      showStature: false,
+      showAge: false,
+      id: '',
       modalName: ''
     }
 
     computed = {}
 
     async onLoad(e) {
+      this.id = e.id
+      this.showSearch = true
       this.$invoke('modalUp', 'showModal')
       this.page = 1
+      this.$apply()
+      this.getStatureList()
+      this.getAgeList()
     }
 
     onPageScroll(res) { // 置顶事件
@@ -174,11 +250,37 @@
     onShow() {
       this.token = wx.getStorageSync('token')
       this.$apply()
-      if (this.token) {
-        this.page = 1
-        this.update()
-      }
+      // if (this.token) {
+      //   this.page = 1
+      //   this.update()
+      // }
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
+    }
+    getStatureList() { // 身高
+      let list = []
+      for (let num = 139; num < 202; num++) {
+        if (num < 140) {
+          list.push(`${num}cm以下`)
+        } else if (num == 201) {
+          list.push(`${num}cm以上`)
+        } else {
+          list.push(`${num}cm`)
+        }
+      }
+      console.log(list)
+      this.statureArray[0] = list
+      this.statureArray[1] = list
+      this.$apply()
+    }
+    getAgeList() { // 年龄
+      let list = []
+      for (let num = 18; num < 72; num++) {
+          list.push(`${num}`)
+      }
+      console.log(list)
+      this.ageArray[0] = list
+      this.ageArray[1] = list
+      this.$apply()
     }
     onPullDownRefresh() {
       if (this.token) {
@@ -189,53 +291,107 @@
     onReachBottom() {
       this.update()
     }
-    update() {
-      let vm = this
-      if (vm.loading || vm.noMoreList) return
-      vm.loading = true
+    update(data) {
+      let _this = this
+      _this.loading = true
+      _this.$showLoading('加载中')
+      let url = `${service.users}/${_this.id}/other/single/profiles?keyword=${this.inputVal}&page=${this.page}`
       this.$get({
-        url: `${service.host}/activities/v2`,
-        data: {
-          type: vm.type,  // 状态
-          price: vm.price, // 价钱
-          class_id: vm.class_id, // 分类id
-          screen: vm.screen, // 筛选
-          page: vm.page,
-          keyword: vm.inputVal
-        }
+        url: url,
+        data: data
       }, {
         success: ({code, data}) => {
-          if (!data.data.length) {
-            return console.log('没有更多了')
+//          _this.loading = true
+          wx.hideLoading()
+          if (data.data.length == 0 && data.last_page == 1) {
+            _this.loading = false
+            _this.noMore = true
+            _this.list = []
+            return
           }
-          if (vm.page == 1) {
-            vm.list = data.data
-            vm.$apply()
-            if (vm.list.length == 0) {
-              vm.message = true
-              vm.hideMessage = true
-              vm.$apply()
-            }
+          if (data.current_page > data.last_page) {
+            _this.noMore = true
+            _this.loading = false
+            return
+          }
+          data = data.data
+          if (this.isArray(data) && data.length === 0) {
+            _this.loading = false
+            _this.noMore = true
+            _this.list = []
+            return
+          }
+          if (_this.list.length === 0 || _this.page === 1) {
+            _this.loading = false
+            _this.list = data
           } else {
-            data.data.map(function (item, index) {
-              vm.list.push(item)
-              vm.$apply()
+            data.map(function (item, index) {
+              _this.list.push(item)
             })
           }
-          vm.page += 1
-          vm.$apply()
+          _this.noMore = true
+          _this.$apply()
+          _this.page += 1
         },
         fail: ({code, data}) => {
-          // 失败了什么也不做
         },
         complete: () => {
-          vm.loading = false
-          vm.noMore = true
         }
       })
     }
     methods = {
+      gotofriends(item) {
+        let url = `/pages/home/information?id=${item.user_id}&pageType=AG`
+        wx.navigateTo({url: url})
+      },
+      searchFn() {
+        this.showSearch = true
+        this.$invoke('modalUp', 'showModal')
+        this.page = 1
+        this.$apply()
+      },
+      pickerChangeFn(item, e) {
+        if (item == 'statureIndex') {
+          if (e.detail.value[0] == 0 && e.detail.value[0] == 0) {
+            this.showStature = true
+            this.$apply()
+          }
+        }
+        console.log(e.detail.value)
+        this[item] = e.detail.value
+        this.$apply()
+      },
+      switchChange(item, e) {
+        console.log(e.detail.value)
+        this[item] = e.detail.value
+        this.$apply()
+        console.log(this[item])
+      },
+      submitFn() {
+        let vm = this
+        let data = {
+          belief: vm.beliefIndex ? vm.belief[vm.beliefIndex] : '',
+          max_age: vm.ageIndex[1] ? vm.ageArray[1][vm.ageIndex[1]] : '',
+          min_age: vm.ageIndex[0] ? vm.ageArray[0][vm.ageIndex[0]] : '',
+          province: vm.region[1] ? vm.region[1] : '',
+          city: vm.region[2] ? vm.region[2] : '',
+          min_stature: vm.statureIndex[0] ? vm.statureArray[0][vm.statureIndex[0]] : '',
+          max_stature: vm.statureIndex[1] ? vm.statureArray[1][vm.statureIndex[1]] : '',
+          degree: vm.degreeIndex ? vm.degree[vm.degreeIndex] : '',
+          is_approved: vm.is_approved ? '1' : '0',
+          state: vm.stateIndex ? vm.state[vm.stateIndex] : '',
+          has_child: vm.has_child ? '有' : '无',
+          sex: vm.sex ? '1' : '2'
+        }
+        console.log(data)
+        vm.showSearch = false
+        vm.$invoke('modalUp', 'hideModal')
+        vm.page = 1
+        vm.$apply()
+        vm.update(data)
+      },
       PickerChange(index, e) {
+        console.log(e.detail.value)
         this[index] = e.detail.value
         this.$apply()
       },
@@ -276,5 +432,66 @@
     .borderBottom{
       border-bottom: 1rpx solid #f0f0f0;
     }
+    .borrowlist{
+      width: 92%;
+      box-shadow: 1rpx 1rpx 18rpx #d3d3d3;
+      border-radius: 12rpx;
+      margin: 42rpx auto;
+      background: white;
+      overflow: hidden;
+    }
+    ._tab__content{
+      width: 100%;
+      position: fixed;
+      left: 0%;
+      z-index: 9999;
+      .search-form{
+        width: 82vw;
+        flex: initial;
+        margin-right: 8rpx;
+      }
+      .icon{
+        width: 68rpx;
+        height: 68rpx;
+        margin-right: 30rpx;
+        margin-top: 16rpx;
+      }
+    }
+    .searchStyle{
+      padding: 22rpx;
+    }
+    .cancel{
+      width: 180rpx;
+      line-height: 64rpx;
+      height: 68rpx;
+      border: 2rpx solid #d0d0d0;
+      border-radius: 32rpx;
+      margin: 42rpx 22rpx;
+    }
+    .approved{
+      position: absolute;
+      left: 54rpx;
+      top: 22rpx;
+      width: 140rpx;
+      height: auto;
+      z-index: 999;
+    }
+    .d_main{
+      width: 100%;
+      /*position: fixed;*/
+      /*top: 0;*/
+      /*left: 0;*/
+      padding: 32rpx 32rpx 0 32rpx;
+      z-index: 99999;
+      .d_btnV2{
+        width: 140rpx;
+        background: #d92557;
+        border-radius: 8rpx;
+        padding: 0 12rpx;
+      }
+    }
+  }
+  .cu-tag{
+    margin-top: 12rpx;
   }
 </style>

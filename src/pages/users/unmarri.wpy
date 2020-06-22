@@ -380,7 +380,6 @@
           that.ideal_mate = result.ideal_mate
           that.work_text = result.work_sort
           that.DegreeText = result.degree
-          console.log(data.sex, 'sex');
           if (data.sex == 1) {
             that.sexIndex = 0
             that.$apply()
