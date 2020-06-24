@@ -40,22 +40,21 @@
         <view class="color-333 ellipsis_1 font_32 bold flo_l" style="max-width: 80%">{{mylibs.nickname || mylibs.name}}</view>
         <block wx:if="{{mylibs.sex}}">
           <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" wx:if="{{mylibs.sex=='2'}}" mode="aspectFill" class="flo_l icon"></image>
-          <image src
-                   ="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFill" wx:else class="flo_l icon" ></image>
+          <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFill" wx:else class="flo_l icon" ></image>
         </block>
         <image src="https://images.ufutx.com/202006/15/e9a028b8afc18aa175ea6701591dcf64.png" wx:if="{{mylibs.isSuperRank=='1'}}" mode="widthFix" class="flo_l VIPIcon"></image>
         <image src="https://images.ufutx.com/202006/15/77d91cced2e8e8b9815723f8e54554da.png" mode="widthFix" wx:else class="flo_l VIPIcon" ></image>
-          <view class="flo_r ">
+        <view class="flo_r ">
           <view class="flo_r" style="margin-top: 10rpx">{{mylibs.profile_courtship.city || ''}}</view>
           <view class="clearfloat"></view>
         </view>
         <view class="clearfloat"></view>
         <view class="font_24">
-          {{mylibs.age || ''}}
+          {{mylibs.age || '--'}}
           <span style="color: #d2d4db" > | </span>
-          {{mylibs.profile_courtship.stature || ''}}
+          {{mylibs.profile_courtship.stature || '--'}}
           <span style="color: #d2d4db" > | </span>
-          {{mylibs.profile_courtship.state || ''}}
+          {{mylibs.profile_courtship.state || '--'}}
           <!--<view class="color-theme flo_r font_24  bold text-right" wx:if="{{mylibs.distance}}">-->
           <!--{{mylibs.distance}}<span class="font_28  bold">km</span>-->
           <!--</view>-->
@@ -242,12 +241,22 @@
   </view>
   <block wx:if="{{mylibs.id && mylibs.self !== 1}}">
     <view class="mainBtn">
+      <block wx:if="{{mylibs.is_messenger && pageType != 'AG'}}">
+        <image src="https://images.ufutx.com/202006/13/a27454644b8bc26035020c68c5e4df6e.png" mode="aspectFit" class="matchIcon" @tap="goto('/pages/home/matchPage?id={{mylibs.id}}')"></image>
+      </block>
       <block wx:if="{{type != 'marriage'}}">
         <view class="blurBox"></view>
-        <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top"  wx:if="{{mylibs.is_friend == 0}}" @tap="showAddFriendFn">添加好友
-        </button>
-        <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" @tap="goto('/pages/home/chitchat?id={{mylibs.id}}&name={{mylibs.name}}&type={{mylibs.type}}')"  wx:else>找Ta聊天
-        </button>
+        <block wx:if="{{pageType == 'AG'}}">
+          <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" open-type="share">分享给好友</button>
+          <!--<button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top"  @tap="recommendFn">推荐给Ta-->
+          <!--</button>-->
+        </block>
+        <block wx:else>
+          <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top"  wx:if="{{mylibs.is_friend == 0}}" @tap="showAddFriendFn">添加好友
+          </button>
+          <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" @tap="goto('/pages/home/chitchat?id={{mylibs.id}}&name={{mylibs.name}}&type={{mylibs.type}}')"  wx:else>找Ta聊天
+          </button>
+        </block>
       </block>
       <block wx:else>
         <view class="blurBox"></view>
@@ -286,7 +295,7 @@
       <view class="padding-xl text-left" style="padding-top: 20rpx;">
         <view class="bold color-theme">say hello!</view>
         <input type="text" placeholder="输入打招呼内容" class="inputStyle"  @input="typing"/>
-        <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top send" bindtap="getuserinfo" @tap="addFriend">发送
+        <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top send"  @tap="addFriend">发送
         </button>
       </view>
     </view>
@@ -317,7 +326,7 @@
   import ShareMessage from '../../mixins/ShareMessage'
   import Loading from '../../components/loading'
 
-  export default class introducer extends wepy.page {
+  export default class information extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
       navigationBarTitleText: 'Ta的个人信息',
@@ -327,6 +336,8 @@
       Loading
     }
     data = {
+      recomend_user_id: '',
+      pageType: '', // 区分是不是AG匹配用户
       modalName: '',
       loaded: false,
       init: false,
@@ -407,6 +418,12 @@
       let _this = this
       _this.id = e.id
       _this.$apply()
+      if (e.pageType) {
+        _this.recomend_user_id = e.recomend_user_id
+        _this.pageType = e.pageType
+        _this.$apply()
+      }
+      console.log(_this.pageType,_this.recomend_user_id)
     }
 
     onShow() {
@@ -494,6 +511,29 @@
       showAddFriendFn() {
         this.modalName = 'Modal'
         this.$apply()
+      },
+      recommendFn() { // 推荐用户
+        let vm = this
+        let data = {
+          recomend_user_id: vm.id
+        }
+        vm.$post({url: `${service.host}/messenger/recommend/ag/users/${vm.recomend_user_id}`, data}, {
+          success: ({code, data}) => {
+            wx.showModal({
+              title: '推荐成功',
+              content: '已将推荐信息发送给Ta',
+              cancelText: '取消',
+              confirmText: '上一页',
+              success: function (res) {
+                if (res.confirm) {
+                  vm.$gotoBack(1)
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
+                }
+              }
+            })
+          }
+        })
       },
       lookID(id) { // 查看ID
         this.$showToast(String(id))
@@ -944,6 +984,13 @@
       position: relative;
       position: fixed;
       bottom: 0;
+      .matchIcon{
+        width: 180rpx;
+        height: 180rpx;
+        position: absolute;
+        right: 6vw;
+        bottom: 28vw;
+      }
       .blurBox {
         position: absolute;
         top: 0;
