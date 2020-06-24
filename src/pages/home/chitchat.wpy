@@ -5,16 +5,16 @@
           <text  class="main-content-text" selectable>{{item.text}}</text>
         </block>
         <block wx:else>
-          <!--<text class="main-content-text" selectable>{{item.text}}asas</text>-->
-          <view class="main-card" @tap="gotoDateilV2('single', {{item.text.user_id}})">
-            <view class="title {{me ? 'title-f':''}}">觉得你们很合适，所以推荐TA给你</view>
+          <view class="main-card" @tap="gotoDateilV2('single', {{item.recommend_user.id}})">
+            <view class="title {{me ? 'title-f':''}} font_26">
+              <span class="text-orange">{{item.messenger.nickname}}</span> 觉得你们很合适，所以推荐TA给你
+            </view>
             <view class="main-other-user">
-              <image src="{{item.text.circle_avatar}}" mode="aspectFit" class="flo_l"></image>
-              <span class="font_28 flo_l bold">{{item.text.name}}</span>
-              <text class="flo_r {{me ? 'text-f':''}}">{{item.text.age+'岁'}}·{{item.text.stature+'cm'}}·{{item.text.city}}</text>
-              <view class="flo_r {{me ? 'text-f-v2':''}}">学历：{{item.text.degree}}</view>
-              <view class="flo_r {{me ? 'text-f-v2':''}}">信仰：{{item.text.belief}}</view>
-              <view class="flo_r {{me ? 'text-f-v2':''}}">婚姻状态：{{item.text.state}}</view>
+              <image src="{{item.recommend_user.photo || 'https://images.ufutx.com/202006/19/aaeb43c2c936f96c8d45ae43807a5337.png'}}" mode="aspectFit" class="flo_l"></image>
+              <span class="font_28 flo_l bold">{{item.recommend_user.nickname}}</span>
+              <text class="flo_r {{me ? 'text-f':''}}">{{item.recommend_profile.age=='未知'?'--岁':item.recommend_profile.age+'岁'}} · {{item.recommend_profile.stature?item.recommend_profile.stature+'cm':'--cm'}}</text>
+              <view class="flo_r {{me ? 'text-f-v2':''}}">城市：{{item.recommend_profile.city?item.recommend_profile.city:'--'}}</view>
+              <view class="flo_r {{me ? 'text-f-v2':''}}">信仰：{{item.recommend_profile.belief?item.recommend_profile.belief:'--'}}</view>
             </view>
             <view class="main-btn text-center {{me ? 'main-btn-f':''}}">感兴趣，和TA聊聊</view>
           </view>
@@ -180,10 +180,10 @@
         })
       }, 1500)
     }
-    getContents(content, content_type) {
+    getContents(content, content_type, messenger, recommend_user, recommend_profile) {
       console.log(content_type)
       let contents = []
-      if (content_type !== 'CARD') {
+      if (content_type !== 'card') {
         contents.push({
           type: 'text',
           text: content
@@ -192,8 +192,11 @@
       } else {
         console.log(JSON.parse(content))
         contents.push({
-          type: 'CARD',
-          text: JSON.parse(content)
+          type: 'card',
+          text: JSON.parse(content),
+          messenger: messenger,
+          recommend_user: recommend_user,
+          recommend_profile: recommend_profile
         })
         return contents
       }
@@ -219,7 +222,7 @@
             message = {
               id: arr[index].id,
               // contents: util.getContents(arr[index].content),
-              contents: that.getContents(arr[index].content, arr[index].content_type),
+              contents: that.getContents(arr[index].content, arr[index].msg_type, arr[index].messenger, arr[index].recommend_user, arr[index].recommend_profile),
               me: arr[index].is_mine == 1 ? true : false,
               avatar: arr[index].avatar,
               user_id: arr[index].user_id,
@@ -330,7 +333,7 @@
           data.forEach((item, index, arr) => {
             message = {
               id: 'id_' + Date.parse(new Date()) / 1000,
-              contents: that.getContents(arr[index].content, arr[index].content_type),
+              contents: that.getContents(arr[index].content, arr[index].msg_type),
               user_id: arr[index].user_id,
               userType: arr[index].type,
               me: arr[index].is_mine == 1 ? true : false,
@@ -422,7 +425,7 @@
             data.forEach((item, index, arr) => {
               message = {
                 id: arr[index].id,
-                contents: that.getContents(arr[index].content, arr[index].content_type),
+                contents: that.getContents(arr[index].content, arr[index].msg_type),
                 me: arr[index].is_mine == 1 ? true : false,
                 avatar: arr[index].avatar,
                 user_id: arr[index].user_id,
@@ -462,7 +465,7 @@
             data.forEach((item, index, arr) => {
               message = {
                 id: 'id_' + Date.parse(new Date()) / 1000,
-                contents: that.getContents(arr[index].content, arr[index].content_type),
+                contents: that.getContents(arr[index].content, arr[index].msg_type),
                 me: arr[index].is_mine == 1 ? true : false,
                 avatar: arr[index].avatar,
                 user_id: arr[index].user_id,
@@ -673,7 +676,7 @@
     padding: 22rpx;
     .title{
       padding-bottom: 12rpx;
-      border-bottom: 1rpx solid #b0b0b0;
+      border-bottom: 1rpx solid #dfdfdf;
       font-size: 28rpx;
       color: #666666;
     }
@@ -696,8 +699,8 @@
       padding: 22rpx 2rpx;
       overflow: hidden;
       image{
-        width: 120rpx;
-        height: 120rpx;
+        width: 106rpx;
+        height: 106rpx;
         border-radius: 50%;
         background: #ffffff;
         margin-right: 12rpx;

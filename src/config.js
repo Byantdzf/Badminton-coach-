@@ -14,6 +14,7 @@ if (_NODE_) {
     // var host = 'http://love.hankin.cn/api' // 测试环境
 }
 
+
 export const service = {
     // 登录接口
     login: `${host}/login/wechat`,

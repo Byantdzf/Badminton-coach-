@@ -247,8 +247,9 @@
       <block wx:if="{{type != 'marriage'}}">
         <view class="blurBox"></view>
         <block wx:if="{{pageType == 'AG'}}">
-          <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top"  @tap="recommendFn">推荐给Ta
-          </button>
+          <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" open-type="share">分享给好友</button>
+          <!--<button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top"  @tap="recommendFn">推荐给Ta-->
+          <!--</button>-->
         </block>
         <block wx:else>
           <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top"  wx:if="{{mylibs.is_friend == 0}}" @tap="showAddFriendFn">添加好友
@@ -335,6 +336,7 @@
       Loading
     }
     data = {
+      recomend_user_id: '',
       pageType: '', // 区分是不是AG匹配用户
       modalName: '',
       loaded: false,
@@ -417,10 +419,11 @@
       _this.id = e.id
       _this.$apply()
       if (e.pageType) {
+        _this.recomend_user_id = e.recomend_user_id
         _this.pageType = e.pageType
         _this.$apply()
       }
-      console.log(_this.pageType)
+      console.log(_this.pageType,_this.recomend_user_id)
     }
 
     onShow() {
@@ -510,7 +513,27 @@
         this.$apply()
       },
       recommendFn() { // 推荐用户
-        this.$showToast('没接口')
+        let vm = this
+        let data = {
+          recomend_user_id: vm.id
+        }
+        vm.$post({url: `${service.host}/messenger/recommend/ag/users/${vm.recomend_user_id}`, data}, {
+          success: ({code, data}) => {
+            wx.showModal({
+              title: '推荐成功',
+              content: '已将推荐信息发送给Ta',
+              cancelText: '取消',
+              confirmText: '上一页',
+              success: function (res) {
+                if (res.confirm) {
+                  vm.$gotoBack(1)
+                } else if (res.cancel) {
+                  console.log('用户点击取消')
+                }
+              }
+            })
+          }
+        })
       },
       lookID(id) { // 查看ID
         this.$showToast(String(id))

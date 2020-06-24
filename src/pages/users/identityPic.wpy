@@ -1,25 +1,25 @@
 <template>
   <view class="container animation-slide-top">
-    <view class="color-333 font_32 bold _title">请拍摄上传你的身份证照片</view>
+    <view class="color-333 font_32 bold _title">请上传你的相关证件</view>
     <view class="font_24 color-666">认证信息仅用于官方审核，无需担心信息泄露，TA人无法看到你的隐私，我们会对照片进行安全处理，敬请放心。</view>
     <view class="_picBox">
       <view class="_itemPic flo_l text-center" @tap="chooseimage('0')">
-        <image src="{{photosList[0] || pic1}}" mode="aspectFill" class="_bcImge" />
+        <image src="{{photosList[0]}}" mode="aspectFill" class="_bcImge" />
         <image src="https://images.ufutx.com/202004/17/fd1843e9ffd87c739c01fcb481a8eeff.png" mode="widthFix" class="_bcIcon" />
       </view>
       <view class="_itemPic flo_r text-center" @tap="chooseimage('1')">
-        <image src="{{photosList[1] || pic2}}" mode="aspectFill" class="_bcImge" />
+        <image src="{{photosList[1]}}" mode="aspectFill" class="_bcImge" />
         <image src="https://images.ufutx.com/202004/17/fd1843e9ffd87c739c01fcb481a8eeff.png" mode="widthFix" class="_bcIcon" />
       </view>
     </view>
-    <view class="_text">
-      <view class="font_26 color-333 inline-block text-center bold flo_l">拍摄手持身份证</view>
-      <view class="font_26 color-333 inline-block text-center bold flo_r">拍摄身份证正面</view>
-    </view>
-    <view class="color-333 font_32 bold _title">拍摄身份证要求</view>
-    <view class="font_24 color-666">持有本人有效身份证件；</view>
-    <view class="font_24 color-666">拍摄时确保身份证 <span class="color-theme">边框完整，字体清晰，亮度均匀；</span></view>
-    <image src="https://images.ufutx.com/202004/17/02b4d82fbfae8f11c2089bbca1957c78.png" mode="widthFix" class="_imge" />
+    <!--<view class="_text">-->
+      <!--<view class="font_26 color-333 inline-block text-center bold flo_l">拍摄手持身份证</view>-->
+      <!--<view class="font_26 color-333 inline-block text-center bold flo_r">拍摄身份证正面</view>-->
+    <!--</view>-->
+    <!--<view class="color-333 font_32 bold _title">拍摄身份证要求</view>-->
+    <!--<view class="font_24 color-666">持有本人有效身份证件；</view>-->
+    <!--<view class="font_24 color-666">拍摄时确保身份证 <span class="color-theme">边框完整，字体清晰，亮度均匀；</span></view>-->
+    <!--<image src="https://images.ufutx.com/202004/17/02b4d82fbfae8f11c2089bbca1957c78.png" mode="widthFix" class="_imge" />-->
     <!--<view class="page-user">-->
       <!--<view class="orderdata">-->
         <!--<view class="Paths" style="margin:30rpx;" @tap="chooseimage">+</view>-->
@@ -50,7 +50,7 @@
   </view>
   <view class="_listItem animation-slide-bottom noBorder" style="animation-delay: 0.3s;margin-top: 80rpx;">
     <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" @tap="ensure" >提交</button>
-    <view class="text-center"><span class="font_24">提交即表明您同意 <span class="color-theme">《服务协议》</span>和<span class="color-theme">《隐私协议》</span></span></view>
+    <!--<view class="text-center"><span class="font_24">提交即表明您同意 <span class="color-theme">《服务协议》</span>和<span class="color-theme">《隐私协议》</span></span></view>-->
   </view>
 </template>
 <script>
