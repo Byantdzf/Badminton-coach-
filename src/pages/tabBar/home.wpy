@@ -95,12 +95,14 @@
                   </view>
                 </view>
               </block>
-              <view class="_time" style="top: 600rpx;">
+              <view class="_time" style="top: 560rpx;">
                 <view class="text-center" style="margin: auto;">
                   <image src="https://images.ufutx.com/202004/19/0b8e6c53183b5952b58f69a347f703df.png" mode="widthFix" style="width: 220rpx;margin: auto;"></image>
                 </view>
               </view>
-              <button class="text-center btn-box white radius shadow inline-block font_26 bg_theme"  @tap="getList()" >刷新</button>
+              <view class="_time text-center" style="top: 448rpx;" wx:if="{{is_profile && is_approved}}">
+                <button  class="text-center btn-box white radius shadow inline-block font_26 bg_theme d_btn"  @tap="goto('/pages/map/mapList')" >更多心仪对象</button>
+              </view>
             </view>
             <view wx:else class="image">
               <view class="_time" style="top: 200rpx;">
@@ -591,4 +593,9 @@
     }
   }
 
+  .d_btn {
+    width: 260rpx;
+    padding: 8rpx 0 !important;
+    letter-spacing: 2rpx;
+  }
 </style>

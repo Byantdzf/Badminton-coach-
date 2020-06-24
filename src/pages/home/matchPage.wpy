@@ -88,7 +88,7 @@
           <view class="title">信仰</view>
           <picker bindchange="PickerChange('beliefIndex')" value="{{beliefIndex}}" range="{{belief}}">
             <view class="picker">
-              {{beliefIndex?belief[beliefIndex]:'请选择'}}
+              {{belief[beliefIndex]}}
             </view>
           </picker>
         </view>
@@ -96,31 +96,31 @@
           <view class="title">年龄</view>
           <picker mode="multiSelector"  value="{{ageIndex}}"
                   range="{{ageArray}}" @change="pickerChangeFn('ageIndex')">
-            <view class="picker" wx:if="{{ageIndex[0]||ageIndex[1]}}">
+            <view class="picker">
               {{ageArray[0][ageIndex[0]]}} ~ {{ageArray[1][ageIndex[1]]}}
             </view>
-            <view class="picker" wx:else>
-              请选择
-            </view>
+            <!--<view class="picker" wx:else>-->
+              <!--请选择-->
+            <!--</view>-->
           </picker>
         </view>
         <view class="cu-form-group ">
           <view class="title">身高</view>
           <picker mode="multiSelector"  value="{{ageIndex}}"
                   range="{{statureArray}}" @change="pickerChangeFn('statureIndex')">
-            <view class="picker" wx:if="{{statureIndex[0]||statureIndex[1]}}">
+            <view class="picker">
               {{statureArray[0][statureIndex[0]]}} ~ {{statureArray[1][statureIndex[1]]}}
             </view>
-            <view class="picker" wx:else>
-              请选择
-            </view>
+            <!--<view class="picker" wx:else>-->
+              <!--请选择-->
+            <!--</view>-->
           </picker>
         </view>
         <view class="cu-form-group ">
           <view class="title">学历</view>
           <picker bindchange="PickerChange('degreeIndex')" value="{{degreeIndex}}" range="{{degree}}">
             <view class="picker">
-              {{degreeIndex?degree[degreeIndex]:'请选择'}}
+              {{degree[degreeIndex]}}
             </view>
           </picker>
         </view>
@@ -130,21 +130,21 @@
         <!--</view>-->
         <view class="cu-form-group ">
           <view class="title">是否认证</view>
-          <picker bindchange="PickerChange('approvedIndex')" value="{{approvedIndex}}" range="{{approved}}">
-            <view class="picker">
-              {{approvedIndex?approved[approvedIndex]:'请选择'}}
-            </view>
-          </picker>
-          <!--<switch class="red sm" checked="{{is_approved}}" @change="switchChange('is_approved')"></switch>-->
+          <!--<picker bindchange="PickerChange('approvedIndex')" value="{{approvedIndex}}" range="{{approved}}">-->
+            <!--<view class="picker">-->
+              <!--{{approvedIndex?approved[approvedIndex]:'请选择'}}-->
+            <!--</view>-->
+          <!--</picker>-->
+          <switch class="red sm" checked="{{is_approved}}" @change="switchChange('is_approved')"></switch>
         </view>
         <view class="cu-form-group ">
           <view class="title">是否有孩子</view>
-          <picker bindchange="PickerChange('hasChildIndex')" value="{{hasChildIndex}}" range="{{hasChildList}}">
-            <view class="picker">
-              {{hasChildIndex?hasChildList[hasChildIndex]:'请选择'}}
-            </view>
-          </picker>
-          <!--<switch class="red sm" checked="{{has_child}}" @change="switchChange('has_child')"></switch>-->
+          <!--<picker bindchange="PickerChange('hasChildIndex')" value="{{hasChildIndex}}" range="{{hasChildList}}">-->
+            <!--<view class="picker">-->
+              <!--{{hasChildIndex?hasChildList[hasChildIndex]:'请选择'}}-->
+            <!--</view>-->
+          <!--</picker>-->
+          <switch class="red sm" checked="{{has_child}}" @change="switchChange('has_child')"></switch>
         </view>
         <view class="cu-form-group ">
           <view class="title">工作城市</view>
@@ -158,7 +158,7 @@
           <view class="title">婚姻状态</view>
           <picker bindchange="PickerChange('stateIndex')" value="{{stateIndex}}" range="{{state}}">
             <view class="picker">
-              {{stateIndex?state[stateIndex]:'请选择'}}
+              {{state[stateIndex]}}
             </view>
           </picker>
         </view>
@@ -354,18 +354,17 @@
     submitFn() {
       let vm = this
       let data = {
-        belief: vm.beliefIndex ? vm.belief[vm.beliefIndex] : '',
-        max_age: vm.ageIndex[1] ? vm.ageArray[1][vm.ageIndex[1]] : '',
-        min_age: vm.ageIndex[0] ? vm.ageArray[0][vm.ageIndex[0]] : '',
+        belief: vm.belief[vm.beliefIndex],
+        max_age: vm.ageArray[1][vm.ageIndex[1]],
+        min_age: vm.ageArray[0][vm.ageIndex[0]],
         province: vm.region[1] ? vm.region[1] : '',
         city: vm.region[2] ? vm.region[2] : '',
-        min_stature: vm.statureIndex[0] ? vm.statureArray[0][vm.statureIndex[0]] : '',
-        max_stature: vm.statureIndex[1] ? vm.statureArray[1][vm.statureIndex[1]] : '',
-        degree: vm.degreeIndex ? vm.degree[vm.degreeIndex] : '',
+        min_stature: vm.statureArray[0][vm.statureIndex[0]],
+        max_stature: vm.statureArray[1][vm.statureIndex[1]],
+        degree: vm.degree[vm.degreeIndex],
+        state: vm.state[vm.stateIndex],
         is_approved: vm.is_approved ? '1' : '0',
-        state: vm.stateIndex ? vm.state[vm.stateIndex] : '',
         has_child: vm.has_child ? '有' : '无'
-        // sex: vm.sex ? '1' : '2'
       }
       console.log(data)
       vm.showSearch = false
@@ -373,7 +372,7 @@
       vm.page = 1
       vm.dataV2 = data
       vm.$apply()
-      vm.update(data)
+      // vm.update(data)
     }
 
     methods = {
