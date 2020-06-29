@@ -115,10 +115,10 @@
       },
         // 到搜索
       backSearch() {
-        if (!this.token) {
-          this.$emit('modalValue', 'ModalLogin')
-          return
-        }
+        // if (!this.token) {
+        //   this.$emit('modalValue', 'ModalLogin')
+        //   return
+        // }
         wx.navigateTo({url: '/pages/map/mapList'})
       },
       goto(url) {
