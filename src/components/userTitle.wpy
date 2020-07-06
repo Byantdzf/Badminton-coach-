@@ -307,10 +307,10 @@
         this.$apply()
       },
       goto(url) {
-        if (!this.token) {
-          this.$emit('modalValue', 'ModalLogin')
-          return
-        }
+        // if (!this.token) {
+        //   this.$emit('modalValue', 'ModalLogin')
+        //   return
+        // }
         wx.navigateTo({url: url})
       },
       gotoUser(type) {
