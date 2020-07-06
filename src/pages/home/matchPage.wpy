@@ -372,7 +372,7 @@
       vm.page = 1
       vm.dataV2 = data
       vm.$apply()
-      // vm.update(data)
+      vm.update(data)
     }
 
     methods = {
