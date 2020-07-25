@@ -243,8 +243,8 @@
       let _this = this
       _this.loading = true
       _this.active_click = false
-      // _this.$showLoading('加载中')
-      let url = `${service.users}/v2?keyword=${this.inputVal}&page=${this.page}`,
+      _this.$showLoading('加载中')
+      let url = `${service.users}?keyword=${this.inputVal}&page=${this.page}`,
         data = {
           page: this.page,
           min_age: _this.ageIndex ? _this.ageList[0][_this.ageIndex[0]] : '不限',
@@ -265,7 +265,6 @@
       }, {
         success: ({code, data}) => {
 //          _this.loading = true
-          wx.hideLoading()
           _this.userMsg = data.user
           _this.message_count = data.message_count
           _this.$apply()
@@ -298,6 +297,7 @@
           _this.noMore = true
           _this.$apply()
           _this.page += 1
+          wx.hideLoading()
         },
         fail: ({code, data}) => {
         },
