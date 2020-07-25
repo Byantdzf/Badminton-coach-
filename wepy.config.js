@@ -3,6 +3,7 @@ var prod = process.env.NODE_ENV === 'production'
 
 module.exports = {
   wpyExt: '.wpy',
+  pageEvents: ['onShareTimeline'],
   build: {
     web: {
       htmlTemplate: path.join('src', 'index.template.html'),

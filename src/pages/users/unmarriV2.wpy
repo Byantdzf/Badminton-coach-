@@ -125,6 +125,7 @@
       </view>
       <view class="padding-xl text-left" style="padding-top: 20rpx;">
         <textarea class="textareaStyle" wx:if="{{modalName=='Modal'}}" maxlength="-1" @input="typing" @blur="typing" adjust-position="true" value="{{user[editType]}}" placeholder="{{placeText}}"/>
+        <view class="font_24 color-666 text-center" style="margin-top: 12rpx;margin-bottom: -12rpx;">为了您的安全，请勿输入联系方式！</view>
         <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top send"  @tap="submitFn">确定
         </button>
       </view>
@@ -183,6 +184,7 @@
       editType: '',
       editText: '',
       placeText: '',
+      inputTest: 0,
       profile_count: '',
       tempMember: 0 // 是否有可领取会员
     }
@@ -192,6 +194,7 @@
       this.$parent.getTracker(this.$root.$name, '个人信息')
       this.getuser()
     }
+
     getuser() {
       let that = this
       this.loading = true
@@ -213,7 +216,17 @@
     }
     methods = {
       typing(e) {
-        console.log(e.detail.value)
+        // let reg = new RegExp('(微信|QQ|qq|weixin|1[0-9]{10}|[0-9]{6,11})+', 'g')
+        // console.log(e.detail.value, reg.test(e.detail.value))
+        // if (reg.test(e.detail.value)) {
+        //   debugger
+        //   this.inputTest = 1
+        //   this.$apply()
+        // } else {
+        //   this.inputTest = 0
+        //   this.$apply()
+        // }
+        console.log(this.editType)
         this.user[this.editType] = e.detail.value
         // this.mylibs[this.editType] = e.detail.value
         this.$apply()
@@ -221,6 +234,11 @@
       submitFn() {
         if (!this.user[this.editType]) {
           this.$showToast('请输入内容')
+          return
+        }
+        let reg = new RegExp('(微信|QQ|qq|weixin|wx|WX|1[0-9]{10}|[0-9]{6,11})+', 'g')
+        if (reg.test(this.user[this.editType])) {
+          this.$showToast('你输入的信息可能含有联系方式，请重新填写！')
           return
         }
         console.log(this.editType, 'editType')

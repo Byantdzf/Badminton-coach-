@@ -3,15 +3,50 @@
     <view class="page__bd">
       <view class="weui-tab">
           <view class="weui-tab__content ff" >
-            <view class="cu-bar bg-white search _tab__content bc_BoxTab ">
+            <view class="cu-bar bg-white search _tab__content bc_BoxTab">
+              <view @tap="gotoUserPage">
+                <image src="{{userMsg.photo || userMsg.circle_avatar}}" mode="aspectFill" class="icon userIcon"></image>
+              </view>
               <view class="search-form round">
                 <text class="cuIcon-search"></text>
                 <input type="text"  placeholder="搜索昵称" class="text-left" confirm-type="search" value="{{inputVal}}" focus="{{inputShowed}}" @confirm="inputTyping" ></input>
               </view>
-              <view @tap="goto('/pages/map/index')"><image src="https://images.ufutx.com/202004/23/979df2c84f559ed94372b28d8b38ac73.jpeg" mode="aspectFill" class="icon" style="margin-right: 8rpx;margin-left: 8rpx;"></image></view>
-              <view @tap="showModal"><image src="https://images.ufutx.com/202004/23/f7014493b4801e0217c9464cdcd74b6a.jpeg" mode="aspectFill" class="icon"></image></view>
+<!--              <view @tap="goto('/pages/map/index')"><image src="https://images.ufutx.com/202004/23/979df2c84f559ed94372b28d8b38ac73.jpeg" mode="aspectFill" class="icon" style="margin-right: 8rpx;margin-left: 8rpx;"></image></view>-->
+<!--              <view @tap="showModal"><image src="https://images.ufutx.com/202004/23/f7014493b4801e0217c9464cdcd74b6a.jpeg" mode="aspectFill" class="icon"></image></view>-->
+              <view @tap="goto('/pages/map/index')">
+                <image src="https://images.ufutx.com/202007/24/bf1f48e2cbdd283977872b2cb5929478.png" mode="aspectFit" class="icon" style="margin-right: 36rpx;margin-left: 8rpx;"></image>
+              </view>
             </view>
-            <view style="height: {{bc_height}}"></view>
+            <view class="Menu-Tab cu-bar" style="top: {{bc_height-12}}px;">
+              <view class="item-Tab text-center">
+                <picker value="{{sexIndex}}" range="{{sexList}}" bindchange="sexChange" range-key="title">
+                  <text class="title ellipsis_1">{{sexIndex>0?sexList[sexIndex].title:sexText}}</text>
+                  <image src="https://images.ufutx.com/202005/18/1a4515381adacd1fca67b3633320fb57.png" class="icon"
+                         mode="aspectFit"></image>
+                </picker>
+              </view>
+              <view class="item-Tab text-center">
+                <picker mode="multiSelector" value="{{ageIndex}}" range="{{ageList}}" bindchange="ageChange">
+                  <text class="title ellipsis_1" wx:if="{{!ageIndex}}">{{ageText}}</text>
+                  <text class="title ellipsis_1" wx:else>{{ageList[0][ageIndex[0]]}}-{{ageList[1][ageIndex[1]]}}</text>
+                  <image src="https://images.ufutx.com/202005/18/1a4515381adacd1fca67b3633320fb57.png" class="icon" mode="aspectFit"></image>
+                </picker>
+              </view>
+              <view class="item-Tab text-center">
+                <selectCity  class="title" style="height: 32rpx">
+                  <view slot="Input">
+                    <text wx:if="{{region[2]}}" class="title ellipsis_1"  style ="max-width: 120rpx;">{{region[2]}}</text>
+                    <text class="title ellipsis_1" wx:else>{{cityText}}</text>
+                    <image src="https://images.ufutx.com/202005/18/1a4515381adacd1fca67b3633320fb57.png" class="icon" mode="aspectFit"></image>
+                  </view>
+                </selectCity>
+              </view>
+              <view class="item-Tab text-center" @tap="showModal">
+                <text class="title ellipsis_1">筛选</text>
+                <image src="https://images.ufutx.com/202005/18/1a4515381adacd1fca67b3633320fb57.png" class="icon" mode="aspectFit"></image>
+              </view>
+            </view>
+            <view style="height: {{bc_height+38}}px;"></view>
             <view class="page__bd "  wx:for="{{list}}" wx:key="*this" style="position: relative;">
               <view class="borrowlist" @tap="gotofriends({{item}})">
                 <view >
@@ -25,8 +60,10 @@
                       <span class="bold">{{item.nickname || item.name}}</span>
                     </view>
                     <view  class="font_28 flo_l" style="margin-left: 6rpx;">
-                      <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFit" wx:if="{{item.sex == '1'}}" style="width: 38rpx;height: 38rpx;margin-bottom: -12rpx;"></image>
-                      <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" mode="aspectFit" wx:else   style="width: 38rpx;height: 38rpx;margin-bottom: -12rpx;"></image>
+                      <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFit" wx:if="{{item.sex == '1'}}" style="width: 38rpx;height: 38rpx;margin-bottom: -12rpx;" class="flo_l"></image>
+                      <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png" mode="aspectFit" wx:else   style="width: 38rpx;height: 38rpx;margin-bottom: -12rpx;" class="flo_l"></image>
+                      <image src="https://images.ufutx.com/202006/15/e9a028b8afc18aa175ea6701591dcf64.png" wx:if="{{item.isSuperRank=='1'}}" mode="widthFix" class="flo_l VIPIcon"></image>
+                      <image src="https://images.ufutx.com/202006/15/77d91cced2e8e8b9815723f8e54554da.png" mode="widthFix" wx:else class="flo_l VIPIcon" ></image>
                     </view>
                     <span class="flo_r color-666">{{item.city || '--'}}</span>
                   </view>
@@ -45,26 +82,33 @@
       </view>
     </view>
     <view class="cu-modal drawer-modal justify-end {{modalName=='DrawerModalR'?'show':''}}" style="z-index: 9999">
-      <!--catchtap="hideModal"-->
       <view class="cu-dialog basis-lg"  style="top:{{CustomBar}}px;height:calc(100vh - {{CustomBar}}px)">
         <view class="cu-list menu text-left">
           <view class="searchStyle">
-            <view class="bold font_28">性别</view>
+            <view class="bold font_28">实名认证？</view>
           </view>
-          <radio-group class="block" bindchange="radioChange('sex')">
-            <view class="cu-form-group" wx:for="{{sexList}}" wx:key="index">
-              <view class="title">{{item.title}}</view>
-              <radio class="radio red" value="{{item.value}}" checked="{{item.active}}"></radio>
-            </view>
+          <radio-group class="block" bindchange="radioChange('approve')">
+            <block wx:for="{{approveList}}" wx:key="index">
+              <label for="{{item.value}}">
+                <view class="cu-form-group">
+                  <view class="title">{{item.title}}</view>
+                  <radio class="radio red" value="{{item.value}}" id="{{item.value}}" checked="{{item.active}}"></radio>
+                </view>
+              </label>
+            </block>
           </radio-group>
           <view class="searchStyle">
-            <view class="bold font_28">年龄</view>
+            <view class="bold font_28">VIP会员？</view>
           </view>
-          <radio-group class="block" bindchange="radioChange('age')">
-            <view class="cu-form-group" wx:for="{{searchList}}" wx:key="index">
-              <view class="title">{{item.title}}</view>
-              <radio class="radio red" value="{{item.value}}" checked="{{item.active}}"></radio>
-            </view>
+          <radio-group class="block" bindchange="radioChange('VIP')">
+            <block wx:for="{{searchList}}" wx:key="index">
+              <label for="{{item.value}}">
+                <view class="cu-form-group">
+                  <view class="title">{{item.title}}</view>
+                  <radio class="radio red" value="{{item.value}}" id="{{item.value}}" checked="{{item.active}}"></radio>
+                </view>
+              </label>
+            </block>
           </radio-group>
         </view>
         <view class="cancel inline-block" catchtap="hideModal">取消</view>
@@ -75,12 +119,12 @@
     <block wx:if="{{loading}}">
       <view class="weui-loadmore">
         <view class="weui-loading"></view>
-        <view class="weui-loadmore__tips ff">正在加载</view>
+        <view class="weui-loadmore__tips " style="background: #f5f5f5">正在加载</view>
       </view>
     </block>
     <block wx:if="{{noMore}}">
-      <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot ff">
-        <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot ff" ></view>
+      <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot " style="background: #f5f5f5">
+        <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot " style="background: #f5f5f5"></view>
       </view>
     </block>
   </view>
@@ -95,20 +139,39 @@
   // import ShareMessage from '../../mixins/ShareMessage'
   // import Search from '../../components/search'
   import pageScroll from '../../components/pageScroll'
+  import selectCity from '../../components/selectCityV2'
   import {getElement_WH} from '../../utils/fn'
 
   export default class mapList extends wepy.page {
     mixins = [base, http, user]
     config = {
-      navigationBarTitleText: '用户列表'
+      navigationBarTitleText: '搜索用户'
     }
     components = {
-      pageScroll
+      pageScroll, selectCity
     }
     data = {
       loaded: false,
       mylibs: [],
       list: [],
+      sexIndex: 0,
+      sexList: [
+        {title: '不限', value: '不限', active: true},
+        {title: '只看男', value: 'single_man', active: false},
+        {title: '只看女', value: 'single_woman', active: false}
+      ],
+      approveList: [
+        {title: '不限', value: '不限', active: true},
+        {title: '已认证', value: '1', active: false},
+        {title: '未认证', value: '2', active: false}
+      ],
+      region: ['', '', ''],
+      region_id: ['', '', ''],
+      ageIndex: 0,
+      ageList: [],
+      sexText: '性别',
+      ageText: '年龄',
+      cityText: '城市',
       page: 1,
       noMore: false,
       loading: false,
@@ -116,25 +179,20 @@
       modalName: '',
       inputVal: '',
       active_click: true, // 何时触发点击
-      sexList: [
-        {title: '不限', value: '0', active: true},
-        {title: '只看男', value: '1', active: false},
-        {title: '只看女', value: '2', active: false}
-      ],
       searchList: [
         {title: '不限', value: '不限', active: true},
-        {title: '90后', value: '90后', active: false},
-        {title: '80后', value: '80后', active: false},
-        {title: '70后', value: '70后', active: false},
-        {title: '60后', value: '60后', active: false}
+        {title: '超级VIP', value: '超级VIP', active: false},
+        {title: '普通会员', value: '普通会员', active: false}
       ],
+      is_approve: '',
+      is_VIP: '',
       title: '',
       message_count: 0,
       parameter: {},
       bc_height: '',
       age: 0,
       sex: 0,
-      sexText: '',
+      userMsg: {}, // 用户信息
       type: 'single'
     }
     computed = {}
@@ -148,15 +206,26 @@
         this.$apply()
       }
       getElement_WH('.bc_BoxTab').then((value) => {
-        this.bc_height = value.height + 'px'
+        this.bc_height = value.height
         this.$apply()
       }).catch((error) => {
         console.log(error)
       })
+      this.getAgeList()
+      this.getLibraries()
     }
     onShow() {
-      this.getLibraries()
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
+    }
+    getAgeList() { // 年龄
+      let list = []
+      for (let num = 20; num < 72; num++) {
+        list.push(`${num}岁`)
+      }
+
+      this.ageList[0] = list
+      this.ageList[1] = list
+      this.$apply()
     }
 
     onPullDownRefresh() {
@@ -172,21 +241,24 @@
     }
     getLibraries(keyword) {
       let _this = this
-        // myLong = wx.getStorageSync('myLong'),
-        // myLat = wx.getStorageSync('myLat'),
-        // address = wx.getStorageSync('address')
       _this.loading = true
       _this.active_click = false
-      _this.$showLoading('加载中')
+      // _this.$showLoading('加载中')
       let url = `${service.users}/v2?keyword=${this.inputVal}&page=${this.page}`,
         data = {
           page: this.page,
-          age: this.age ? this.age : '不限',
-          type: this.sexText ? this.sexText : '不限'
+          min_age: _this.ageIndex ? _this.ageList[0][_this.ageIndex[0]] : '不限',
+          max_age: _this.ageIndex ? _this.ageList[1][_this.ageIndex[1]] : '不限',
+          province: _this.region[1] ? _this.region[1] : '',
+          city: _this.region[2] ? _this.region[2] : '',
+          sex: _this.sexList[_this.sexIndex].value,
+          is_approved: _this.is_approve ? _this.is_approve : '不限',
+          is_rank: _this.is_VIP ? _this.is_VIP : '不限'
         }
-      if (JSON.stringify(_this.parameter) != '{}') {
-        data = _this.parameter
-      }
+      // if (JSON.stringify(_this.parameter) != '{}') {
+      //   data = _this.parameter
+      // }
+      console.log(data)
       this.$get({
         url: url,
         data: data
@@ -194,7 +266,9 @@
         success: ({code, data}) => {
 //          _this.loading = true
           wx.hideLoading()
+          _this.userMsg = data.user
           _this.message_count = data.message_count
+          _this.$apply()
           if (data.users.data.length == 0 && data.users.data.last_page == 1) {
             _this.loading = false
             _this.noMore = true
@@ -238,13 +312,28 @@
       this.$broadcast('showBackTopBtn', show)
     }
     methods = {
+      sexChange(e) { // 性别
+        let vm = this
+        vm.sexIndex = e.detail.value
+        vm.$apply()
+        vm.getLibraries()
+        console.log(this.sexIndex)
+      },
+
+      ageChange(e) { // 年龄
+        let vm = this
+        vm.ageIndex = e.detail.value
+        vm.$apply()
+        vm.getLibraries()
+      },
+
       radioChange(title, e) {
-        console.log(title)
-        if (title == 'sex') {
-          for (let item of this.sexList) {
+        console.log(title, e.detail.value)
+        if (title == 'approve') {
+          for (let item of this.approveList) {
             if (item.value == e.detail.value) {
               item.active = true
-              this.sex = item.value
+              this.is_approve = item.value
               this.$apply()
             }
           }
@@ -252,7 +341,7 @@
           for (let item of this.searchList) {
             if (item.value == e.detail.value) {
               item.active = true
-              this.age = item.value
+              this.is_VIP = item.value
               this.$apply()
             }
           }
@@ -263,16 +352,16 @@
         let vm = this
         this.list = []
         this.modalName = ''
-        if (this.sex == 0) {
-          this.sexText = ''
-          this.$apply()
-        } else if (this.sex == 1) {
-          this.sexText = 'single_man'
-          this.$apply()
-        } else {
-          this.sexText = 'single_woman'
-          this.$apply()
-        }
+        // if (this.sex == 0) {
+        //   this.sexText = ''
+        //   this.$apply()
+        // } else if (this.sex == 1) {
+        //   this.sexText = 'single_man'
+        //   this.$apply()
+        // } else {
+        //   this.sexText = 'single_woman'
+        //   this.$apply()
+        // }
         this.page = 1
         this.$apply()
         setTimeout(() => {
@@ -280,18 +369,18 @@
         })
       },
       hideModal(e) {
-        for (let item of this.sexList) {
+        for (let item of this.approveList) {
           item.active = false
           this.$apply()
         }
-        this.sexList[0].active = true
-        this.sex = this.sexList[0].value
+        this.approveList[0].active = true
+        // this.sex = this.approveList[0].value
         for (let item of this.searchList) {
           item.active = false
           this.$apply()
         }
         this.searchList[0].active = true
-        this.age = this.searchList[0].value
+        // this.age = this.searchList[0].value
         this.modalName = ''
         this.$apply()
       },
@@ -320,6 +409,10 @@
       goto(url) {
         wx.navigateTo({url: url})
       },
+      gotoUserPage() {
+        let url = '/pages/home/information?id=' + this.userMsg.id
+        wx.navigateTo({url: url})
+      },
       gotofriends (item) {
         let url = ''
         if (item.type == 'single') {
@@ -331,6 +424,18 @@
       }
     }
     events = {
+      'selectCity': (value, index) => {
+        let vm = this
+        if (index == 0) {
+          this.region = value
+        } else {
+          this.region_id = value
+        }
+        setTimeout(() => {
+          vm.getLibraries()
+        })
+        this.$apply()
+      },
       'search': (value) => {
         // 搜索返回值
         this.page = 1
@@ -348,7 +453,7 @@
   @import "../../styles/weui/base/fn.wxss";
   @import "../../styles/custom/fn.less";
   page{
-    background: #ffffff;
+    background: #f5f5f5;
     .approved{
       position: absolute;
       left: 54rpx;
@@ -407,6 +512,7 @@
     box-shadow: 1rpx 1rpx 18rpx #d3d3d3;
     border-radius: 12rpx;
     margin: 42rpx auto;
+    margin-bottom: 62rpx;
     background: white;
     overflow: hidden;
   }
@@ -415,16 +521,23 @@
     position: fixed;
     left: 0%;
     z-index: 9999;
+    padding-top: 12rpx;
     .search-form{
       width: 82vw;
       flex: initial;
-      margin-right: 8rpx;
+      margin: 18rpx;
     }
     .icon{
       width: 68rpx;
       height: 68rpx;
-      margin-right: 30rpx;
+      margin-left: 24rpx;
       margin-top: 16rpx;
+    }
+    .userIcon{
+      box-shadow: 1rpx 1rpx 12rpx #e7e7e7;
+      border: 4rpx solid #e7e7e7;
+      border-radius: 50%;
+      animation: myMove 2.5s .15s linear infinite;
     }
   }
   .searchStyle{
@@ -437,5 +550,32 @@
     border: 2rpx solid #d0d0d0;
     border-radius: 32rpx;
     margin: 42rpx 22rpx;
+  }
+  .Menu-Tab{
+    width: 100vw;
+    position: fixed;
+    left: 0%;
+    z-index: 9999;
+    height: 80rpx;
+    background: #ffffff;
+    .item-Tab{
+      width: 25%;
+      height: 46rpx;
+      .title{
+
+      }
+      .icon{
+        vertical-align: middle;
+        width: 32rpx;
+        height: 32rpx;
+        margin-bottom: 24rpx;
+      }
+    }
+  }
+  .VIPIcon{
+    width: 120rpx;
+    height: auto;
+    margin-top: 8rpx;
+    margin-left: 4rpx;
   }
 </style>

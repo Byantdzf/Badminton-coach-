@@ -2,6 +2,10 @@
   <view class="">
     <NavBarV2 rgba="#f4f5f9" bag="#b81f46" title_c="#ffffff" title="福恋"></NavBarV2>
     <view class="_bc-list">
+      <view class="text-center searchBox" @tap="goto('/pages/map/mapList')">
+        <image src="https://images.ufutx.com/202007/24/5b3b942d82741a40d91af8398a01ae4b.png"
+               mode="widthFix" class="approved"></image>
+      </view>
       <block wx:if="{{list.length > 0}}">
         <template is="userList" data="{{list, cardCur, active, countDownList, is_approved, is_profile, token}}"></template>
       </block>
