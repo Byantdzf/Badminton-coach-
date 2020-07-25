@@ -244,8 +244,8 @@
       <block wx:if="{{mylibs.is_messenger && pageType != 'AG'}}">
         <image src="https://images.ufutx.com/202006/13/a27454644b8bc26035020c68c5e4df6e.png" mode="aspectFit" class="matchIcon" @tap="goto('/pages/home/matchPage?id={{mylibs.id}}')"></image>
       </block>
-      <block wx:if="{{mylibs.is_messenger && pageType != 'AG'}}">
-        <image src="https://images.ufutx.com/202007/25/141bea88429fb7f142319e05b8055315.png" mode="aspectFit" class="matchIconV2" @tap="goto('/pages/users/upgradeVIP2')"></image>
+      <block >
+        <image src="https://images.ufutx.com/202007/25/141bea88429fb7f142319e05b8055315.png" mode="aspectFit" class="matchIconV2" @tap="goto('/pages/users/upgradeVIP2?other_user_id={{mylibs.id}}')"></image>
       </block>
       <block wx:if="{{type != 'marriage'}}">
         <view class="blurBox"></view>
@@ -1003,11 +1003,11 @@
         bottom: 28vw;
       }
       .matchIconV2{
-        width: 180rpx;
-        height: 180rpx;
+        width: 140rpx;
+        height: 140rpx;
         position: absolute;
-        right: 6vw;
-        bottom: 48vw;
+        right: 9vw;
+        bottom: 54vw;
       }
       .blurBox {
         position: absolute;

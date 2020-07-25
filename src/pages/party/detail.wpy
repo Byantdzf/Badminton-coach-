@@ -191,11 +191,11 @@
       var url = currentPage.route    // 当前页面url
       var options = currentPage.options    // 如果要获取url中所带的参数可以查看options
       // 拼接url的参数
-      var urlWithArgs = url + '?from_openid=' + wx.getStorageSync('openid')
+      var urlWithArgs = url + '?from_openid=' + wx.getStorageSync('openid') + '&share_type=share'
       for (var key in options) {
         var value = options[key]
         if (key !== 'from_openid') {
-          urlWithArgs = url + '?' + key + '=' + value + '&from_openid=' + wx.getStorageSync('openid')
+          urlWithArgs = url + '?' + key + '=' + value + '&from_openid=' + wx.getStorageSync('openid') + '&share_type=share'
         }
       }
       // urlWithArgs = urlWithArgs.substring(0, urlWithArgs.length - 1)
@@ -219,6 +219,15 @@
         fail: function(res) {
           console.log('转发成功')
         }
+      }
+    }
+
+    onShareTimeline() {
+      let openid = wx.getStorageSync('openid')
+      return {
+        title: `向你推荐《${this.detail.theme}》`,
+        imageUrl: this.detail.thumbnail_poster,
+        query: `from_openid=${openid}&share_type=share`
       }
     }
 

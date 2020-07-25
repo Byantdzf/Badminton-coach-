@@ -168,6 +168,7 @@
       price: 0,
       score: 0,
       rankList: [],
+      other_user_id: '',
       modalName: '', // 弹框支付
       trade_no: '', // 订单号
       system: '' // 机型
@@ -187,7 +188,12 @@
     //   return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
     // }
 
-    onLoad() {
+    onLoad(e) {
+      if (e.other_user_id) {
+        this.other_user_id = e.other_user_id
+        this.$apply()
+        console.log(this.other_user_id,'this.other_user_id')
+      }
       this.rankList = []
       this.system = wx.getStorageSync('system')
       this.$apply()
@@ -240,6 +246,42 @@
         }
       })
     }
+
+    onShareAppMessage(res) {
+      let that = this
+      let openid = wx.getStorageSync('openid')
+      let url = `/pages/users/upgradeVIP2?from_openid=${openid}&share_user_id=${that.id}&share_type=share`
+      console.log(url)
+      return {
+        title: '人工服务套餐',
+        path: url,
+        imageUrl: 'https://images.ufutx.com/202007/25/0db02b82c96b0da207b7d3f6ff517ffb.png',
+        success: function(res) {
+          wx.showToast({
+            title: '转发成功',
+            icon: 'success',
+            duration: 1500
+          })
+          var shareTickets = res.shareTickets
+          if (shareTickets.length == 0) {
+            return false
+          }
+        },
+        fail: function(res) {
+          // 转发失败
+        }
+      }
+    }
+
+    onShareTimeline() {
+      let openid = wx.getStorageSync('openid')
+      return {
+        title: '人工服务套餐',
+        imageUrl: 'https://images.ufutx.com/202007/25/0db02b82c96b0da207b7d3f6ff517ffb.png', // 图片 URL
+        query: `from_openid=${openid}&share_user_id=${this.id}&share_type=share`
+      }
+    }
+
     // 套餐会员数据
     initPageData() {
       let that = this
@@ -349,7 +391,10 @@
         that.modalName = ''
         that.$showLoading('支付中...')
         that.$apply()
-        that.$post({url: url}, {
+        let data = {
+          other_user_id: this.other_user_id
+        }
+        that.$post({url: url, data}, {
           success: ({code, data}) => {
             that.trade_no = data.trade_no
             that.$apply()
