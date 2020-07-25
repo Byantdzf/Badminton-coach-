@@ -314,6 +314,7 @@
     methods = {
       sexChange(e) { // 性别
         let vm = this
+        vm.page = 1
         vm.sexIndex = e.detail.value
         vm.$apply()
         vm.getLibraries()
@@ -322,6 +323,7 @@
 
       ageChange(e) { // 年龄
         let vm = this
+        vm.page = 1
         vm.ageIndex = e.detail.value
         vm.$apply()
         vm.getLibraries()
