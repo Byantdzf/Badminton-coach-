@@ -249,8 +249,8 @@
           page: this.page,
           min_age: _this.ageIndex ? _this.ageList[0][_this.ageIndex[0]] : '不限',
           max_age: _this.ageIndex ? _this.ageList[1][_this.ageIndex[1]] : '不限',
-          province: _this.region[1] ? _this.region[1] : '',
-          city: _this.region[2] ? _this.region[2] : '',
+          province: _this.region[1] ? _this.region[1] : '不限',
+          city: _this.region[2] ? _this.region[2] : '不限',
           sex: _this.sexList[_this.sexIndex].value,
           is_approved: _this.is_approve ? _this.is_approve : '不限',
           is_rank: _this.is_VIP ? _this.is_VIP : '不限'
