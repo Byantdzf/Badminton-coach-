@@ -43,7 +43,7 @@
               </view>
               <view class="item-Tab text-center" @tap="showModal">
                 <text class="title ellipsis_1">筛选</text>
-                <image src="https://images.ufutx.com/202005/18/1a4515381adacd1fca67b3633320fb57.png" class="icon" mode="aspectFit"></image>
+                <image src="https://images.ufutx.com/202005/18/006685ede8d6fa8f965a4d4aaf12d469.png" class="icon" mode="aspectFit"></image>
               </view>
             </view>
             <view style="height: {{bc_height+38}}px;"></view>
@@ -162,8 +162,8 @@
       ],
       approveList: [
         {title: '不限', value: '不限', active: true},
-        {title: '已认证', value: '1', active: false},
-        {title: '未认证', value: '2', active: false}
+        {title: '已认证', value: '已认证', active: false},
+        {title: '未认证', value: '未认证', active: false}
       ],
       region: ['', '', ''],
       region_id: ['', '', ''],
@@ -374,13 +374,14 @@
           this.$apply()
         }
         this.approveList[0].active = true
+        this.is_approve = this.approveList[0].value
         // this.sex = this.approveList[0].value
         for (let item of this.searchList) {
           item.active = false
           this.$apply()
         }
         this.searchList[0].active = true
-        // this.age = this.searchList[0].value
+        this.is_rank = this.searchList[0].value
         this.modalName = ''
         this.$apply()
       },
@@ -565,10 +566,11 @@
 
       }
       .icon{
-        vertical-align: middle;
         width: 32rpx;
         height: 32rpx;
-        margin-bottom: 24rpx;
+        vertical-align: middle;
+        margin-bottom: 4rpx;
+
       }
     }
   }

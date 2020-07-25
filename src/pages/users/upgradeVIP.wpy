@@ -314,6 +314,11 @@
       this.rankList = []
       this.system = wx.getStorageSync('system')
       this.$apply()
+      if (this.system == 'iOS') {
+        this.$redirectTo('/pages/users/upgradeVIP2')
+        return
+      }
+        // share_type
       console.log(this.system)
       this.getPageData()
       this.getUserData()
@@ -334,6 +339,42 @@
         complete: () => {}
       })
     }
+
+    onShareAppMessage(res) {
+      let that = this
+      let openid = wx.getStorageSync('openid')
+      let url = `/pages/users/upgradeVIP?from_openid=${openid}&share_user_id=${that.id}&share_type=share`
+      console.log(url)
+      return {
+        title: '会员中心',
+        path: url,
+        imageUrl: 'https://images.ufutx.com/202004/10/9d3829a6ad06cf95b32806fbc4f7dd94.png',
+        success: function(res) {
+          wx.showToast({
+            title: '转发成功',
+            icon: 'success',
+            duration: 1500
+          })
+          var shareTickets = res.shareTickets
+          if (shareTickets.length == 0) {
+            return false
+          }
+        },
+        fail: function(res) {
+          // 转发失败
+        }
+      }
+    }
+
+    onShareTimeline() {
+      let openid = wx.getStorageSync('openid')
+      return {
+        title: '会员中心',
+        imageUrl: 'https://images.ufutx.com/202004/10/9d3829a6ad06cf95b32806fbc4f7dd94.png', // 图片 URL
+        query: `from_openid=${openid}&share_user_id=${this.id}&share_type=share`
+      }
+    }
+
     getPageData() {
       let vm = this
       vm.$showLoading('加载中')
