@@ -1,157 +1,134 @@
 <template>
-  <template is="msgItemAndroid" data="{{rankData,moreIcon,rankList, user, system}}"/>
-  <template name="msgItemiOS">
-    <view style="position: relative;">
-      <image src="https://images.ufutx.com/201907/19/06e64f099dab71189ce1298c776c537f.png"  mode="widthFix" style="width: 100vw;position: absolute;z-index: 1"></image>
-      <view class="mainIosBox">
-        <view class="mainItem text-center flo_l">
-          <view class="ff mainIosItem text-center">
-            <image src="https://images.ufutx.com/201911/14/1dc0c5279ebc7d8314b19dd4219c0194.png" mode="widthFix"></image>
-          </view>
-          <view class="font_24 white">线下AG配对服务</view>
-        </view>
-        <view  class="flo_l white" style="font-size: 72rpx;margin-top: -6rpx;">+</view>
-        <view class="mainItem text-center flo_l">
-          <view class="ff mainIosItem text-center">
-            <image src="https://images.ufutx.com/201911/14/daf113faaee1b85e291c8225b8701251.png" mode="widthFix"></image>
-          </view>
-          <view class="font_24 white">线上会员服务</view>
-        </view>
-        <view  class="flo_l white" style="font-size: 72rpx;margin-top: -6rpx;">=</view>
-        <view class="flo_l " style="margin-left: 38rpx;">
-          <view class="font_26 white bold">更高效</view>
-          <view class="font_26 white bold">更有质量</view>
-          <view class="font_26 white bold">帮助你脱单</view>
-          <view class="font_26 white bold">......</view>
-        </view>
-      </view>
-    </view>
-    <view class="mainInfo" style="z-index: -2">
-      <view class="font_28">
-        <span><span class="discountsStyle font_24">限时优惠</span><span class="bold color-theme">《AG线下配对服务》：</span></span>
-      </view>
-      <view style="text-indent: 2em;padding: 8rpx 0;border-bottom: 1rpx solid #f0f0f0;" class="color-666 font_26">
-        <view>为你提供更高效、更准确、有质量的线下人工智能匹配，一对一的服务模式。</view>
-        <view>活动期间，凡购买《AG线下配对服务》均可参加群内组织的线下活动及赠送一年本平台价值99元（原价199元）的年费线上会员</view>
-      </view>
-      <view class="font_28" style="margin-top: 32rpx;">
-        <span><span class="discountsStyle font_24">赠送</span><span class="bold color-theme">《线上会员》：</span></span>
-      </view>
-      <view style="text-indent: 2em;padding: 8rpx 0;border-bottom: 1rpx solid #f0f0f0;" class="color-666 font_26">
-        赠送价值99元（原价199元）的黄金会员
-      </view>
-      <view>
-        <span class="font_26 bold color-666" style="text-indent: 2em;">会员权益：</span>
-        <view class="scroll-wrapper">
-          <scroll-view scroll-x="{{true}}" scroll-with-animation style="height: 240rpx;">
-            <view class="inline-block text-center scroll-item" wx:for="{{feature}}" wx:key="index">
-              <image src="{{item.icon}}" mode="aspectFit" class="featureIcon"></image>
-              <view class="font_22">{{item.text}}</view>
-            </view>
-          </scroll-view>
-        </view>
-      </view>
-      <view style="height: 12vw"></view>
-      <view class="white main-btn-box text-center">
-        <view class="main-btn font_28" @tap="showModal">立即购买</view>
-      </view>
-    </view>
-  </template>
-  <template name="msgItemAndroid">
-    <block  wx:if="{{system != 'iOS'}}">
-      <view class="_bc-user">
-        <image class="userinfo-avatar" src="{{user.circle_avatar}}" mode="aspectFill"/>
-        <view class="white flo_l font_32 userinfo-name"><span class="bold">{{user.name}} </span> <span
-          class="orange font_28">（{{user.rank_name?user.rank_name+'VIP':'未激活'}}）</span></view>
-        <view class="font_24 white flo_l" style="width: 70%;border-bottom: 1rpx solid white;">
-          到期时间：{{user.rank_deadline?user.rank_deadline:'未激活'}}
-        </view>
-      </view>
-      <view class="clearfloat"></view>
-    </block>
-    <view class="main-box" style="{{system == 'iOS'?'margin-top: 2vw;':''}}">
-      <view class="main-item"  wx:for="{{rankList}}" wx:key="index" @tap="VIPDetail({{index}},{{item}})">
-        <view class="item-title font_26 bold">
-          <image class="item-icon" src="{{item.icon}}" mode="aspectFill"/>
-          <span wx:if="{{item.name.length > 5}}">{{item.name}}</span>
-          <span wx:else>{{item.name}}VIP</span>
-          <span class="flo_r item-price" wx:if="{{item.min_discount_price !== item.max_discount_price}}">￥{{item.min_discount_price}}~￥{{item.max_discount_price}}</span>
-          <span class="flo_r item-price" wx:else>￥{{item.min_discount_price}}</span>
-        </view>
-        <view class="item-cen">
-          <view class="flo_l font_22">
-            <view wx:for="{{item.feature}}" wx:for-item="explain" wx:key="index" wx:if="{{index<3}}">
-              {{explain.text?explain.text:explain}}
-            </view>
-          </view>
-          <view class="flo_r font_22 text-right">
-            <view style="text-decoration: line-through" wx:if="{{item.min_price !== item.max_price}}">￥{{item.min_price}}~￥{{item.max_price}}</view>
-            <view style="text-decoration: line-through" wx:else>￥{{item.min_price}}</view>
-            <!--<view class="item-btn text-center flo_r" style="background: #D92553;color: white;" wx:if="{{index == 0}}">查看服务</view>-->
-            <view class="item-btn text-center flo_r" >立即购买</view>
-          </view>
-        </view>
-      </view>
-    </view>
-  </template>
-  <modalUp>
-    <view slot="wrapper" class="wrapper">
-      <view class="header">
-        <image src="http://images.ufutx.com/201903/05/cbc22feb2fcbd4b43173f763c6a46107.png" mode="aspectFit"
-               class="image"></image>
-        <span class="font_28 bold">福恋</span>
-      </view>
-      <view class="font_28 bold list_item">
-        账单详情:
-        <span class="flo_r font_28"> <span class="orange bold">《AG线下配对服务》限时套餐</span></span>
-      </view>
-      <view class="font_28 bold list_item">
-        <span class="bold">订单支付：</span>
-        <span class="flo_r">{{price}}元</span>
-      </view>
-      <view class="font_28 bold list_item">
-        <span class="bold">我的福分：</span>
-        <span class="flo_r">{{score}}</span>
-      </view>
-      <block wx:if="{{show}}">
-        <view class="font_28 bold list_item">
-          <span class="bold">剩余福分：</span>
-          <span class="flo_r orange">{{residue}}</span>
-        </view>
+  <cuCustom  bgColor="bg-vip"  isCustom="{{true}}">
+    <view slot="backText">返回</view>
+    <view slot="content">人工服务套餐</view>
+  </cuCustom>
+  <view class="_bc-user animation-slide-top">
+<!--    <view class="mainTab text-center font_30">-->
+<!--      <view class="white itemText inline-block {{active == 0?'active':''}}" @tap="activeFn('0')">超级会员</view>-->
+<!--      <view class="white itemText inline-block {{active == 1?'active':''}}" @tap="activeFn('1')">会员套餐</view>-->
+<!--    </view>-->
+    <image class="userinfo-avatar flo_l" src="{{user.photo}}" mode="aspectFill"/>
+    <view class="white flo_l font_32 userinfo-name">
+      <span class="bold">{{user.nickname}} </span>
+      <block wx:if="{{user.rank_id > 0}}">
+        <image class="icon" src="https://images.ufutx.com/202004/09/ce3522d17ae95986b88a1e6d07b12c4e.png" mode="aspectFill"/>
+        <span class="orange font_22">超级会员</span>
       </block>
       <block wx:else>
-        <view class="font_28 bold list_item">
-          <span class="bold">现金支付：</span>
-          <span class="flo_r orange">{{monay}}元</span>
-        </view>
+        <image class="icon" src="https://images.ufutx.com/202004/10/eb8b12c7330f16b732d47baef2012906.png" mode="aspectFill"/>
+        <span class="white font_22">普通会员</span>
       </block>
-      <view class="btn-item">
-        <button size="mini" type="default" @tap="listenerCancel1">取消支付</button>
-        <button size="mini" class="flo_r bc_primary white" @tap="conversion({{rank}})">确认支付</button>
-      </view>
     </view>
-  </modalUp>
-  <modalUpQr>
-    <view slot="wrapper" class="mainBox">
-      <view class="font_28 color-666"><span class="bold">尊敬的会员！</span>您好：</view>
-      <view class="font_26 color-666" style="text-indent: 2em">感谢你购买《AG人工智能匹配+黄金VIP》套餐，为了更好的服务到您，请您按照如下操作进行：</view>
-      <view class="font_26 color-666" style="text-indent: 2em">1、添加《小恋》微信号,Ta将为你一对一的服务</view>
-      <view class="font_26 color-666 bold" style="text-indent: 4em;margin-top: 8rpx;">
-        ·  <span class="green" @tap="copyWechat(Ufutx-Eli)">复制</span>
-        小恋微信号：
-        <span @tap="copyWechat(Ufutx-Eli)" class="orange" style="text-decoration: underline ">Ufutx-Eli</span>
-        ,在下图示例中添加
-        <view style="margin-top: 22rpx;">
-          <image src="https://images.ufutx.com/201911/14/f3a7475e85b7e3de012aaa08fa485e27.png" mode="widthFix" style="width: 70vw;"></image>
+    <view class="font_24 white flo_l" style="color: #f7e4ad;width: 70%; ">
+      {{user.rank_deadline?user.rank_deadline+'到期':'未激活'}}
+    </view>
+    <swiper class="card-swiper" circular="true"  bindchange="cardSwiper">
+      <swiper-item wx:for="{{rankList}}" wx:key="index" class="{{cardCur==index?'cur':''}}"  @tap="showFn({{index}})">
+        <view class="swiper-item radius shadow margin-top {{active == '0'?'bg-grey':'bg-grey'}} {{item.id?'':'bg-grey'}}">
+          <image src="{{item.pic}}" mode="aspectFill"></image>
+          <!--<video src="{{item.url}}" autoplay loop muted show-play-btn="{{false}}" controls="{{false}}" objectFit="cover" wx:if="{{item.type=='video'}}"></video>-->
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+  <view class="mainWrapper animation-slide-bottom">
+    <view class="font_30 bold color-333 title">服务套餐权益：</view>
+    <view class="scroll-wrapper">
+      <scroll-view scroll-x="{{true}}" scroll-with-animation style="height: 264rpx;">
+        <view class="inline-block text-center scroll-item" wx:for="{{specialVIP.feature}}" wx:key="index">
+          <image src="{{item.icon}}" mode="aspectFit" class="featureIcon"></image>
+          <view class="font_22">{{item.text}}</view>
+          <view class="font_22" style="color: #B15E00">{{item.sub_text}}</view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+  <view class="mainWrapper">
+    <view class="font_30 bold color-333 title">套餐说明：</view>
+    <view class="ruleBox">
+      <block wx:if="{{specialVIP}}">
+        <view class="font_24 color-666" wx:for="{{specialVIP.explain || specialVIP.discount_desc}}"  wx:key="index">{{item}}</view>
+      </block>
+      <block wx:else>
+        <view class="font_24 color-666 placeholderStyle" wx:for="{{5}}"  wx:key="index" style="width:{{100/index}}%"></view>
+      </block>
+    </view>
+  </view>
+  <view class="payBtn" wx:if="{{system != 'iOS' || active == '1'}}" @tap="showFn()">
+    <view class="l_text">
+      <span class="font_32 bold">
+        <span>￥</span>{{specialVIP.discount_price}}
+      </span>
+<!--      <span style="text-decoration: line-through;" class="font_22">{{specialVIP.price}}</span>-->
+    </view>
+    <view class="r_text">
+      <span class="font_32">
+        立即购买
+      </span>
+    </view>
+  </view>
+  <view class="cu-modal {{modalName=='Modal'?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">提示</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
         </view>
       </view>
-      <view class="font_26 color-666" style="text-indent: 2em; margin-top: 8rpx;">2、领取并填写
-        <span class="orange bold" @tap="showToast('添加《小恋》后，为你提供专属服务！')">《AG体检表》</span>
+      <view class="padding-xl">
+        由于相关规范，ios小程序此功能暂不可用
       </view>
-      <view class="font_26 color-666" style="text-indent: 2em; margin-top: 8rpx;">3、小恋将为你智能匹配出适合你的那个TA！</view>
-      <view class="font_26 color-666" style="text-indent: 3.5em;">带你摆脱单身，走向幸福之路！</view>
     </view>
-  </modalUpQr>
+  </view>
+<!--  弹框-->
+  <view class="cu-modal {{modalName=='DialogModal'?'show':''}}">
+    <view class="cu-dialog">
+      <view class="cu-bar bg-white justify-end">
+        <view class="content">支付信息</view>
+        <view class="action" bindtap="hideModal">
+          <text class="cuIcon-close text-red"></text>
+        </view>
+      </view>
+      <view class="padding-xl">
+        <view class="item-xl text-left">
+          <span class="title color-666">账单详情：</span>
+          <span class="value flo_r color-theme">{{payData.title}}</span>
+        </view>
+        <view class="item-xl text-left">
+          <span class="title color-666">会员原价：</span>
+          <span class="value flo_r color-999 " style="text-decoration: line-through;" >{{payData.price}}元</span>
+        </view>
+        <view class="item-xl text-left">
+          <span class="title color-666">订单支付：</span>
+          <span class="value flo_r color-999">{{payData.discount_price}}元</span>
+        </view>
+        <view class="item-xl text-left">
+          <span class="title color-666">我的福分：</span>
+          <span class="value flo_r color-999">{{payData.remain_amount}}</span>
+        </view>
+        <view class="item-xl text-left">
+          <span class="title color-666">实付款：</span>
+          <span class="value flo_r color-theme bold">{{payData.monay}}元</span>
+        </view>
+        <view class="text-left font_26 color-666" style="margin-top: 22rpx;margin-bottom: -22rpx" @tap="activeFnV2">
+          <image src="https://images.ufutx.com/202006/18/e252dce5e007333ccd6b86a149c14a40.png" mode="aspectFit" class="iconV2" wx:if="{{activeV2}}"></image>
+          <image src="https://images.ufutx.com/202006/18/2b234f0a7d8c1b7f97e98ee597a1f2c1.png" mode="aspectFit" class="iconV2" wx:else></image>
+          <span class="title">同意并已详细阅读<span class="color-theme" @tap.stop="gotoApp({{payData.title}})">《福恋人工服务协议》</span></span>
+        </view>
+      </view>
+      <view class="cu-bar bg-white">
+        <view class="action margin-0 flex-sub solid-left" bindtap="hideModal">取消</view>
+        <view class="action margin-0 flex-sub text-green " bindtap="conversion" wx:if="{{activeV2}}">
+          <text class="cuIcon-moneybag"></text>微信支付
+        </view>
+        <view class="action margin-0 flex-sub text-gray " wx:else bindtap="showTost">
+          <text class="cuIcon-moneybag"></text>微信支付
+        </view>
+      </view>
+    </view>
+  </view>
+  <view style="height: 120rpx;"></view>
 </template>
 
 <script>
@@ -161,66 +138,39 @@
   import Loading from '../../components/loading'
   import NavBar from '../../components/NavBar'
   import modalUp from '../../components/modal-up'
-  import ShareMessage from '../../mixins/ShareMessage'
+  import cuCustom from '../../components/cu-custom'
+  // import ShareMessage from '../../mixins/ShareMessage'
   import { service } from '../../config.js'
 
   export default class upgradeVIP extends wepy.page {
-    mixins = [base, http, ShareMessage]
+    mixins = [base, http]
     config = {
-      navigationBarTitleText: 'VIP服务',
-      enablePullDownRefresh: false
+      navigationBarTitleText: '服务套餐',
+      enablePullDownRefresh: false,
+      navigationStyle: 'custom'
     }
     components = {
-      Loading, NavBar, modalUp, modalUpQr: modalUp
+      Loading, NavBar, modalUp, cuCustom
     }
     data = {
       user: {},
       is_vip: false,
       init: false,
       date: 0,
-      tabs: [
-        {name: '市级VIP', id: 0, type: '市级'},
-        {name: '黄金VIP', id: 1, type: '黄金'},
-        {name: '钻石VIP', id: 2, type: '钻石'}
-      ],
-      PriceIndex: 0,
-      type: '黄金VIP+(AG智能匹配)',
-      activeIndex: 1,
-      sliderOffset: 0,
-      sliderLeft: 0,
-      sliderWidth: 180,
-      screenWidth: 360,
+      active: 1,
+      activeV2: false,
+      swiperList: [],
+      cardCur: 0,
+      specialVIP: [],
+      payData: {}, // 支付信息
       rank: [],
       rankData: [],
       price: 0,
-      monay: 0,
-      showPay: false,
-      show: true,
-      hide: true,
       score: 0,
-      my_rank_price: 0,
-      my_rank_name: '',
-      feature: [],
       rankList: [],
-      system: '', // 机型
-      message: {},
-      morePay: false, // 更多pay
-      moreIcon: false, // 更多icon
-      sub_ranks: [
-        {
-          title: '连续包年',
-          price: 88,
-          discount: '折合 ￥7.33/月'
-        }, {
-          title: '连续包年',
-          price: 88,
-          discount: '折合 ￥7.33/月'
-        }, {
-          title: '连续包年',
-          price: 88,
-          discount: '折合 ￥7.33/月'
-        }
-      ]
+      modalName: '', // 弹框支付
+      trade_no: '', // 订单号
+      system: '' // 机型
     }
     computed = {
       residue() {
@@ -230,91 +180,57 @@
 
     onShow() {
       // 初始化页面数据
+      this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
+    }
+
+    // onShareAppMessage(res) {
+    //   return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
+    // }
+
+    onLoad() {
       this.rankList = []
       this.system = wx.getStorageSync('system')
       this.$apply()
       console.log(this.system)
-      if (this.system == 'iOS') {
-        this.getPageData()
-      } else {
-        this.getPageData()
-        setTimeout(() => {
-          this.initPageData()
-        })
-      }
-      this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
-    }
-
-    onShareAppMessage(res) {
-      return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
-    }
-
-    onLoad() {
-      this.tabIndex()
-      this.system = wx.getStorageSync('system')
-      // if (this.system == 'iOS') {
-      //   wx.setNavigationBarTitle({
-      //     title: 'AG线下配对服务'
-      //   })
-      // }
-      let date = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + (new Date().getDate())
-      this.compare(date, '2019-9-1')
-      this.$apply()
-    }
-
-    compare(date1, date2) {
-      let oDate1 = new Date(date1)
-      let oDate2 = new Date(date2)
-      if (oDate1.getTime() > oDate2.getTime()) { // 转换成毫秒进行比较
-        this.date = 1
-        this.$apply()
-        console.log(this.date)
-      } else {
-        console.log('bi')
-      }
-    }
-    tabIndex() {
-      let _this = this
-      wx.getSystemInfo({
-        success: function (rst) {
-          _this.screenWidth = rst.screenWidth
-        }
-      })
-      _this.sliderWidth = _this.screenWidth / this.tabs.length
-      _this.sliderLeft = 0
-      _this.sliderOffset = _this.screenWidth / this.tabs.length * this.activeIndex
-    }
-
-    onPullDownRefresh() {
       this.initPageData()
-    }
-    NumberPrice(list) {
-      list.forEach((item, index, arr) => {
-        arr[index].money = parseFloat(arr[index].price)
-      })
+      this.getUserData()
     }
 
+    onPullDownRefresh() {}
+
+    getUserData() { // 用户基本信息
+      let vm = this
+      vm.$get({url: `${service.host}/user/simple/info`}, {
+        success: ({code, data}) => {
+          vm.user = data
+          vm.payData.remain_amount = data.remain_amount
+          vm.$apply()
+          console.log(data)
+        },
+        fail: ({code, data}) => {},
+        complete: () => {}
+      })
+    }
     getPageData() {
       let vm = this
       vm.$showLoading('加载中')
-      vm.$get({url: `${service.host}/single/services`}, {
+      vm.$get({url: `${service.host}/super/rank`}, {
         success: ({code, data}) => {
-          wx.hideLoading()
-          console.log(data)
-          data.map((item, index) => {
-            vm.rankList.push({
-              id: item.id,
-              name: item.title,
-              icon: 'https://images.ufutx.com/201911/13/7d21924d35bc8d34cc9971b0fa366741.png',
-              max_price: item.price,
-              min_price: item.price,
-              max_discount_price: item.discount_price,
-              min_discount_price: item.discount_price,
-              feature: item.desc
-            })
-          })
+          vm.specialVIP = data
+          vm.rankList = data.sub_ranks
+          // if (vm.system == 'iOS') {
+          //   vm.rankList = [
+          //     {pic: 'https://images.ufutx.com/202004/11/3ccfd5478ea792e8793c7eebbf152511.png'},
+          //     {pic: 'https://images.ufutx.com/202004/11/cbc6bdbbbee7881f9c6e97f36aad4639.png'},
+          //     {pic: 'https://images.ufutx.com/202004/11/684d70c9b43dab6e9c83e0a53bf8029f.png'}
+          //   ]
+          // }
+          vm.payData.title = `超级会员（${vm.rankList[0].name}）`
+          vm.payData.price = `${vm.rankList[0].price}`
+          vm.payData.discount_price = `${vm.rankList[0].discount_price}`
           vm.$apply()
           console.log(vm.rankList)
+          wx.hideLoading()
         },
         fail: ({code, data}) => {
         },
@@ -324,76 +240,87 @@
         }
       })
     }
-    // 初始化页面数据
+    // 套餐会员数据
     initPageData() {
-      let that = this,
-        data = {
-          name: that.type
-        }
+      let that = this
       that.$showLoading('加载中')
-      this.$get({url: `${service.ranks}/list`, data}, {
+      this.$get({url: `${service.host}/single/services/v2`}, {
         success: ({code, data}) => {
-          wx.hideLoading()
-          that.user = data.user
-          let url = ''
-          data.list.map((item, index) => {
-            if (index == 0) {
-              url = 'https://images.ufutx.com/201911/28/29e1821ba8f9347052eaa1b0bfe9b2f5.png'
-            } else if (index == 1) {
-              url = 'https://images.ufutx.com/201911/28/10e7c0aa562b54c847ebf4a0b0581f39.png'
-            } else {
-              url = 'https://images.ufutx.com/201911/28/012d3a8d93a1ae129f90b878a585b8fd.png'
-            }
-            that.rankList.push({
-              name: item.name,
-              icon: url,
-              id: item.id,
-              max_price: item.max_price,
-              min_price: item.min_price,
-              max_discount_price: item.max_discount_price,
-              min_discount_price: item.min_discount_price,
-              feature: item.feature
-            })
-          })
+          that.rankList = data
+          that.specialVIP = data[0]
+          that.payData.title = `${that.rankList[0].title}`
+          that.payData.price = `${that.rankList[0].price}`
+          that.payData.discount_price = `${that.rankList[0].discount_price}`
           that.$apply()
+          wx.hideLoading()
+          console.log(that.rankList, 'rankList')
         },
         fail: ({code, data}) => {
         },
         complete: () => {
-          this.loaded = false
-          this.init = true
         }
       })
     }
-    // 初始化页面数据
-    initIosData() {
-      let that = this,
-        data = {
-          name: '黄金'
+    watch = {
+      cardCur() {
+        console.log('payData', this.cardCur)
+        if (this.active == 1) {
+          console.log(this.rankList[this.cardCur])
+          this.payData.title = this.rankList[this.cardCur].title
+          this.payData.price = this.rankList[this.cardCur].price
+          this.payData.discount_price = this.rankList[this.cardCur].discount_price
+          this.$apply()
+        } else {
+          this.payData.title = `超级会员（${this.rankList[this.cardCur].name}）`
+          this.payData.price = this.rankList[this.cardCur].price
+          this.payData.discount_price = this.rankList[this.cardCur].discount_price
+          this.$apply()
         }
-      that.$showLoading('加载中')
-      this.$get({url: `${service.ranks}/v2`, data}, {
-        success: ({code, data}) => {
-          wx.hideLoading()
-          that.rankData = data.rank
-          that.score = data.score.remain_amount
-          that.user = data.user
-          that.sub_ranks = data.rank.sub_ranks
-          that.PriceIndex = 0
-          that.feature = data.rank.feature
-          that.$apply()
-          console.log(that.feature)
-        },
-        fail: ({code, data}) => {
-        },
-        complete: () => {
-          this.loaded = false
-          this.init = true
-        }
-      })
+      }
     }
-
     methods = {
+      gotoApp(item) {
+        let URL = `https://love.ufutx.com/mobile/#/serviceAgreement?title=${item}`
+        wx.navigateTo({url: '/pages/books/bookDetail?url=' + encodeURIComponent(URL)})
+      },
+      activeFnV2() {
+        this.activeV2 = !this.activeV2
+        this.$apply()
+      },
+      cardSwiper(e) {
+        this.cardCur = e.detail.current
+        this.$apply()
+        if (this.active == 1) {
+          console.log(this.cardCur)
+          this.specialVIP = this.rankList[this.cardCur]
+          this.$apply()
+        }
+      },
+      showFn (index) { // 弹框支付
+        if (this.rankList[this.cardCur].id) {
+          this.modalName = 'DialogModal'
+          let monay = this.payData.discount_price - this.payData.remain_amount
+          this.payData.monay = Math.abs(monay).toFixed(2)
+          this.payData.payId = this.rankList[this.cardCur].id
+          this.$apply()
+        } else {
+          this.modalName = 'Modal'
+          this.$apply()
+        }
+      },
+      hideModal () {
+        this.modalName = ''
+        this.$apply()
+      },
+      activeFn(code) {
+        this.active = code
+        this.$apply()
+        if (code == 1) {
+          this.initPageData()
+        } else {
+          this.getPageData()
+        }
+      },
       copyWechat(data) {
         let vm = this
         wx.setClipboardData({
@@ -406,88 +333,31 @@
       showToast(title) {
         this.$showToast(title)
       },
-      VIPDetail(index, item) {
-        // if (index == 0) {
-        //   this.$invoke('modalUpQr', 'showModal')
-        //   return
-        // }
-        this.$goto(`/pages/users/vipDetail?name=${item.name}&id=${item.id}`)
-      },
-      // 打开更多
-      openMore(data) {
-        this[data] = !this[data]
-        this.$apply()
-      },
-      // 选择价钱
-      SelectPrice(index) {
-        this.PriceIndex = index
-        this.$apply()
-      },
-      // 选择会员
-      tabClick(type, e) {
-        this.type = type
-        this.sliderOffset = e.currentTarget.offsetLeft
-        this.activeIndex = e.currentTarget.id
-        if (e.currentTarget.id != 0) {
-          this.showPay = true
-          this.$apply()
-        } else {
-          this.showPay = false
-          this.$apply()
-        }
-        this.initPageData()
-      },
-      showModal() {
-        let item = this.sub_ranks[this.PriceIndex]
-        this.rank = this.sub_ranks[this.PriceIndex]
-        this.hide = false
-        this.price = item.discount_price
-        let monay = this.score - this.price
-        if (monay < 0) {
-          this.show = false
-          this.monay = Math.abs(monay).toFixed(2)
-        } else {
-          this.show = true
-        }
-        this.$apply()
-        this.$invoke('modalUp', 'showModal')
-      },
-      listenerCancel1() {
-        this.$invoke('modalUp', 'hideModal')
-        this.hide = true
-        this.$apply()
-      },
-      modalChange2() {
-        this.hide = true
-        this.message = {}
-        this.$apply()
-        wx.showToast({
-          title: '升级成功！',
-          icon: 'success',
-          duration: 1000
-        })
-      },
       goto(url) {
         wx.navigateTo({url: url})
       },
+      showTost() {
+        this.$showToast('请同意《福恋服务协议》')
+      },
       conversion(item) {
+        console.log(this.payData.payId)
         let that = this,
-          data = {
-            sub_rank_id: '9'
-          }
-        that.hide = true
-        that.$invoke('modalUp', 'hideModal')
+          url = `${service.host}/user/recharge/v2?sub_rank_id=${this.payData.payId}`
+        if (that.active == 1) {
+          url = `${service.host}/buy/single/services/${this.payData.payId}`
+        }
+        that.modalName = ''
         that.$showLoading('支付中...')
         that.$apply()
-        that.$post({url: `${service.host}/user/recharge/v2`, data}, {
+        that.$post({url: url}, {
           success: ({code, data}) => {
             that.trade_no = data.trade_no
             that.$apply()
             if (data.wx_pay.length == 0) {
               that.$post({url: `${service.orderpay}/${that.trade_no}/v2`}, {
                 success: ({code, data}) => {
+                  that.getUserData()
                   that.$Toast_success('支付成功')
-                  that.$invoke('modalUpQr', 'showModal')
                 },
                 fail: ({code, data}) => {
                 },
@@ -500,10 +370,8 @@
               if (wxconfig.payment_debug) {
                 return that.$post({url: `${service.orderpay}/${that.trade_no}/v2`}, {
                   success: ({code, data}) => {
+                    that.getUserData()
                     that.$Toast_success('支付成功')
-                    setTimeout(() => {
-                      that.$gotoTab('/pages/tabBar/user')
-                    }, 1200)
                   },
                   fail: ({code, data}) => {
                   },
@@ -520,10 +388,8 @@
                 success: function (res) {
                   that.$post({url: `${service.orderpay}/${that.trade_no}/v2`}, {
                     success: ({code, data}) => {
+                      that.getUserData()
                       that.$Toast_success('支付成功')
-                      setTimeout(() => {
-                        that.$gotoTab('/pages/tabBar/user')
-                      }, 1200)
                     },
                     fail: ({code, data}) => {
                     },
@@ -544,15 +410,11 @@
           fail: ({code, data}) => {
           },
           complete: () => {
-            this.loaded = false
             setTimeout(() => {
               wx.hideLoading()
             }, 1200)
           }
         })
-      },
-      radioChange: function (e) {
-        console.log('radio发生change事件，携带value值为：', e.detail.value)
       }
     }
   }
@@ -562,270 +424,133 @@
   @import "../../styles/custom/fn.less";
   @import "../../styles/custom/reset.less";
   page{
-    background: #f0f0f0;
-  }
-  .page-user{
-    padding: 32rpx;
-    .paylist{
-      width: 88%;
-      margin: 22rpx;
-      background: white;
-      padding: 22rpx;
-      border-radius: 12rpx;
-      box-shadow: 1rpx 1rpx 12rpx #d3d3d3;
-      position: relative;
-    }
-    .pay{
-      margin: 22rpx;
-    }
-    .model {
-      position: absolute;
-      left: 0;
-      top: 0;
-      background: #d3d3d3;
-      width: 100%;
-      height: 100%;
-      opacity: 0.5;
-      border-radius: 12rpx;
-    }
-    .loveTitle {
-      border-bottom: 1rpx solid #dedede;
-      margin: 22rpx;
-      margin-bottom: 4rpx;
-      background: white;
-      padding: 14rpx 32rpx;
-      margin-top: 0rpx;
-    }
-  }
-  ._bc-user{
-    width: 92%;
-    height: 14vw;
-    background: url('http://images.ufutx.com/201901/07/06dae95685ff4299c09b97ddee48ae1f.png');
-    padding: 6vw 4% 1vw 4%;
-    position: relative;
-    position: fixed;
-    top: 0;
-    .userinfo-avatar {
-      float: left;
-      width: 130rpx;
-      height: 130rpx;
-      border-radius: 50%;
-      margin-left: 12rpx;
-      margin-right: 22rpx;
-      box-shadow: 0 0 20rpx #bdbdbd;
-    }
-    .userinfo-name{
-      margin-top: 12rpx;
-    }
-  }
-  .weui-navbar__item{
-    padding: 16rpx 0;
-  }
-  .weui-navbar{
-    border: none;
-    .weui-navbar__slider{
-      background: orange;
-      width: 100rpx; left: 10%;
-      border-radius: 32rpx;
-    }
-  }
-  ._btn-buy{
-    width: 100%;
-    background: white;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    padding: 32rpx 0;
-    box-shadow: 0rpx -12rpx 12rpx #f1f1f1;
-    .item-price{
-      width: 25%;
-      margin-left: 20rpx;
-      padding: 16rpx;
-      border: 3rpx solid #dddddd;
-      border-radius: 6rpx;
-      view{
-        line-height: 36rpx;
-      }
-      .image{
-        width: 88rpx;
-        height: 88rpx;
-        margin-right: 12rpx;
-      }
-      .message{
-        padding: 0rpx 12rpx;
-        border-top-right-radius: 12rpx;
-        border-bottom-left-radius: 12rpx;
-        background: #fb6391;
-        margin-top: 8rpx;
-      }
-    }
-    .active{
-      color: #f2525f;
-      border-color: #f74e66;
-      background: #ffe1e1;
-    }
-    .title{
-      margin-top: 20rpx;
-      margin-left: 20rpx;
-      padding-top: 8rpx;
-      /*border-top: 4rpx solid #f4f4f4;*/
-      margin-bottom: 12rpx;
-    }
-    ._bc-btn{
-      width: 90%;
-      margin: auto;
-      padding: 12rpx;
-      margin-top: 12rpx;
-      background: #fe9d41;
-      border-radius: 12rpx;
-      background-image: linear-gradient(to right, #ed6ea0 0%, #ec8c69 100%);
-    }
-  }
-  .trait{
-    width: 33.3%;
-    padding: 16rpx 0;
-    .image{
-      width: 60rpx;
-      height: 60rpx;
-      margin-top: 10rpx;
-    }
-  }
-  .wrapper{
-    padding: 32rpx;
-    .header {
-      margin-bottom: 32rpx;
-      .image{
-        width: 46rpx;
-        height: 46rpx;
-        vertical-align: middle;
-        margin-right: 18rpx;
-      }
-    }
-    .list_item{
-      border-bottom: 4rpx solid #f9f9f9;
-      padding: 12rpx 6rpx;
-      vertical-align: middle;
-    }
-    .btn-item{
-      margin-top: 22rpx;
-      margin-bottom: -12rpx;
-      padding: 0 10%;
-    }
-  }
-  .main-box{
-    background: #f1f1f1;
-    margin-top: 21vw;
-    padding: 2vw 0;
-    .main-item{
-      width: 94vw;
-      background: white;
-      margin: 4vw auto;
-      padding: 12rpx 0;
-      .item-title{
-        padding: 12rpx;
-        margin: 22rpx;
-        margin-top: 0;
-        border-bottom: 2rpx solid #E4E7EC;
-        padding-right: 0;
-      }
-      .item-icon{
-        width: 50rpx;
-        height: 50rpx;
-        vertical-align: middle;
-        margin-bottom: 12rpx;
-        margin-right: 12rpx;
-      }
-      .item-price{
-        color: #F23237;
-      }
-      .item-cen{
-        overflow: hidden;
-        margin: 0 22rpx;
-        margin-top: -12rpx;
-        margin-bottom: 6rpx;
-        color: #bbbbbb;
-        .item-btn {
-          width: 12vw;
-          background: #FFDF6C;
-          padding: 4rpx 32rpx;
-          border-radius: 22rpx;
-          color: black;
-          margin-top: 22rpx;
-        }
-      }
-    }
-  }
-  .mainBox{
-    padding: 22rpx;
-  }
-
-  .mainIosBox{
-    padding: 8vw;
-    z-index: 2;
-    position: relative;
-    .mainItem{
-      width: 24vw;
-      .mainIosItem {
-        width: 100rpx;height: 100rpx;
-        border-radius: 50%;
-        box-shadow: 1rpx 1rpx 12rpx #fff;
-        margin: auto;
-        margin-bottom: 12rpx;
-        image{
-          width: 72rpx;
-          margin-top: 14rpx;
-        }
-      }
-    }
-  }
-  .mainInfo{
-    background: white;
-    padding: 22rpx;
-    padding-top: 42vw;
-    padding-bottom: 18vw;
-    .discountsStyle{
-      padding: 4rpx 12rpx;
-      background: #D92553;
+    background: #F6F6F6;
+    .bg-vip{
+      background: #333333;
       color: white;
-      border-top-left-radius: 16rpx;
-      border-bottom-right-radius: 16rpx;
     }
-  }
-  .scroll-wrapper{
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-  .scroll-item{
-    width: 160rpx;
-    height: 220rpx;
-    margin: 12rpx 18rpx;
-    box-shadow: 1rpx 1rpx 12rpx #f0f0f0;
-    border-radius: 12rpx;
-  }
-  .main-btn-box{
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    background: #D92553;
-    width: 100vw;
-    padding: 22rpx 0;
-    .main-btn{
-      position: relative;
-      width: 30vw;
-      margin: auto;
-      &:after{
-        content: '（AG线下配对服务）';
-        font-size: 22rpx;
-        position: absolute;
-        right: -20vw;
-        top: 1vw;
+    .mainTab{
+      padding: 12rpx;
+      .itemText {
+        width: 38%;
+        margin-bottom: 26rpx;
+        position: relative;
+      }
+      .active{
+        font-size: 32rpx;
+        font-weight: bold;
+        &:before{
+          content: " ";
+          position: absolute;
+          bottom: -8rpx;
+          left: 14vw;
+          height: 2px;
+          width: 26px;
+          border-radius: 6rpx;
+          background: #F8EAB8;
+        }
       }
     }
-  }
-  .featureIcon{
-    width: 86rpx;
-    height: 120rpx;
-    margin-top: 22rpx;
+    ._bc-user{
+      width: 100%;
+      background: url('https://images.ufutx.com/202004/09/5fd9264a4da7c310d1e086a92be7195a.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      position: relative;
+      /*position: fixed;*/
+      height: 70vw;
+      padding-top: 6vw;
+      /*z-index: 9999;*/
+      .userinfo-avatar {
+        width: 110rpx;
+        height: 110rpx;
+        border-radius: 50%;
+        margin-left: 34rpx;
+        margin-right: 22rpx;
+        border: 4rpx solid #fff;
+      }
+      .userinfo-name{
+        margin-top: 12rpx;
+        .icon{
+          width: 28rpx;
+          height: 28rpx;
+          vertical-align: middle;
+          margin:0 2px;
+        }
+      }
+    }
+    .item-xl{
+      margin-bottom: 16rpx;
+      .title{
+      }
+    }
+    .mainWrapper{
+      padding-left: 34rpx;
+      .title{
+        margin-top: 32rpx;
+        margin-bottom: 12rpx;
+      }
+      .ruleBox{
+        background: white;
+        padding: 22rpx;
+        margin-right: 34rpx;
+        box-shadow: 1rpx 1rpx 12rpx #f0f0f0;
+        border-radius: 10rpx;
+        line-height: 46rpx;
+      }
+      .scroll-wrapper{
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        .scroll-item{
+          width: 200rpx;
+          height: 268rpx;
+          margin-left: -22rpx;
+          background-image: url("https://images.ufutx.com/202004/09/1da12829a23a841d5f490302873152c3.png");
+          background-size: cover;
+          background-repeat: no-repeat;
+        }
+        .featureIcon{
+          width: 62rpx;
+          height: 62rpx;
+          margin-top: 62rpx;
+          margin-bottom: 12rpx;
+        }
+      }
+    }
+    .card-swiper{
+      .swiper-item{
+        border-radius: 14rpx;
+      }
+    }
+    .iconV2{
+      height: 36rpx;
+      width: 36rpx;
+      margin-right: 6rpx;
+      vertical-align: middle;
+      margin-bottom: 8rpx;
+    }
+    .payBtn{
+      position: relative;
+      position: fixed;
+      bottom: 0;
+      left: 18vw;
+      width: 64vw;
+      height: 60px;
+      background-image: url("https://images.ufutx.com/202007/17/fb7b8b1cd0d1b289d1e029257a97e949.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      .l_text{
+        position: absolute;
+        left: 60rpx;
+        top: 12rpx;
+      }
+      .r_text{
+        color: #f8e8b2;
+        position: absolute;
+        right: 56rpx;
+        top: 12rpx;
+      }
+    }
   }
 </style>

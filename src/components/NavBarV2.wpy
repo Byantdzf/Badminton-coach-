@@ -6,7 +6,7 @@
       <view class="NavBar-content" >
         <view class="NavBar-left NavBar-left-more"  @tap="backSearch">
           <!--<image bindtap="handleBack" class="NavBar-BackIcon" mode="aspectFit"  src="https://images.ufutx.com/201908/20/6350303af03615789f87970e2006f242.png"></image>-->
-          <image class="NavBar-HomeIcon backToHome" mode="aspectFit"  src="https://images.ufutx.com/202002/20/1a455d1f652013b5c7ded630de49c7ae.png"></image>
+          <image class="NavBar-HomeIcon backToHome" mode="aspectFit"  src="https://images.ufutx.com/202007/24/bf1f48e2cbdd283977872b2cb5929478.png"></image>
         </view>
 <!--        <view class="NavBar-content-title" style="color:{{title_c}}">{{title}}</view>-->
         <image class="NavBar-content-title" src="https://images.ufutx.com/202002/20/72554ffb176f9c3e449205ea82f774f3.png" mode="aspectFit"></image>
@@ -115,11 +115,11 @@
       },
         // 到搜索
       backSearch() {
-        if (!this.token) {
-          this.$emit('modalValue', 'ModalLogin')
-          return
-        }
-        wx.navigateTo({url: '/pages/map/mapList'})
+        // if (!this.token) {
+        //   this.$emit('modalValue', 'ModalLogin')
+        //   return
+        // }
+        wx.navigateTo({url: '/pages/map/index'})
       },
       goto(url) {
         wx.navigateTo({url: url})
@@ -205,8 +205,8 @@
   }
 
   .NavBar-HomeIcon {
-    width: 17px;
-    height: 19px;
+    width: 32px;
+    height: 32px;
     margin-top: 5px;
   }
 
@@ -261,7 +261,7 @@
 
   .NavBar-HomeIcon {
     width: 38px;
-    height: 22px;
+    height: 28px;
     margin-top: 5px;
   }
 

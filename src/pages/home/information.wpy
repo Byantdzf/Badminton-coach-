@@ -118,10 +118,10 @@
           <!--</view>-->
         <!--</block>-->
 
-<!--&lt;!&ndash;        <view class="fnStyle text-center" @tap="goto('/pages/home/jointlyFriendlist')">&ndash;&gt;-->
-<!--&lt;!&ndash;          <image src="https://images.ufutx.com/202002/26/45eb9f2f84c31d4702c48ac45818803a.png"  mode="aspectFill" class="icon"></image>&ndash;&gt;-->
-<!--&lt;!&ndash;          <view class="font_26 color-333">共同喜欢</view>&ndash;&gt;-->
-<!--&lt;!&ndash;        </view>&ndash;&gt;-->
+<!--        <view class="fnStyle text-center" @tap="goto('/pages/home/jointlyFriendlist')">-->
+<!--          <image src="https://images.ufutx.com/202002/26/45eb9f2f84c31d4702c48ac45818803a.png"  mode="aspectFill" class="icon"></image>-->
+<!--          <view class="font_26 color-333">共同喜欢</view>-->
+<!--        </view>-->
         <!--<view class="bc_dot"></view>-->
         <!--<view class="bc_info">-->
           <!--<view class="title color-333 font_32 bold">-->
@@ -244,12 +244,23 @@
       <block wx:if="{{mylibs.is_messenger && pageType != 'AG'}}">
         <image src="https://images.ufutx.com/202006/13/a27454644b8bc26035020c68c5e4df6e.png" mode="aspectFit" class="matchIcon" @tap="goto('/pages/home/matchPage?id={{mylibs.id}}')"></image>
       </block>
+      <block wx:if="{{mylibs.is_messenger && pageType != 'AG'}}">
+        <image src="https://images.ufutx.com/202007/25/141bea88429fb7f142319e05b8055315.png" mode="aspectFit" class="matchIconV2" @tap="goto('/pages/users/upgradeVIP2')"></image>
+      </block>
       <block wx:if="{{type != 'marriage'}}">
         <view class="blurBox"></view>
         <block wx:if="{{pageType == 'AG'}}">
-          <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" open-type="share">分享给好友</button>
-          <!--<button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top"  @tap="recommendFn">推荐给Ta-->
-          <!--</button>-->
+          <view wx:if="{{type == 'single'}}" style="padding: 0 22px;">
+            <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top flo_l" style="width: 40vw"  wx:if="{{mylibs.is_friend == 0}}" @tap="showAddFriendFn">添加好友
+            </button>
+            <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top flo_l" style="width: 40vw" @tap="goto('/pages/home/chitchat?id={{mylibs.id}}&name={{mylibs.name}}&type={{mylibs.type}}')"  wx:else>找Ta聊天
+            </button>
+            <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top flo_r" style="width: 40vw"  open-type="share">分享给好友</button>
+          </view>
+          <view wx:else>
+            <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top" open-type="share">分享给好友</button>
+          </view>
+
         </block>
         <block wx:else>
           <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top"  wx:if="{{mylibs.is_friend == 0}}" @tap="showAddFriendFn">添加好友
@@ -329,7 +340,7 @@
   export default class information extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
-      navigationBarTitleText: 'Ta的个人信息',
+      navigationBarTitleText: '单身交友',
       navigationBarBackgroundColor: '#F3F6F8'
     }
     components = {
@@ -990,6 +1001,13 @@
         position: absolute;
         right: 6vw;
         bottom: 28vw;
+      }
+      .matchIconV2{
+        width: 180rpx;
+        height: 180rpx;
+        position: absolute;
+        right: 6vw;
+        bottom: 48vw;
       }
       .blurBox {
         position: absolute;

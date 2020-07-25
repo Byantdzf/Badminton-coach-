@@ -9,6 +9,17 @@
   const socket = require('./utils/sockte')
 
   export default class extends wepy.app {
+  //   lifecycle: {
+  //     // 定义要添加生命周期到 app 或者 page 或者 component
+  //     // 值类型为：String 或者 Array 或者 Function
+  //     // 值为需要添加的生命周期一个或者多个函数名，或者返回生命周期的函数数组的方法
+  //     app: 'onSomeTime', // 给 App 添加一个 `onSomeTime` 生命周期函数
+  //     page: ['onTime1', 'onTime2'], // 给 Page 添加两个生命周期函数
+  //     component: function (lifecycles) {  // 删除 Component 最后一个生命周期函数
+  //     lifecycles.pop();
+  //     retrun lifecycles;
+  //   }
+  // }
     config = {
       'requiredBackgroundModes': ['audio', 'location'],
       pages: [
@@ -155,6 +166,7 @@
             'identityPic',
             'sociability',
             'upgradeVIP',
+            'upgradeVIP2',
             'vipDetail',
             'integralAddress',
             'myTest',
@@ -189,7 +201,7 @@
           pagePath: 'pages/tabBar/home',
           selectedIconPath: './images/tabbar/homeActive.png',
           iconPath: './images/tabbar/home.png',
-          text: '首页'
+          text: '每日推荐'
         }, {
           pagePath: 'pages/tabBar/activities',
           selectedIconPath: './images/tabbar/attentionActive.png',

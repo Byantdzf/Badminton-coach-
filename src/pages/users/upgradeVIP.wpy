@@ -4,10 +4,10 @@
     <view slot="content">会员中心</view>
   </cuCustom>
   <view class="_bc-user animation-slide-top">
-    <view class="mainTab text-center font_30">
-      <view class="white itemText inline-block {{active == 0?'active':''}}" @tap="activeFn('0')">超级会员</view>
-      <view class="white itemText inline-block {{active == 1?'active':''}}" @tap="activeFn('1')">会员套餐</view>
-    </view>
+<!--    <view class="mainTab text-center font_30">-->
+<!--      <view class="white itemText inline-block {{active == 0?'active':''}}" @tap="activeFn('0')">超级会员</view>-->
+<!--      <view class="white itemText inline-block {{active == 1?'active':''}}" @tap="activeFn('1')">会员套餐</view>-->
+<!--    </view>-->
     <image class="userinfo-avatar flo_l" src="{{user.photo}}" mode="aspectFill"/>
     <view class="white flo_l font_32 userinfo-name">
       <span class="bold">{{user.nickname}} </span>
@@ -53,6 +53,18 @@
       <block wx:else>
         <view class="font_24 color-666 placeholderStyle" wx:for="{{5}}"  wx:key="index" style="width:{{100/index}}%"></view>
       </block>
+    </view>
+  </view>
+  <view class="payBtn" wx:if="{{system != 'iOS' || active == '1'}}" @tap="showFn()">
+    <view class="l_text">
+      <span class="font_32 bold">
+        <span>￥</span>{{payData.discount_price}}
+      </span>
+    </view>
+    <view class="r_text">
+      <span class="font_32" >
+        立即购买
+      </span>
     </view>
   </view>
   <view class="cu-modal {{modalName=='Modal'?'show':''}}">
@@ -328,6 +340,7 @@
       vm.$get({url: `${service.host}/super/rank`}, {
         success: ({code, data}) => {
           vm.specialVIP = data
+          console.log(data,'aaaaaaaa')
           vm.rankList = data.sub_ranks
           if (vm.system == 'iOS') {
             vm.rankList = [
@@ -340,7 +353,7 @@
           vm.payData.price = `${vm.rankList[0].price}`
           vm.payData.discount_price = `${vm.rankList[0].discount_price}`
           vm.$apply()
-          console.log(vm.rankList)
+          console.log(vm.rankList, vm.specialVIP)
           wx.hideLoading()
         },
         fail: ({code, data}) => {
@@ -408,11 +421,11 @@
         }
       },
       showFn (index) { // 弹框支付
-        if (this.rankList[index].id) {
+        if (this.rankList[this.cardCur].id) {
           this.modalName = 'DialogModal'
           let monay = this.payData.discount_price - this.payData.remain_amount
           this.payData.monay = Math.abs(monay).toFixed(2)
-          this.payData.payId = this.rankList[index].id
+          this.payData.payId = this.rankList[this.cardCur].id
           this.$apply()
         } else {
           this.modalName = 'Modal'
@@ -569,7 +582,8 @@
       background-repeat: no-repeat;
       position: relative;
       /*position: fixed;*/
-      height: 78vw;
+      height: 70vw;
+      padding-top: 6vw;
       /*z-index: 9999;*/
       .userinfo-avatar {
         width: 110rpx;
@@ -639,6 +653,28 @@
       margin-right: 6rpx;
       vertical-align: middle;
       margin-bottom: 8rpx;
+    }
+    .payBtn{
+      position: relative;
+      position: fixed;
+      bottom: 0;
+      left: 18vw;
+      width: 64vw;
+      height: 60px;
+      background-image: url("https://images.ufutx.com/202007/17/fb7b8b1cd0d1b289d1e029257a97e949.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      .l_text{
+        position: absolute;
+        left: 60rpx;
+        top: 12rpx;
+      }
+      .r_text{
+        color: #f8e8b2;
+        position: absolute;
+        right: 56rpx;
+        top: 12rpx;
+      }
     }
   }
 </style>
