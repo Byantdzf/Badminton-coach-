@@ -170,12 +170,17 @@
       pic: '',
       price: 0,
       skus: [],
-      skuName: ''
+      skuName: '',
+      share_type: ''
     }
 
     onLoad(e) {
       this.party_id = e.party_id
       this.$recordFrom_platform(e)
+      if (e.share_type) {
+        this.share_type = e.share_type
+        this.$apply()
+      }
       setTimeout(() => {
         this.init = true
         this.$apply()
@@ -440,7 +445,7 @@
             }
           })
         } else {
-          that.$goto(`/pages/party/trade?party_id=${that.detail.id}&sku_id=${sku_id}`)
+          that.$goto(`/pages/party/trade?party_id=${that.detail.id}&sku_id=${sku_id}&share_type=${that.share_type}`)
         }
       },
       getuserinfo(e) {

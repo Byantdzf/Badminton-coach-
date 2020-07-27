@@ -293,7 +293,8 @@
       rankList: [],
       modalName: '', // 弹框支付
       trade_no: '', // 订单号
-      system: '' // 机型
+      system: '', // 机型
+      share_type: ''
     }
     computed = {
       residue() {
@@ -310,7 +311,11 @@
     //   return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
     // }
 
-    onLoad() {
+    onLoad(e) {
+      if (e.share_type) {
+        this.share_type = e.share_type
+        this.$apply()
+      }
       this.rankList = []
       this.system = wx.getStorageSync('system')
       this.$apply()
@@ -514,7 +519,13 @@
         that.modalName = ''
         that.$showLoading('支付中...')
         that.$apply()
-        that.$post({url: url}, {
+        let data = {}
+        if (this.share_type) {
+          data = {
+            share_type: this.share_type
+          }
+        }
+        that.$post({url: url, data}, {
           success: ({code, data}) => {
             that.trade_no = data.trade_no
             that.$apply()

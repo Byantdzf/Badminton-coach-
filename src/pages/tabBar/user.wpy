@@ -20,12 +20,30 @@
       </view>
     </view>
     <view class="animation-slide-bottom">
-      <view class="_list" wx:for="{{list}}" wx:key="index" @tap="goto({{item.path}})" >
+      <block  wx:for="{{list}}" wx:key="index">
         <block wx:if="{{item.title == '会员中心'}}">
           <block wx:if="{{system != 'iOS'}}">
+            <view class="_list" @tap="goto({{item.path}})" >
+              <image src="{{item.icon}}" mode="widthFix" class="img flo_l"></image>
+              <span class="font_30 color-333">{{item.title}}</span>
+              <image src="https://images.ufutx.com/202007/25/689bff0c89256e207de558b37a77877f.png" mode="aspectFill" class="icon flo_r"></image>
+              <view class="zf-tag font_20 flo_r bg-gradual-red padding radius text-center" wx:if="{{item.title == '推荐给好友'}}">领取会员</view>
+              <view class="font_24 flo_r zf-tag-text  text-shadow {{user.deadline?'text-orange':'red'}}" wx:if="{{item.title == '会员中心'}}">
+                <span wx:if="{{user.deadline}}">{{user.deadline}} 到期</span>
+                <span wx:else>未激活</span>
+              </view>
+              <view class="font_24 flo_r zf-tag-text  text-shadow {{user.is_approved?'text-green':'red'}}" wx:if="{{item.title == '认证中心'}}">
+                <span wx:if="{{user.is_approved}}">已认证</span>
+                <span wx:else>完善认证 解锁更多功能</span>
+              </view>
+            </view>
+          </block>
+        </block>
+        <block wx:else>
+          <view class="_list" @tap="goto({{item.path}})" >
             <image src="{{item.icon}}" mode="widthFix" class="img flo_l"></image>
             <span class="font_30 color-333">{{item.title}}</span>
-            <image src="https://images.ufutx.com/202007/25/689bff0c89256e207de558b37a77877f.png" mode="aspectFill" class="icon flo_r"></image>
+            <image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>
             <view class="zf-tag font_20 flo_r bg-gradual-red padding radius text-center" wx:if="{{item.title == '推荐给好友'}}">领取会员</view>
             <view class="font_24 flo_r zf-tag-text  text-shadow {{user.deadline?'text-orange':'red'}}" wx:if="{{item.title == '会员中心'}}">
               <span wx:if="{{user.deadline}}">{{user.deadline}} 到期</span>
@@ -35,23 +53,9 @@
               <span wx:if="{{user.is_approved}}">已认证</span>
               <span wx:else>完善认证 解锁更多功能</span>
             </view>
-          </block>
-        </block>
-        <block wx:else>
-          <image src="{{item.icon}}" mode="widthFix" class="img flo_l"></image>
-          <span class="font_30 color-333">{{item.title}}</span>
-          <image src="https://images.ufutx.com/202002/26/3dbd6cf89a117a0f0a1c79d0204b557d.png" mode="aspectFill" class="icon flo_r"></image>
-          <view class="zf-tag font_20 flo_r bg-gradual-red padding radius text-center" wx:if="{{item.title == '推荐给好友'}}">领取会员</view>
-          <view class="font_24 flo_r zf-tag-text  text-shadow {{user.deadline?'text-orange':'red'}}" wx:if="{{item.title == '会员中心'}}">
-            <span wx:if="{{user.deadline}}">{{user.deadline}} 到期</span>
-            <span wx:else>未激活</span>
-          </view>
-          <view class="font_24 flo_r zf-tag-text  text-shadow {{user.is_approved?'text-green':'red'}}" wx:if="{{item.title == '认证中心'}}">
-            <span wx:if="{{user.is_approved}}">已认证</span>
-            <span wx:else>完善认证 解锁更多功能</span>
           </view>
         </block>
-      </view>
+      </block>
       <view style="height: 160rpx"></view>
     </view>
     <view class="cu-modal {{modalName=='ModalEdit'?'show':''}}">
