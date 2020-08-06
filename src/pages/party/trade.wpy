@@ -117,6 +117,7 @@
       skuNum: 1,
       skuPrice: '',
       skuName: '',
+      share_type: '',
       total: {
         radioIndex: 1
       }
@@ -141,6 +142,10 @@
       this.sku_id = e.sku_id
       this.$apply()
       console.log(this.sku_id)
+      if (e.share_type) {
+        this.share_type = e.share_type
+        this.$apply()
+      }
     }
 
     onShow () {
@@ -286,7 +291,8 @@
       payFn() {
         let that = this
         let data = {
-          linkmen: this.msgList
+          linkmen: this.msgList,
+          share_type: this.share_type
         }
         // if (!this.name) {
         //   return that.$showToast('请填写昵称')

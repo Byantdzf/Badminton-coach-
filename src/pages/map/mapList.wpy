@@ -20,30 +20,38 @@
             <view class="Menu-Tab cu-bar" style="top: {{bc_height-12}}px;">
               <view class="item-Tab text-center">
                 <picker value="{{sexIndex}}" range="{{sexList}}" bindchange="sexChange" range-key="title">
-                  <text class="title ellipsis_1">{{sexIndex>0?sexList[sexIndex].title:sexText}}</text>
-                  <image src="https://images.ufutx.com/202005/18/1a4515381adacd1fca67b3633320fb57.png" class="icon"
-                         mode="aspectFit"></image>
+                  <view class="title ellipsis_1">
+                    {{sexIndex>0?sexList[sexIndex].title:sexText}}
+                    <image src="https://images.ufutx.com/202005/18/1a4515381adacd1fca67b3633320fb57.png" class="icon inline-block"
+                           mode="aspectFit"></image>
+                  </view>
                 </picker>
               </view>
               <view class="item-Tab text-center">
                 <picker mode="multiSelector" value="{{ageIndex}}" range="{{ageList}}" bindchange="ageChange">
-                  <text class="title ellipsis_1" wx:if="{{!ageIndex}}">{{ageText}}</text>
-                  <text class="title ellipsis_1" wx:else>{{ageList[0][ageIndex[0]]}}-{{ageList[1][ageIndex[1]]}}</text>
-                  <image src="https://images.ufutx.com/202005/18/1a4515381adacd1fca67b3633320fb57.png" class="icon" mode="aspectFit"></image>
+                  <view class="title ellipsis_1">
+                    <block wx:if="{{!ageIndex}}">{{ageText}}</block>
+                    <block  wx:else>{{ageList[0][ageIndex[0]]}}-{{ageList[1][ageIndex[1]]}}</block>
+                    <image src="https://images.ufutx.com/202005/18/1a4515381adacd1fca67b3633320fb57.png" class="icon" mode="aspectFit"></image>
+                  </view>
                 </picker>
               </view>
               <view class="item-Tab text-center">
                 <selectCity  class="title" style="height: 32rpx">
                   <view slot="Input">
-                    <text wx:if="{{region[2]}}" class="title ellipsis_1"  style ="max-width: 120rpx;">{{region[2]}}</text>
-                    <text class="title ellipsis_1" wx:else>{{cityText}}</text>
-                    <image src="https://images.ufutx.com/202005/18/1a4515381adacd1fca67b3633320fb57.png" class="icon" mode="aspectFit"></image>
+                    <view class="title ellipsis_1">
+                      <block wx:if="{{region[2]}}">{{region[2]}}</block>
+                      <block wx:else>{{cityText}}</block>
+                      <image src="https://images.ufutx.com/202005/18/1a4515381adacd1fca67b3633320fb57.png" class="icon" mode="aspectFit"></image>
+                    </view>
                   </view>
                 </selectCity>
               </view>
               <view class="item-Tab text-center" @tap="showModal">
-                <text class="title ellipsis_1">筛选</text>
-                <image src="https://images.ufutx.com/202005/18/006685ede8d6fa8f965a4d4aaf12d469.png" class="icon" mode="aspectFit"></image>
+                <view class="title ellipsis_1">
+                  筛选
+                  <image src="https://images.ufutx.com/202005/18/006685ede8d6fa8f965a4d4aaf12d469.png" class="icon" mode="aspectFit"></image>
+                </view>
               </view>
             </view>
             <view style="height: {{bc_height+38}}px;"></view>
@@ -315,6 +323,7 @@
       sexChange(e) { // 性别
         let vm = this
         vm.page = 1
+        vm.list = []
         vm.sexIndex = e.detail.value
         vm.$apply()
         vm.getLibraries()
@@ -324,6 +333,7 @@
       ageChange(e) { // 年龄
         let vm = this
         vm.page = 1
+        vm.list = []
         vm.ageIndex = e.detail.value
         vm.$apply()
         vm.getLibraries()
@@ -435,6 +445,9 @@
           this.region_id = value
         }
         setTimeout(() => {
+          vm.list = []
+          vm.page = 1
+          vm.$apply()
           vm.getLibraries()
         })
         this.$apply()

@@ -171,7 +171,8 @@
       other_user_id: '',
       modalName: '', // 弹框支付
       trade_no: '', // 订单号
-      system: '' // 机型
+      system: '', // 机型
+      share_type: ''
     }
     computed = {
       residue() {
@@ -189,6 +190,10 @@
     // }
 
     onLoad(e) {
+      if (e.share_type) {
+        this.share_type = e.share_type
+        this.$apply()
+      }
       if (e.other_user_id) {
         this.other_user_id = e.other_user_id
         this.$apply()
@@ -393,6 +398,12 @@
         that.$apply()
         let data = {
           other_user_id: this.other_user_id
+        }
+        if (this.share_type) {
+          data = {
+            other_user_id: this.other_user_id,
+            share_type: this.share_type
+          }
         }
         that.$post({url: url, data}, {
           success: ({code, data}) => {

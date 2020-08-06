@@ -115,7 +115,7 @@
       },
         // 到搜索
       backSearch() {
-        wx.navigateTo({url: '/pages/map/mapList'})
+        wx.navigateTo({url: '/pages/map/index'})
       },
       goto(url) {
         wx.navigateTo({url: url})
