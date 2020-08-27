@@ -62,7 +62,7 @@
         <view class="bg-red" @tap.stop="deleteFn({{item.message.magId}},{{index}})">删除 {{item.id}}</view>
       </view>
     </view>
-    <button class="btn service" hover-class="btn_active" open-type="contact">
+    <button class="btn service" hover-class="btn_active" open-type="contact" open-type="contact" bindcontact="handleContact">
       <image src="https://images.ufutx.com/202004/08/404ba11c54ed1539e55c4b3e123a443a.png" mode="aspectFit"></image>
     </button>
   </view>
@@ -434,6 +434,10 @@
         this.modalName = ''
         this.$apply()
         this.$goto(url)
+      },
+      handleContact (e) {
+        console.log(e.detail.path)
+        console.log(e.detail.query)
       },
       deleteFn (id, index) {
         console.log(index)

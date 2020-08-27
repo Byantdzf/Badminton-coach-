@@ -98,6 +98,24 @@
       })
     }
 
+    upDataAvatarV2(path) {
+      this.$showLoading('加载中...')
+      let data = {
+        photo: path
+      }
+      this.$put({url: `${service.user}/photo`, data}, {
+        success: ({code, data}) => {
+          // this.$Toast_success('上传成功')
+          this.$gotoBack(1)
+        },
+        fail: ({code, data}) => {
+        },
+        complete: () => {
+          wx.hideLoading()
+        }
+      })
+    }
+
     methods = {
       cropperload(e) {
         console.log('cropper初始化完成:' + e)
@@ -131,6 +149,7 @@
         console.log(e) // 点击上传图片
         if (this.src == e.url) {
           this.$gotoBack(1)
+          this.upDataAvatarV2(e.url)
           return
         }
         this.filePaths = e.url

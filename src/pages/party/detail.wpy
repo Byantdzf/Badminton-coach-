@@ -724,10 +724,11 @@
         padding: 0 26rpx 46rpx 26rpx;
         .item{
           padding: 6rpx 28rpx;
-          background: #F6F6F6;
+          background: #e8e8e8;
           border-radius: 10rpx;
           margin-right: 24rpx;
           border: 1rpx solid #F6F6F6;
+          margin-top: 12rpx;
         }
       }
       .D-dot{

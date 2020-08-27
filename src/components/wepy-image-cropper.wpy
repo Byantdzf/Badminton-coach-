@@ -207,6 +207,7 @@
       }
     }
     data = {
+      newPic: 0, // 判断是不是新的照片
       el: 'image-cropper', // 暂时无用
       info: wx.getSystemInfoSync(),
       MOVE_THROTTLE: null, // 触摸移动节流settimeout
@@ -310,7 +311,7 @@
       this._canvas_width = this.width
       this.$apply()
       this._initCanvas()
-      console.log('img Src' + this.imgSrc)
+      console.log('img Src,',this.imgSrc)
       this.imgSrc && (this.imgSrc = this.imgSrc)
       // 根据开发者设置的图片目标尺寸计算实际尺寸
       this._initImageSize()
@@ -361,6 +362,8 @@
     methods = {
       chooseimage() {
         let vm = this
+        vm.newPic = 1
+        vm.$apply()
         wx.chooseImage({
           count: 1,
           // sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -375,11 +378,16 @@
       },
       saveUpdate(event) {
         // 生成图片并回调
-        // this._initCanvas()
-
+        this._initCanvas()
         let vm = this
-        console.log(this.imgSrc)
+        console.log(this.imgSrc, '//')
         if (!this.imgSrc) return
+        if (vm.newPic == 0) {
+          vm.$emit('saveCut', {
+            url: this.imgSrc
+          })
+          return
+        }
         let draw = () => {
           // 图片实际大小
           let img_width = this.img_width * this.scale * this.export_scale
@@ -401,6 +409,7 @@
               quality: vm.quality,
               canvasId: vm.el,
               success: (res) => {
+                console.log(res.tempFilePath, '///')
                 vm.$emit('saveCut', {
                   url: res.tempFilePath,
                   width: vm.width * vm.export_scale,
