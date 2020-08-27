@@ -5,11 +5,16 @@
 // 域名
 var book = 'https://christ.data.ufutx.com/api',
   party = 'https://party.ufutx.com/api'
-// if (_NODE_) {
-  var host = 'https://love.ufutx.com/api' // 线上环境
-// } else {
-//   var host = 'http://alpha.ufutx.net/api'  // 测试环境
-// }
+
+if (_NODE_) {
+  var host = 'https://love.ufutx.com/api' // 测试环境
+} else {
+  // var host = 'http://alpha.ufutx.net/api'  // 线上环境
+    var host = 'https://love.ufutx.com/api' // 测试环境
+    // var host = 'http://love.hankin.cn/api' // 测试环境
+}
+
+
 export const service = {
     // 登录接口
     login: `${host}/login/wechat`,
