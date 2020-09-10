@@ -29,6 +29,7 @@
         </view>
         <view class=" font_26 state info">
           <view class="title bold text-left">{{tabIndex==0?messages[0].title:messages[1].title}}</view>
+
           <view style="margin: 6rpx 22rpx;" wx:for="{{tabIndex==0?messages[0].texts:messages[1].texts}}" wx:key="index">
             <view>{{item}}</view>
           </view>

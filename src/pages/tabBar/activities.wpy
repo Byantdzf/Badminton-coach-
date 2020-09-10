@@ -1,6 +1,6 @@
 <template>
   <view class="weui-tab">
-    <cuCustom  bgImage="https://images.ufutx.com/202004/29/2bd9abf27267b92d94003761288a4549.png"  isCustom="{{true}}">
+    <cuCustom  bgColor="bg-white">
       <!--<view slot="backText">返回</view>-->
       <view slot="content" class="bold ">精彩活动</view>
     </cuCustom>

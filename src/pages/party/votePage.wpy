@@ -19,8 +19,8 @@
             <span class="flo_r">{{item.industry_sub || '未填写'}}</span>
           </view>
           <view class="main-btn text-center">
-            <image src="https://images.ufutx.com/202009/10/2d01b39ebc2419a84cc8903c74fdd78d.png" wx:if="{{item.choose == 1}}" mode="aspectFit"  @tap.stop="voteFn(0,{{item}},{{index}})" class="image"></image>
-            <image src="https://images.ufutx.com/202009/10/90959dc01dab3f1a7a63eac0e6d9f408.png"  wx:else  @tap.stop="voteFn(1,{{item}},{{index}})" mode="aspectFit"  class="image"></image>
+            <image src="https://images.ufutx.com/202009/10/ed76f77d0a5d12fcb02d993359733a97.png" wx:if="{{item.choose == 1}}" mode="aspectFit"  @tap.stop="voteFn(0,{{item}},{{index}})" class="image"></image>
+            <image src="https://images.ufutx.com/202009/10/c31fe0545749b90d18cd3066abd2f90f.png"  wx:else  @tap.stop="voteFn(1,{{item}},{{index}})" mode="aspectFit"  class="image"></image>
           </view>
         </view>
       </swiper-item>
@@ -52,26 +52,14 @@
     }
     data = {
       cardCur: 0,
-      loaded: false,
-      mylibs: [],
+      count: 0,
       list: [],
-      page: 1,
-      noMore: false,
-      loading: false,
       id: '',
       num: 0,
-      imgUrls: [
-        'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
-        'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg'
-      ],
       current: 0,
-      animationData: {},
       height: 360,
       chooseImage: [],
-      user_id: [],
-      count: 0,
-      animationData2: {}
+      user_id: []
     }
 
     computed = {
@@ -88,10 +76,20 @@
     onShow() {
       this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
+    onPullDownRefresh() {
+      this.page = 1
+      this.getMemberList()
+      this.$apply()
+    }
+    onReachBottom() {
+      setTimeout(() => {
+        this.getMemberList()
+      }, 200)
+    }
     getMemberList(keyword) {
       let _this = this
       _this.loading = true
-      let url = `${service.host}/activities/${this.id}/vote/members`
+      let url = `${service.host}/activities/${this.id}/sex/vote/members`
       this.$get({
         url: url,
         data: {
@@ -163,7 +161,7 @@
           vote_user_ids: this.user_id
         }
         this.$post({
-          url: `${service.host}/activities/${this.id}/vote`, data
+          url: `${service.host}/activities/${this.id}/sex/vote`, data
         }, {
           success: ({code, data}) => {
             wx.hideLoading()
@@ -197,7 +195,7 @@
     .main-box{
       width: 100vw;
       height: 100vh;
-      background-image: url("https://images.ufutx.com/202009/09/5665012dd1b8d35598967ab519df5c35.png");
+      background-image: url("https://images.ufutx.com/202009/10/9cd70f5485d1fa84cfb3512a2f3543ae.png");
       background-size: contain;
       background-position: center;
       .mainText{
@@ -241,10 +239,10 @@
           }
         }
         .main-btn{
-          margin-top: 22rpx;
+          margin-top: 10rpx;
           .image{
             width: 330rpx;
-            height: 160rpx;
+            height: 136rpx;
             margin: auto;
             pointer-events: auto;
           }

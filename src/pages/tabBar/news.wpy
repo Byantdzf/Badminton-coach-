@@ -289,7 +289,7 @@
                     new_count: item.new_count,
                     magId: item.id
                   },
-                  path: `/pages/home/chitchat?id=${item.other_user.id}&name=${item.other_user.name}&type=${item.other_user.type}`
+                  path: `/pages/home/chitchat?id=${item.other_user.id}&name=${item.other_user.nickname ? item.other_user.nickname : item.other_user.name}&type=${item.other_user.type}`
                 })
               }
             }

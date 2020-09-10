@@ -114,12 +114,13 @@
   @import "../styles/custom/fn.less";
   .page-index{
     width: 92vw;
-    background: white;
-    margin: 28rpx auto;
+    background: #ffffff;
+    margin: 34rpx auto;
     overflow: hidden;
     padding: 20rpx;
     border-radius: 12rpx;
     padding-bottom: 8rpx;
+    box-shadow: 0 0 10rpx #e8e7e7;
     .bc_fee{
       color: @theme;
       font-weight: 500;

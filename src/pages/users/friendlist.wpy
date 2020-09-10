@@ -1,12 +1,12 @@
 <template>
   <!--<NavBar rgba="#ffffff" bag="#ffffff" :title.sync="title"></NavBar>-->
   <!--<Loading :init.sync="init"></Loading>-->
-  <cuCustom  bgImage="https://images.ufutx.com/202004/29/2bd9abf27267b92d94003761288a4549.png"  isBack="{{true}}">
+  <cuCustom  bgColor="bg-white"  isBack="{{true}}">
     <view slot="backText">返回</view>
-    <view slot="content">{{title}}</view>
+    <view slot="content" class="bold">{{title}}</view>
   </cuCustom>
   <view class="borrow animation-fade">
-    <view class="text-left radius bg-white">
+    <view class="text-left radius bg-white" style="border-bottom: 2rpx solid #F5F5F5;">
       <tabSearchV2 title="搜索好友列表" BColor="#fff"></tabSearchV2>
     </view>
     <view wx:for="{{list}}" wx:key="*this">

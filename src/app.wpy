@@ -67,6 +67,7 @@
           'root': 'pages/party',
           'pages': [
             'signSuccess',
+            'votePage',
             'luckMember',
             'start_party',
             'detail',

@@ -34,16 +34,16 @@
       <!--<view class="font_24 color-666">3、如有其它疑问，请联系客服<span class="color-theme" @tap="callPhone('4000401707')">4000401707</span>咨询</view>-->
     <!--</view>-->
     <!--<view class="bold color-333 mainRule">已成功分享{{total_count}}个好友 <span class="font_24 color-theme">(剩余可兑换{{remain_count}}位)</span> </view>-->
-    <view class="cu-timeline" wx:if="{{shareData.fourth.enable}}">
-      <view class="cu-time">{{shareData.fourth.register_date}}</view>
-      <view class="cu-item cur cuIcon-noticefill">
-        <view class="content bg-green shadow-blur">
-          <text>{{shareData.fourth.register_time}}</text> 可兑换{{shareData.fourth.num}}位好友！获得超级会员{{shareData.fourth.day}}天体验
-          <button class="btn text-center font_26 _btn white radius shadow bg-white inline-block color-theme flo_r bold"
-                  hover-class="btn_active" @tap="getVIPFn('fourth')">兑换</button>
-        </view>
-      </view>
-    </view>
+<!--    <view class="cu-timeline" wx:if="{{shareData.fourth.enable}}">-->
+<!--      <view class="cu-time">{{shareData.fourth.register_date}}</view>-->
+<!--      <view class="cu-item cur cuIcon-noticefill">-->
+<!--        <view class="content bg-green shadow-blur">-->
+<!--          <text>{{shareData.fourth.register_time}}</text> 可兑换{{shareData.fourth.num}}位好友！获得超级会员{{shareData.fourth.day}}天体验-->
+<!--          <button class="btn text-center font_26 _btn white radius shadow bg-white inline-block color-theme flo_r bold"-->
+<!--                  hover-class="btn_active" @tap="getVIPFn('fourth')">兑换</button>-->
+<!--        </view>-->
+<!--      </view>-->
+<!--    </view>-->
     <!--<view class="cu-timeline" wx:if="{{shareData.third.enable}}">-->
       <!--<view class="cu-time">{{shareData.third.register_date}}</view>-->
       <!--<view class="cu-item cur cuIcon-noticefill">-->
