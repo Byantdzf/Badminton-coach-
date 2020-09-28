@@ -1,14 +1,14 @@
-﻿# Ufutx love 
+﻿# 幻鹰羽毛球（用户端）
 
 ## Features
 
-* 友福福恋
+* 预约课程，线下体验
 ....
 
 
 扫码访问小程序:
 
-![福恋](https://images.ufutx.com/201903/14/1552529823home_qrcode.png)
+![Mamba](https://images.ufutx.com/202009/11/4e15c2a4be1156c56e6a462456676dfc.jpeg)
 
 
 ## Usage
@@ -16,8 +16,8 @@
 ### Start
 
 ``` bash
-git clone git@github.com:glore/party.git
-cd library
+git clone git@github.com:Byantdzf/Badminton-user-.git
+cd Badminton-user-
 npm install wepy-cli -g
 npm install
 npm run dev
@@ -77,4 +77,4 @@ Please note that the open source protocol for this repository is **GPL**. This m
 
 **You must open the source code**
 
-Copyright (c) 2017 - Ufutx, Glore
+Copyright (c) 2017 - Mamba团队，DZF

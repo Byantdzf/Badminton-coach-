@@ -211,8 +211,6 @@
 
   @import "../styles/weui/base/fn.wxss";
   @import "../styles/custom/fn.less";
-  @import "../styles/custom/animation.less";
-  @import "../styles/custom/library.less";
   .share-image{
     width: 92rpx;
     height: 92rpx;

@@ -256,7 +256,7 @@
         // vm.countDown()
         vm.upDate()
       }
-      vm.$parent.getTracker(vm.$root.$name, vm.config.navigationBarTitleText)
+      // vm.$parent.getTracker(vm.$root.$name, vm.config.navigationBarTitleText)
     }
 
     timeFormat(param) {

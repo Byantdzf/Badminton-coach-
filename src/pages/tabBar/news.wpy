@@ -159,7 +159,7 @@
         this.initPageData()
         this.getNewCount()
       }
-      this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
+      // this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
 
     onLoad(e) {

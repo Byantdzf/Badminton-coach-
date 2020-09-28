@@ -203,7 +203,7 @@
         this.initPageData()
         // return
       }
-      this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
+      // this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
 
     onShareAppMessage(res) {
