@@ -25,8 +25,8 @@
       pages: [
         'pages/tabBar/welcome',
         'pages/tabBar/home',
-        'pages/tabBar/activities',
-        'pages/tabBar/news',
+        'pages/tabBar/exercise',
+        'pages/tabBar/students',
         'pages/tabBar/user'
       ],
       'permission': {   // 地理位置获取
@@ -35,41 +35,69 @@
         }
       },
       'subPackages': [  // 分包
+        {   //  首页
+          'root': 'pages/homePage',
+          'pages': [
+            'taemDetaile', // 团课详情
+            'networkDetaile',  // 网课详情
+            'trialDetaile', // 体验课详情
+            'order' // 立即预约
+          ]
+        },
         {   //  外链接
           'root': 'pages/books',
           'pages': [
             'bookDetail'
+          ]
+        },
+        {   //  个人中心
+          'root': 'pages/users',
+          'pages': [
+            'userInfo', // 个人资料
+            'myCourses',
+            'myWallet', // 我的钱包
+            'studentDetaile', // 学员详情
+            'myExercise',
+            'myCourse', // 我的课程
+            'storesGame', // 门店比赛
+            'myEvaluation', // 我的评价
+            'feedback', // 投诉
+            'unmarri', // 编辑资料
+            'uploadVideo', // 上传视频
+            'clockVideoDetaile', // 打卡视频详情
+            'drillVideoDetaile', // 训练视频详情
+            'appraise' // 评价教练
           ]
         }
       ],
       window: {
         navigationBarTitleText: '福恋',
         navigationBarTextStyle: 'black',
-        navigationBarBackgroundColor: '#fff',
+        navigationBarBackgroundColor: '#f8b51e',
         backgroundColor: '#eaeaea',
         backgroundTextStyle: 'light',
         enablePullDownRefresh: true
       },
       tabBar: {
         color: '#b4b4b4',
-        selectedColor: '#D92553',
+        selectedColor: '#000',
         backgroundColor: '#ffffff',
         borderStyle: 'black',
         list: [{
           pagePath: 'pages/tabBar/home',
           selectedIconPath: './images/tabbar/homeActive.png',
           iconPath: './images/tabbar/home.png',
-          text: '首页'
+          text: '预约'
         }, {
-          pagePath: 'pages/tabBar/activities',
+          pagePath: 'pages/tabBar/exercise',
           selectedIconPath: './images/tabbar/attentionActive.png',
           iconPath: './images/tabbar/attention.png',
-          text: '球场'
+          text: '轨迹'
         }, {
-          pagePath: 'pages/tabBar/news',
+          pagePath: 'pages/tabBar/students',
           selectedIconPath: './images/tabbar/messageActive.png',
           iconPath: './images/tabbar/message.png',
-          text: '预约'
+          text: '学员'
         }, {
           pagePath: 'pages/tabBar/user',
           selectedIconPath: './images/tabbar/myActive.png',

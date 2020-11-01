@@ -1,45 +1,11 @@
 <template>
   <view class="page-user">
     <view class="animation-slide-top">
-      <userTitle :user.sync="user"></userTitle>
-      <view class="bc_tab color-333">
-        <view  class="text-center flo_l mainF"
-               @tap="goto('/pages/users/friendlist?type=friend')">
-          <view class="bold font_32 text-shadow text-black" >{{user.friend_count}}</view>
-          <view class="font_26">我的好友</view>
-        </view>
-        <view class="text-center flo_l mainFA "
-              @tap="goto('/pages/users/friendlist?type=attention')">
-          <view class="bold font_32 text-shadow text-black" >{{user.follow_count}}</view>
-          <view class="font_26">我的关注</view>
-        </view>
-        <view class="text-center flo_l mainF" @tap="goto('/pages/users/friendlist?type=fans')">
-          <view class="bold font_32 text-shadow text-black" >{{user.fans_count}}</view>
-          <view class="font_26">关注我的</view>
-        </view>
-      </view>
+<!--      <userTitle :user.sync="user"></userTitle>-->
+      <template is="userInfo" data="{{Image,user}}"></template>
     </view>
     <view class="animation-slide-bottom">
       <block  wx:for="{{list}}" wx:key="index">
-        <block wx:if="{{item.title == '会员中心'}}">
-          <block wx:if="{{system != 'iOS'}}">
-            <view class="_list" @tap="goto({{item.path}})" >
-              <image src="{{item.icon}}" mode="widthFix" class="img flo_l"></image>
-              <span class="font_30 color-333">{{item.title}}</span>
-              <image src="https://images.ufutx.com/202007/25/689bff0c89256e207de558b37a77877f.png" mode="aspectFill" class="icon flo_r"></image>
-              <view class="zf-tag font_20 flo_r bg-gradual-red padding radius text-center" wx:if="{{item.title == '推荐给好友'}}">领取会员</view>
-              <view class="font_24 flo_r zf-tag-text  text-shadow {{user.deadline?'text-orange':'red'}}" wx:if="{{item.title == '会员中心'}}">
-                <span wx:if="{{user.deadline}}">{{user.deadline}} 到期</span>
-                <span wx:else>未激活</span>
-              </view>
-              <view class="font_24 flo_r zf-tag-text  text-shadow {{user.is_approved?'text-green':'red'}}" wx:if="{{item.title == '认证中心'}}">
-                <span wx:if="{{user.is_approved}}">已认证</span>
-                <span wx:else>完善认证 解锁更多功能</span>
-              </view>
-            </view>
-          </block>
-        </block>
-        <block wx:else>
           <view class="_list" @tap="goto({{item.path}})" >
             <image src="{{item.icon}}" mode="widthFix" class="img flo_l"></image>
             <span class="font_30 color-333">{{item.title}}</span>
@@ -54,52 +20,25 @@
               <span wx:else>完善认证 解锁更多功能</span>
             </view>
           </view>
-        </block>
       </block>
       <view style="height: 160rpx"></view>
     </view>
-    <view class="cu-modal {{modalName=='ModalEdit'?'show':''}}">
-      <view class="cu-dialog">
-        <view class="cu-bar bg-white justify-end">
-          <view class="content">提示</view>
-          <view class="action" bindtap="hideModal">
-            <text class="cuIcon-close text-red"></text>
+    <template name="userInfo">
+      <view class="user_back">
+        <view class="userinfo clearfix">
+          <view  @tap.stop="goto('/pages/users/unmarriV2')" class="text-center" @longpress="longPress">
+            <image class="userinfo-avatar ff" src="{{user.avatar||Image}}" mode="aspectFill" />
           </view>
-        </view>
-        <view class="padding-xl text-left">
-          你的 <span class="text-shadow text-orange" @tap.stop="gotoPage('/pages/users/unmarriV2')">个人资料</span> 未完善，资料完善度越高，匹配越精准哦！
-          <button class="btn text-center font_30 btn-box white radius shadow bg-blue margin-top send" @tap.stop="gotoPage('/pages/users/unmarriV2')">完善资料
-          </button>
+          <view class="userinfo-info text-center text-shadow text-white" >
+            <span wx:if="{{user.nickname}}" class="font_28 bold white">{{ user.nickname }}</span>
+          </view>
+          <view class="userinfo-info text-center text-shadow text-white" >
+            <span wx:if="{{user.nickname}}" class="font_28 bold white">「门店：宝安区李群店」</span>
+          </view>
+          <image src="../../images/gif/wave.gif" mode="scaleToFill" class="gif-wave"></image>
         </view>
       </view>
-    </view>
-    <view class="cu-modal {{modalName=='ModalLogin'?'show':''}}">
-      <view class="cu-dialog">
-        <view class="cu-bar bg-white justify-end">
-          <view class="content">提示</view>
-          <view class="action" bindtap="hideModal">
-            <text class="cuIcon-close text-red"></text>
-          </view>
-        </view>
-        <view class="padding-xl text-left">
-          你还没登录呢！请先
-          <button class="text-center btn-box white radius shadow inline-block font_26 bg_theme" style="margin-bottom: -12rpx;line-height: 46rpx;" @tap="gotoPage('/pages/userInfo/typeSelect')">登录</button>
-        </view>
-      </view>
-    </view>
-    <view class="cu-modal {{modalName=='Modal'?'show':''}}">
-      <view class="cu-dialog">
-        <view class="cu-bar bg-white justify-end">
-          <view class="content">提示</view>
-          <view class="action" bindtap="hideModal">
-            <text class="cuIcon-close text-red"></text>
-          </view>
-        </view>
-        <view class="padding-xl text-left">
-          福分商城正在维护中,下个版本将开放福分商城，福分可在福分商城里购买商品，对应的使用规则，敬请期待!
-        </view>
-      </view>
-    </view>
+    </template>
     <!--<official-account style="position:fixed;bottom:0;width:100%;height:168rpx;"></official-account>-->
   </view>
 </template>
@@ -130,6 +69,7 @@
         fans_count: 0
       },
       modalName: '',
+      Image: 'http://images.ufutx.com/201902/25/542cc218e40cbc8a8e3a9ce23d7f4789.gif',
       is_vip: false,
       title: '向你推荐《福恋》',
       token: wx.getStorageSync('token'),
@@ -137,57 +77,27 @@
       list: [
         {
           icon: 'https://images.ufutx.com/202003/31/36d229ac60d08f68ae80d614387f64f3.png',
-          title: '认证中心',
+          title: '我的钱包',
           type: 'navigateTo',
-          path: '/pages/users/realName'
+          path: '/pages/users/myWallet'
         },
         {
           icon: 'https://images.ufutx.com/202003/31/01c07e1193e4fa4e1ab88728bf08e1f6.png',
-          title: '会员中心',
+          title: '门店比赛',
           type: 'navigateTo',
-          path: '/pages/users/upgradeVIP'
+          path: '/pages/users/storesGame'
         },
         {
           icon: 'https://images.ufutx.com/202007/25/ffa699647f0f392f6eb8d2ea7433748b.png',
-          title: '服务套餐',
+          title: '我的课程',
           type: 'navigateTo',
-          path: '/pages/users/upgradeVIP2'
-        },
-        {
-          icon: 'https://images.ufutx.com/202003/31/d818cf51568200f390e2f15897c1e624.png',
-          title: '我的福分',
-          type: 'navigateApp',
-          path: ''
+          path: '/pages/users/myCourse'
         },
         {
           icon: 'https://images.ufutx.com/202003/31/639d18a3c5883e90c200fe99910ccab1.png',
-          title: '我的订单',
+          title: '我的评价',
           type: 'navigateTo',
-          path: '/pages/users/myOrderList'
-        },
-        {
-          icon: 'https://images.ufutx.com/202003/31/a70ff1e938748c2ee4821c2c19b4c537.png',
-          title: '我的活动',
-          type: 'navigateTo',
-          path: '/pages/users/myActivity'
-        },
-        {
-          icon: 'https://images.ufutx.com/202003/31/7a6550c4caf427111ee747f47302b236.png',
-          title: '推荐给好友',
-          type: 'navigateTo',
-          path: '/pages/users/myShare'
-        },
-        {
-          icon: 'https://images.ufutx.com/202004/22/975b8a657710b588ffbff8a4023164a2.png',
-          title: '通用设置',
-          type: 'navigateTo',
-          path: '/pages/users/setTing'
-        },
-        {
-          icon: 'https://images.ufutx.com/202003/31/ee0a4f2e9bd9cb6e81dc5def6f08bf3a.png',
-          title: '关于福恋',
-          type: 'navigateTo',
-          path: '/pages/users/aboutLove'
+          path: '/pages/users/myEvaluation'
         }
       ]
     }
@@ -425,5 +335,69 @@
   .send{
     margin: 50rpx auto;
     margin-bottom: -12rpx;
+  }
+  .user_back{
+    height: 60vw;
+    background-image: url("https://images.ufutx.com/202010/20/348a87abc5f0870ed4d0e6085fd032fb.png");
+    /*background: #f8b51e;*/
+    /*background: linear-gradient(#f8b51e, #f9f2db);*/
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding-top: 20vw;
+    position: relative;
+  }
+  .userinfo{
+    padding: 20rpx 0;
+    .gif-wave {
+      width: 100%;
+      position: absolute;
+      bottom: -2rpx;
+      left: 0;
+      z-index: 999;
+      mix-blend-mode: screen;
+      height: 100rpx;
+    }
+    .editInfo{
+      position: absolute;
+      right: 12rpx;
+      top: 24vw;
+      padding: 4rpx 12rpx;
+      font-weight: 600;
+      overflow: hidden;
+      .icon{
+        width: 24rpx;
+        height: 42rpx;
+        vertical-align: middle;
+      }
+    }
+    .userinfo-avatar {
+      width: 140rpx;
+      height: 140rpx;
+      border-radius: 50%;
+      box-shadow: 0 0 20rpx #dbdbdb;
+      border: 4rpx solid #ffffff;
+    }
+    .mainVip{
+      position: relative;
+      margin-top: -32rpx;
+      .icon{
+        width: 26rpx;
+        height: 26rpx;
+        vertical-align: middle;
+        margin-right: 4rpx;
+      }
+      .vipBox{
+        height: 34rpx;
+        line-height: 34rpx;
+        background: #fcf0ef;
+        display: inline-block;
+        padding: 0 10rpx;
+        border-radius: 10rpx;
+      }
+      span{
+        color: #fb8109;
+        margin-bottom: -2rpx;
+      }
+    }
   }
 </style>

@@ -1,0 +1,178 @@
+<template>
+  <Loading :init.sync="init"></Loading>
+    <view class="wrapper">
+        <view class="_list"  wx:for="{{5}}" wx:key="this">
+            <view class=" color_0 font_26 flo_l ellipsis_1 index">{{index+1}}</view>
+            <view class="name color_0 font_24  flo_l ellipsis_1 ">Mamba培训（宝安店）</view>
+            <view class="price color_0 font_24  flo_l ellipsis_1 ">营业额：￥4900</view>
+            <view class="num color_0 font_24  flo_l ellipsis_1 ">总课时：68</view>
+        </view>
+    </view>
+</template>
+<script>
+import wepy from 'wepy'
+import { service } from '../../config.js'
+import http from '../../mixins/http'
+import base from '../../mixins/base'
+import user from '../../mixins/user'
+import ShareMessage from '../../mixins/ShareMessage'
+import NavBar from '../../components/NavBar'
+import Loading from '../../components/loading'
+import uploadImages from '../../components/uploadImages'
+//evaluation
+export default class feedback extends wepy.page {
+  mixins = [base, http, user, ShareMessage]
+  config = {
+    navigationBarTitleText: '门店比赛'
+  }
+
+  components = {NavBar, Loading, uploadImages}
+  data = {
+    loaded: false,
+    init: false,
+    name: ''
+  }
+
+  computed = {}
+
+  onShareAppMessage(res) {
+    return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
+  }
+
+  async onLoad(e) {
+    this.id = e.id
+    setTimeout(() => {
+      this.init = true
+      this.$apply()
+    }, 500)
+  }
+
+  onShow() {
+    // this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
+  }
+
+  onPullDownRefresh() {
+  }
+  onReachBottom() {
+  }
+
+  methods = {
+    myStarChoose(e) {
+      let star = parseInt(e.target.dataset.star) || 0
+      this.star = star
+      this.$apply()
+    },
+    deletePic(index) {
+      let vm = this
+      wx.showModal({
+        title: '提示',
+        content: '删除该照片？',
+        success(res) {
+          if (res.confirm) {
+            vm.informImages.splice(index, 1)
+            vm.$apply()
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    },
+    previewImages(item, list) {
+      this.$previewImages(item, list)
+    },
+    typing(type, e) {
+      this[type] = e.detail.value
+      this.$apply()
+      console.log(this[type])
+    },
+    uploadPic() { // 上传组件
+      this.$invoke('uploadImages', 'chooseimage')
+    },
+    bindPickerChange(e) {
+      this.informIndex = e.detail.value
+      this.informClass = this.informText[this.informIndex]
+      this.$apply()
+    },
+    gotoFriendPage(item) {
+      let url = ''
+      if (item.type == 'single') {
+        url = '/pages/home/information?id=' + item.id
+      } else {
+        url = '/pages/home/introducer?id=' + item.id
+      }
+      wx.navigateTo({url: url})
+    },
+    save() {
+      let data = {
+          content: this.informValue,
+          photos: this.informImages
+        },
+        vm = this
+      vm.$showToast('评价成功！')
+      vm.$gotoBack(1)
+      return
+      for (let item in data) {
+        if (!data[item]) {
+          return vm.$showToast('请输入评价内容！')
+        }
+      }
+      console.log(data)
+      vm.$post({url: `${service.host}/feedback`, data}, {
+        success: ({code, data}) => {
+          wx.showModal({
+            title: '反馈成功！',
+            content: '非常感谢您的反馈！我们将以最快速度处理您的反馈。',
+            success(res) {
+              if (res.confirm) {
+                vm.$gotoBack(1)
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
+          })
+        }
+      })
+    }
+  }
+  events = {
+    'UpLoadImage': (value) => {
+      this.informImages.push(value)
+      this.$apply()
+    }
+  }
+}
+
+</script>
+
+<style lang="less">
+@import "../../styles/weui/base/fn.wxss";
+@import "../../styles/custom/fn.less";
+page{
+    min-height: 100vh;
+  background: #f9f2db;
+  .wrapper{
+    ._title{
+        padding: 42rpx 22rpx;
+        background: #f9e0a2;
+        .text{
+            font-size: 62rpx;
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+        }
+    }
+      ._list{
+          background: white;
+          padding: 22rpx 22rpx;
+          overflow: hidden;
+          text-align: center;
+          .index{width: 4%;}
+          .name{
+              width: 42%;
+          }
+          .price{width: 34%}
+          .num{
+              width: 20%;
+          }
+      }
+  }
+}
+</style>

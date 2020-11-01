@@ -1,163 +1,49 @@
 <template>
   <view class="">
-    <NavBarV2 rgba="#f4f5f9" bag="#b81f46" title_c="#ffffff" title="福恋"></NavBarV2>
-    <view class="_bc-list">
-      <view class="text-center searchBox" @tap="goto('/pages/map/mapList')">
-        <image src="https://images.ufutx.com/202007/24/5b3b942d82741a40d91af8398a01ae4b.png"
-               mode="widthFix" class="approved"></image>
-      </view>
-      <block wx:if="{{list.length > 0}}">
-        <template is="userList" data="{{list, cardCur, active, countDownList, is_approved, is_profile, token, refresh}}"></template>
-      </block>
-    </view>
+    <template is="mainUser" data="{{day, num}}"></template>
+    <template is="list" data="{{list, active}}"></template>
   </view>
-
-  <template name="userList">
-    <swiper class="card-swiper" bindchange="cardSwiper" current="0">
-      <swiper-item wx:for="{{list}}" wx:key="index" class="{{cardCur==index?'cur':''}}" >
-        <view class="swiper-item radius shadow {{cardCur==index?'cur':''}}">
-          <view class="item-avatar radius bg-white" @tap="gotoDetail({{item.id}})">
-            <image src="https://images.ufutx.com/202003/28/d5e810272fab69fe6fe6119a0ffdab3b.png"
-                   wx:if="{{item.is_approved == 1}}" mode="widthFix" class="approved"></image>
-            <image src="{{item.photo}}" mode="aspectFill" class="image animation-slide-right"></image>
-            <view class="font_28 _bc-center">
-              <view class="itemInfo">
-                <view class="color-333 ellipsis_1 font_32 bold flo_l name" style="max-width: 80%">{{item.nickname}}</view>
-                <image src="https://images.ufutx.com/202002/20/40b26d71cf2af9b1be0f874605c6ef2f.png"
-                       wx:if="{{item.sex=='2'}}" mode="aspectFill" class="flo_l icon"></image>
-                <image src="https://images.ufutx.com/202002/20/a92b5d29dedb9932568f97fcdff865bc.png" mode="aspectFill"
-                       wx:else class="flo_l icon"></image>
-                <image src="https://images.ufutx.com/202006/15/e9a028b8afc18aa175ea6701591dcf64.png" wx:if="{{item.isSuperRank=='1'}}" mode="widthFix" class="flo_l VIPIcon"></image>
-                <image src="https://images.ufutx.com/202006/15/77d91cced2e8e8b9815723f8e54554da.png" mode="widthFix" wx:else class="flo_l VIPIcon" ></image>
-                <view class="flo_r city" style="margin-top: 10rpx">{{item.profile.city || ''}}</view>
-                <view class="clearfloat"></view>
-                <view class="font_24 info">
-                  {{item.profile.age? item.profile.age + '岁' : ''}}
-                  <span style="color: #f6f6f6"> | </span>
-
-                  {{item.profile.stature? item.profile.stature +'cm': ''}}
-                  <span style="color: #f6f6f6"> | </span>
-                  {{item.profile.state? item.profile.state: ''}}
-                </view>
-              </view>
-              <view class="itemLabel">
-                <view class="itemBox flo_l ellipsis_1">职业：{{item.industry_sub}}</view>
-                <view class="itemBox flo_l ellipsis_1">信仰：{{item.profile.belief}}</view>
-                <view class="clearfloat"></view>
-              </view>
-            </view>
-          </view>
-          <view class="_bcimage text-center">
-            <image mode="widthFix" src="https://images.ufutx.com/202003/30/3b670683a97770e262b5cc17b853117e.png"></image>
-          </view>
-        </view>
-      </swiper-item>
-      <swiper-item>
-        <view class="swiper-item radius shadow {{cardCur==8?'cur':''}}">
-          <view class="item-avatar radius bg-white">
-            <view class="image" wx:if="{{token}}">
-              <view class="_time text-center">
-                <view class="text-center">
-                  距离下一次匹配剩余 <span class="color-theme">{{countDownList}}</span>
-                </view>
-              </view>
-              <view class="_time" style="top: 130rpx;">
-                <view class="text-center">
-                  每日中午 <span class="color-theme">10点
-                  <button class="text-center btn-box white radius shadow inline-block font_26 bg_theme" style="margin-bottom: -12rpx;" @tap="getList()" wx:if="{{refresh}}">刷新</button>
-                  <span wx:else>刷新</span>
-                </span> 智能推荐用户{{day}}
-                </view>
-              </view>
-              <block wx:if="{{!is_profile || !is_approved}}">
-                <view class="_time" style="top: 210rpx;">
-                  <view class="text-center font_22 color-333">由于您未满足个性化推送要求，</view>
-                  <view class="text-center font_22 color-333">请完善以下信息!</view>
-                </view>
-                <view class="_time" style="top: 380rpx;">
-                  <view class="text-center" style="margin: auto;">
-                    <view style="width: 52vw;margin: auto;">
-                      <span class="font_26 flo_l">通过实名认证</span>
-                      <view class=" text-center btn-box white radius shadow flo_r font_26 bg_theme" wx:if="{{!is_approved}}" @tap="goto('/pages/users/realName')">去认证</view>
-                      <button class="text-center btn-box white radius shadow flo_r font_26 bg-gradual-green" wx:else>已认证</button>
-                    </view>
-                  </view>
-                </view>
-                <view class="_time" style="top: 460rpx;">
-                  <view class="text-center" style="margin: auto;">
-                    <view style="width: 52vw;margin: auto;">
-                      <span class="font_26 flo_l">完善你的资料</span>
-                      <view class=" text-center btn-box white radius shadow flo_r font_26 bg_theme" wx:if="{{!is_profile}}" @tap="goto('/pages/users/unmarriV2')">去完善</view>
-                      <view class="text-center btn-box white radius shadow  bg-gradual-green flo_r font_26 " wx:else>已完善</view>
-                    </view>
-                  </view>
-                </view>
-              </block>
-              <block wx:else>
-                <view class="_time" style="top: 280rpx;">
-                  <view style="width: 72%;margin: auto;" class="bold text-center font_30 color-333 ">
-                    福恋每天10点为你精心智能匹配7位优质的单身，如果有心仪的，千万不要错过哦！
-                  </view>
-                </view>
-              </block>
-              <view class="_time" style="top: 560rpx;">
-                <view class="text-center" style="margin: auto;">
-                  <image src="https://images.ufutx.com/202004/19/0b8e6c53183b5952b58f69a347f703df.png" mode="widthFix" style="width: 220rpx;margin: auto;"></image>
-                </view>
-              </view>
-              <view class="_time text-center" style="top: 448rpx;" wx:if="{{is_profile && is_approved}}">
-                <button  class="text-center btn-box white radius shadow inline-block font_26 bg_theme d_btn"  @tap="goto('/pages/map/mapList')" >更多心仪对象</button>
-              </view>
-            </view>
-            <view wx:else class="image">
-              <view class="_time" style="top: 200rpx;">
-                <view style="margin-left: 62rpx;margin-bottom: 32rpx; " class="font_30 bold color-333">你还没登录呢！</view>
-                <view style="margin-left: 62rpx;" class="font_28 color-666">
-                  系统暂无法为你智能推荐,请先 <button class="text-center btn-box white radius shadow inline-block font_26 bg_theme" style="margin-bottom: -12rpx;" @tap="goto('/pages/userInfo/typeSelect')">登录</button>
-                </view>
-              </view>
-              <view class="_time" style="top: 600rpx;">
-                <view class="text-center" style="margin: auto;">
-                  <image src="https://images.ufutx.com/202004/19/0b8e6c53183b5952b58f69a347f703df.png" mode="widthFix" style="width: 220rpx;margin: auto;"></image>
-                </view>
-              </view>
-            </view>
-            <view class="font_28 _bc-center">
-              <view class="itemInfo">
-                <view class="color-333 ellipsis_1 font_32 bold flo_l name" style="max-width: 80%"></view>
-                <view class="flo_r city" style="margin-top: 10rpx"></view>
-                <view class="clearfloat"></view>
-                <view class="font_24 info">
-                </view>
-              </view>
-              <view class="itemLabel">
-                <view class="itemBox flo_l ellipsis_1 ff"></view>
-                <view class="itemBox flo_l ellipsis_1 ff"></view>
-                <view class="clearfloat"></view>
-              </view>
-            </view>
-          </view>
-          <view class="_bcimage text-center">
-            <image mode="widthFix" src="https://images.ufutx.com/202003/30/3b670683a97770e262b5cc17b853117e.png"></image>
-          </view>
-        </view>
-      </swiper-item>
-    </swiper>
+  <template name="mainUser">
+    <view class="_userInfo radius shadow bg-white">
+      <view class="_item bold"><view class="font_52 white">{{day}}</view><span>回复数量</span></view>
+      <view class="_item"><image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg" mode="aspectFill" class="photo "></image></view>
+      <view class="_item bold"><view class="font_52 white">{{num}}</view><span>累计上课次数</span></view>
+    </view>
   </template>
-  <view class="cu-modal {{modalName=='Modal'?'show':''}}">
-    <view class="cu-dialog">
-      <view class="cu-bar bg-white justify-end">
-        <view class="content">提示</view>
-        <view class="action" bindtap="hideModal">
-          <text class="cuIcon-close text-red"></text>
+  <template name="list">
+    <view class="text-left arenaStyle">
+      <span class="_text font_32   {{active == '1'?'bold color_0':'color-666'}}" @tap="tabFn('1')">进行中</span>
+      <span class='color-666 font_24'>|</span>
+      <span class="_text font_32  {{active == '2'?'bold color_0':'color-666'}}" @tap="tabFn('2')">已完成</span>
+    </view>
+    <view class="listBox">
+      <view class="listItem radius shadow bg-white" wx:for="{{4}}" wx:key="this" @tap="gotoDetaile('2')">
+        <image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg" mode="aspectFill"
+               class="image flo_l"></image>
+        <view class="flo_l _title bold font_30 ellipsis_1">基础课程</view>
+        <view class="flo_l  ellipsis_1 _address">
+          <image src="https://images.ufutx.com/202010/19/3e1a94bb6228e9f61b4b50825f61f7ec.png" mode="widthFix"
+                 class="icon"></image>
+          <span class="font_24">2020年09月26日 18:00-19:30</span>
+        </view>
+        <view class="flo_l  ellipsis_1 _address" style="margin-top: -10rpx;">
+          <image src="https://images.ufutx.com/202010/19/f998aa1bb8a68f48d6119476fdc78ea1.png" mode="widthFix"
+                 class="icon"></image>
+          <span class="font_24">深圳市南山区阳光科创A座129</span>
+        </view>
+        <view class="flo_l  ellipsis_1 _address" style="margin-top: -10rpx;">
+          <image src="https://images.ufutx.com/202010/19/f998aa1bb8a68f48d6119476fdc78ea1.png" mode="widthFix"
+                 class="icon"></image>
+          <span class="font_24">赵小姐</span>
+        </view>
+        <view class="flo_l  ellipsis_1 _address" style="margin-top: -10rpx;">
+          <image src="https://images.ufutx.com/202010/19/f998aa1bb8a68f48d6119476fdc78ea1.png" mode="widthFix"
+                 class="icon"></image>
+          <span class="font_24">15707352230</span>
         </view>
       </view>
-      <view class="padding-xl text-left">
-        你还没登录呢！请先
-        <button class="text-center btn-box white radius shadow inline-block font_26 bg_theme" style="margin-bottom: -12rpx;line-height: 46rpx;" @tap="goto('/pages/userInfo/typeSelect')">登录</button>
-      </view>
     </view>
-  </view>
+  </template>
 </template>
 
 <script>
@@ -167,47 +53,29 @@
   import base from '../../mixins/base'
   import user from '../../mixins/user'
   // import ShareMessage from '../../mixins/ShareMessage'
-  import Loading from '../../components/loading'
-  import pageScroll from '../../components/pageScroll'
-  import NavBarV2 from '../../components/NavBarV2'
+  
   let date = new Date()
   export default class home extends wepy.page {
     mixins = [base, http, user]
     config = {
-      navigationBarTitleText: '福恋',
-      onReachBottomDistance: 10,
-      navigationStyle: 'custom',
+      navigationBarTitleText: '我的预约',
       enablePullDownRefresh: false
     }
-    components = {
-      Loading, pageScroll, NavBarV2
-    }
-    watch = {
-      list() {
-      }
-    }
+    components = {}
     data = {
       list: [],
-      id: '',
-      cardCur: 0,
-      active: true,
-      token: wx.getStorageSync('token'),
-      modalName: '',
-      throttle: true, // 节流
-      day: date,
-      countDownList: '00天00时00分00秒',
-      actEndTime: '2020-4-19 18:50:00',
-      is_profile: '',  // 资料是否完善
-      is_approved: '', // 是否认证
+      city: '深圳',
+      day: '10', // 累计天数
+      num: '7',  // 累积训练次数
+      active: 1,
       refresh: false // 是否刷新
     }
-
+    
     computed = {}
-
+    
     async onLoad(e) {
-      this.countDown()
     }
-
+    
     onShow() {
       let vm = this
       vm.cardCur = 0
@@ -243,7 +111,6 @@
               }
             })
             vm.getList()
-            // vm.countDown()
           },
           fail: (res) => {
             console.log('wepy.login.fail:', res)
@@ -253,106 +120,24 @@
         vm.page = 1
         vm.$apply()
         vm.getList()
-        // vm.countDown()
         vm.upDate()
       }
       // vm.$parent.getTracker(vm.$root.$name, vm.config.navigationBarTitleText)
     }
-
+    
     timeFormat(param) {
       return param < 10 ? '0' + param : param
     }
-
-    countDown(it) {
-      let vm = this
-      vm.day.setTime(vm.day.getTime() + 24 * 60 * 60 * 1000)
-      let s3 = `${vm.day.getFullYear()}-${(vm.day.getMonth() + 1)}-${vm.day.getDate()} 10:00:00`.replace(/-/g, '/')
-      let interval = setInterval(() => { // 获取当前时间，同时得到活动结束时间数组
-        let newTime = new Date().getTime() // 对结束时间进行处理渲染到页面
-        let endTime = new Date(s3).getTime()
-        let obj = null // 如果活动未结束，对时间进行处理
-        if (endTime - newTime > 0) {
-          let time = (endTime - newTime) / 1000 // 获取天、时、分、秒
-          let day = parseInt(time / (60 * 60 * 24))
-          let hou = parseInt(time % (60 * 60 * 24) / 3600)
-          let min = parseInt(time % (60 * 60 * 24) % 3600 / 60)
-          let sec = parseInt(time % (60 * 60 * 24) % 3600 % 60)
-          obj = {
-            day: vm.timeFormat(day),
-            hou: vm.timeFormat(hou),
-            min: vm.timeFormat(min),
-            sec: vm.timeFormat(sec)
-          }
-        } else { // 活动已结束，全部设置为'00'
-          obj = {
-            day: '00',
-            hou: '00',
-            min: '00',
-            sec: '00'
-          }
-          clearInterval(interval)
-        }
-        if (obj.hou == '00' & obj.min == '00' & obj.sec == '00') { // 一周期
-          vm.refresh = true
-          vm.$apply()
-          console.log(vm.refresh, 'asasassssss')
-        } else {
-          vm.countDownList = obj.hou + '时' + obj.min + '分' + obj.sec + '秒'
-          vm.$apply()
-        }
-      }, 1000)
-    }
-
-    onShareAppMessage(res) {
-      let that = this
-      let openid = wx.getStorageSync('openid')
-      let url = `/pages/tabBar/welcome?from_openid=${openid}&share_user_id=${that.id}`
-      console.log(url)
-      return {
-        title: '向你推荐《福恋》',
-        path: url,
-        imageUrl: 'https://images.ufutx.com/202004/29/baac955e5878e0cb03c17eef0c92f473.jpeg',
-        success: function(res) {
-          wx.showToast({
-            title: '转发成功',
-            icon: 'success',
-            duration: 1500
-          })
-          var shareTickets = res.shareTickets
-          if (shareTickets.length == 0) {
-            return false
-          }
-        },
-        fail: function(res) {
-          // 转发失败
-        }
-      }
-      // wx.showShareMenu({
-      //   withShareTicket: true,
-      //   menus: ['shareAppMessage', 'shareTimeline']
-      // })
-    }
-
-    onShareTimeline() {
-      return {
-        title: '转发标题',
-        imageUrl: '', // 图片 URL
-        query: 'a=1&b=2'
-      }
-    }
-
+    
     getList() {   // 获取用户数据
       let vm = this,
-        url = `${service.host}/home/v3`,
-        data = {
-          sex: `${vm.touristsSex}`
-        }
+              url = `${service.host}/home/v3`,
+              data = {
+                sex: `${vm.touristsSex}`
+              }
       vm.cardCur = 0
       vm.list = []
       vm.$apply()
-      // if (vm.touristsSex) {
-      //   url = `${service.host}/home/v3&`
-      // }
       vm.$showLoading('加载中')
       vm.$get({
         url: url, data
@@ -365,7 +150,7 @@
         }
       })
     }
-
+    
     upDate() {
       let vm = this
       let url = `${service.host}/user/v3`
@@ -384,24 +169,15 @@
         }
       })
     }
-
     methods = {
-      hideModal () {
-        this.modalName = ''
+      tabFn(val) {
+        let vm = this
+        vm.$showLoading('加载中...')
+        setTimeout(() => {
+          vm.$hideLoading()
+        }, 800)
+        this.active = val
         this.$apply()
-      },
-      gotoDetail(id) {
-        if (!this.token) {
-          this.modalName = 'Modal'
-          this.$apply()
-          return
-        }
-        this.$goto(`/pages/home/information?id=${id}`)
-      },
-      cardSwiper(e) {
-        this.cardCur = e.detail.current
-        this.$apply()
-        console.log(this.cardCur, 'this.cardCur')
       },
       goto(url) {
         this.modalName = ''
@@ -410,213 +186,84 @@
         this.$goto(url)
       }
     }
-    events = {
-      'modalValue': (value) => { // 搜索返回值
-        this.modalName = value
-        this.$apply()
-      }
-    }
+    events = {}
   }
 </script>
 
 <style lang="less">
-  @import "../../styles/weui/base/fn.wxss";
   @import "../../styles/custom/fn.less";
+  @import "../../styles/custom/reset.less";
+  
   page {
-    background: #F5F5F5;
-    .searchBox{
-      margin-top: 12rpx;
-      margin-bottom: -12rpx;
-    }
-    ._bc-list{
-      position: relative;
-      .main-bc{
-        width: 100vw;
-        position: absolute;
-        top: -2.8vw;
-      }
-    }
-    .main-fn{
-      width: 100%;
-      position: fixed;
-      bottom: 2vh;
-      z-index: 9999;
-      .icon{
-        width: 150rpx;
-        height: auto;
-      }
-      .image{
-        width: 260rpx;
-        height: auto;
-        margin: 0 22rpx;
-        margin-bottom: 12px;
-      }
-    }
-    .card-swiper{
-      height: 88vh !important;
-      .swiper-item{
-        /*border-radius: 14rpx;*/
-        padding: 0;
-        /*overflow: hidden;*/
-      }
-      .cur{
-        transform: scale(1);
-      }
-    }
-    .item-avatar {
-      width: 100%;
-      /*margin: 22rpx 32rpx 0rpx 32rpx;*/
-      border-radius: 16rpx;
+    background: #f9f2db;
+    ._userInfo{
+      background: #f8b51e;
       overflow: hidden;
-      position: relative;
-      z-index: 999;
-      box-shadow: 1rpx 1rpx 22rpx #f2f2f2;
-      .approved{
-        position: absolute;
-        left: 32rpx;
-        top: 22rpx;
-        width: 140rpx;
-        height: auto;
-        z-index: 9999;
+      padding-top: 32rpx;
+      .photo{
+        width: 180rpx;
+        height: 180rpx;
+        border-radius: 50%;
+        box-shadow: 1rpx 1rpx 12rpx #a1a1a1;
+        margin-top: -42rpx;
+        margin-bottom: 22rpx;
       }
-      .image {
-        width: 100%;
-        height: 58vh;
-        margin-bottom: -32rpx;
-      }
-      ._bc-center {
-        padding: 24rpx;
-        background: #fff;
-        .name{
-          height: 50rpx;
-        }
-        .info{
-          height: 34rpx;
-          margin-top: 10rpx;
-        }
-        .city{
-          height: 34rpx;
-        }
-        .itemLabel{
-          padding: 6rpx;
-          margin-top: 12rpx;
-          .itemBox{
-            max-width: 240rpx;
-            height: 46rpx;
-            line-height: 46rpx;
-            padding: 0 16rpx;
-            background: #f4f5f9;
-            margin-right: 16rpx;
-            border-radius: 8rpx;
-          }
-        }
-        .itemInfo{
-          padding: 6rpx;
-          margin-top: 12rpx;
-          padding-bottom: 12rpx;
-          border-bottom: 1rpx solid #f6f6f6;
-          .icon{
-            width: 32rpx;
-            height: 32rpx;
-            margin-top: 12rpx;
-            margin-left: 4rpx;
-          }
-          .VIPIcon{
-            width: 120rpx !important;
-            height: auto;
-            margin-top: 12rpx;
-            margin-left: 4rpx;
-          }
-          .iconD{
-            width: 30rpx;
-            height: 30rpx;
-            margin-top: 14rpx;
-            margin-left: 4rpx;
-          }
-        }
-      }
-      ._time{
-        position: absolute;
-        left: 0;
-        top: 55rpx;
-        width: 100%;
-        .btn-box{
-          border-radius: 6rpx;
-          padding: 0 12rpx;
-          line-height: 46rpx;
-        }
+      ._item{
+        color: black;
+        width: 33%;
+        float: left;
+        text-align: center;
+        margin-top: 52rpx;
       }
     }
-    ._mainBC {
-      z-index: 99;
-      .image {
-        width: 100%;
-        height: 58vh;
-        margin-bottom: -32rpx;
+    .arenaStyle{
+      margin-top: 12rpx;
+      letter-spacing: 2rpx;
+      padding-left: 12rpx;
+      ._text{
+        margin: 0 22rpx;
       }
-      ._bc-center {
-        padding: 24rpx;
-        background: #fff;
+      .color_0{
+        color: #000000;
+      }
+    }
+    .listBox{
+      margin: 12rpx 32rpx;
+      ._title{
+        color: black;
+        margin: 12rpx 14rpx;
+        width: 52%;
+      }
+      ._address{
+        width: 62%;
         overflow: hidden;
-        .name{
-          width: 25%;
-          height: 50rpx;
-          background: #f6f6f6;
-          border-radius: 8rpx;
+        margin: -20rpx 14rpx 0 14rpx;
+        color: black;
+        .icon{
+          width: 20rpx;
+          height: 20rpx;
+          vertical-align: middle;
+          margin-bottom: 6rpx;
+          margin-right: 6rpx;
         }
-        .info{
-          height: 34rpx;
-          width: 50%;
-          background: #f6f6f6;
-          border-radius: 8rpx;
-        }
-        .city{
-          width: 12vw;
-          height: 34rpx;
-          background: #f6f6f6;
-          border-radius: 8rpx;
-        }
-        .itemLabel{
-          .itemBox {
-            width: 100%;
-            background: #f6f6f6;
-          }
+      }
+      .listItem{
+        margin-top: 12rpx;
+        position: relative;
+        border-radius: 22rpx;
+        overflow: hidden;
+        height: 200rpx;
+        background: #f8b51e;
+        margin-bottom: 24rpx;
+        .image{
+          width: 200rpx;
+          height: 200rpx;
+          border-radius: 22rpx;
         }
       }
     }
-    ._bcimage{
-      margin-top: -16rpx;
-      image{
-        width: 99%;
-        z-index: -99999;
-      }
+    .font_52{
+      font-size: 52rpx;
     }
-  }
-  .doudun{
-    animation: tada 1s .1s ease both;
-  }
-
-  @keyframes tada {
-    0% {
-      transform: scale(1);
-    }
-    10%, 20% {
-      transform: scale(0.9) rotate(-6deg)
-    }
-    30%, 50%, 70%, 90% {
-      transform: scale(1.2) rotate(6deg)
-    }
-    40%, 60%, 80% {
-      transform: scale(1.2) rotate(-6deg)
-    }
-    100% {
-      transform: scale(1) rotate(0)
-    }
-  }
-
-  .d_btn {
-    width: 260rpx;
-    padding: 8rpx 0 !important;
-    letter-spacing: 2rpx;
   }
 </style>

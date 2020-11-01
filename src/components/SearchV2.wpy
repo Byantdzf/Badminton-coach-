@@ -49,7 +49,7 @@
       },
       BColor: {
         type: String,
-        default: false
+        default: '#FFF'
       }
     }
     data = {

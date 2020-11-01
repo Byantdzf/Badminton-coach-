@@ -1,0 +1,352 @@
+<template>
+  <Loading :init.sync="init"></Loading>
+  <view class="container">
+    <view class="orderdata">
+      <view class="section list">
+        <view class="picker">
+          <span class="font_28 color_0">姓名</span>
+          <input type="text" placeholder="请输入姓名" class="Inp font_28 text"  @blur="typing('name')"  value="{{name}}" cursor-spacing="50"/>
+        </view>
+      </view>
+      <view class="section list">
+        <picker  value="{{sexIndex}}" range="{{sex}}"  bindchange="sexChange" >
+          <view class="picker">
+            <span class="font_28 color_0">性别</span>
+            <view class="text">
+              <span class="color-999">{{sexIndex?sex[sexIndex]:'请选择'}}</span>
+              <text class="cuIcon-right lg text-gray"></text>
+            </view>
+          </view>
+        </picker>
+      </view>
+      <view class="section list">
+        <picker mode="date"  value="1990-01-01" end="{{endDate}}"  @change="typing('birthday')">
+          <view class="picker">
+            <span class="font_28 color_0">出生日期</span>
+            <view class="text">
+              <span class="color-999">{{birthday?birthday:'请选择'}}</span>
+              <text class="cuIcon-right lg text-gray"></text>
+            </view>
+          </view>
+        </picker>
+      </view>
+      <view class="section list">
+        <view class="picker">
+          <span class="font_28 color_0">电话</span>
+          <input type="text" placeholder="请输入电话号码" class="Inp font_28 text"  @blur="typing('name')"  value="{{name}}" cursor-spacing="50"/>
+        </view>
+      </view>
+      <view class="section list">
+        <view class="picker">
+          <span class="font_28 color_0">一周运动次数</span>
+          <input type="text" placeholder="请输入次数" class="Inp font_28 text"  @blur="typing('name')"  value="{{name}}" cursor-spacing="50"/>
+        </view>
+      </view>
+      <view class="section list">
+        <view class="picker">
+          <span class="font_28 color_0">预期收获</span>
+          <input type="text" placeholder="请输入预期收获" class="Inp font_28 text"  @blur="typing('name')"  value="{{name}}" cursor-spacing="50"/>
+        </view>
+      </view>
+      <view class="section list" style="border: none;">
+        <view class="picker">
+          <span class="font_28 color_0">正在培训课程</span>
+          <input type="text" placeholder="请输入培训名称" class="Inp font_28 text"  @blur="typing('name')"  value="{{name}}" cursor-spacing="50"/>
+        </view>
+      </view>
+<!--      <view class="height160"></view>-->
+    </view>
+    <view class="mainBtn">
+      <button class="btn text-center font_30 btn-box radius shadow bg-blue margin-top send bold"  hover-class="btn_active"  @tap="saveFn('/pages/users/unmarri')">完成
+      </button>
+    </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import { service } from '../../config.js'
+import http from '../../mixins/http'
+import base from '../../mixins/base'
+import user from '../../mixins/user'
+import NavBar from '../../components/NavBar'
+import Loading from '../../components/loading'
+import selectCity1 from '../../components/selectCity'
+import selectCity from '../../components/selectCity'
+import uploadImages from '../../components/uploadImages'
+
+export default class Unmarried extends wepy.page {
+  mixins = [base, http, user]
+  components = {NavBar, Loading, selectCity1, selectCity, uploadImages}
+  config = {
+    navigationBarTitleText: '编辑资料',
+    enablePullDownRefresh: false
+  }
+  data = {
+    init: false,
+    sex: ['男', '女'],
+    sexIndex: 0,
+    birthday: '',
+    name: ''
+  }
+
+  onLoad() {
+    let timestamp = Date.parse(new Date())
+    let date = new Date(timestamp)
+    let Y = date.getFullYear()
+    let M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1)
+    let D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
+    this.endDate = `${Y}-${M}-${D}`
+    this.$apply()
+  }
+  onShow() {
+    console.log(this.route)
+    // this.$parent.getTracker(this.$root.$name, '个人信息（基础）修改')
+  }
+
+  getuser() {
+    let that = this
+    this.loading = true
+    this.$get({url: `${service.profile}/v2`}, {
+      success: ({code, data}) => {
+        that.init = true
+        let result = data
+        that.name = result.nickname
+        that.age = result.age
+        that.avatar = result.avatar
+        if (result.birthday) {
+          that.birthday = result.birthday
+        }
+        that.$apply()
+      },
+      fail: ({code, data}) => {
+      },
+      complete: () => {
+        this.loading = false
+      }
+    })
+  }
+
+  ensureData(data) { // 保存
+    this.$put({url: `${service.host}/profile/v2`, data}, {
+      success: ({code, data}) => {
+        console.log('参数保存成功！')
+        this.$gotoBack(1)
+      },
+      fail: ({code, data}) => {
+      },
+      complete: () => {
+      }
+    })
+  }
+  methods = {
+    saveFn() {  // 检索参数
+      let vm = this
+      let data = {
+        nickname: vm.name,
+        birthday: vm.birthday
+      }
+      vm.$gotoBack(1)
+      // this.ensureData(data)
+    },
+    bindMultiPickerChange2(e) {
+      console.log(e)
+      console.log('picker发送选择改变，携带值为', e.detail.value)
+      this.multiIndex2 = e.detail.value
+      this.$apply()
+    },
+    bindMultiPickerColumnChange2(e) {
+      let that = this
+      that.show = false
+      that.multiIndex2[e.detail.column] = e.detail.value
+      switch (e.detail.column) {
+        case 0:
+          for (let i = 0; i < that.Business.length; i++) {
+            if (that.multiIndex2[0] === i) {
+              that.objectMultiArray[1] = that.Business[i].items
+            }
+          }
+          that.multiIndex2[1] = 0
+          break
+      }
+      that.$apply()
+    },
+    typing(type, e) {
+      console.log(e.detail.value)
+      this[type] = e.detail.value
+      this.$apply()
+      console.log(this.name, 'name')
+      console.log(this.birthday, 'birthday')
+      console.log(this.graduate_school, 'graduate_school')
+      console.log(this.wechat_id, 'wechat_id')
+    },
+    stateChange(e) { // 单身状态
+      this.stateIndex = e.detail.value
+      this.$apply()
+      console.log(this.state[this.stateIndex])
+    },
+    sexChange(e) { // 性别
+      this.sexIndex = e.detail.value
+      this.$apply()
+      console.log(this.sexIndex)
+    },
+    statureChange(e) { // 身高
+      this.statureIndex = e.detail.value
+      this.stature = this.statureList[this.statureIndex]
+      this.$apply()
+      console.log(this.stature)
+    },
+    weightChange(e) { // 体重
+      this.weightIndex = e.detail.value
+      this.weight = this.weightList[this.weightIndex]
+      this.$apply()
+      console.log(this.weight)
+    },
+    degreeChange(e) {
+      this.ShowDegree = true
+      this.degreeIndex = e.detail.value
+      this.$apply()
+    },
+    work_sortChange(e) {
+      this.WorkShow = true
+      this.work_sortIndex = e.detail.value
+      this.$apply()
+    },
+    beliefChange(e) {
+      this.beliefIndex = e.detail.value
+      this.$apply()
+    },
+    incomeChange(e) {  // 年收入
+      this.incomeIndex = e.detail.value
+      this.$apply()
+    }
+  }
+  events = {
+    'selectCity': (value, index) => {
+      console.log(value)
+      console.log(index)
+      if (index == 0) {
+        this.region = value
+      } else {
+        this.region_id = value
+      }
+      this.$apply()
+    }
+  }
+}
+</script>
+<style lang="less">
+page{
+  background: #f9f2db;
+  .mainBtn{
+    .btn-box{
+      width: 68%;
+      background: #f8b51e;
+      border-radius: 48rpx;
+      padding: 16rpx 0;
+      margin: auto;
+      margin-top: 120rpx;
+      margin-bottom: -90rpx;
+      letter-spacing: 8rpx;
+      color: black;
+    }
+  }
+}
+.active {
+  border: 1rpx solid color-theme
+}
+
+.display_inlin {
+  display: inline-block
+}
+.flo_l{float: left}
+.userinfo{
+  width: 100%;
+  font-size: 26rpx;
+  font-weight: bold;
+  box-shadow: 1rpx 1rpx 10rpx #d6d6d6;
+  position: fixed;
+  left: 0;
+  top:0;
+  background: white;
+  z-index: 10;
+}
+.violet{color: #B22DC3}
+
+.font_12 {
+  font-size: 22 rpx
+}
+.orderdata{
+  width: 100%;
+  background: white;
+}
+.weui-cell{
+  padding: 12rpx 0;
+}
+.Inp{
+  text-align: right;
+  width: 72%;height: 72rpx;
+  float: right;
+  margin-top: 6rpx;
+  font-weight: 200;
+}
+.text{
+  float: right;
+  margin-bottom: 4rpx;
+}
+.next{
+  height: 120rpx;
+  /*border-top: 1rpx solid #d9d9d9 ;*/
+  border-bottom: 1rpx solid #d9d9d9 ;
+  z-index: 10;
+  width: 100%;
+  background: white;
+  padding-bottom: 12rpx;
+  /*box-shadow: 5rpx 5rpx 12rpx #c2571f;*/
+}
+.InputFocus{
+  color: color-theme;
+}
+.active_user{
+  width: 100rpx;
+  height: 100rpx;
+  box-shadow: 1rpx 1rpx 12rpx #dedede;
+  margin:10rpx 16rpx 10rpx 36rpx;
+  border: 4rpx solid white;
+}
+.getinfo{
+  margin-top: 66rpx;
+  color: #ff9832;
+  border: 1rpx solid #ff9832;
+  padding: 2rpx 4rpx;
+  border-radius: 6rpx;
+  box-shadow: 1rpx 1rpx 12rpx #dbdbdb;
+  line-height: inherit;
+}
+.mainTitle{
+  padding: 16rpx 32rpx;
+  background: #f6f6f6;
+}
+.userPhoto{
+  padding: 22rpx;
+  image{
+    width: 160rpx;
+    height: 160rpx;
+    margin: 0 16rpx 12rpx 0;
+  }
+}
+.list{
+  height: 90rpx;
+  line-height: 90rpx;
+  font-size: 28rpx;
+  margin: 0 32rpx;
+  padding: 0 12rpx;
+  border-bottom: 2rpx solid #a0a0a0;
+  overflow: hidden;
+  .icon{
+    width: 32rpx;
+    height: 32rpx;
+    vertical-align: middle;
+    margin-bottom: 1vw;
+  }
+}
+</style>

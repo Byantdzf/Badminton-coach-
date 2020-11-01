@@ -123,6 +123,9 @@ export default class baseMixin extends wepy.mixin {
       mask: true
     })
   }
+  $hideLoading(title) {
+    wx.hideLoading()
+  }
 
   $callPhone(mobile) {
     wx.makePhoneCall({
