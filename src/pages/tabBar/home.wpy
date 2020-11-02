@@ -34,12 +34,12 @@
           <span class="font_24">深圳市南山区阳光科创A座129</span>
         </view>
         <view class="flo_l  ellipsis_1 _address" style="margin-top: -10rpx;">
-          <image src="https://images.ufutx.com/202010/19/f998aa1bb8a68f48d6119476fdc78ea1.png" mode="widthFix"
+          <image src="https://images.ufutx.com/202011/02/031c67fabf11f6bfb90fb9aea92930da.png" mode="widthFix"
                  class="icon"></image>
           <span class="font_24">赵小姐</span>
         </view>
         <view class="flo_l  ellipsis_1 _address" style="margin-top: -10rpx;">
-          <image src="https://images.ufutx.com/202010/19/f998aa1bb8a68f48d6119476fdc78ea1.png" mode="widthFix"
+          <image src="https://images.ufutx.com/202011/02/55574a4d22cbd4f24c79938bbb156594.png" mode="widthFix"
                  class="icon"></image>
           <span class="font_24">15707352230</span>
         </view>
@@ -55,7 +55,7 @@
   import base from '../../mixins/base'
   import user from '../../mixins/user'
   // import ShareMessage from '../../mixins/ShareMessage'
-  
+
   let date = new Date()
   export default class home extends wepy.page {
     mixins = [base, http, user]
@@ -72,12 +72,12 @@
       active: 1,
       refresh: false // 是否刷新
     }
-    
+
     computed = {}
-    
+
     async onLoad(e) {
     }
-    
+
     onShow() {
       let vm = this
       vm.cardCur = 0
@@ -126,11 +126,11 @@
       }
       // vm.$parent.getTracker(vm.$root.$name, vm.config.navigationBarTitleText)
     }
-    
+
     timeFormat(param) {
       return param < 10 ? '0' + param : param
     }
-    
+
     getList() {   // 获取用户数据
       let vm = this,
               url = `${service.host}/home/v3`,
@@ -152,7 +152,7 @@
         }
       })
     }
-    
+
     upDate() {
       let vm = this
       let url = `${service.host}/user/v3`
@@ -195,7 +195,7 @@
 <style lang="less">
   @import "../../styles/custom/fn.less";
   @import "../../styles/custom/reset.less";
-  
+
   page {
     background: #f9f2db;
     ._userInfo{

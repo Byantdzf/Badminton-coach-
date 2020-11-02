@@ -59,10 +59,10 @@
                      class="icon"></image>
               <span class="color-red font_32 bold">78</span>
             </view>
-            <view class="btnStyle">
-              <button class="btn text-center font_26 btn-box bold flo_r color-theme"  hover-class="btn_active"  @tap.stop="cancelFn">立即购买
-              </button>
-            </view>
+<!--            <view class="btnStyle">-->
+<!--              <button class="btn text-center font_26 btn-box bold flo_r color-theme"  hover-class="btn_active"  @tap.stop="cancelFn">立即购买-->
+<!--              </button>-->
+<!--            </view>-->
           </view>
         </view>
       </block>
@@ -78,9 +78,9 @@
           </view>
         </view>
       </block>
-    
+
     </view>
-  
+
   </template>
 </template>
 <script>
@@ -93,14 +93,14 @@
   import NavBar from '../../components/NavBar'
   import Loading from '../../components/loading'
   import uploadImages from '../../components/uploadImages'
-  
+
   export default class feedback extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
       navigationBarTitleText: '团课详情'
       // navigationStyle: 'custom'
     }
-    
+
     components = {NavBar, Loading, uploadImages}
     data = {
       loaded: false,
@@ -119,13 +119,13 @@
       // 赞
       star: 3
     }
-    
+
     computed = {}
-    
+
     onShareAppMessage(res) {
       return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
     }
-    
+
     async onLoad(e) {
       this.id = e.id
       setTimeout(() => {
@@ -133,16 +133,16 @@
         this.$apply()
       }, 500)
     }
-    
+
     onShow() {
       // this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
-    
+
     onPullDownRefresh() {
     }
     onReachBottom() {
     }
-    
+
     methods = {
       tabFn(val) {
         let vm = this
@@ -363,7 +363,7 @@
     .listBoxV2{
       margin: 12rpx 22rpx;
       .mark{
-      
+
       }
       .btnStyle{
         .btn-box{

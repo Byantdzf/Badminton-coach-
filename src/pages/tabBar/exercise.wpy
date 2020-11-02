@@ -20,12 +20,12 @@
                class="image flo_l"></image>
         <view class="flo_l _title bold font_30 ellipsis_1">基础课程</view>
         <view class="flo_l  ellipsis_1 _address">
-          <image src="https://images.ufutx.com/202010/19/3e1a94bb6228e9f61b4b50825f61f7ec.png" mode="widthFix"
+          <image src="https://images.ufutx.com/202011/02/031c67fabf11f6bfb90fb9aea92930da.png" mode="widthFix"
                  class="icon"></image>
           <span class="font_24">赵小姐</span>
         </view>
         <view class="flo_l  ellipsis_1 _address">
-          <image src="https://images.ufutx.com/202010/19/3e1a94bb6228e9f61b4b50825f61f7ec.png" mode="widthFix"
+          <image src="https://images.ufutx.com/202010/19/f998aa1bb8a68f48d6119476fdc78ea1.png" mode="widthFix"
                  class="icon"></image>
           <span class="font_24">深圳市南山区阳光科创B座1809</span>
         </view>
@@ -154,7 +154,7 @@ export default class home extends wepy.page {
       }
     })
   }
-  
+
   methods = {
     searchFn(e) {
       console.log(e.detail.value)

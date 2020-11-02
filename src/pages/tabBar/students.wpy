@@ -181,8 +181,8 @@ page{
       background: #f9f2db;
     }
     .list{
-      height: 100rpx;
-      line-height: 100rpx;
+      height: 110rpx;
+      line-height: 110rpx;
       font-size: 28rpx;
       padding: 0 32rpx;
       /*padding: 0 12rpx;*/
@@ -193,7 +193,7 @@ page{
         width: 80rpx;
         height: 80rpx;
         border-radius: 50%;
-        margin: 8rpx 18rpx 6rpx 0;
+        margin: 12rpx 18rpx 6rpx 0;
       }
       .icon{
         width: 32rpx;
