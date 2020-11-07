@@ -53,7 +53,7 @@
   import NavBar from '../../components/NavBar'
   import Loading from '../../components/loading'
   import uploadImages from '../../components/uploadImages'
-  
+
   export default class feedback extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
@@ -133,7 +133,7 @@
       uploadvideo() {
         var src = this.src
         wx.uploadFile({
-          url: 'http://172.16.98.36:8080/upanddown/upload2', // 服务器接口
+          url: `${service.host}/upload/video`, // 服务器接口
           method: 'POST',
           filePath: src,
           header: {

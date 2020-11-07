@@ -67,7 +67,7 @@ export default class feedback extends wepy.page {
 
   computed = {}
 
-  onShareAppMessage(res) {
+  onShareAppMessage(res) {v
     return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
   }
 
