@@ -3,12 +3,12 @@
     <view class="wrapper">
         <view class="_title">
             <view class="color_0">账户余额（元）</view>
-            <view class="color_0 text">520.00</view>
+            <view class="color_0 text">{{amount}}</view>
         </view>
-        <view class="_list"  wx:for="{{5}}" wx:key>
-            <view class="name color_0 font_26 bold flo_l ellipsis_1">课程收入</view>
-            <view class="time font_26 color_0 flo_l">2020-09-27 18:00</view>
-            <view class="_price flo_r font_30 bold">+52.00</view>
+        <view class="_list"  wx:for="{{list}}" wx:key>
+            <view class="name color_0 font_26 bold flo_l ellipsis_1">{{ item.remark }}</view>
+            <view class="time font_26 color_0 flo_l">{{item.updated_at}}</view>
+            <view class="_price flo_r font_30 bold">+{{item.value}}</view>
         </view>
     </view>
 </template>
@@ -22,8 +22,8 @@ import ShareMessage from '../../mixins/ShareMessage'
 import NavBar from '../../components/NavBar'
 import Loading from '../../components/loading'
 import uploadImages from '../../components/uploadImages'
-//myCourse
-export default class feedback extends wepy.page {
+// myCourse
+export default class myWallet extends wepy.page {
   mixins = [base, http, user, ShareMessage]
   config = {
     navigationBarTitleText: '我的钱包'
@@ -33,7 +33,10 @@ export default class feedback extends wepy.page {
   data = {
     loaded: false,
     init: false,
-    name: ''
+    name: '',
+    page: 1,
+    amount: '',
+    list: []
   }
 
   computed = {}
@@ -48,6 +51,7 @@ export default class feedback extends wepy.page {
       this.init = true
       this.$apply()
     }, 500)
+    this.initPageData()
   }
 
   onShow() {
@@ -55,8 +59,42 @@ export default class feedback extends wepy.page {
   }
 
   onPullDownRefresh() {
+    this.page = 1
+    this.initPageData()
   }
   onReachBottom() {
+    setTimeout(() => {
+      this.initPageData()
+    }, 200)
+  }
+  // 初始化页面数据
+  initPageData() {
+    let vm = this,
+      data = {
+        page: vm.page
+      }
+    this.$get({url: `${service.host}/coach/wallet`, data}, {
+      success: ({code, data}) => {
+        vm.loading = false
+        vm.amount = data.amount
+        if (!data.wallet_logs.data.length) {
+          return vm.$showToast('没有更多了')
+        }
+        if (vm.page == 1) {
+          vm.list = data.wallet_logs.data
+          vm.$apply()
+        } else {
+          data.wallet_logs.data.map(function (item, index) {
+            vm.list.push(item)
+            vm.$apply()
+          })
+        }
+        vm.noMore = true
+        vm.page += 1
+        vm.$apply()
+        console.log(vm.list, 'asaaa')
+      }
+    })
   }
 
   methods = {

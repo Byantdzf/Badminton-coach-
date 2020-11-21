@@ -27,13 +27,13 @@
       <view class="user_back" style="background-image: url('https://images.ufutx.com/202011/02/395317d658bf0d4c3eedf7e041bc923b.jpeg')">
         <view class="userinfo clearfix">
           <view  @tap.stop="goto('/pages/users/unmarriV2')" class="text-center" @longpress="longPress">
-            <image class="userinfo-avatar ff" src="{{user.avatar||Image}}" mode="aspectFill" />
+            <image class="userinfo-avatar ff" src="{{user.photo||Image}}" mode="aspectFill" />
           </view>
           <view class="userinfo-info text-center text-shadow text-white" >
-            <span wx:if="{{user.nickname}}" class="font_28 bold white">{{ user.nickname }}</span>
+            <span wx:if="{{user.name}}" class="font_28 bold white">{{ user.name }}</span>
           </view>
           <view class="userinfo-info text-center text-shadow text-white" >
-            <span wx:if="{{user.nickname}}" class="font_28 bold white">「门店：宝安区李群店」</span>
+            <span wx:if="{{user.store_name}}" class="font_28 bold white">「门店：{{user.store_name}}」</span>
           </view>
           <image src="../../images/gif/wave.gif" mode="scaleToFill" class="gif-wave"></image>
         </view>
@@ -120,33 +120,6 @@
       }
       // this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
-
-    onShareAppMessage(res) {
-      let that = this
-      let openid = wx.getStorageSync('openid')
-      let url = `/pages/tabBar/welcome?from_openid=${openid}&share_user_id=${that.id}`
-      console.log(url)
-      return {
-        title: that.title,
-        path: url,
-        // imageUrl: 'https://images.ufutx.com/202004/29/baac955e5878e0cb03c17eef0c92f473.jpeg',
-        success: function(res) {
-          wx.showToast({
-            title: '转发成功',
-            icon: 'success',
-            duration: 1500
-          })
-          var shareTickets = res.shareTickets
-          if (shareTickets.length == 0) {
-            return false
-          }
-        },
-        fail: function(res) {
-          // 转发失败
-        }
-      }
-    }
-
     onLoad(e) {}
 
     onPullDownRefresh() {
@@ -155,38 +128,12 @@
       }
     }
 
-    getUid() {
-      let that = this
-      that.$get({
-        url: service.account,
-        data: {
-          openid: wx.getStorageSync('openid')
-        }
-      }, {
-        success: ({code, data}) => {
-          console.log(data)
-          that.extraData = {
-            'uid': data.uid
-          }
-          that.$apply()
-        }
-      })
-    }
-
     // 初始化页面数据
     initPageData() {
-      let data = {
-        type: 'single'
-      }
-      this.$get({url: `${service.user}/v3`, data}, {
+      this.$get({url: `${service.host}/coach/user/info`}, {
         success: ({code, data}) => {
           this.init = true
           this.user = data
-          if (data.is_profile != 1) {
-            this.modalName = 'ModalEdit'
-            this.$apply()
-          }
-          this.title = `我是"${data.nickname}"，这是我的小程序卡片`
           this.$apply()
           wx.setStorageSync('type', data.type)
         }
@@ -388,28 +335,3 @@
     }
   }
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

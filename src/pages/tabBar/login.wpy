@@ -6,25 +6,19 @@
              class="logoPic"></image>
     </view>
     <view class="mobile">
-      <input type="text" placeholder="请输入手机号" class="Inp font_28 text"  @blur="typing('mobile')"  value="{{mobile}}" />
+      <image src="https://images.ufutx.com/202011/12/b8e7997ac2ff19757a56a72f282abc28.png" mode="aspectFit" class="iphone flo_l"></image>
+      <input type="number" placeholder="请输入账号/手机号" class="Inp font_28 text flo_l"  @input="typing('mobile')"   value="{{mobile}}" />
     </view>
     <view class="mobile">
-      <input type="text" placeholder="请输入手机号" class="Inp font_28 text"  @blur="typing('password')"  value="{{password}}" />
+      <image src="https://images.ufutx.com/202011/12/176108024ed93440da9e9af567318469.png" mode="aspectFit" class="password flo_l"></image>
+      <input type="text" placeholder="请输入密码" class="Inp font_28 text flo_l"  @input="typing('password')"  value="{{password}}" maxlength="18" wx:if="{{look}}"/>
+      <input type="password" placeholder="请输入密码" class="Inp font_28 text flo_l"  @input="typing('password')"  value="{{password}}" maxlength="18" wx:else />
+      <image src="{{!look?'https://images.ufutx.com/202011/12/4d78da0198cdf661d1291bc772281e48.png':'https://images.ufutx.com/202011/12/633080d4dda6df59483aeddf677b2c1a.png'}}" mode="aspectFit" class="password flo_r" @tap="lookFn"></image>
     </view>
     <view class="clearfloat"></view>
     <button class="btn text-center font_30 btn-box radius shadow bg-blue margin-top send bold"  hover-class="btn_active"  @tap="save">提交
     </button>
   </view>
-  <template name="starChoose">
-    <view class="zan-font-16 my-ib flo_l" bindtap="myStarChoose" style="margin-left: 22rpx">
-      <block wx:for="{{starMap}}">
-        <text wx:if="{{star>=index+1}}" style="padding-right: .5em" class="color-theme font_42" data-star="{{index+1}}">★</text>
-        <text wx:if="{{star<index+1}}" style="padding-right: .5em" class="color-bbb font_42" data-star="{{index+1}}">☆</text>
-      </block>
-    </view>
-    <text class="flo_l" style="margin-top: 12rpx;">{{starMap[star-1]}}</text>
-    <view class="clearfloat"></view>
-  </template>
 </template>
 <script>
 import wepy from 'wepy'
@@ -48,26 +42,17 @@ export default class feedback extends wepy.page {
     loaded: false,
     init: false,
     name: '',
-    informText: ['骚扰、广告', '形象照、资料虚假或假冒', '辱骂、攻击等', '色情、暴力等', '诈骗钱财', '其他'],
-    informIndex: 0,
     informValue: '',
     id: '',
     mobile: '',
-    password: '',
-    // 赞
-    star: 0,
-    starMap: [
-      '非常差',
-      '差',
-      '一般',
-      '好',
-      '非常好'
-    ]
+    look: false,
+    password: ''
   }
 
   computed = {}
 
-  onShareAppMessage(res) {v
+  onShareAppMessage(res) {
+    v
     return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
   }
 
@@ -89,6 +74,10 @@ export default class feedback extends wepy.page {
   }
 
   methods = {
+    lookFn() {
+      this.look = !this.look
+      this.$apply()
+    },
     myStarChoose(e) {
       let star = parseInt(e.target.dataset.star) || 0
       this.star = star
@@ -136,32 +125,29 @@ export default class feedback extends wepy.page {
     },
     save() {
       let data = {
-          content: this.informValue,
-          photos: this.informImages
+          mobile: this.mobile,
+          password: this.password
         },
         vm = this
-      vm.$showToast('评价成功！')
-      vm.$gotoBack(1)
-      return
-      for (let item in data) {
-        if (!data[item]) {
-          return vm.$showToast('请输入评价内容！')
-        }
-      }
       console.log(data)
-      vm.$post({url: `${service.host}/feedback`, data}, {
+      if (!this.mobile) return vm.$showToast('请输入账号/手机号')
+      if (!this.password) return vm.$showToast('请输入密码')
+      vm.$showLoading('登陆中')
+      vm.$post({url: `${service.host}/coach/wechat/login`, data}, {
         success: ({code, data}) => {
-          wx.showModal({
-            title: '反馈成功！',
-            content: '非常感谢您的反馈！我们将以最快速度处理您的反馈。',
-            success(res) {
-              if (res.confirm) {
-                vm.$gotoBack(1)
-              } else if (res.cancel) {
-                console.log('用户点击取消')
-              }
-            }
-          })
+          console.log(data)
+          wx.setStorageSync('token', data.token)
+          wx.setStorageSync('type', data.type)
+          let userInfo = {
+            nickName: data.name,
+            avatarUrl: data.photo,
+            id: data.id
+          }
+          wx.setStorageSync('userInfo', userInfo)
+          wx.setStorageSync('user_id', data.id)
+          setTimeout(() => {
+            vm.$gotoTab('/pages/tabBar/home')
+          }, 800)
         }
       })
     }
@@ -194,6 +180,15 @@ page{
     margin: 42rpx auto;
     margin-bottom: 28rpx;
     background: #ffffff;
+    overflow: hidden;
+    image{
+      width: 42rpx;
+      height: 42rpx;
+    }
+    .Inp{
+      margin-left: 22rpx;
+      width: 70%;
+    }
   }
   .btn-box{
     width: 80%;

@@ -1,13 +1,28 @@
 <template>
   <Loading :init.sync="init"></Loading>
     <view class="wrapper">
-        <view class="_list"  wx:for="{{5}}" wx:key="this">
-            <view class=" color_0 font_26 flo_l ellipsis_1 index">{{index+1}}</view>
-            <view class="name color_0 font_24  flo_l ellipsis_1 ">Mamba培训（宝安店）</view>
-            <view class="price color_0 font_24  flo_l ellipsis_1 ">营业额：￥4900</view>
-            <view class="num color_0 font_24  flo_l ellipsis_1 ">总课时：68</view>
+        <view class="_list"  wx:for="{{list}}" wx:key="this">
+            <view class=" color_0 font_26 flo_l ellipsis_1 index text-left">{{index+1}}</view>
+            <view class="name color_0 font_24  flo_l ellipsis_1 text-left">{{item.name}}</view>
+            <view class="price color_0 font_24  flo_l ellipsis_1 ">营业额：￥{{item.turnover}}</view>
+            <view class="num color_0 font_24  flo_l ellipsis_1 ">总课时：{{item.courses_count}}</view>
         </view>
     </view>
+  <template is="loading" data="{{loading,noMore}}"></template>
+
+  <template name="loading">
+    <block wx:if="{{loading}}">
+      <view class="weui-loadmore">
+        <view class="weui-loading"></view>
+        <view class="weui-loadmore__tips bc_theme">正在加载</view>
+      </view>
+    </block>
+    <block wx:if="{{noMore}}">
+      <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+        <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot bc_theme"></view>
+      </view>
+    </block>
+  </template>
 </template>
 <script>
 import wepy from 'wepy'
@@ -19,24 +34,29 @@ import ShareMessage from '../../mixins/ShareMessage'
 import NavBar from '../../components/NavBar'
 import Loading from '../../components/loading'
 import uploadImages from '../../components/uploadImages'
-//evaluation
+// evaluation
 export default class feedback extends wepy.page {
   mixins = [base, http, user, ShareMessage]
   config = {
-    navigationBarTitleText: '门店比赛'
+    navigationBarTitleText: '门店比赛',
+    enablePullDownRefresh: true
   }
 
   components = {NavBar, Loading, uploadImages}
   data = {
+    noMore: false,
+    loading: true,
+    page: 1,
     loaded: false,
     init: false,
+    list: [],
     name: ''
   }
 
   computed = {}
 
   onShareAppMessage(res) {
-    return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
+
   }
 
   async onLoad(e) {
@@ -45,6 +65,7 @@ export default class feedback extends wepy.page {
       this.init = true
       this.$apply()
     }, 500)
+    this.initPageData()
   }
 
   onShow() {
@@ -52,8 +73,44 @@ export default class feedback extends wepy.page {
   }
 
   onPullDownRefresh() {
+    this.page = 1
+    this.initPageData()
   }
   onReachBottom() {
+    setTimeout(() => {
+      this.initPageData()
+    }, 200)
+  }
+  // 初始化页面数据
+  initPageData() {
+    let vm = this,
+      data = {
+        page: vm.page
+      }
+    this.$get({url: `${service.host}/coach/stores/game`, data}, {
+      success: ({code, data}) => {
+        vm.loading = false
+        if (!data.data.length) {
+          return vm.$showToast('没有更多了')
+        }
+        if (vm.page == 1) {
+          vm.list = data.data
+          vm.$apply()
+        } else {
+          data.data.map(function (item, index) {
+            vm.list.push(item)
+            vm.$apply()
+          })
+        }
+        vm.noMore = true
+        vm.page += 1
+        vm.$apply()
+        console.log(vm.list, 'asaaa')
+      },
+      complete: () => {
+        vm.loading = false
+      }
+    })
   }
 
   methods = {
@@ -161,12 +218,12 @@ page{
     }
       ._list{
           background: white;
-          padding: 22rpx 22rpx;
+          padding: 32rpx 22rpx;
           overflow: hidden;
           text-align: center;
-          .index{width: 4%;}
+          .index{width: 6%;}
           .name{
-              width: 42%;
+              width: 40%;
           }
           .price{width: 34%}
           .num{

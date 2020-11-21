@@ -2,14 +2,15 @@
 
 <template>
   <view class="">
-    <template is="mainUser" data="{{day, num}}"></template>
+    <template is="mainUser" data="{{user}}"></template>
     <template is="list" data="{{list, active}}"></template>
+    <template is="loading" data="{{loading,noMore}}"></template>
   </view>
   <template name="mainUser">
     <view class="_userInfo radius shadow bg-white">
-      <view class="_item bold"><view class="font_52 white">{{day}}</view><span>回复数量</span></view>
-      <view class="_item"><image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg" mode="aspectFill" class="photo "></image></view>
-      <view class="_item bold"><view class="font_52 white">{{num}}</view><span>累计上课次数</span></view>
+      <view class="_item bold"><view class="font_52 white">{{user.reply_num || 0}}</view><span>回复数量</span></view>
+      <view class="_item"><image src="{{user.photo}}" mode="aspectFill" class="photo "></image></view>
+      <view class="_item bold"><view class="font_52 white">{{user.teach_num || 0}}</view><span>累计上课次数</span></view>
     </view>
   </template>
   <template name="list">
@@ -19,32 +20,52 @@
       <span class="_text font_32  {{active == '2'?'bold color_0':'color-666'}}" @tap="tabFn('2')">已完成</span>
     </view>
     <view class="listBox">
-      <view class="listItem radius shadow bg-white" wx:for="{{4}}" wx:key="this" @tap="gotoDetaile('2')">
-        <image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg" mode="aspectFill"
-               class="image flo_l"></image>
-        <view class="flo_l _title bold font_30 ellipsis_1">基础课程</view>
-        <view class="flo_l  ellipsis_1 _address">
-          <image src="https://images.ufutx.com/202010/19/3e1a94bb6228e9f61b4b50825f61f7ec.png" mode="widthFix"
-                 class="icon"></image>
-          <span class="font_24">2020年09月26日 18:00-19:30</span>
+      <block wx:if="{{list.length>0}}">
+        <view class="listItem radius shadow bg-white" wx:for="{{list}}" wx:key="this" @tap="gotoDetaile('2')">
+          <image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg" mode="aspectFill"
+                 class="image flo_l"></image>
+          <view class="flo_l _title bold font_30 ellipsis_1">基础课程</view>
+          <view class="flo_l  ellipsis_1 _address">
+            <image src="https://images.ufutx.com/202010/19/3e1a94bb6228e9f61b4b50825f61f7ec.png" mode="widthFix"
+                   class="icon"></image>
+            <span class="font_24">2020年09月26日 18:00-19:30</span>
+          </view>
+          <view class="flo_l  ellipsis_1 _address" style="margin-top: -10rpx;">
+            <image src="https://images.ufutx.com/202010/19/f998aa1bb8a68f48d6119476fdc78ea1.png" mode="widthFix"
+                   class="icon"></image>
+            <span class="font_24">深圳市南山区阳光科创A座129</span>
+          </view>
+          <view class="flo_l  ellipsis_1 _address" style="margin-top: -10rpx;">
+            <image src="https://images.ufutx.com/202011/02/031c67fabf11f6bfb90fb9aea92930da.png" mode="widthFix"
+                   class="icon"></image>
+            <span class="font_24">赵小姐</span>
+          </view>
+          <view class="flo_l  ellipsis_1 _address" style="margin-top: -10rpx;">
+            <image src="https://images.ufutx.com/202011/02/55574a4d22cbd4f24c79938bbb156594.png" mode="widthFix"
+                   class="icon"></image>
+            <span class="font_24">15707352230</span>
+          </view>
         </view>
-        <view class="flo_l  ellipsis_1 _address" style="margin-top: -10rpx;">
-          <image src="https://images.ufutx.com/202010/19/f998aa1bb8a68f48d6119476fdc78ea1.png" mode="widthFix"
-                 class="icon"></image>
-          <span class="font_24">深圳市南山区阳光科创A座129</span>
+      </block>
+      <block wx:else>
+        <view class="text-center">
+          <image src="https://images.ufutx.com/202011/07/73597a9bf3dd8028a10a5ab43d5e65b9.jpeg" mode="aspectFit" style="width: 380rpx;margin-top: 32rpx;"></image>
         </view>
-        <view class="flo_l  ellipsis_1 _address" style="margin-top: -10rpx;">
-          <image src="https://images.ufutx.com/202011/02/031c67fabf11f6bfb90fb9aea92930da.png" mode="widthFix"
-                 class="icon"></image>
-          <span class="font_24">赵小姐</span>
-        </view>
-        <view class="flo_l  ellipsis_1 _address" style="margin-top: -10rpx;">
-          <image src="https://images.ufutx.com/202011/02/55574a4d22cbd4f24c79938bbb156594.png" mode="widthFix"
-                 class="icon"></image>
-          <span class="font_24">15707352230</span>
-        </view>
-      </view>
+      </block>
     </view>
+  </template>
+  <template name="loading">
+    <block wx:if="{{loading}}">
+      <view class="weui-loadmore">
+        <view class="weui-loading"></view>
+        <view class="weui-loadmore__tips bc_theme">正在加载</view>
+      </view>
+    </block>
+    <block wx:if="{{noMore}}">
+      <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+        <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot bc_theme"></view>
+      </view>
+    </block>
   </template>
 </template>
 
@@ -66,6 +87,10 @@
     components = {}
     data = {
       list: [],
+      noMore: false,
+      loading: true,
+      page: 1,
+      user: {},
       city: '深圳',
       day: '10', // 累计天数
       num: '7',  // 累积训练次数
@@ -76,109 +101,62 @@
     computed = {}
 
     async onLoad(e) {
+      this.initPageData()
     }
 
     onShow() {
-      let vm = this
-      vm.cardCur = 0
-      vm.token = wx.getStorageSync('token')
-      vm.$apply()
-      if (wx.getStorageSync('touristsSex')) {
-        vm.touristsSex = wx.getStorageSync('touristsSex')
-        vm.$apply()
-        console.log(vm.touristsSex, 'touristsSex')
-      }
-      if (vm.token == '') {
-        wepy.login({
-          success: (res) => {
-            vm.$post({url: service.login, data: {code: res.code}}, {
-              success: ({code, data}) => {
-                if (data.token) {
-                  wx.setStorageSync('token', data.token)
-                  wx.setStorageSync('openid', data.openid)
-                  let userInfo = {
-                    nickName: data.user.name,
-                    avatarUrl: data.user.avatar,
-                    type: data.user.type
-                  }
-                  wx.setStorageSync('userInfo', userInfo)
-                  wx.setStorageSync('user_id', data.user.id)
-                  wx.setStorageSync('type', data.user.type)
-                }
-                if (data.token) {
-                  vm.page = 1
-                  vm.$apply()
-                  vm.upDate()
-                }
-              }
-            })
-            vm.getList()
-          },
-          fail: (res) => {
-            console.log('wepy.login.fail:', res)
-          }
-        })
-      } else {
-        vm.page = 1
-        vm.$apply()
-        vm.getList()
-        vm.upDate()
-      }
-      // vm.$parent.getTracker(vm.$root.$name, vm.config.navigationBarTitleText)
+      // this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
     }
 
-    timeFormat(param) {
-      return param < 10 ? '0' + param : param
+    onPullDownRefresh() {
+      this.page = 1
+      this.initPageData()
     }
-
-    getList() {   // 获取用户数据
+    onReachBottom() {
+      setTimeout(() => {
+        this.initPageData()
+      }, 200)
+    }
+    // 初始化页面数据
+    initPageData() {
       let vm = this,
-              url = `${service.host}/home/v3`,
-              data = {
-                sex: `${vm.touristsSex}`
-              }
-      vm.cardCur = 0
-      vm.list = []
-      vm.$apply()
-      vm.$showLoading('加载中')
-      vm.$get({
-        url: url, data
-      }, {
-        success: ({code, data}) => {
-          vm.list = data
-          vm.$apply()
-          wx.hideLoading()
-          console.log(vm.list)
+        data = {
+          page: vm.page
         }
-      })
-    }
-
-    upDate() {
-      let vm = this
-      let url = `${service.host}/user/v3`
-      vm.$get({
-        url: url
-      }, {
+      vm.$showLoading('加载中...')
+      this.$get({url: `${service.host}/coach/course/bookings`, data}, {
         success: ({code, data}) => {
-          vm.is_approved = data.is_approved
-          vm.is_profile = data.is_profile
+          vm.user = data.user
+          vm.loading = false
+          if (!data.bookings.data.length) {
+            return vm.$showToast('没有更多了')
+          }
+          if (vm.page == 1) {
+            vm.list = data.bookings.data
+            vm.$apply()
+          } else {
+            data.bookings.data.map(function (item, index) {
+              vm.list.push(item)
+              vm.$apply()
+            })
+          }
+          vm.noMore = true
+          vm.page += 1
           vm.$apply()
-        },
-        fail: ({code, data}) => {
+          console.log(vm.list, 'asaaa')
         },
         complete: () => {
           wx.hideLoading()
+          vm.loading = false
         }
       })
     }
+
     methods = {
       tabFn(val) {
         let vm = this
-        vm.$showLoading('加载中...')
-        setTimeout(() => {
-          vm.$hideLoading()
-        }, 800)
         this.active = val
+        this.initPageData()
         this.$apply()
       },
       goto(url) {
@@ -269,355 +247,3 @@
     }
   }
 </style>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

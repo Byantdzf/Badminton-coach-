@@ -6,26 +6,48 @@
     </view>
     <template name="appraise">
         <view class="appraiseStyle">
-            <view class="_item" wx:for="{{3}}" wx:key="this">
-                <view class="_photo flo_l">
-                    <image src="https://images.ufutx.com/202010/28/392ce20af613a5bb8d69091c050dfa56.jpeg" mode="aspectFill" class="image"></image>
+          <block wx:if="{{list.length > 0}}">
+            <view class="_item" wx:for="{{list}}" wx:key="this">
+              <view class="_photo flo_l">
+                <image src="https://images.ufutx.com/202010/28/392ce20af613a5bb8d69091c050dfa56.jpeg" mode="aspectFill" class="image"></image>
+              </view>
+              <view class="_content flo_l">
+                <view class="name bold color_0 font_32">
+                  Mamba~
+                  <view class="color-666 font_26 flo_r" style="margin-top: 12rpx;">2020-10-12 16:00</view>
                 </view>
-                <view class="_content flo_l">
-                    <view class="name bold color_0 font_32">
-                        Mamba~
-                        <view class="color-666 font_26 flo_r" style="margin-top: 12rpx;">2020-10-12 16:00</view>
-                    </view>
-                    <view class="starStyle">
-                        <block wx:for="{{5}}" wx:key="this">
-                            <image src="https://images.ufutx.com/202010/28/59f941406f910c7f615f77ca4303dbe0.png" mode="aspectFill" wx:if="{{item > star-1}}"></image>
-                            <image src="https://images.ufutx.com/202010/28/ec7ebf5c490e0c71883fcfc8f6829856.png" mode="aspectFill" wx:else></image>
-                        </block>
-                    </view>
-                    <view>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.</view>
+                <view class="starStyle">
+                  <block wx:for="{{5}}" wx:key="this">
+                    <image src="https://images.ufutx.com/202010/28/59f941406f910c7f615f77ca4303dbe0.png" mode="aspectFill" wx:if="{{item > star-1}}"></image>
+                    <image src="https://images.ufutx.com/202010/28/ec7ebf5c490e0c71883fcfc8f6829856.png" mode="aspectFill" wx:else></image>
+                  </block>
                 </view>
+                <view>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.</view>
+              </view>
             </view>
+          </block>
+          <block wx:else>
+            <view class="text-center">
+              <image src="https://images.ufutx.com/202011/07/73597a9bf3dd8028a10a5ab43d5e65b9.jpeg" mode="aspectFit" style="width: 380rpx;margin-top: 32rpx;"></image>
+            </view>
+          </block>
         </view>
     </template>
+  <template is="loading" data="{{loading,noMore}}"></template>
+
+  <template name="loading">
+    <block wx:if="{{loading}}">
+      <view class="weui-loadmore">
+        <view class="weui-loading"></view>
+        <view class="weui-loadmore__tips bc_theme">正在加载</view>
+      </view>
+    </block>
+    <block wx:if="{{noMore}}">
+      <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+        <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot bc_theme"></view>
+      </view>
+    </block>
+  </template>
 </template>
 <script>
 import wepy from 'wepy'
@@ -37,7 +59,7 @@ import ShareMessage from '../../mixins/ShareMessage'
 import NavBar from '../../components/NavBar'
 import Loading from '../../components/loading'
 import uploadImages from '../../components/uploadImages'
-export default class feedback extends wepy.page {
+export default class myEvaluation extends wepy.page {
   mixins = [base, http, user, ShareMessage]
   config = {
     navigationBarTitleText: '我的评价'
@@ -45,33 +67,58 @@ export default class feedback extends wepy.page {
 
   components = {NavBar, Loading, uploadImages}
   data = {
+    noMore: false,
+    loading: true,
+    page: 1,
     loaded: false,
     init: false,
-    star: 3,
-    name: ''
+    list: []
   }
 
   computed = {}
-
-  onShareAppMessage(res) {
-    return this.$parent.onShareAppMessage(this.config.navigationBarTitleText)
-  }
-
   async onLoad(e) {
-    this.id = e.id
-    setTimeout(() => {
-      this.init = true
-      this.$apply()
-    }, 500)
-  }
-
-  onShow() {
-    // this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
+    this.initPageData()
   }
 
   onPullDownRefresh() {
+    this.page = 1
+    this.initPageData()
   }
   onReachBottom() {
+    setTimeout(() => {
+      this.initPageData()
+    }, 200)
+  }
+  // 初始化页面数据
+  initPageData() {
+    let vm = this,
+      data = {
+        page: vm.page
+      }
+    this.$get({url: `${service.host}/coach/comments`, data}, {
+      success: ({code, data}) => {
+        vm.loading = false
+        if (!data.data.length) {
+          return vm.$showToast('没有更多了')
+        }
+        if (vm.page == 1) {
+          vm.list = data.data
+          vm.$apply()
+        } else {
+          data.data.map(function (item, index) {
+            vm.list.push(item)
+            vm.$apply()
+          })
+        }
+        vm.noMore = true
+        vm.page += 1
+        vm.$apply()
+        console.log(vm.list, 'asaaa')
+      },
+      complete: () => {
+        vm.loading = false
+      }
+    })
   }
 
   methods = {

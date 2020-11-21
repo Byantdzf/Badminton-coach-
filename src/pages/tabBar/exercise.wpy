@@ -1,12 +1,13 @@
 <template>
   <view class="">
     <template is="list" data="{{list,active}}"></template>
+    <template is="loading" data="{{loading,noMore}}"></template>
   </view>
   <template name="list">
     <view class="ellipsis_1 _search">
       <view class="_bc-search">
         <text class="cuIcon-search flo_l"></text>
-        <input type="text" placeholder="搜索记录" class="font_28 flo_l"  confirm-type="search" bindinput="searchFn"></input>
+        <input type="text" placeholder="搜索记录" class="font_28 flo_l"  confirm-type="search"  @input="typing('value')"></input>
       </view>
     </view>
     <view class="text-center arenaStyle">
@@ -15,32 +16,53 @@
       <span class="_text font_32  {{active == '2'?'bold color_0':'color-666'}}" @tap="tabFn('2')">训练视频</span>
     </view>
     <view class="listBox">
-      <view class="listItem radius shadow bg-white" wx:for="{{4}}" wx:key="this" @tap="gotoDetaile('2')">
-        <image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg" mode="aspectFill"
-               class="image flo_l"></image>
-        <view class="flo_l _title bold font_30 ellipsis_1">基础课程</view>
-        <view class="flo_l  ellipsis_1 _address">
-          <image src="https://images.ufutx.com/202011/02/031c67fabf11f6bfb90fb9aea92930da.png" mode="widthFix"
-                 class="icon"></image>
-          <span class="font_24">赵小姐</span>
+      <block wx:if="{{list.length>0}}">
+        <view class="listItem radius shadow bg-white" wx:for="{{list}}" wx:key="this" @tap="gotoDetaile('2')">
+          <image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg" mode="aspectFill"
+                 class="image flo_l"></image>
+          <view class="flo_l _title bold font_30 ellipsis_1">基础课程</view>
+          <view class="flo_l  ellipsis_1 _address">
+            <image src="https://images.ufutx.com/202011/02/031c67fabf11f6bfb90fb9aea92930da.png" mode="widthFix"
+                   class="icon"></image>
+            <span class="font_24">赵小姐</span>
+          </view>
+          <view class="flo_l  ellipsis_1 _address">
+            <image src="https://images.ufutx.com/202010/19/f998aa1bb8a68f48d6119476fdc78ea1.png" mode="widthFix"
+                   class="icon"></image>
+            <span class="font_24">深圳市南山区阳光科创B座1809</span>
+          </view>
+          <view class="flo_l  ellipsis_1 _address">
+            <image src="https://images.ufutx.com/202010/19/3e1a94bb6228e9f61b4b50825f61f7ec.png" mode="widthFix"
+                   class="icon"></image>
+            <span class="font_24">2020年09月26日 18:00-19:30</span>
+          </view>
         </view>
-        <view class="flo_l  ellipsis_1 _address">
-          <image src="https://images.ufutx.com/202010/19/f998aa1bb8a68f48d6119476fdc78ea1.png" mode="widthFix"
-                 class="icon"></image>
-          <span class="font_24">深圳市南山区阳光科创B座1809</span>
+      </block>
+      <block wx:else>
+        <view class="text-center">
+          <image src="https://images.ufutx.com/202011/07/73597a9bf3dd8028a10a5ab43d5e65b9.jpeg" mode="aspectFit" style="width: 380rpx;margin-top: 32rpx;"></image>
         </view>
-        <view class="flo_l  ellipsis_1 _address">
-          <image src="https://images.ufutx.com/202010/19/3e1a94bb6228e9f61b4b50825f61f7ec.png" mode="widthFix"
-                 class="icon"></image>
-          <span class="font_24">2020年09月26日 18:00-19:30</span>
-        </view>
-      </view>
+      </block>
     </view>
     <block wx:if="{{active == '2'}}">
       <view class="height160"></view>
       <view class="mainBtn">
         <button class="btn text-center font_30 btn-box radius shadow bg-blue margin-top send bold"  hover-class="btn_active"  @tap="goto('/pages/users/uploadVideo')">上传
         </button>
+      </view>
+    </block>
+  </template>
+
+  <template name="loading">
+    <block wx:if="{{loading}}">
+      <view class="weui-loadmore">
+        <view class="weui-loading"></view>
+        <view class="weui-loadmore__tips bc_theme">正在加载</view>
+      </view>
+    </block>
+    <block wx:if="{{noMore}}">
+      <view class="weui-loadmore weui-loadmore_line weui-loadmore_dot">
+        <view class="weui-loadmore__tips weui-loadmore__tips_in-line weui-loadmore__tips_in-dot bc_theme"></view>
       </view>
     </block>
   </template>
@@ -56,148 +78,134 @@
   // import ShareMessage from '../../mixins/ShareMessage'
 
 let date = new Date()
-export default class home extends wepy.page {
-  mixins = [base, http, user]
-  config = {
-    navigationBarTitleText: '运动轨迹',
-    onReachBottomDistance: 10,
-    enablePullDownRefresh: false
-  }
-  components = {search}
+export default class exercise extends wepy.page {
+    mixins = [base, http, user]
+    config = {
+      navigationBarTitleText: '运动轨迹',
+      onReachBottomDistance: 10,
+      enablePullDownRefresh: true
+    }
+    components = {search}
 
-  data = {
-    cycleList: [], // 周期
-    list: [],
-    city: '深圳',
-    swiperList: [
-      {  // 轮播
-        id: 0,
-        link: 'https://baidu.com',
-        url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg'
-      }, {
-        id: 1,
-        link: 'https://baidu.com',
-        url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84001.jpg'
-      }, {
-        id: 2,
-        link: 'https://baidu.com',
-        url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big39000.jpg'
-      }],
-    searchTime: '',
-    chnNumChar: {
-      1: '一',
-      2: '二',
-      3: '三',
-      4: '四',
-      5: '五',
-      6: '六',
-      7: '七'
-    },
-    id: '',
-    cardCur: 0,
-    tabBox: 1,
-    active: 1,
-    token: wx.getStorageSync('token'),
-    modalName: '',
-    throttle: true, // 节流
-    day: date,
-    actEndTime: '2020-4-19 18:50:00',
-    refresh: false // 是否刷新
-  }
+    data = {
+      cycleList: [], // 周期
+      list: [],
+      active: 1,
+      noMore: false,
+      loading: true,
+      page: 1,
+      loaded: false,
+      init: false,
+      value: '' // 搜索值
+    }
 
-  computed = {}
+    computed = {}
 
-  async onLoad(e) {
+    async onLoad(e) {
     // this.getDate()
-  }
+    }
 
-  onShow() {
-  }
+    onShow() {
+      this.getList()
+    }
+    onPullDownRefresh() {
+      this.page = 1
+      this.getList()
+    }
+    onReachBottom() {
+      setTimeout(() => {
+        this.getList()
+      }, 200)
+    }
+    getList() {   // 获取数据
+      let vm = this,
+        data = {
+          page: vm.page,
+          type: `${vm.active == 1 ? 'league' : 'online'}`
+        }
+      vm.loading = true
+      let url = `${service.host}/user/courses`
+      vm.$get({
+        url: url, data
+      }, {
+        success: ({code, data}) => {
+          vm.loading = false
+          if (!data.data.length) {
+            return vm.$showToast('没有更多了')
+          }
+          if (vm.page == 1) {
+            vm.list = data.data
+            vm.$apply()
+          } else {
+            data.data.map(function (item, index) {
+              vm.list.push(item)
+              vm.$apply()
+            })
+          }
+          vm.noMore = true
+          vm.page += 1
+          vm.$apply()
+          console.log(vm.list, 'asaaa')
+        },
+        fail: ({code, data}) => {
+        },
+        complete: () => {
+          wx.hideLoading()
+        }
+      })
+    }
 
-  getList() {   // 获取用户数据
-    let vm = this,
-      url = `${service.host}/home/v3`,
-      data = {
-        sex: `${vm.touristsSex}`
-      }
-    vm.cardCur = 0
-    vm.list = []
-    vm.$apply()
-    vm.$showLoading('加载中')
-    vm.$get({
-      url: url, data
-    }, {
-      success: ({code, data}) => {
-        vm.list = data
-        vm.$apply()
-        wx.hideLoading()
-        console.log(vm.list)
-      }
-    })
-  }
-
-  upDate() {
-    let vm = this
-    let url = `${service.host}/user/v3`
-    vm.$get({
-      url: url
-    }, {
-      success: ({code, data}) => {
-        vm.is_approved = data.is_approved
-        vm.is_profile = data.is_profile
-        vm.$apply()
+    methods = {
+      typing(type, e) {
+        this[type] = e.detail.value
+        this.$apply()
+        console.log(this[type])
       },
-      fail: ({code, data}) => {
+      searchFn(e) {
+        console.log(e.detail.value)
       },
-      complete: () => {
-        wx.hideLoading()
-      }
-    })
-  }
-
-  methods = {
-    searchFn(e) {
-      console.log(e.detail.value)
-    },
-    saveFn(url) {  // 检索参数
-      let vm = this
+      saveFn(url) {  // 检索参数
+        let vm = this
       // let data = {
       //   nickname: vm.name,
       //   birthday: vm.birthday
       // }
-      vm.$goto(1)
+        vm.$goto(1)
       // this.ensureData(data)
-    },
-    tabFn(val) {
-      let vm = this
-      vm.$showLoading('加载中...')
-      setTimeout(() => {
-        vm.$hideLoading()
-      }, 800)
-      this.active = val
-      this.$apply()
-    },
-    gotoLink(link) {
-      console.log(link)
-      this.$gotoH5(link)
-    },
-    gotoDetaile() {
-      let vm = this,
-        url = ''
-      if (vm.active == 1) {
-        url = '/pages/users/clockVideoDetaile'
-      } else {
-        url = '/pages/users/drillVideoDetaile'
+      },
+      tabFn(val) {
+        let vm = this
+        vm.$showLoading('加载中...')
+        setTimeout(() => {
+          vm.$hideLoading()
+        }, 800)
+        vm.page = 1
+        vm.list = []
+        vm.getList()
+        vm.active = val
+        vm.$apply()
+      },
+      gotoLink(link) {
+        console.log(link)
+        this.$gotoH5(link)
+      },
+      gotoDetaile() {
+        let vm = this,
+          url = ''
+        if (vm.active == 1) {
+          url = '/pages/users/clockVideoDetaile'
+        } else {
+          url = '/pages/users/drillVideoDetaile'
+        }
+        this.$goto(url)
+      },
+      goto(url) {
+        console.log(url)
+        this.$goto(url)
       }
-      this.$goto(url)
-    },
-    goto(url) {
-      console.log(url)
-      this.$goto(url)
     }
-  }
-  events = {
-  }
+    events = {
+    }
 }
 </script>
 

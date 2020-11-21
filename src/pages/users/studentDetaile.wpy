@@ -2,87 +2,96 @@
   <Loading :init.sync="init"></Loading>
   <view class="container">
     <view class="text-center arenaStyle">
-      <span class="_text font_32   {{active == '1'?'bold color_0':'color-666'}}" @tap="tabFn('1')">打卡记录</span>
+      <span class="_text font_32   {{active == '1'?'bold color_0':'color-666'}}" @tap="tabFn('1')">个人资料</span>
       <span class='color-666 font_24'>|</span>
-      <span class="_text font_32  {{active == '2'?'bold color_0':'color-666'}}" @tap="tabFn('2')">训练视频</span>
+      <span class="_text font_32  {{active == '2'?'bold color_0':'color-666'}}" @tap="tabFn('2')">运动轨迹</span>
     </view>
     <block wx:if="{{active == '1'}}">
-      <template is="_userInfo"></template>
+      <template is="_userInfo" data="{{userInfo}}"></template>
     </block>
     <block wx:else>
-      <template is="list"></template>
+      <template is="list" data="{{list}}"></template>
     </block>
-    
-
-<!--    <view class="mainBtn">-->
-<!--      <button class="btn text-center font_30 btn-box radius shadow bg-blue margin-top send bold"  hover-class="btn_active"  @tap="goto('/pages/users/unmarri')">编辑-->
-<!--      </button>-->
-<!--      <button class="btn text-center font_30 btn-box radius shadow bg-blue margin-top send bold"  hover-class="btn_active"    @tap="goto('/pages/users/appraise')">评价教练-->
-<!--      </button>-->
-<!--    </view>-->
   </view>
   <template name="list">
     <view class="listBox">
-      <view class="listItem radius shadow bg-white" wx:for="{{4}}" wx:key="this" @tap="gotoDetaile('2')">
-        <image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg" mode="aspectFill"
-               class="image flo_l"></image>
-        <view class="flo_l _title bold font_30 ellipsis_1">基础课程</view>
-        <view class="flo_l  ellipsis_1 _address">
-          <image src="https://images.ufutx.com/202010/19/3e1a94bb6228e9f61b4b50825f61f7ec.png" mode="widthFix"
-                 class="icon"></image>
-          <span class="font_24">2020年09月26日 18:00-19:30</span>
+      <block wx:if="{{list.length>0}}">
+        <view class="listItem radius shadow bg-white" wx:for="{{list}}" wx:key="this" @tap="gotoDetaile('2')">
+          <!--        <image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg" mode="aspectFill"-->
+          <!--               class="image flo_l"></image>-->
+          <video src="{{item.play_url}}"
+                 objectFit='cover'
+                 controls
+                 class="image flo_l"></video>
+          <view class="flo_l _title bold font_30 ellipsis_1">{{ item.name }}</view>
+          <view class="flo_l  ellipsis_1 _address">
+            <image src="https://images.ufutx.com/202010/19/3e1a94bb6228e9f61b4b50825f61f7ec.png" mode="widthFix"
+                   class="icon"></image>
+            <span class="font_24">{{item.created_at}}</span>
+          </view>
         </view>
-      </view>
+      </block>
+      <block wx:else>
+        <view class="text-center">
+          <image src="https://images.ufutx.com/202011/07/73597a9bf3dd8028a10a5ab43d5e65b9.jpeg" mode="aspectFit" style="width: 380rpx;margin-top: 32rpx;"></image>
+        </view>
+      </block>
     </view>
   </template>
   <template name="_userInfo">
     <view class="orderdata">
       <view class="section list">
         <view class="picker">
+          <span class="font_28 color_0">头像</span>
+          <image src="{{userInfo.photo}}" mode="aspectFill" class="_photo flo_r"></image>
+        </view>
+      </view>
+      <view class="section list">
+        <view class="picker">
           <span class="font_28 color_0">姓名</span>
-          <span class="font_28 text">幻鹰</span>
+          <span class="font_28 text">{{userInfo.name}}</span>
         </view>
       </view>
       <view class="section list">
         <view class="picker">
           <span class="font_28 color_0">性别</span>
-          <span class="font_28 text">男</span>
+          <span class="font_28 text">{{userInfo.profile.sex=='1'?'男':'女'}}</span>
         </view>
       </view>
       <view class="section list">
         <view class="picker">
           <span class="font_28 color_0">出生年月</span>
-          <span class="font_28 text">2020.09.26</span>
+          <span class="font_28 text">{{userInfo.profile.birthday}}</span>
         </view>
       </view>
       <view class="section list">
         <view class="picker">
           <span class="font_28 color_0">电话</span>
-          <span class="font_28 text">15707534403</span>
+          <span class="font_28 text">{{userInfo.mobile}}</span>
         </view>
       </view>
       <view class="section list">
         <view class="picker">
           <span class="font_28 color_0">一周运动次数</span>
-          <span class="font_28 text">3次</span>
+          <span class="font_28 text">{{userInfo.profile.sport_num}}次</span>
         </view>
       </view>
       <view class="section list">
         <view class="picker">
           <span class="font_28 color_0">预期收获</span>
-          <span class="font_28 text">增强抵抗力</span>
+          <span class="font_28 text">{{userInfo.profile.expect}}</span>
         </view>
       </view>
       <view class="section list" >
         <view class="picker">
           <span class="font_28 color_0">正在培训课程</span>
-          <span class="font_28 text">培训班</span>
+          <span class="font_28 text">{{userInfo.profile.course_name}}</span>
         </view>
       </view>
       <view class="section list" style="border: none;">
         <view class="picker">
           <span class="font_28 color_0">所属门店</span>
-          <span class="font_28 text">Mamba培训学院</span>
+          <span class="font_28 text">{{userInfo.store_name}}</span>
         </view>
       </view>
     </view>
@@ -96,94 +105,84 @@ import base from '../../mixins/base'
 import user from '../../mixins/user'
 import NavBar from '../../components/NavBar'
 import Loading from '../../components/loading'
-import selectCity1 from '../../components/selectCity'
-import selectCity from '../../components/selectCity'
-import uploadImages from '../../components/uploadImages'
 
 export default class Unmarried extends wepy.page {
   mixins = [base, http, user]
-  components = {NavBar, Loading, selectCity1, selectCity, uploadImages}
+  components = {NavBar, Loading}
   config = {
     navigationBarTitleText: '个人资料',
-    enablePullDownRefresh: false
+    enablePullDownRefresh: true
   }
   data = {
     init: false,
+    id: '',
     active: 1,
-    sex: ['男', '女'],
-    sexIndex: -1,
-    selectSex: false,
-    state: ['从未结婚', '离异', '丧偶'],
-    statureList: [], // 身高list
-    statureIndex: -1, // 默认160cm
-    weightList: [], // 体重list
-    weightIndex: -1, // 默认160cm
-    stateIndex: -1,
-    residentIndex: 0,
-    degree: ['小学', '初中', '高中', '中专', '大专', '本科', '硕士', '博士', '其他'],
-    degreeIndex: -1,
-    // work_sort: ['事业单位', '公务员', '央企', '国企', '私企', '外企'],
-    // work_sortIndex: 0,
-    incomeList: ['5~10w', '10~15w', '15~30w', '30~50w', '50~100w', '100~500w', '500w以上'],
-    incomeIndex: -1,
-    belief: ['基督教', '佛教', '伊斯兰教', '其他'],
-    beliefIndex: -1,
-    salary: [],
-    salaryIndex: 0,
-    region: ['', '', ''],
-    region_id: ['', '', ''],
-    CITY_INDEX: 0,
-    photos: [],
-    CITY_INDEX1: 1,
-    birthday: '',
-    name: '',
-    age: '',
-    weight: '',
-    country: '',
-    stature: '',
-    graduate_school: '',
-    company: '',
-    introduction: '',
-    ideal_mate: '',
-    post: '',
-    wechat_id: '',
-    Business: [],
-    show: true,
-    Salaryshow: false,
-    avatar: '',  // 头像
-    work_text: '',
-    WorkShow: false,
-    DegreeText: '',
-    ShowDegree: false,
-    industry: '',
-    industry_sub: '',
-    multiIndex2: [0, 0],
-    objectMultiArray: [],
-    salary_id: '',
-    salaries: [],
-    endDate: '', // 结束时间
-    tempMember: 0 // 是否有可领取会员
+    userInfo: {},
+    page: 1,
+    list: []
+
   }
 
-  onLoad() {
+  onLoad(e) {
+    this.id = e.id
+    this.$apply()
   }
+
   onShow() {
-    console.log(this.route)
-    // this.$parent.getTracker(this.$root.$name, '个人信息（基础）修改')
+    this.getuser()
+    this.getLog()
+  }
+  onPullDownRefresh() {
+    this.page = 1
+    this.getLog()
+  }
+  onReachBottom() {
+    setTimeout(() => {
+      this.getLog()
+    }, 200)
   }
   getuser() {
     let that = this
     this.loading = true
-    this.$get({url: `${service.profile}/v2`}, {
+    this.$get({url: `${service.host}/coach/students/${that.id}`}, {
       success: ({code, data}) => {
         that.init = true
-        let result = data
+        that.userInfo = data
         that.$apply()
+        console.log(that.userInfo, 'userInfo')
       },
       fail: ({code, data}) => {
       },
       complete: () => {
         this.loading = false
+      }
+    })
+  }
+  getLog() {
+    let vm = this,
+      data = {page: vm.page
+      }
+    this.$get({url: `${service.host}/coach/students/${vm.id}/video/logs`, data}, {
+      success: ({code, data}) => {
+        if (!data.data.length) {
+          return vm.$showToast('没有更多了')
+        }
+        if (vm.page == 1) {
+          vm.list = data.data
+          vm.$apply()
+        } else {
+          data.data.map(function (item, index) {
+            vm.list.push(item)
+            vm.$apply()
+          })
+        }
+        vm.page += 1
+        vm.$apply()
+        console.log(vm.list, 'asaaa')
+      },
+      fail: ({code, data}) => {
+      },
+      complete: () => {
       }
     })
   }
@@ -204,8 +203,8 @@ export default class Unmarried extends wepy.page {
   methods = {
     gotoDetaile() {
       let vm = this,
-              url = ''
-      if (vm.active == 1) {
+        url = ''
+      if (vm.active != 1) {
         url = '/pages/users/clockVideoDetaile'
       } else {
         url = '/pages/users/drillVideoDetaile'
