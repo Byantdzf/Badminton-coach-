@@ -129,7 +129,7 @@
           vm.user = data.user
           vm.loading = false
           if (!data.bookings.data.length) {
-            return vm.$showToast('没有更多了')
+            return console.log('没有更多了')
           }
           if (vm.page == 1) {
             vm.list = data.bookings.data

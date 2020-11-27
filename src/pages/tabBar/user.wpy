@@ -24,7 +24,8 @@
       <view style="height: 160rpx"></view>
     </view>
     <template name="userInfo">
-      <view class="user_back" style="background-image: url('https://images.ufutx.com/202011/02/395317d658bf0d4c3eedf7e041bc923b.jpeg')">
+      <view class="user_back" style="background-image: url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606472218676&di=39591f2d1ffac7d4f916b1d423e3287d&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F681a0577f61904aecd6bbb018fbb361e12a7903fa2721-yCJdC7_fw658')">
+        <view class="model"></view>
         <view class="userinfo clearfix">
           <view  @tap.stop="goto('/pages/users/unmarriV2')" class="text-center" @longpress="longPress">
             <image class="userinfo-avatar ff" src="{{user.photo||Image}}" mode="aspectFill" />
@@ -35,8 +36,8 @@
           <view class="userinfo-info text-center text-shadow text-white" >
             <span wx:if="{{user.store_name}}" class="font_28 bold white">「门店：{{user.store_name}}」</span>
           </view>
-          <image src="../../images/gif/wave.gif" mode="scaleToFill" class="gif-wave"></image>
         </view>
+        <image src="../../images/gif/wave.gif" mode="scaleToFill" class="gif-wave"></image>
       </view>
     </template>
     <!--<official-account style="position:fixed;bottom:0;width:100%;height:168rpx;"></official-account>-->
@@ -279,18 +280,29 @@
     padding-top: 20vw;
     position: relative;
     //-webkit-filter: blur(15px);
+    .model{
+      width: 100vw;
+      height: 60vw;
+      background: rgba(0,0,0,.3);
+      position: absolute;
+      left: 0;
+      top: 0;
+      z-index: 9;
+    }
+  }
+  .gif-wave {
+    width: 100%;
+    position: absolute;
+    bottom: -2rpx;
+    left: 0;
+    z-index: 999;
+    mix-blend-mode: screen;
+    height: 100rpx;
   }
   .userinfo{
     padding: 20rpx 0;
-    .gif-wave {
-      width: 100%;
-      position: absolute;
-      bottom: -2rpx;
-      left: 0;
-      z-index: 999;
-      mix-blend-mode: screen;
-      height: 100rpx;
-    }
+    z-index: 99;
+    position: relative;
     .editInfo{
       position: absolute;
       right: 12rpx;
