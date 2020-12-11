@@ -2,8 +2,8 @@
   <Loading :init.sync="init"></Loading>
   <view class="wrapper">
     <view class="logo text-center">
-      <image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg" mode="aspectFill"
-             class="logoPic"></image>
+      <image src="https://images.ufutx.com/202012/10/aa5e5f9d8978aea4c64d3644318466ec.jpeg" mode="aspectFill"
+             class="logoPic radius shadow bg-gray"></image>
     </view>
     <view class="mobile">
       <image src="https://images.ufutx.com/202011/12/b8e7997ac2ff19757a56a72f282abc28.png" mode="aspectFit" class="iphone flo_l"></image>
@@ -168,10 +168,12 @@ export default class feedback extends wepy.page {
 page{
   background: #f9f2db;
   .logoPic{
-    width: 200rpx;
-    height: 200rpx;
+    width: 180rpx;
+    height: 180rpx;
     border-radius: 50%;
     margin-top: 62rpx;
+    padding: 20rpx;
+    background: white;
   }
   .mobile{
     width: 80%;
