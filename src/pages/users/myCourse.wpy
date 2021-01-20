@@ -7,33 +7,22 @@
     <template name="list">
         <view class="listBox" style="margin-top: 22rpx">
           <block wx:if="{{list.length>0}}">
-            <view class="listItem radius shadow bg-white" wx:for="{{2}}" wx:key="this" @tap="gotoDetaile('1')">
-              <image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg" mode="aspectFill"
+            <view class="listItem radius shadow bg-white" wx:for="{{list}}" wx:key="this" @tap="gotoDetaile({{item.id}})">
+              <image src="{{item.pic}}" mode="aspectFill"
                      class="image flo_l"></image>
-              <view class="flo_l _title bold font_30 ellipsis_1">基础课程（团课）</view>
+              <view class="flo_l _title bold font_30 ellipsis_1">{{ item.name }}</view>
               <view class="flo_l  ellipsis_1 _address">
-                <image src="https://images.ufutx.com/202010/19/3e1a94bb6228e9f61b4b50825f61f7ec.png" mode="widthFix"
+                <image src="https://images.ufutx.com/202010/19/f998aa1bb8a68f48d6119476fdc78ea1.png" mode="widthFix"
                        class="icon"></image>
-                <span class="font_24">深圳市南山区阳光科创B座1809</span>
+                <span class="font_24">{{item.store.city}}{{item.store.dist}}{{item.store.address}}</span>
               </view>
-              <view class="flo_l  ellipsis_1 _price bold font_36 color-red _address">
-                <text class="text-price"></text>
-                <span class="font_32">6780</span>
+              <view class="flo_l font_24 ellipsis_1 _member">
+                预约人数：{{ item.schedule.booking_count || 0 }} / {{ item.schedule.num || 0 }}
               </view>
-            </view>
-            <view class="listItem radius shadow bg-white" wx:for="{{1}}" wx:key="this" @tap="gotoDetaile('2')">
-              <image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg" mode="aspectFill"
-                     class="image flo_l"></image>
-              <view class="flo_l _title bold font_30 ellipsis_1">基础课程（体验课）</view>
-              <view class="flo_l  ellipsis_1 _address">
-                <image src="https://images.ufutx.com/202010/19/3e1a94bb6228e9f61b4b50825f61f7ec.png" mode="widthFix"
-                       class="icon"></image>
-                <span class="font_24">深圳市南山区阳光科创B座1809</span>
-              </view>
-              <view class="flo_l  ellipsis_1 _price bold font_36 color-red _address">
-                <text class="text-price"></text>
-                <span class="font_32">6780</span>
-              </view>
+<!--              <view class="flo_l  ellipsis_1 _price bold font_36 color-red _address">-->
+<!--                <text class="text-price"></text>-->
+<!--                <span class="font_32">6780</span>-->
+<!--              </view>-->
             </view>
           </block>
           <block wx:else>
@@ -71,7 +60,7 @@
   export default class myCourse extends wepy.page {
     mixins = [base, http, user]
     config = {
-      navigationBarTitleText: '我的课程',
+      navigationBarTitleText: '门店课程',
       onReachBottomDistance: 10,
       enablePullDownRefresh: true
     }
@@ -157,14 +146,14 @@
         console.log(link)
         this.$gotoH5(link)
       },
-      gotoDetaile(num) {
+      gotoDetaile(id) {
         let vm = this,
-          url = ''
-        if (num == 1) {
-          url = '/pages/homePage/taemDetaile'
-        } else {
-          url = '/pages/homePage/trialDetaile'
-        }
+          url = '/pages/homePage/taemDetaile?id=' + id
+        // if (num == 1) {
+        //   url = '/pages/homePage/taemDetaile'
+        // } else {
+        //   url = '/pages/homePage/trialDetaile'
+        // }\
         this.$goto(url)
       },
       goto(url) {
@@ -235,10 +224,10 @@
                 margin: -12rpx 14rpx 0 14rpx;
                 color: black;
                 .icon{
-                    width: 20rpx;
-                    height: 20rpx;
+                    width: 24rpx;
+                    height: 24rpx;
                     vertical-align: middle;
-                    margin-bottom: 6rpx;
+                    margin-bottom: 2rpx;
                     margin-right: 6rpx;
                 }
             }
@@ -261,5 +250,18 @@
                 }
             }
         }
+      ._member{
+        width: 62%;
+        overflow: hidden;
+        margin: 10rpx 14rpx 0 14rpx;
+        color: black;
+        .icon{
+          width: 22rpx;
+          height: 22rpx;
+          vertical-align: middle;
+          margin-bottom: 6rpx;
+          margin-right: 6rpx;
+        }
+      }
     }
 </style>

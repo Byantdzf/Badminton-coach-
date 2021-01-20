@@ -131,7 +131,7 @@ export default class exercise extends wepy.page {
         success: ({code, data}) => {
           vm.loading = false
           if (!data.data.length) {
-            return vm.$showToast('没有更多了')
+            // return vm.$showToast('没有更多了')
           }
           if (vm.page == 1) {
             vm.list = data.data

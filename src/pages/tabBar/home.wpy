@@ -10,7 +10,7 @@
     <view class="_userInfo radius shadow bg-white">
       <view class="_item bold"><view class="font_52 white">{{user.reply_num || 0}}</view><span>回复数量</span></view>
       <view class="_item"><image src="{{user.photo}}" mode="aspectFill" class="photo "></image></view>
-      <view class="_item bold"><view class="font_52 white">{{user.teach_num || 0}}</view><span>累计上课次数</span></view>
+      <view class="_item bold"><view class="font_52 white">{{user.teach_num || 0}}</view><span>累计预约次数</span></view>
     </view>
   </template>
   <template name="list">
@@ -21,29 +21,29 @@
     </view>
     <view class="listBox">
       <block wx:if="{{list.length>0}}">
-        <view class="listItem radius shadow bg-white" wx:for="{{list}}" wx:key="this" @tap="gotoDetaile('2')">
-          <image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg" mode="aspectFill"
+        <view class="listItem radius shadow bg-white" wx:for="{{list}}" wx:key="this" @tap="gotoDetaile({{item.course_id}})">
+          <image src="{{item.pic}}" mode="aspectFill"
                  class="image flo_l"></image>
-          <view class="flo_l _title bold font_30 ellipsis_1">基础课程</view>
+          <view class="flo_l _title bold font_30 ellipsis_1">{{ item.course_name }}</view>
           <view class="flo_l  ellipsis_1 _address">
             <image src="https://images.ufutx.com/202010/19/3e1a94bb6228e9f61b4b50825f61f7ec.png" mode="widthFix"
                    class="icon"></image>
-            <span class="font_24">2020年09月26日 18:00-19:30</span>
+            <span class="font_24">{{item.start_time}}</span>
           </view>
           <view class="flo_l  ellipsis_1 _address" style="margin-top: -10rpx;">
             <image src="https://images.ufutx.com/202010/19/f998aa1bb8a68f48d6119476fdc78ea1.png" mode="widthFix"
                    class="icon"></image>
-            <span class="font_24">深圳市南山区阳光科创A座129</span>
+            <span class="font_24">{{ item.address }}</span>
           </view>
           <view class="flo_l  ellipsis_1 _address" style="margin-top: -10rpx;">
             <image src="https://images.ufutx.com/202011/02/031c67fabf11f6bfb90fb9aea92930da.png" mode="widthFix"
                    class="icon"></image>
-            <span class="font_24">赵小姐</span>
+            <span class="font_24">{{ item.name }}</span>
           </view>
           <view class="flo_l  ellipsis_1 _address" style="margin-top: -10rpx;">
             <image src="https://images.ufutx.com/202011/02/55574a4d22cbd4f24c79938bbb156594.png" mode="widthFix"
                    class="icon"></image>
-            <span class="font_24">15707352230</span>
+            <span class="font_24">{{ item.mobile }}</span>
           </view>
         </view>
       </block>
@@ -81,7 +81,7 @@
   export default class home extends wepy.page {
     mixins = [base, http, user]
     config = {
-      navigationBarTitleText: '我的预约',
+      navigationBarTitleText: '门店预约',
       enablePullDownRefresh: false
     }
     components = {}
@@ -92,6 +92,7 @@
       page: 1,
       user: {},
       city: '深圳',
+      status: 4,
       day: '10', // 累计天数
       num: '7',  // 累积训练次数
       active: 1,
@@ -121,7 +122,8 @@
     initPageData() {
       let vm = this,
         data = {
-          page: vm.page
+          page: vm.page,
+          status: this.status
         }
       vm.$showLoading('加载中...')
       this.$get({url: `${service.host}/coach/course/bookings`, data}, {
@@ -153,11 +155,19 @@
     }
 
     methods = {
+      gotoDetaile(id) {
+        let vm = this,
+          url = '/pages/homePage/taemDetaile?id=' + id
+        this.$goto(url)
+      },
       tabFn(val) {
         let vm = this
-        this.active = val
-        this.initPageData()
-        this.$apply()
+        vm.active = val
+        vm.status = val == 1 ? '4' : '2'
+        vm.list = []
+        vm.page = 1
+        vm.initPageData()
+        vm.$apply()
       },
       goto(url) {
         this.modalName = ''

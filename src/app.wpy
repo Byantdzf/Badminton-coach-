@@ -7,7 +7,6 @@
   var ga = require('./ga.js')
   var GoogleAnalytics = ga.GoogleAnalytics
   var HitBuilders = ga.HitBuilders
-  const socket = require('./utils/sockte')
 
   export default class extends wepy.app {
   //   lifecycle: {
@@ -111,9 +110,7 @@
         request: 10000,
         downloadFile: 10000
       },
-      debug: true,
-      'navigateToMiniProgramAppIdList': [ // 小程序跳转小程序的appid
-      ]
+      debug: true
     }
 
     globalData = {

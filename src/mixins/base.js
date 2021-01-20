@@ -1,128 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import wepy from 'wepy'
 
 export default class baseMixin extends wepy.mixin {
@@ -132,10 +8,10 @@ export default class baseMixin extends wepy.mixin {
    * @return {Boolean}      [description]
    */
   noop() {
-    return null;
+    return null
   }
   hasOwn(obj, type) {
-    return Object.prototype.hasOwnProperty.call(obj, type);
+    return Object.prototype.hasOwnProperty.call(obj, type)
   }
 
   /**
@@ -144,25 +20,25 @@ export default class baseMixin extends wepy.mixin {
    * @return {Boolean}      [description]
    */
   isUndefined(item) {
-    return typeof item === 'undefined';
+    return typeof item === 'undefined'
   }
   isDefined(item) {
-    return !this.isUndefined(item);
+    return !this.isUndefined(item)
   }
   isString(item) {
-    return typeof item === 'string';
+    return typeof item === 'string'
   }
   isNumber(item) {
-    return typeof item === 'number';
+    return typeof item === 'number'
   }
   isArray(item) {
-    return Object.prototype.toString.apply(item) === '[object Array]';
+    return Object.prototype.toString.apply(item) === '[object Array]'
   }
   isObject(item) {
-    return typeof item === 'object' && !this.isArray(item);
+    return typeof item === 'object' && !this.isArray(item)
   }
   isFunction(item) {
-    return typeof item === 'function';
+    return typeof item === 'function'
   }
 
   /**
@@ -171,22 +47,22 @@ export default class baseMixin extends wepy.mixin {
    * @return {Boolean}      [description]
    */
   getString(item, defaultStr) {
-    if (this.isString(item)) return item.trim();
-    if (this.isNumber(item)) return `${item}`.trim();
-    return defaultStr || '';
+    if (this.isString(item)) return item.trim()
+    if (this.isNumber(item)) return `${item}`.trim()
+    return defaultStr || ''
   }
   getNumber(item, defaultNum) {
-    var matches = this.getString(item).match(/\d+/);
-    return this.isNumber(matches && +matches[0]) ? +matches[0] : defaultNum;
+    var matches = this.getString(item).match(/\d+/)
+    return this.isNumber(matches && +matches[0]) ? +matches[0] : defaultNum
   }
   getArray(item, defaultArr) {
-    return this.isArray(item) ? item : (defaultArr || []);
+    return this.isArray(item) ? item : (defaultArr || [])
   }
   getObject(item, defaultObj) {
-    return this.isObject(item) ? item : (defaultObj || {});
+    return this.isObject(item) ? item : (defaultObj || {})
   }
   getFunction(item) {
-    return this.isFunction(item) ? item : noop;
+    return this.isFunction(item) ? item : noop
   }
 
   /**
@@ -221,28 +97,28 @@ export default class baseMixin extends wepy.mixin {
   isPhone(str) {
     return /^1\d{10}$/.test(str)
   }
-  $showToast(title){
+  $showToast(title) {
     wx.showToast({
-       title: title,
-       icon: 'none',
-       duration: 1200
+      title: title,
+      icon: 'none',
+      duration: 1200
     })
   }
-  $Toast_success(title){
+  $Toast_success(title) {
     wx.showToast({
       title: title,
       icon: 'success',
       duration: 1200
     })
   }
-  $Toast_error(title){
+  $Toast_error(title) {
     wx.showToast({
       title: title,
       icon: 'error',
       duration: 1200
     })
   }
-  $showLoading(title){
+  $showLoading(title) {
     wx.showLoading({
       title: title,
       mask: true
@@ -318,13 +194,13 @@ export default class baseMixin extends wepy.mixin {
     wx.navigateTo({url: url})
   }
   // 记录from_platform
-  $recordFrom_platform(e){
+  $recordFrom_platform(e) {
     if (e.from_platform) {
       wx.setStorageSync('from_platform', e.from_platform)
     }
   }
   // 记录from_openid
-  $recordFrom_openid(e){
+  $recordFrom_openid(e) {
     if (e.from_openid) {
       wx.setStorageSync('from_openid', e.from_openid)
     }
@@ -377,7 +253,7 @@ export default class baseMixin extends wepy.mixin {
         _newPar[key] = obj[key]
       }
     }
-    //返回对象
+    // 返回对象
     return _newPar
   }
   // 判断对象里面的值是否有空值

@@ -85,13 +85,13 @@
       <view class="section list" >
         <view class="picker">
           <span class="font_28 color_0">正在培训课程</span>
-          <span class="font_28 text">{{userInfo.profile.course_name}}</span>
+          <span class="font_28 text">{{userInfo.profile.course_name || '暂无'}}</span>
         </view>
       </view>
       <view class="section list" style="border: none;">
         <view class="picker">
           <span class="font_28 color_0">所属门店</span>
-          <span class="font_28 text">{{userInfo.store_name}}</span>
+          <span class="font_28 text">{{userInfo.store_name || '暂无'}}</span>
         </view>
       </view>
     </view>

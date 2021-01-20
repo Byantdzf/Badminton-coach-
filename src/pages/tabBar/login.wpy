@@ -16,7 +16,7 @@
       <image src="{{!look?'https://images.ufutx.com/202011/12/4d78da0198cdf661d1291bc772281e48.png':'https://images.ufutx.com/202011/12/633080d4dda6df59483aeddf677b2c1a.png'}}" mode="aspectFit" class="password flo_r" @tap="lookFn"></image>
     </view>
     <view class="clearfloat"></view>
-    <button class="btn text-center font_30 btn-box radius shadow bg-blue margin-top send bold"  hover-class="btn_active"  @tap="save">提交
+    <button class="btn text-center font_30 btn-box radius shadow bg-blue margin-top send bold"  hover-class="btn_active"  @tap="save">登录
     </button>
   </view>
 </template>

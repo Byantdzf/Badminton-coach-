@@ -24,10 +24,10 @@
       <view style="height: 160rpx"></view>
     </view>
     <template name="userInfo">
-      <view class="user_back" style="background-image: url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606472218676&di=39591f2d1ffac7d4f916b1d423e3287d&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F681a0577f61904aecd6bbb018fbb361e12a7903fa2721-yCJdC7_fw658')">
+      <view class="user_back" style="background-image: url('https://images.ufutx.com/202101/19/45b135cfb978b25771e8b739d9565a22.jpeg')">
         <view class="model"></view>
         <view class="userinfo clearfix">
-          <view  @tap.stop="goto('/pages/users/unmarriV2')" class="text-center" @longpress="longPress">
+          <view   class="text-center" @longpress="longPress">
             <image class="userinfo-avatar ff" src="{{user.photo||Image}}" mode="aspectFill" />
           </view>
           <view class="userinfo-info text-center text-shadow text-white" >
@@ -99,12 +99,6 @@
           title: '我的评价',
           type: 'navigateTo',
           path: '/pages/users/myEvaluation'
-        },
-        {
-          icon: 'https://images.ufutx.com/202011/02/74d823e4ed3590c64f2569a45474356c.png',
-          title: '登录页面（临时入口）',
-          type: 'navigateTo',
-          path: '/pages/tabBar/login'
         }
       ]
     }

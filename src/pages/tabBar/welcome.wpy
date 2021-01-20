@@ -1,11 +1,11 @@
 <template>
   <view class="box {{hide?'hide':''}}">
-    <image src="https://images.ufutx.com/202011/27/d51d1d943a53f8e5fe7ce5620de1d3bc.jpeg" mode="aspectFill" class="image"></image>
-    <view @tap="goto('/pages/users/registerV2')" class="next" wx:if="{{hideBtn}}"></view>
-    <view class="wrapper" @tap="jump">
-      <view class="font_24 flo_l text-center time">{{time}}s</view>
-      <view class="font_24 flo_l">跳过</view>
-    </view>
+<!--    <image src="https://images.ufutx.com/202011/27/d51d1d943a53f8e5fe7ce5620de1d3bc.jpeg" mode="aspectFill" class="image"></image>-->
+<!--    <view @tap="goto('/pages/users/registerV2')" class="next" wx:if="{{hideBtn}}"></view>-->
+<!--    <view class="wrapper" @tap="jump">-->
+<!--      <view class="font_24 flo_l text-center time">{{time}}s</view>-->
+<!--      <view class="font_24 flo_l">跳过</view>-->
+<!--    </view>-->
   </view>
 </template>
 
@@ -39,32 +39,33 @@ export default class welcome extends wepy.page {
   onShow() {
     this.type = wx.getStorageSync('type')
     this.$apply()
-    this.changeWallpaper()
+    // this.changeWallpaper()
+    this.login()
     // this.$parent.getTracker(this.$root.$name, this.config.navigationBarTitleText)
   }
 
   onLoad(e) {
-    this.$showLoading('加载中')
-    this.login()
-    if (wx.getStorageSync('startImage')) {
-      this.startImage = wx.getStorageSync('startImage')
-      this.$apply()
-    }
-    this.setIntervalFn = setInterval(() => {
-      this.time--
-      this.$apply()
-      if (this.time === 0) {
-        clearInterval(this.setIntervalFn)
-        if (this.token) {
-          this.$gotoTab('/pages/tabBar/home')
-        } else {
-          // this.$goto('/pages/userInfo/typeSelect')
-        }
-      }
-    }, 1000)
-    if (e.from_platform) {
-      wx.setStorageSync('from_platform', e.from_platform)
-    }
+    // this.$showLoading('加载中')
+    // this.login()
+    // if (wx.getStorageSync('startImage')) {
+    //   this.startImage = wx.getStorageSync('startImage')
+    //   this.$apply()
+    // }
+    // this.setIntervalFn = setInterval(() => {
+    //   this.time--
+    //   this.$apply()
+    //   if (this.time === 0) {
+    //     clearInterval(this.setIntervalFn)
+    //     if (this.token) {
+    //       this.$gotoTab('/pages/tabBar/home')
+    //     } else {
+    //       // this.$goto('/pages/userInfo/typeSelect')
+    //     }
+    //   }
+    // }, 1000)
+    // if (e.from_platform) {
+    //   wx.setStorageSync('from_platform', e.from_platform)
+    // }
   }
 
   changeWallpaper() {
@@ -77,54 +78,58 @@ export default class welcome extends wepy.page {
 
   login() {
     let that = this
+    this.$showLoading('加载中')
     if (wx.getStorageSync('token')) {
       this.token = wx.getStorageSync('token')
       this.$apply()
       wx.hideLoading()
-      return
+      that.$gotoTab('/pages/tabBar/home')
+    } else {
+      that.$redirectTo('/pages/tabBar/login')
+      wx.hideLoading()
     }
     // code: res.code
-    let data = {
-      mobile: '15707534403'
-    }
-    wepy.login({
-      success: (res) => {
-        that.$post({url: `${service.host}/admin/register/user`, data}, {
-          success: ({code, data}) => {
-            if (data.token) {
-              that.hide = true
-              that.token = data.token
-              that.$apply()
-              wx.setStorageSync('token', data.token)
-              wx.setStorageSync('openid', data.openid)
-              wx.setStorageSync('temp_member', data.user.temp_member)
-              let userInfo = {
-                nickName: data.user.name,
-                avatarUrl: data.user.avatar,
-                type: data.user.type
-              }
-              wx.setStorageSync('userInfo', userInfo)
-              wx.setStorageSync('user_id', data.user.id)
-              wx.setStorageSync('type', data.user.type)
-              that.type = data.user.type
-              that.$apply()
-              if (this.time == 0) {
-                setTimeout(() => {
-                  that.$gotoTab('/pages/tabBar/home')
-                }, 800)
-              }
-            } else {
-              that.hideBtn = true
-              that.$apply()
-            }
-            wx.hideLoading()
-          }
-        })
-      },
-      fail: (res) => {
-        console.log('wepy.login.fail:', res)
-      }
-    })
+    // let data = {
+    //   mobile: '15707534403'
+    // }
+    // wepy.login({
+    //   success: (res) => {
+    //     that.$post({url: `${service.host}/admin/register/user`, data}, {
+    //       success: ({code, data}) => {
+    //         if (data.token) {
+    //           that.hide = true
+    //           that.token = data.token
+    //           that.$apply()
+    //           wx.setStorageSync('token', data.token)
+    //           wx.setStorageSync('openid', data.openid)
+    //           wx.setStorageSync('temp_member', data.user.temp_member)
+    //           let userInfo = {
+    //             nickName: data.user.name,
+    //             avatarUrl: data.user.avatar,
+    //             type: data.user.type
+    //           }
+    //           wx.setStorageSync('userInfo', userInfo)
+    //           wx.setStorageSync('user_id', data.user.id)
+    //           wx.setStorageSync('type', data.user.type)
+    //           that.type = data.user.type
+    //           that.$apply()
+    //           if (this.time == 0) {
+    //             setTimeout(() => {
+    //               that.$gotoTab('/pages/tabBar/home')
+    //             }, 800)
+    //           }
+    //         } else {
+    //           that.hideBtn = true
+    //           that.$apply()
+    //         }
+    //         wx.hideLoading()
+    //       }
+    //     })
+    //   },
+    //   fail: (res) => {
+    //     console.log('wepy.login.fail:', res)
+    //   }
+    // })
   }
 
   onPullDownRefresh() {
