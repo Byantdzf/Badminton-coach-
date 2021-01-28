@@ -1,7 +1,7 @@
 <template>
   <Loading :init.sync="init"></Loading>
     <view class="wrapper">
-        <template is="appraise" data="{{star}}"></template>
+        <template is="appraise" data="{{star,list}}"></template>
 
     </view>
     <template name="appraise">
@@ -9,20 +9,20 @@
           <block wx:if="{{list.length > 0}}">
             <view class="_item" wx:for="{{list}}" wx:key="this">
               <view class="_photo flo_l">
-                <image src="https://images.ufutx.com/202010/28/392ce20af613a5bb8d69091c050dfa56.jpeg" mode="aspectFill" class="image"></image>
+                <image src=" {{item.photo }}" mode="aspectFill" class="image"></image>
               </view>
               <view class="_content flo_l">
                 <view class="name bold color_0 font_32">
-                  Mamba~
-                  <view class="color-666 font_26 flo_r" style="margin-top: 12rpx;">2020-10-12 16:00</view>
+                  {{item.name }}
+                  <view class="color-666 font_26 flo_r" style="margin-top: 12rpx;">{{ item.updated_at }}</view>
                 </view>
                 <view class="starStyle">
-                  <block wx:for="{{5}}" wx:key="this">
-                    <image src="https://images.ufutx.com/202010/28/59f941406f910c7f615f77ca4303dbe0.png" mode="aspectFill" wx:if="{{item > star-1}}"></image>
+                  <block wx:for="{{5}}" wx:key="this" wx:for-item="itemV2">
+                    <image src="https://images.ufutx.com/202010/28/59f941406f910c7f615f77ca4303dbe0.png" mode="aspectFill" wx:if="{{itemV2 > item.rate-1}}"></image>
                     <image src="https://images.ufutx.com/202010/28/ec7ebf5c490e0c71883fcfc8f6829856.png" mode="aspectFill" wx:else></image>
                   </block>
                 </view>
-                <view>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.</view>
+                <view>{{item.comment}}</view>
               </view>
             </view>
           </block>

@@ -7,7 +7,7 @@
     <view class="ellipsis_1 _search">
       <view class="_bc-search">
         <text class="cuIcon-search flo_l"></text>
-        <input type="text" placeholder="搜索记录" class="font_28 flo_l"  confirm-type="search"  @input="typing('value')"></input>
+        <input type="text" placeholder="搜索记录" class="font_28 flo_l"  confirm-type="search"  @change="typing('value')"></input>
       </view>
     </view>
     <view class="text-center arenaStyle">
@@ -16,25 +16,19 @@
       <span class="_text font_32  {{active == '2'?'bold color_0':'color-666'}}" @tap="tabFn('2')">训练视频</span>
     </view>
     <view class="listBox">
-      <block wx:if="{{list.length>0}}">
-        <view class="listItem radius shadow bg-white" wx:for="{{list}}" wx:key="this" @tap="gotoDetaile('2')">
-          <image src="https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg" mode="aspectFill"
-                 class="image flo_l"></image>
-          <view class="flo_l _title bold font_30 ellipsis_1">基础课程</view>
-          <view class="flo_l  ellipsis_1 _address">
-            <image src="https://images.ufutx.com/202011/02/031c67fabf11f6bfb90fb9aea92930da.png" mode="widthFix"
-                   class="icon"></image>
-            <span class="font_24">赵小姐</span>
-          </view>
-          <view class="flo_l  ellipsis_1 _address">
-            <image src="https://images.ufutx.com/202010/19/f998aa1bb8a68f48d6119476fdc78ea1.png" mode="widthFix"
-                   class="icon"></image>
-            <span class="font_24">深圳市南山区阳光科创B座1809</span>
-          </view>
-          <view class="flo_l  ellipsis_1 _address">
-            <image src="https://images.ufutx.com/202010/19/3e1a94bb6228e9f61b4b50825f61f7ec.png" mode="widthFix"
-                   class="icon"></image>
-            <span class="font_24">2020年09月26日 18:00-19:30</span>
+      <block wx:if="{{list.length > 0}}">
+        <view class="listBox">
+          <view class="listItem radius shadow bg-white" wx:for="{{list}}" wx:key="this" @tap="gotoDetaile({{item.id}})">
+            <video src="{{item.play_url}}"
+                   objectFit='cover'
+                   controls
+                   class="image flo_l"></video>
+            <view class="flo_l _title bold font_30 ellipsis_1">{{item.name}}</view>
+            <view class="flo_l  ellipsis_1 _address">
+              <image src="https://images.ufutx.com/202010/19/3e1a94bb6228e9f61b4b50825f61f7ec.png" mode="widthFix"
+                     class="icon"></image>
+              <span class="font_24">{{item.created_at}}</span>
+            </view>
           </view>
         </view>
       </block>
@@ -121,10 +115,11 @@ export default class exercise extends wepy.page {
       let vm = this,
         data = {
           page: vm.page,
-          type: `${vm.active == 1 ? 'league' : 'online'}`
+          type: `${vm.active == 1 ? 'CLOCKIN' : 'TRAIN'}`,
+          keyword: vm.value
         }
       vm.loading = true
-      let url = `${service.host}/user/courses`
+      let url = `${service.host}/coach/video/logs`
       vm.$get({
         url: url, data
       }, {
@@ -160,6 +155,8 @@ export default class exercise extends wepy.page {
         this[type] = e.detail.value
         this.$apply()
         console.log(this[type])
+        this.page = 1
+        this.getList()
       },
       searchFn(e) {
         console.log(e.detail.value)
@@ -181,21 +178,21 @@ export default class exercise extends wepy.page {
         }, 800)
         vm.page = 1
         vm.list = []
-        vm.getList()
         vm.active = val
         vm.$apply()
+        vm.getList()
       },
       gotoLink(link) {
         console.log(link)
         this.$gotoH5(link)
       },
-      gotoDetaile() {
+      gotoDetaile(id) {
         let vm = this,
           url = ''
         if (vm.active == 1) {
-          url = '/pages/users/clockVideoDetaile'
+          url = `/pages/users/clockVideoDetaile?id=${id}`
         } else {
-          url = '/pages/users/drillVideoDetaile'
+          url = `/pages/users/drillVideoDetaile?id=${id}`
         }
         this.$goto(url)
       },

@@ -3,13 +3,13 @@
   <Loading :init.sync="init"></Loading>
   <view class="wrapper">
     <view class="_input">
-      <input type="text" placeholder="请输入标题">
+      <input type="text" placeholder="请输入标题" @input="typing('name')">
     </view>
     <view class="themes">
       <view class="flo_l text">视频</view>
       <view class="uploadVideo flo_l">
         <block wx:if="{{src === ''}}">
-          <image src="http://images.ufutx.com/201902/27/fc2da5fdf813b12f7c8a616eff6dbf03.png" @tap="uploadVideo" mode="widthFix" class="image"></image>
+          <image src="http://images.ufutx.com/201902/27/fc2da5fdf813b12f7c8a616eff6dbf03.png" @tap="chooseVideo" mode="widthFix" class="image"></image>
         </block>
         <block wx:else>
           <video src="{{src}}"
@@ -32,10 +32,10 @@
       <view class="font_28 text-right bold color-666">{{informValue.length}}/240</view>
     </view>
     <view class="clearfloat"></view>
-    <picker  value="{{studentIndex}}" range="{{students}}"  bindchange="studentChange" >
+    <picker  value="{{studentIndex}}" range="{{students}}" range-key="name"  bindchange="studentChange" >
       <view class=" ellipsis_1 _student">
         <text class="cuIcon-friendaddfill flo_l"></text>
-        <span class="font_24" style="margin-left: 12rpx;">{{name || '请选择学员'}}</span>
+        <span class="font_24" style="margin-left: 12rpx;">{{studentIndex?students[studentIndex].name:'请选择学员'}}</span>
         <text class="cuIcon-right flo_r"></text>
       </view>
     </picker>
@@ -57,7 +57,7 @@
   export default class feedback extends wepy.page {
     mixins = [base, http, user, ShareMessage]
     config = {
-      navigationBarTitleText: '上传视频'
+      navigationBarTitleText: '上传训练视频'
     }
 
     components = {NavBar, Loading, uploadImages}
@@ -72,8 +72,9 @@
       src: '',
       id: '',
       star: 0,
-      students: ['杨过', '杨曦', '黄晓明', '那个谁'],
+      students: [],
       studentIndex: 0,
+      play_url: '',
       name: '', // 学员
       starMap: [
         '非常差',
@@ -92,6 +93,7 @@
 
     async onLoad(e) {
       this.id = e.id
+      this.initPageData()
       setTimeout(() => {
         this.init = true
         this.$apply()
@@ -106,11 +108,36 @@
     }
     onReachBottom() {
     }
-
+// 初始化页面数据
+    initPageData() {
+      let vm = this,
+        data = {
+          page: vm.page
+        }
+      vm.loading = true
+      let url = `${service.host}/coach/students?nopage=1`
+      vm.$get({
+        url: url, data
+      }, {
+        success: ({code, data}) => {
+          vm.loading = false
+          vm.students = data
+          vm.noMore = true
+          vm.page += 1
+          vm.$apply()
+          console.log(vm.students, 'asaaa')
+        },
+        fail: ({code, data}) => {
+        },
+        complete: () => {
+          wx.hideLoading()
+        }
+      })
+    }
     methods = {
       studentChange(e) { // 学员
         this.studentIndex = e.detail.value
-        this.name = this.students[this.studentIndex]
+        // this.name = this.students[this.studentIndex]
         this.$apply()
         console.log(this.studentIndex)
       },
@@ -118,35 +145,7 @@
         let star = parseInt(e.target.dataset.star) || 0
         this.star = star
         this.$apply()
-      },
-      // 选择视频
-      chooseVideo() {
-        var that = this
-        wx.chooseVideo({
-          success: function(res) {
-            that.src = res.tempFilePath
-            that.$apply()
-          }
-        })
-      },
-      // 上传视频 目前后台限制最大100M，以后如果视频太大可以在选择视频的时候进行压缩
-      uploadvideo() {
-        var src = this.src
-        wx.uploadFile({
-          url: `${service.host}/upload/video`, // 服务器接口
-          method: 'POST',
-          filePath: src,
-          header: {
-            'content-type': 'multipart/form-data'
-          },
-          name: 'files', // 服务器定义的Key值
-          success: function() {
-            console.log('视频上传成功')
-          },
-          fail: function() {
-            console.log('接口调用失败')
-          }
-        })
+        console.log(this.star)
       },
       deletePic(index) {
         let vm = this
@@ -171,26 +170,56 @@
         this.$apply()
         console.log(this[type])
       },
-      uploadVideo() { // 上传组件
-        // this.$invoke('uploadImages', 'chooseimage')
-        // this.$showToast('还没调试！')
-        var that = this
+      chooseVideo() {
+        var _this = this
+        _this.$showLoading('上传中')
         wx.chooseVideo({
-          sourceType: ['album', 'camera'],
+          ourceType: ['album', 'camera'],
           maxDuration: 60,
           camera: 'back',
-          success: function (res) {
-            debugger
-            that.src = res.tempFilePath
-            that.$apply()
-            console.log(that.src, 'asdddd')
+          success(res) {
+            _this.src = res.tempFilePath
+            _this.size = res.size / (1024 * 1024).toFixed(2)
+            _this.$apply()
+            const uploadTask = wx.uploadFile({
+              url: `${service.host}/upload/video`,
+              filePath: res.tempFilePath,
+              method: 'POST',
+              name: 'fileData',
+              timeout: '1000000',
+              header: {
+                'Authorization': 'Bearer ' + wx.getStorageSync('token'),
+                'content-type': 'multipart/form-data'
+              },
+              success(res) {
+                wx.hideLoading()
+                _this.$Toast_success('上传成功！')
+                const data = JSON.parse(res.data)// 坑一：与wx.request不同，wx.uploadFile返回的是json字符串，需要自己转为JSON对象格式
+                console.log(data.data)
+                _this.play_url = data.data
+                _this.$apply()
+              },
+              fail: function (res) {
+                wx.hideLoading()
+                console.log(res)
+                _this.$showToast('上传失败...')
+              }
+            })
+            uploadTask.onProgressUpdate((res) => {
+              let uploadProgress = res.progress,
+                totalBytesSent = res.totalBytesSent
+              // _this.uploadPercent = uploadProgress + '%'
+              // _this.$apply()
+              _this.setData({
+                uploadPercent: uploadProgress + '%',
+                totalBytesSent: totalBytesSent / (1024 * 1024).toFixed(2)
+              })
+              console.log('上传进度', res.progress)
+              console.log('已经上传的数据长度', res.totalBytesSent)
+              console.log('预期需要上传的数据总长度', res.totalBytesExpectedToSend)
+            })
           },
-          fail: function (res) {
-            console.log(res)
-            that.$showToast('上传失败,模拟上传中...')
-            that.src = 'http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400'
-            that.$apply()
-          }
+          fail(res) { wx.hideLoading() }
         })
       },
       bindPickerChange(e) {
@@ -209,32 +238,27 @@
       },
       save() {
         let data = {
+            name: this.name,
             content: this.informValue,
-            photos: this.informImages
+            play_url: this.play_url,
+            rate: this.star,
+            student_id: this.students[this.studentIndex].id
           },
           vm = this
-        vm.$showToast('上传失败,未调试接口...')
-        vm.$gotoBack(1)
-        return
-        // for (let item in data) {
-        //   if (!data[item]) {
-        //     return vm.$showToast('请填写反馈信息！')
-        //   }
-        // }
         console.log(data)
-        vm.$post({url: `${service.host}/feedback`, data}, {
+        vm.$post({
+          url: `${service.host}/coach/video/logs`, data
+        }, {
           success: ({code, data}) => {
-            wx.showModal({
-              title: '反馈成功！',
-              content: '非常感谢您的反馈！我们将以最快速度处理您的反馈。',
-              success(res) {
-                if (res.confirm) {
-                  vm.$gotoBack(1)
-                } else if (res.cancel) {
-                  console.log('用户点击取消')
-                }
-              }
-            })
+            vm.$showToast('提交成功')
+            setTimeout(() => {
+              vm.$gotoBack(1)
+            }, 800)
+          },
+          fail: ({code, data}) => {
+          },
+          complete: () => {
+            wx.hideLoading()
           }
         })
       }
