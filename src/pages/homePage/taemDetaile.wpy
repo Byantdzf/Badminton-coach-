@@ -32,7 +32,7 @@
       <view class="_time">
         <image src="https://images.ufutx.com/202010/19/f998aa1bb8a68f48d6119476fdc78ea1.png" mode="widthFix"
                class="icon"></image>
-        <span class="font_26">{{courseList.store.ress}}</span>
+        <span class="font_26">{{courseList.store.address}}</span>
       </view>
       <view class="font_24 ellipsis_1 _member">
         <image src="https://images.ufutx.com/202010/19/bdcf9d7087ad50f37e7520d6d8259d2d.png" mode="widthFix"

@@ -38,7 +38,7 @@
   </template>
   <template name="appraise">
     <view class="appraiseStyle">
-      <view class="color_0 " style="margin: 12rpx 0;">教练评价</view>
+      <view class="color_0 " style="margin: 12rpx 0;">店长评价</view>
       <block wx:if="{{comments.length>0}}">
         <view class="_item" wx:for="{{comments}}" wx:key="this">
           <view class="_photo flo_l">
